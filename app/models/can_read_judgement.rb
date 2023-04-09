@@ -1,0 +1,2 @@
+class CanReadJudgement < ApplicationRecord
+end

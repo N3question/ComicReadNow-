@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_09_215953) do
+ActiveRecord::Schema.define(version: 2023_04_09_230119) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -22,6 +22,67 @@ ActiveRecord::Schema.define(version: 2023_04_09_215953) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "comic_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["comic_id"], name: "index_bookmarks_on_comic_id"
+    t.index ["user_id", "comic_id"], name: "index_bookmarks_on_user_id_and_comic_id", unique: true
+    t.index ["user_id"], name: "index_bookmarks_on_user_id"
+  end
+
+  create_table "can_read_judgements", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "readable_info_id", null: false
+    t.boolean "can_read", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["readable_info_id"], name: "index_can_read_judgements_on_readable_info_id"
+    t.index ["user_id"], name: "index_can_read_judgements_on_user_id"
+  end
+
+  create_table "comic_comic_sites", force: :cascade do |t|
+    t.integer "comic_id", null: false
+    t.integer "comic_site_id", null: false
+    t.integer "readable_info_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["comic_id"], name: "index_comic_comic_sites_on_comic_id"
+    t.index ["comic_site_id"], name: "index_comic_comic_sites_on_comic_site_id"
+    t.index ["readable_info_id"], name: "index_comic_comic_sites_on_readable_info_id"
+  end
+
+  create_table "comic_sites", force: :cascade do |t|
+    t.string "site_name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "comics", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "rakuten_books", force: :cascade do |t|
+    t.bigint "isbn", null: false
+    t.string "title", null: false
+    t.string "author", null: false
+    t.string "image_url", null: false
+    t.string "sort", default: "standard", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "readable_infos", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "comic_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["comic_id"], name: "index_readable_infos_on_comic_id"
+    t.index ["user_id"], name: "index_readable_infos_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -37,4 +98,13 @@ ActiveRecord::Schema.define(version: 2023_04_09_215953) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bookmarks", "users"
+  add_foreign_key "bookmarks", "users", column: "comic_id"
+  add_foreign_key "can_read_judgements", "readable_infos"
+  add_foreign_key "can_read_judgements", "users"
+  add_foreign_key "comic_comic_sites", "comic_sites"
+  add_foreign_key "comic_comic_sites", "comics"
+  add_foreign_key "comic_comic_sites", "readable_infos"
+  add_foreign_key "readable_infos", "comics"
+  add_foreign_key "readable_infos", "users"
 end

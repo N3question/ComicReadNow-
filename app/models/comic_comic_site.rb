@@ -1,0 +1,2 @@
+class ComicComicSite < ApplicationRecord
+end
