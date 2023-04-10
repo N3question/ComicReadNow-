@@ -1,8 +1,8 @@
 <div class="col-lg-12" style="background-color:#EEE; height:120px;"></div>
 
 <div style="background-color:#EEE; height:500px;">
-  <div class="col-lg-4 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 0px 10px 0px #DDD;">
-    <h4 class="mb-3"><b>管理者Log in</b></h4>
+  <div class="col-lg-4 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
+    <h4 class="mb-3"><b>管理者ログイン</b></h4>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="field mb-2">
@@ -22,7 +22,7 @@
         </div>
       <% end %>
 
-      <div class="actions mx-auto mt-5">
+      <div class="actions mt-5">
         <%= f.submit "ログイン", class:"btn btn-success rounded-pill form-control" %>
       </div>
     <% end %>
