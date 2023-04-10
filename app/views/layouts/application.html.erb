@@ -29,7 +29,7 @@
 
   <body>
     <header class="border-bottom border-dark fixed-top">
-      <div class="row" style="background-color: #00264D;">
+      <div class="row" style="background-color:#00264D; height:100px;">
         
         <%= link_to root_path, style:"text-decoration:none;" do %>
           <div class="mx-4 my-3 d-flex">
@@ -55,11 +55,11 @@
               </li>
               <li class="nav-item my-auto ml-4">
                   <b>
-                  <%= link_to 'ログイン', root_path, class:"text-light", style:"text-decoration:none;" %>
+                  <%= link_to 'ログイン', new_user_session_path, class:"text-light", style:"text-decoration:none;" %>
                   </b>
               </li>
               <li class="my-auto ml-4">
-                  <%= link_to '新規登録', root_path, class:"btn btn-success rounded-pill px-4" %>
+                  <%= link_to '新規登録', new_user_registration_path, class:"btn btn-success rounded-pill px-4" %>
               </li>
               <li class="my-auto ml-4 dropdown">
                   <a href="#" class="dropdown-toggle" style="color: #00264D;" data-toggle="dropdown" role="button">
@@ -89,7 +89,8 @@
                     </div>
                     <li class="mb-4"><hr class="dropdown-divider m-0" style=""></li>
                     <li class="mx-4 mb-3"><a href="#" class="text-dark">お知らせ</a></li>
-                    <li class="mx-4"><a href="#" class="text-dark">Comic Read now!とは</a></li>
+                    <li class="mx-4 mb-3"><a href="#" class="text-dark">Comic Read now!とは</a></li>
+                    <li class="mx-4"><a href="/admins/sign_in" class="text-dark"><i class="bi bi-gear btn btn-outline-secondary btn-sm w-100"></i></a></li>
                   </ul>
               </li>
             </ul>
@@ -99,14 +100,6 @@
     
     <main>
         <%= yield %>
-        <span id="back">
-          <a href=""  style="text-decoration:none;">
-            <div class="d-flex justify-content-center border mt-5 mb-3 mx-auto" 
-                 style="width:95%; height:60px; line-height:60px; background-color:#FFF;">
-              <p class="mb-0 text-dark ">TOPへ戻る</p>
-            </div>
-          </a>
-        </span>
     </main>
     
     <footer class="border-top border-dark text-light" style="height:100px; background-color:#00264D; line-height:100px;">
