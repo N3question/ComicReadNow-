@@ -66,8 +66,7 @@ ActiveRecord::Schema.define(version: 2023_04_09_230119) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "rakuten_books", force: :cascade do |t|
-    t.bigint "isbn", null: false
+  create_table "rakuten_books", primary_key: "isbn", id: :bigint, default: nil, force: :cascade do |t|
     t.string "title", null: false
     t.string "author", null: false
     t.string "image_url", null: false
