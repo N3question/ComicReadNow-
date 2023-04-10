@@ -1,0 +1,21 @@
+<div class="col-lg-12" style="height:109px;"></div>
+
+<div class="container">
+  <div class="row my-3 mx-auto d-flex justify-content-center">
+      <h5 class="col-lg-4 m-0 pt-4 px-4 border"><b>My Ranking</b></h5>
+      <div class="col-lg-7 p-5 border">
+        <ul class="p-0 text-center" style="list-style:none;">
+          <li style="float: left;">
+            ユーザアイコン画像
+          </li>
+          <li class="mx-3" style="float:left;">
+            <%= current_user.nick_name %>
+          </li>
+          <li class="small">
+            <%= current_user.email %>
+          </li>
+        </ul>
+        <%= link_to 'ユーザ情報の編集', root_path, class:"btn btn-dark rounded-pill mt-3 mb-0 w-100" %>
+      </div>
+  </div>
+</div>

@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+  # namespace :public do
+  #   get 'user_rankings/index'
+  # end
+  
   devise_for :users, skip: [:passwords], controllers: {
   registrations: "public/registrations",
   sessions: 'public/sessions'
@@ -9,6 +13,11 @@ Rails.application.routes.draw do
 }
   scope module: :public do
     root to: 'comics#top'
+    get 'users/my_page', to: 'users#my_page', as: 'my_page'
+    get '/users/information/edit', to: 'users#edit', as: 'edit_information'
+    patch '/users/information', to: 'users#update', as: 'information'
+    get '/users/unsubscribe', to: 'users#unsubscribe', as: 'unsubscribe'
+    get 'user_rankings/index'
     get 'comics/comic_site_index', to: 'comics#comic_site_index', as: 'comic_site_index'
     resources :comics, only: [:top, :show]
   end

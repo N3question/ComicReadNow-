@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_09_230119) do
+ActiveRecord::Schema.define(version: 2023_04_10_221105) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -82,6 +82,11 @@ ActiveRecord::Schema.define(version: 2023_04_09_230119) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["comic_id"], name: "index_readable_infos_on_comic_id"
     t.index ["user_id"], name: "index_readable_infos_on_user_id"
+  end
+
+  create_table "user_rankings", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|

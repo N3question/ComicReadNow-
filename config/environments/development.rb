@@ -76,5 +76,4 @@ Rails.application.configure do
   
   config.hosts.clear
   
-  # require 'composite_primary_keys'
 end

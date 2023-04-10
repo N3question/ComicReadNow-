@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
       if resource_or_scope.is_a?(Admin)
         root_path
       else
-        root_path
+        my_page_path
       end
   end
 
