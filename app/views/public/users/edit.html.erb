@@ -2,7 +2,7 @@
   <div class="row" style="padding-top:30px;">
     
       <div class="col-5">
-        <h5 class="ml-2 my-auto"><b>ユーザ情報の編集</b></h5>
+        <h5 class="ml-2 mb-3"><b>ユーザ情報の編集</b></h5>
       
           <%= form_with url: information_path, model: current_user do |f| %>
             <table class="table table-borderless">
@@ -11,9 +11,7 @@
                     <label for="inputImage">ProfileImage</label>
                   </td>
                   <td>
-                    <!--<#%= f.label :profile_image, "ファイルを選択", class:"image_input_btn" do %>-->
                     <%= f.file_field :profile_image, accept: "image/*" %>
-                    <!--<#% end %>-->
                   </td>
               </tr>
               <tr>
