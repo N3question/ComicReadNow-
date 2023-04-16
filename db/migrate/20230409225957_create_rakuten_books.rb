@@ -5,7 +5,6 @@ class CreateRakutenBooks < ActiveRecord::Migration[6.1]
       t.string :title, null: false
       t.string :author, null: false
       t.string :image_url, null: false
-      # t.string :sort, null: false, default: 'standard'
       t.timestamps
     end
   end
