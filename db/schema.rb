@@ -70,7 +70,6 @@ ActiveRecord::Schema.define(version: 2023_04_10_221105) do
     t.string "title", null: false
     t.string "author", null: false
     t.string "image_url", null: false
-    t.string "sort", default: "standard", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
