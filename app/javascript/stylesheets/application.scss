@@ -11,7 +11,14 @@
     box-sizing: border-box;/*←全て含めてmin-height:100vhに*/
 }
 
-footer {
+.rank_que_wrapper {
+    min-height: 20vh;
+    position: relative;/*←相対位置*/
+    padding-bottom: 80px;/*←footerの高さ*/
+    box-sizing: border-box;
+}
+
+footer, .rank_que {
     width: 100%;
     position: absolute;/*←絶対位置*/
     bottom: 0; /*下に固定*/
@@ -22,6 +29,7 @@ footer {
     
     img {
         border-radius: 45px;
+        border: 2px solid #00264D;
     }
 }
 
@@ -30,6 +38,10 @@ footer {
 }
 .user_email {
     float: right;
+}
+
+.rank_que {
+    
 }
 
 /*
