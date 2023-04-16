@@ -6,7 +6,7 @@
           <b>My Ranking</b>
         </h5>
         <p class="px-4" style="color:#FFFFCC;">
-          順位を表示
+          順位を表示<br>ユーザの評価も表示する<br>レイアウト調整する
         </p>
         <div class="m-1 d-flex justify-content-center align-items-center" style="height:80px; background-color:#66CC00;">
           <p class="text-light small mb-0">
@@ -16,19 +16,19 @@
       </div>
       
       <div class="col-lg-6 p-5" style="border:1px solid #00264D; border-bottom-right-radius: 20px; box-shadow:4px 5px 7px #CCC;">
-          <div class="mx-3 user_icon" style="">
+          <div class="mx-3 user_icon" style="float:left;">
             <% if current_user.profile_image.attached? %>
               <%= image_tag current_user.profile_image, size: "80x80" %>
             <% else %>
               <%= image_tag 'no_image', size: "80x80" %>
             <% end %>
           </div>
-          <div class="user_nickname" style="">
-            <h4>
+          <div class="p-3 user_nickname" style="float:left; margin-top:10px;">
+            <h4 class="mb-0">
               <%= current_user.nick_name %>
             </h4>
           </div>
-          <p class="p-3 user_email small" style="border-top:0.5px solid silver; border-bottom:0.5px solid silver;">
+          <p class="p-3 user_email small" style="float:right; margin-top:15px; border-top:0.5px solid silver; border-bottom:0.5px solid silver;">
             <%= current_user.email %>
           </p>
           <%= link_to 'ユーザ情報の編集', edit_information_path, class:"btn btn-dark rounded-pill mt-4 mb-0 w-100" %>
