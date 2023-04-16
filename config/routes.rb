@@ -16,9 +16,9 @@ Rails.application.routes.draw do
     get 'users/my_page', to: 'users#my_page', as: 'my_page'
     get '/users/information/edit', to: 'users#edit', as: 'edit_information'
     patch '/users/information', to: 'users#update', as: 'information'
-    get '/users/unsubscribe', to: 'users#unsubscribe', as: 'unsubscribe'
-    get 'user_rankings/index'
+    get 'users/rank_index', to: 'users#rank_index', as: 'user_rank_index'
     get 'comics/comic_site_index', to: 'comics#comic_site_index', as: 'comic_site_index'
+    get '/bookmarks', to: 'bookmarks#index', as: 'bookmark'
     resources :comics, only: [:top, :show]
   end
   

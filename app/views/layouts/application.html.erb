@@ -11,9 +11,9 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class="wrapper">
     <header class="border-bottom border-dark fixed-top">
-      <div class="row" style="background-color:#00264D; height:100px;">
+      <div class="d-flex" style="background-color:#00264D; height:100px;">
         
         <%= link_to root_path, style:"text-decoration:none;" do %>
           <div class="mx-4 my-3 d-flex">
@@ -27,7 +27,7 @@
         <% end %>
         
         <nav class="navbar navbar-light mr-3 my-auto ml-auto">
-            <ul class="d-inline-flex flex-wrap mb-0 ml-auto" style="list-style: none;">
+            <ul class="d-inline-flex flex-wrap mb-0 ml-auto" style="list-style:none;">
               <li class="nav-item my-auto">
                   <!--検索フォーム-->
                   <div class="input-group my-3" style="width:250px; box-shadow:8px 8px 4px #000;"><br />
@@ -62,12 +62,12 @@
                     </b>
                 </li>
                 <li class="my-auto ml-4">
-                    <%= link_to '新規登録', new_user_registration_path, class:"btn btn-success rounded-pill px-4" %>
+                    <%= link_to '新規登録', new_user_registration_path, class:"btn rounded-pill px-4", style:"background-color:#66CC00; color:white;" %>
                 </li>
               <% end %>
               
               <li class="my-auto ml-4 dropdown">
-                  <a href="#" class="dropdown-toggle" style="color: #00264D;" data-toggle="dropdown" role="button">
+                  <a href="#" class="dropdown-toggle" style="color:#00264D;" data-toggle="dropdown" role="button">
                     <button class="navbar-toggler" style="border-color:white;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -76,7 +76,7 @@
                   <ul class="dropdown-menu dropdown-menu-right py-4" role="menu" style="width:250px; box-shadow:10px 10px 20px #00264D;">
                     <% if user_signed_in? %>
                     <li class="mx-4 mb-3"><a href="/users/my_page" class="text-dark">マイページ</a></li>
-                    <li class="mx-4 mb-4"><a href="#" class="text-dark">MY本棚</a></li>
+                    <li class="mx-4 mb-4"><a href="/bookmarks" class="text-dark">MY本棚</a></li>
                     <% end %>
                     <li><hr class="dropdown-divider m-0" style=""></li>
                     <div class="d-flex flex-wrap">

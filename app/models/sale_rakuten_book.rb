@@ -1,0 +1,2 @@
+class SaleRakutenBook < ApplicationRecord
+end

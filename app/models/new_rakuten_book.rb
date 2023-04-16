@@ -1,0 +1,2 @@
+class NewRakutenBook < ApplicationRecord
+end

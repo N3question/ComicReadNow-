@@ -1,21 +1,45 @@
-<div class="col-lg-12" style="height:109px;"></div>
-
-<div class="container">
-  <div class="row my-3 mx-auto d-flex justify-content-center">
-      <h5 class="col-lg-4 m-0 pt-4 px-4 border"><b>My Ranking</b></h5>
-      <div class="col-lg-7 p-5 border">
-        <ul class="p-0 text-center" style="list-style:none;">
-          <li style="float: left;">
-            ユーザアイコン画像
-          </li>
-          <li class="mx-3" style="float:left;">
-            <%= current_user.nick_name %>
-          </li>
-          <li class="small">
-            <%= current_user.email %>
-          </li>
-        </ul>
-        <%= link_to 'ユーザ情報の編集', root_path, class:"btn btn-dark rounded-pill mt-3 mb-0 w-100" %>
+<%= flash[:notice] %>
+<div class="container" style="margin-top:100px;">
+  <div class="row mx-auto d-flex justify-content-center" style="padding:30px 0;">
+    
+      <div class="col-lg-4 p-0" style="border:1px solid #00264D; background-color:#00264D;">
+        <h5 class="p-4 mb-4" style="color:#FFFFCC;">
+          <b>My Ranking</b>
+        </h5>
+        <p class="px-4" style="color:#FFFFCC;">
+          順位を表示<br>評価も記載
+        </p>
+        <div class="m-1 d-flex justify-content-center align-items-center" style="height:80px; background-color:#66CC00;">
+          <p class="text-light small mb-0">
+            <strong>ランクを上げるには？</strong>
+          </p>
+        </div>
       </div>
+      
+      <div class="col-lg-6 p-5" style="border:1px solid #00264D;">
+        <div class="p-0">
+          <div class="mx-3 user_icon" style="">
+            <% if current_user.profile_image.attached? %>
+              <%= image_tag current_user.profile_image, size: "80x80" %>
+            <% else %>
+              <%= image_tag 'no_image', size: "80x80" %>
+            <% end %>
+          </div>
+          <h4 class="m-3 pt-2 px-3 pb-3 user_nickname big" style="">
+            <strong><%= current_user.nick_name %></strong>
+          </h4>
+          <p class="my-2 mx-3 p-3 user_email small" style="border-top:0.5px solid silver; border-bottom:0.5px solid silver;">
+            <%= current_user.email %>
+          </p>
+        </div>
+        <%= link_to 'ユーザ情報の編集', edit_information_path, class:"btn btn-dark rounded-pill mt-4 mb-0 w-100" %>
+      </div>
+      
+  </div>
+  
+  <div class="row mx-auto d-flex justify-content-center">
+      <h5 class="col-lg-10 p-0">
+        <strong>お気に入りの漫画</strong>
+      </h5>
   </div>
 </div>
