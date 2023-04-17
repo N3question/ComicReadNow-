@@ -1,2 +1,0 @@
-class SaleRakutenBook < ApplicationRecord
-end

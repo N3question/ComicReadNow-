@@ -9,7 +9,7 @@ namespace :rakuten_book do
            c.application_id = '1071710090605642106'
            c.affiliate_id = '3178901f.7ca7745a.31789020.b737c277'
        end
-       (1..5).each do |num|
+       (1..30).each do |num|
           RakutenWebService::Books::Book.search({
           booksGenreId: '001001',
           page: num,
@@ -18,44 +18,6 @@ namespace :rakuten_book do
             
             # 指定した内容のデータをDBに保存（作成）
             RakutenBook.create!(title: book["title"], isbn: book["isbn"])
-          end
-        end
-    end
-    
-    # 売れてる順
-    desc 'Insert sale book'
-    task sale_book_insert: :environment do
-        RakutenWebService.configure do |c|
-           c.application_id = '1071710090605642106'
-           c.affiliate_id = '3178901f.7ca7745a.31789020.b737c277'
-       end
-       (1..5).each do |num|
-          RakutenWebService::Books::Book.search({
-          booksGenreId: '001001',
-          page: num,
-          sort: "sales"
-          }).each do |book|
-            
-            SaleRakutenBook.create!(title: book["title"], isbn: book["isbn"])
-          end
-        end
-    end
-    
-    # 新着順
-    desc 'Insert new book'
-    task new_book_insert: :environment do
-        RakutenWebService.configure do |c|
-           c.application_id = '1071710090605642106'
-           c.affiliate_id = '3178901f.7ca7745a.31789020.b737c277'
-       end
-       (1..5).each do |num|
-          RakutenWebService::Books::Book.search({
-          booksGenreId: '001001',
-          page: num,
-          sort: "-releaseDate"
-          }).each do |book|
-            
-            NewRakutenBook.create!(title: book["title"], isbn: book["isbn"])
           end
         end
     end

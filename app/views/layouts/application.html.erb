@@ -30,14 +30,14 @@
             <ul class="d-inline-flex flex-wrap mb-0 ml-auto" style="list-style:none;">
               <li class="nav-item my-auto">
                   <!--検索フォーム-->
-                  <div class="input-group my-3" style="width:250px; box-shadow:8px 8px 4px #000;"><br />
                   <%= form_with url: search_index_comics_path, local: true, method: :get do |f| %>
+                  <div class="input-group my-3" style="width:300px; box-shadow:8px 8px 4px #000;"><br />
                       <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend" placeholder="タイトル、漫画サイト名  "></input>
                       <span class="input-group-btn input-group-append">
                         <submit type="submit" id="btn-search" class="btn text-info rounded-0" style="background-color:white;"><i class="bi bi-search"></i></submit>
                       </span>
-                  <% end %>
                   </div>
+                  <% end %>
                   
                   <!--<div class="search_form">-->
                   <!--  <#%= form_with url: search_path, local: true, method: :get do |f| %>-->

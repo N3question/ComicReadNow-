@@ -1,29 +1,31 @@
-<% @rakuten_web_services.each do |book| %>
-  <%= book.inspect %>
-  <%= image_tag book["mediumImageUrl"] %>
-  <hr>
-  
-<% end %>
-<!--<table class="table table-hover table-inverse">-->
-    <!--検索対象モデルがUserの時 -->
-  <!--<#% if @range == "RakutenWebService" %>-->
-  <!--  <tbody>-->
-  <!--    <"% @rakuten_web_services.each do |rws| %>-->
-  <!--      <tr>-->
-  <!--        <td><"%= rws.image_url %></td>-->
-  <!--        <td><"%= rws.title %></td>-->
-  <!--      </tr>-->
-  <!--    <#% end %>-->
-  <!--  </tbody>-->
-<!--  <#% else %>-->
-    <!--検索対象モデルがUserではない時(= 検索対象モデルがBookの時) -->
-<!--    <tbody>-->
-<!--      <#% @rakuten_books.each do |rb| %>-->
-<!--        <tr>-->
-<!--          <td><#%= rb.image_url %></td>-->
-<!--          <td><#%= rb.title %></td>-->
-<!--        </tr>-->
-<!--      <#% end %>-->
-<!--    </tbody>-->
-<!--  <#% end %>-->
-<!--</table>-->
+<div class="container" style="margin-top:100px;">
+  <div class="row mx-auto" style="padding:30px 30px 45px;">
+      
+        <div class="col-lg-9 mx-auto">
+            <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+              <i class="bi bi-arrow-left"></i>
+            <% end %>
+            
+            <h5 class=""><b>'<%= params[:keyword] %>'の検索結果</b></h5>
+            
+            <% @rakuten_web_services.each do |book| %>
+                <table class="table table-borderless">
+                  <tr>
+                      <td style="width:150px;">
+                        <%= link_to root_path do %>
+                          <%= image_tag book["largeImageUrl"], style:"width:150px; border:0.5px solid #00264D; box-shadow:8px 8px 20px #BBB;" %>
+                        <% end %>
+                      </td>
+                      <td>
+                        <%= link_to root_path do %>
+                          <h6><b><%= book["title"] %></b></h6>
+                        <% end %>
+                      </td>
+                  </tr>
+                  <hr>
+                </table>
+            <% end %>
+        </div>
+      
+  </div>
+</div>

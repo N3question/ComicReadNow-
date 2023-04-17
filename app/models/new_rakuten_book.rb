@@ -1,2 +1,0 @@
-class NewRakutenBook < ApplicationRecord
-end
