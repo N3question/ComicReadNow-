@@ -44,15 +44,15 @@ footer, .rank_que {
     
 }
 
-/*
-.user_ul {
-    list-style: none;
-    
-    li {
-        float: left;
-    }
-    
-    li:nth-child(3) {
-        float: right;
-    }
-}*/
+.contents_box {
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+.contents_box::-webkit-scrollbar{
+  display: none;
+}
+
+.contents:first-child {
+  margin-left: 50px;
+} 

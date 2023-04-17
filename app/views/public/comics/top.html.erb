@@ -39,16 +39,17 @@
     </div>
   
     <div style="box-shadow:10px 0px 10px 3px #EEE;">
-      <div class="p-2" style="min-height: 53vh; margin-bottom:80px;">
-        <h5 class="mt-4 ml-5 mb-2"><b>新着</b></h5>
+      <div class="pt-5 p-0" style="min-height: 53vh; margin-bottom:80px;">
+        <h5 class="ml-5 mb-2"><b>新着</b></h5>
         <p class="small ml-5">~ 今売れている漫画を読もう！最新情報はこちらからチェック！！~</p>
-        <div>
+        <div class="contents_box">
           <% @new_comics.each do |book| %>
-            <%= image_tag book["largeImageUrl"] %><br>
-            <%= book["title"] %><br>
-            <%= book["salesDate"] %>
-            <hr>
-            
+          <div class="contents d-inline-flex mr-3 mb-5">
+            <%= link_to root_path do %>
+              <%= image_tag book["largeImageUrl"], style:"width:150px; height:240px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #AAA;" %>
+            <% end %>
+            <!--<#%= book["title"] %>-->
+          </div>
           <% end %>
         </div>
       </div>
@@ -58,13 +59,16 @@
       <div class="p-2" style="min-height: 53vh; margin-bottom:80px;">
         <h5 class="mt-4 ml-5 mb-2"><b>総合ランキング</b></h5>
         <p class="small ml-5">~ 不動の人気漫画！！時代を超えて楽しめる漫画を読もう ~</p>
-        <div>
-        <% @comics.each do |book| %>
-          <%= image_tag book["largeImageUrl"] %><br>
-          <%= book["title"] %>
-          <hr>
-        <% end %>
-      </div>
+        <div class="contents_box">
+          <% @comics.each do |book| %>
+          <div class="contents d-inline-flex mr-3 mb-5">
+            <%= link_to root_path do %>
+              <%= image_tag book["largeImageUrl"], style:"width:150px; height:240px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #AAA;" %>
+            <% end %>
+            <!--<#%= book["title"] %>-->
+          </div>
+          <% end %>
+        </div>
       </div>
     </div>
   
