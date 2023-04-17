@@ -2,11 +2,11 @@
   
   <div class="row mx-auto pb-4 d-flex justify-content-center" style="padding:30px 20px;">
       <div class="col-lg-4 p-0 rank_que_wrapper" style="border:1px solid #00264D; background-color:#00264D; border-top-left-radius: 20px; box-shadow:0px 5px 7px #BBB;">
-        <div class="p-4">   
+        <div class="p-4" style="margin-bottom:80px;">   
             <h5 class="mb-3" style="color:#FFFFCC;">
               <b>My Ranking</b>
             </h5>
-            <p class="small" style="color:#FFFFCC; min-height:10vh; margin-bottom:80px;">
+            <p class="small mb-0" style="color:#FFFFCC;">
               順位を表示<br>ユーザの評価も表示する<br>レイアウト調整する
             </p>
         </div>
@@ -31,7 +31,7 @@
               <%= current_user.nick_name %>
             </h4>
           </div>
-          <p class="ml-3 my-3 p-3 user_email small" style="float:left; margin-top:10px; border-top:0.5px solid silver; border-bottom:0.5px solid silver;">
+          <p class="ml-2 my-3 p-3 user_email small" style="float:left; margin-top:10px; border-top:0.5px solid silver; border-bottom:0.5px solid silver;">
             <%= current_user.email %>
           </p>
           <%= link_to 'ユーザ情報の編集', edit_information_path, class:"btn btn-dark rounded-pill mt-4 w-100" %>
