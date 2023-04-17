@@ -94,15 +94,14 @@ ActiveRecord::Schema.define(version: 2023_04_16_104819) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "new_rakuten_books", force: :cascade do |t|
+  create_table "new_rakuten_books", primary_key: "isbn", id: :bigint, default: nil, force: :cascade do |t|
+    t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "rakuten_books", primary_key: "isbn", id: :bigint, default: nil, force: :cascade do |t|
     t.string "title", null: false
-    t.string "author", null: false
-    t.string "image_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -116,7 +115,8 @@ ActiveRecord::Schema.define(version: 2023_04_16_104819) do
     t.index ["user_id"], name: "index_readable_infos_on_user_id"
   end
 
-  create_table "sale_rakuten_books", force: :cascade do |t|
+  create_table "sale_rakuten_books", primary_key: "isbn", id: :bigint, default: nil, force: :cascade do |t|
+    t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

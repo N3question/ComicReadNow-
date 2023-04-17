@@ -1,0 +1,29 @@
+<% @rakuten_web_services.each do |book| %>
+  <%= book.inspect %>
+  <%= image_tag book["mediumImageUrl"] %>
+  <hr>
+  
+<% end %>
+<!--<table class="table table-hover table-inverse">-->
+    <!--検索対象モデルがUserの時 -->
+  <!--<#% if @range == "RakutenWebService" %>-->
+  <!--  <tbody>-->
+  <!--    <"% @rakuten_web_services.each do |rws| %>-->
+  <!--      <tr>-->
+  <!--        <td><"%= rws.image_url %></td>-->
+  <!--        <td><"%= rws.title %></td>-->
+  <!--      </tr>-->
+  <!--    <#% end %>-->
+  <!--  </tbody>-->
+<!--  <#% else %>-->
+    <!--検索対象モデルがUserではない時(= 検索対象モデルがBookの時) -->
+<!--    <tbody>-->
+<!--      <#% @rakuten_books.each do |rb| %>-->
+<!--        <tr>-->
+<!--          <td><#%= rb.image_url %></td>-->
+<!--          <td><#%= rb.title %></td>-->
+<!--        </tr>-->
+<!--      <#% end %>-->
+<!--    </tbody>-->
+<!--  <#% end %>-->
+<!--</table>-->

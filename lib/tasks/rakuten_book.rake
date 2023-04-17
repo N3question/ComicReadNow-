@@ -9,7 +9,7 @@ namespace :rakuten_book do
            c.application_id = '1071710090605642106'
            c.affiliate_id = '3178901f.7ca7745a.31789020.b737c277'
        end
-       (1..35).each do |num|
+       (1..5).each do |num|
           RakutenWebService::Books::Book.search({
           booksGenreId: '001001',
           page: num,
@@ -17,7 +17,7 @@ namespace :rakuten_book do
           }).each do |book|
             
             # 指定した内容のデータをDBに保存（作成）
-            RakutenBook.create!(author: book["author"], title: book["title"], isbn: book["isbn"], image_url: book["mediumImageUrl"])
+            RakutenBook.create!(title: book["title"], isbn: book["isbn"])
           end
         end
     end
@@ -29,14 +29,14 @@ namespace :rakuten_book do
            c.application_id = '1071710090605642106'
            c.affiliate_id = '3178901f.7ca7745a.31789020.b737c277'
        end
-       (1..35).each do |num|
+       (1..5).each do |num|
           RakutenWebService::Books::Book.search({
           booksGenreId: '001001',
           page: num,
           sort: "sales"
           }).each do |book|
             
-            SaleRakutenBook.create!(author: book["author"], title: book["title"], isbn: book["isbn"], image_url: book["mediumImageUrl"])
+            SaleRakutenBook.create!(title: book["title"], isbn: book["isbn"])
           end
         end
     end
@@ -48,14 +48,14 @@ namespace :rakuten_book do
            c.application_id = '1071710090605642106'
            c.affiliate_id = '3178901f.7ca7745a.31789020.b737c277'
        end
-       (1..35).each do |num|
+       (1..5).each do |num|
           RakutenWebService::Books::Book.search({
           booksGenreId: '001001',
           page: num,
           sort: "-releaseDate"
           }).each do |book|
             
-            NewRakutenBook.create!(author: book["author"], title: book["title"], isbn: book["isbn"], image_url: book["mediumImageUrl"])
+            NewRakutenBook.create!(title: book["title"], isbn: book["isbn"])
           end
         end
     end

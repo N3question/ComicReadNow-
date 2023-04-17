@@ -19,7 +19,9 @@ Rails.application.routes.draw do
     get 'users/rank_index', to: 'users#rank_index', as: 'user_rank_index'
     get 'comics/comic_site_index', to: 'comics#comic_site_index', as: 'comic_site_index'
     get '/bookmarks', to: 'bookmarks#index', as: 'bookmark'
-    resources :comics, only: [:top, :show]
+    resources :comics, only: [:top, :show] do
+      get '/search_index', to: 'comics#search_index',on: :collection, as: 'search_index'
+    end
   end
   
   namespace :admin do

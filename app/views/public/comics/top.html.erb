@@ -39,17 +39,32 @@
     </div>
   
     <div style="box-shadow:10px 0px 10px 3px #EEE;">
-      <div class="p-2" style="height:400px; margin-bottom:80px;">
+      <div class="p-2" style="min-height: 53vh; margin-bottom:80px;">
         <h6 class="mt-4 ml-5 mb-0"><b>新着</b></h6>
+        <div>
+          <% @new_comics.each do |book| %>
+            <%= image_tag book["mediumImageUrl"] %><br>
+            <%= book["title"] %><br>
+            <%= book["salesDate"] %>
+            <hr>
+            
+          <% end %>
+        </div>
       </div>
-      <div></div>
     </div>
   
     <div class="" style="box-shadow:10px 0px 10px 3px #EEE;">
-      <div class="p-2" style="height:400px; margin-bottom:80px;">
+      <div class="p-2" style="min-height: 53vh; margin-bottom:80px;">
         <h6 class="mt-4 ml-5 mb-0"><b>総合ランキング</b></h6>
       </div>
-      <div></div>
+      <div>
+        <% @comics.each do |book| %>
+          <%= image_tag book["mediumImageUrl"] %><br>
+          <%= book["title"] %>
+          <hr>
+          
+        <% end %>
+      </div>
     </div>
   
     <span id="back">
