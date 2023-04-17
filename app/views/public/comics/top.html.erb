@@ -1,14 +1,14 @@
 <div class="" style="margin-top:100px;">
-  <div class="row my-5 mx-auto" style="padding-top:30px;">
+  <div class="row mx-auto" style="padding:30px 30px 45px;">
     
       <div class="col-lg-6 p-4 mx-auto border">
           <div class="d-flex align-items-end mb-3">
-            <h5 class="ml-2 my-auto"><b>User Ranking</b></h5>
-            <p class="mb-0 ml-auto mr-2" style="box-shadow:4px 5px 7px #CCC;">
-                <%= link_to user_rank_index_path, class:"btn btn-sm btn-dark px-3" do %>
-                  全て見る <i class="bi bi-arrow-right-circle"></i>
-                <% end %>
-            </p>
+                <h5 class="ml-2 my-auto"><b>User Ranking</b></h5>
+                <p class="mb-0 ml-auto mr-2" style="box-shadow:4px 5px 7px #CCC;">
+                  <%= link_to user_rank_index_path, class:"btn btn-sm btn-dark px-3" do %>
+                    全て見る <i class="bi bi-arrow-right-circle"></i>
+                  <% end %>
+                </p>
           </div>
           <table class="table table-borderless mb-0">
             <tr>
@@ -31,30 +31,26 @@
           </table>
       </div>
       
-      <div class="col-lg-5 p-4 mx-auto border">
-              <h5><b>My Ranking</b></h5>
-      </div>
+      <% if user_signed_in? %>
+          <div class="col-lg-5 p-4 mx-auto border">
+                  <h5><b>My Ranking</b></h5>
+          </div>
+      <% end %>
     </div>
   
-    <div style="height:60px;"></div>
-  
     <div style="box-shadow:10px 0px 10px 3px #EEE;">
-      <div class="p-2" style="height:400px;">
+      <div class="p-2" style="height:400px; margin-bottom:80px;">
         <h6 class="mt-4 ml-5 mb-0"><b>新着</b></h6>
       </div>
       <div></div>
     </div>
   
-    <div style="height:100px;"></div>
-      
-    <div style="box-shadow:10px 0px 10px 3px #EEE;">
-      <div class="p-2" style="height:400px;">
+    <div class="" style="box-shadow:10px 0px 10px 3px #EEE;">
+      <div class="p-2" style="height:400px; margin-bottom:80px;">
         <h6 class="mt-4 ml-5 mb-0"><b>総合ランキング</b></h6>
       </div>
       <div></div>
     </div>
-  
-    <div style="height:60px;"></div>
   
     <span id="back">
       <a href=""  style="text-decoration:none;">

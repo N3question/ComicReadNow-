@@ -1,33 +1,28 @@
-<div class="container" style="margin-top:100px;">
-  <div class="row" style="padding-top:30px;">
+<div class="" style="background-color:#EEE; height:100px;"></div>
+  <div class="" style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
 
-      <div class="col-5">
-        <h5 class="ml-2 mb-3"><b>ユーザ情報の編集</b></h5>
+      <div class="col-lg-6 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
+      <%= link_to my_page_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+        <i class="bi bi-arrow-left"></i>
+      <% end %>
+        <h5 class="mb-3 ml-2"><b>ユーザ情報の編集</b></h5>
 
           <%= form_with url: information_path, model: current_user do |f| %>
             <table class="table table-borderless">
               <tr>
+                  <td style="vertical-align:middle">アイコン画像</td>
                   <td>
-                    <label for="inputImage">ProfileImage</label>
-                  </td>
-                  <td>
-                    <!--<#%= f.label :profile_image, "ファイルを選択", class:"image_input_btn" do %>-->
                     <%= f.file_field :profile_image, accept: "image/*" %>
-                    <!--<#% end %>-->
                   </td>
               </tr>
               <tr>
-                  <td>
-                    <label for="inputName">Name</label>
-                  </td>
+                  <td style="vertical-align:middle">ユーザ名</td>
                   <td>
                     <%= f.text_field :nick_name, autofocus: true, id:"inputName", placeholder:"ニックネーム", class:"form-control" %>
                   </td>
               </tr>
               <tr>
-                  <td>
-                    <label for="inputName">e-mail</label>
-                  </td>
+                  <td style="vertical-align:middle">メールアドレス</td>
                   <td>
                     <%= f.text_field :email, autofocus: true, id:"inputName", placeholder:"sample@gmail.com", class:"form-control" %>
                   </td>
