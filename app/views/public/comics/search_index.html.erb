@@ -1,29 +1,46 @@
 <div class="container" style="margin-top:100px;">
   <div class="row mx-auto" style="padding:30px 30px 45px;">
       
-        <div class="col-lg-9 mx-auto">
+        <div class="">
             <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
             <% end %>
             
-            <h5 class=""><b>'<%= params[:keyword] %>'の検索結果</b></h5>
+            <h5 class="mb-5"><b>'<%= params[:keyword] %>'の検索結果</b></h5>
             
             <% @rakuten_web_services.each do |book| %>
-                <table class="table table-borderless">
-                  <tr>
-                      <td style="width:150px;">
+                <div class="mb-2 mr-4" style="float:left;">
+                      <div style="width:150px;">
                         <%= link_to root_path do %>
-                          <%= image_tag book["largeImageUrl"], style:"width:150px; border:0.5px solid #00264D; box-shadow:8px 8px 20px #BBB;" %>
+                          <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
                         <% end %>
-                      </td>
-                      <td>
+                      </div>
+                      <div class="py-4" style="width:150px; height:300px;">
                         <%= link_to root_path do %>
-                          <h6><b><%= book["title"] %></b></h6>
+                          <h5><b><%= book["title"].truncate(15) %></b></h5>
                         <% end %>
-                      </td>
-                  </tr>
-                  <hr>
-                </table>
+                        <p class="mb-0">
+                          <%= book["author"] %><br>
+                          <small>(<%= book["authorKana"] %>)</small><br>
+                          <%= book["publisherName"] %><br>
+                          <%= book["salesDate"] %><br>
+                          <%= book["isbn"] %>
+                        </p>
+                      </div>
+                      <!--<#% if @comic.bookmarked_by?(current_user) %>-->
+                      <!--  <td>-->
+                      <!--    <#%= link_to  destroy_bookmark_comics_path(@comic), method: :delete do %>-->
+                      <!--      <i class="bi bi-bookmark-check-fill"></i>-->
+                      <!--    <#% end %>-->
+                      <!--  </td>-->
+                      <!--<#% else %>-->
+                      <!--  <td>-->
+                      <!--    <#%= link_to create_bookmark_comics_path(@comic), method: :post do %>-->
+                      <!--      <i class="bi bi-bookmark"></i>-->
+                      <!--    <#% end %>-->
+                      <!--  </td>-->
+                      <!--<#% end %>-->
+                </div>
             <% end %>
         </div>
       

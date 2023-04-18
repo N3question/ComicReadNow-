@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
          
   has_one_attached :profile_image
+  has_many :bookmarks, dependent: :destroy
   
   # PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i.freeze
   # # 半角アルファベット（大文字・小文字・数値）
@@ -18,4 +19,7 @@ class User < ApplicationRecord
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
   
+  # def bookmarked_by?(current_user)
+  #   bookmarks.where(user_id: current_user).exists?
+  # end
 end

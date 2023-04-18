@@ -15,12 +15,13 @@ Rails.application.routes.draw do
     root to: 'comics#top'
     get 'users/my_page', to: 'users#my_page', as: 'my_page'
     get '/users/information/edit', to: 'users#edit', as: 'edit_information'
-    patch '/users/information', to: 'users#update', as: 'information'
+    patch '/users/information', to: 'users#update', as: 'update_information'
     get 'users/rank_index', to: 'users#rank_index', as: 'user_rank_index'
-    get 'comics/comic_site_index', to: 'comics#comic_site_index', as: 'comic_site_index'
-    get '/bookmarks', to: 'bookmarks#index', as: 'bookmark'
     resources :comics, only: [:top, :show] do
-      get '/search_index', to: 'comics#search_index',on: :collection, as: 'search_index'
+      get '/search_index', to: 'comics#search_index', on: :collection, as: 'search_index'
+      get '/comic_site_index', to: 'comics#comic_site_index', on: :collection, as: 'comic_site_index'
+      post '/bookmarks', to: 'bookmarks#create', on: :collection, as: 'create_bookmark'
+      delete '/bookmarks', to: 'bookmarks#destroy', on: :collection, as: 'destroy_bookmark'
     end
   end
   

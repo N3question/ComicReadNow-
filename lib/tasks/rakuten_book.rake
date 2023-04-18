@@ -9,7 +9,7 @@ namespace :rakuten_book do
            c.application_id = '1071710090605642106'
            c.affiliate_id = '3178901f.7ca7745a.31789020.b737c277'
        end
-       (1..30).each do |num|
+       (1..500).each do |num|
           RakutenWebService::Books::Book.search({
           booksGenreId: '001001',
           page: num,

@@ -4,8 +4,8 @@
       <div class="col-lg-6 p-4 mx-auto border">
           <div class="d-flex align-items-end mb-3">
                 <h5 class="ml-2 my-auto"><b>User Ranking</b></h5>
-                <p class="mb-0 ml-auto mr-2" style="box-shadow:4px 5px 7px #CCC;">
-                  <%= link_to user_rank_index_path, class:"btn btn-sm btn-dark px-3" do %>
+                <p class="mb-0 ml-auto mr-2" style="box-shadow:4px 5px 7px #EEE;">
+                  <%= link_to user_rank_index_path, class:"btn btn-sm btn-outline-dark px-3" do %>
                     全て見る <i class="bi bi-arrow-right-circle"></i>
                   <% end %>
                 </p>
@@ -39,36 +39,55 @@
     </div>
   
     <div style="box-shadow:10px 0px 10px 3px #EEE;">
-      <div class="pt-5 p-0" style="min-height: 53vh; margin-bottom:80px;">
-        <h5 class="ml-5 mb-2"><b>新着</b></h5>
-        <p class="small ml-5">~ 今売れている漫画を読もう！最新情報はこちらからチェック！！~</p>
-        <div class="contents_box">
-          <% @new_comics.each do |book| %>
-          <div class="contents d-inline-flex mr-3 mb-5">
-            <%= link_to root_path do %>
-              <%= image_tag book["largeImageUrl"], style:"width:150px; height:240px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #AAA;" %>
-            <% end %>
-            <!--<#%= book["title"] %>-->
+      <div class="py-4" style="min-height: 53vh; margin-bottom:80px;">
+        
+        <div class="d-flex">
+            <h4 class="mt-4 ml-5 mb-2"><b>新着</b></h4>
+            <p class="mt-4 ml-auto mr-5 mb-2" style="box-shadow:4px 5px 7px #EEE;">
+              <%= link_to root_path, class:"btn btn-sm btn-outline-dark px-3" do %>
+                全て見る <i class="bi bi-arrow-right-circle"></i>
+              <% end %>
+            </p>
           </div>
-          <% end %>
-        </div>
+          <p class="ml-5 mb-5">~ 今売れている漫画を読もう！最新情報はこちらからチェック！！~</p>
+          <div class="contents_box">
+            <% @new_comics.each do |book| %>
+                    <div class="contents d-inline-flex mr-3 mb-4 py-4" style="width:150px; height:300px;">
+                      <%= link_to root_path do %>
+                        <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+                      <% end %>
+                    </div>
+                    <p>
+                        <%= link_to root_path do %>
+                          <b><%= book["title"].truncate(15) %></b>
+                        <% end %>
+                      </p>
+            <% end %>
+          </div>
       </div>
     </div>
   
-    <div class="" style="box-shadow:10px 0px 10px 3px #EEE;">
-      <div class="p-2" style="min-height: 53vh; margin-bottom:80px;">
-        <h5 class="mt-4 ml-5 mb-2"><b>総合ランキング</b></h5>
-        <p class="small ml-5">~ 不動の人気漫画！！時代を超えて楽しめる漫画を読もう ~</p>
-        <div class="contents_box">
-          <% @comics.each do |book| %>
-          <div class="contents d-inline-flex mr-3 mb-5">
-            <%= link_to root_path do %>
-              <%= image_tag book["largeImageUrl"], style:"width:150px; height:240px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #AAA;" %>
-            <% end %>
-            <!--<#%= book["title"] %>-->
+    <div style="box-shadow:10px 0px 10px 3px #EEE;">
+      <div class="py-4" style="min-height: 53vh; margin-bottom:80px;">
+          <div class="d-flex">
+            <h4 class="mt-4 ml-5 mb-2"><b>総合ランキング</b></h4>
+            <p class="mt-4 ml-auto mr-5 mb-2" style="box-shadow:4px 5px 7px #EEE;">
+              <%= link_to root_path, class:"btn btn-sm btn-outline-dark px-3" do %>
+                全て見る <i class="bi bi-arrow-right-circle"></i>
+              <% end %>
+            </p>
           </div>
-          <% end %>
-        </div>
+          <p class="ml-5 mb-5">~ 不動の人気漫画！！時代を超えて楽しめる漫画を読もう ~</p>
+          <div class="contents_box">
+            <% @comics.each do |book| %>
+            <div class="contents d-inline-flex mr-3 mb-4">
+              <%= link_to root_path do %>
+                <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+              <% end %>
+              <!--<#%= book["title"] %>-->
+            </div>
+            <% end %>
+          </div>
       </div>
     </div>
   
