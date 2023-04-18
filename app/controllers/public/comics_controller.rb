@@ -23,7 +23,4 @@ class Public::ComicsController < ApplicationController
   
   private
   
-  # def rakuten_book_params
-  #   params.require(:rakuten_book).permit(:isbn, :title, :author, :image_url)
-  # end
 end

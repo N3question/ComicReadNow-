@@ -26,28 +26,19 @@
           </div>
         <% end %>
         
-        <nav class="navbar navbar-light mr-3 my-auto ml-auto">
-            <ul class="d-inline-flex flex-wrap mb-0 ml-auto" style="list-style:none;">
-              <li class="nav-item my-auto">
-                  <!--検索フォーム-->
-                  <%= form_with url: search_index_comics_path, local: true, method: :get do |f| %>
-                  <div class="input-group my-3" style="width:300px; box-shadow:8px 8px 4px #000;"><br />
-                      <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend" placeholder="タイトル、漫画サイト名  "></input>
-                      <span class="input-group-btn input-group-append">
-                        <submit type="submit" id="btn-search" class="btn text-info rounded-0" style="background-color:white;"><i class="bi bi-search"></i></submit>
-                      </span>
-                  </div>
-                  <% end %>
-                  
-                  <!--<div class="search_form">-->
-                  <!--  <#%= form_with url: search_path, local: true, method: :get do |f| %>-->
-                  <!--    <#%= f.text_field :word %>-->
-                  <!--    <#%= f.select :range, options_for_select([['RakutenWebService'],['RakutenBook']]) %>-->
-                  <!--    <#%= f.select :search, options_for_select([["完全一致","perfect_match"], ["前方一致","forward_match"],  ["後方一致","backward_match"], ["部分一致","partial_match"]]) %>-->
-                  <!--    <#%= f.submit "検索", class: "btn btn-primary" %>-->
-                  <!--  <#% end %>-->
-                  <!--</div>-->
-              </li>
+        <nav class="navbar navbar-light my-auto ml-auto">
+          <ul class="d-inline-flex flex-wrap mb-0 ml-auto" style="list-style:none;">
+            <li class="nav-item my-auto">
+                <!--検索フォーム-->
+                <%= form_with url: search_index_comics_path, local: true, method: :get do |f| %>
+                <div class="input-group my-3" style="width:300px; box-shadow:8px 8px 4px #000;"><br />
+                    <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend" placeholder="タイトル、漫画サイト名  "></input>
+                    <span class="input-group-btn input-group-append">
+                      <submit type="submit" id="btn-search" class="btn text-info rounded-0" style="background-color:white;"><i class="bi bi-search"></i></submit>
+                    </span>
+                </div>
+                <% end %>
+            </li>
               
               <!--ユーザ側ログイン後-->
               <% if user_signed_in? %>
@@ -84,26 +75,28 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                   </a>
+                  
                   <ul class="dropdown-menu dropdown-menu-right py-4" role="menu" style="width:250px; box-shadow:10px 10px 20px #00264D;">
                     <% if user_signed_in? %>
-                    <li class="mx-4 mb-3"><a href="/users/my_page" class="text-dark">マイページ</a></li>
-                    <li class="mx-4 mb-4"><a href="/bookmarks" class="text-dark">MY本棚</a></li>
+                        <li class="mx-4 mb-3"><a href="/users/my_page" class="text-dark">マイページ</a></li>
+                        <li class="mx-4 mb-4"><a href="/bookmarks" class="text-dark">MY本棚</a></li>
                     <% end %>
+                    
                     <li><hr class="dropdown-divider m-0" style=""></li>
                     <div class="d-flex flex-wrap">
-                      <div class="text-center ml-auto py-3" 
-                           style="width:120px; border-bottom:0.5px solid silver; border-right:0.5px solid silver;">
-                           <%= link_to 'コミック！', root_path %>
-                      </div>
-                      <div class="text-center mr-auto py-3" 
-                           style="width:120px; border-bottom:0.5px solid silver;">
-                           <%= link_to 'COMIC漫画', root_path %>
-                      </div>
-                      <div class="text-center ml-auto py-3" 
-                           style="width:120px; border-right:0.5px solid silver;">
-                           <%= link_to 'Comic Comic', root_path %>
-                      </div>
-                      <div class="text-center mr-auto py-3" style="width:120px;"></div>
+                        <div class="text-center ml-auto py-3" 
+                             style="width:120px; border-bottom:0.5px solid silver; border-right:0.5px solid silver;">
+                             <%= link_to 'コミック！', root_path %>
+                        </div>
+                        <div class="text-center mr-auto py-3" 
+                             style="width:120px; border-bottom:0.5px solid silver;">
+                             <%= link_to 'COMIC漫画', root_path %>
+                        </div>
+                        <div class="text-center ml-auto py-3" 
+                             style="width:120px; border-right:0.5px solid silver;">
+                             <%= link_to 'Comic Comic', root_path %>
+                        </div>
+                        <div class="text-center mr-auto py-3" style="width:120px;"></div>
                     </div>
                     <li class="mb-4"><hr class="dropdown-divider m-0" style=""></li>
                     <li class="mx-4 mb-3"><a href="#" class="text-dark">お知らせ</a></li>

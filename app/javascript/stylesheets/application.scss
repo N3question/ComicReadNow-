@@ -47,12 +47,13 @@ footer, .rank_que {
 .contents_box {
     overflow-x: scroll;
     white-space: nowrap;
+    display: flex;
 }
 
 .contents_box::-webkit-scrollbar{
-  display: none;
+    display: none;
 }
 
 .contents:first-child {
-  margin-left: 50px;
+    margin-left: 50px;
 } 
