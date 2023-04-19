@@ -16,17 +16,22 @@
                           <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
                         <% end %>
                       </div>
-                      <div class="py-4" style="width:150px; height:280px;">
+                      <div class="py-4 mb-3" style="width:150px; height:320px;">
                         <%= link_to root_path do %>
                           <h5 style="height:60px;"><b><%= book["title"].truncate(13) %></b></h5>
                         <% end %>
-                        <p class="mb-0" style="height:120px;">
+                        <p class="mb-0" style="height:170px;">
                           <%= book["author"] %><br>
                           <small>(<%= book["authorKana"] %>)</small><br>
                           <%= book["publisherName"] %><br>
                           <small><%= book["salesDate"] %></small><br>
                           <small><%= book["isbn"] %></small>
                         </p>
+                        <% if @comic_deta.nil? %>
+                          <%= link_to new_comic_path(isbn: book['isbn']), class:'btn btn-outline-dark w-100' do %>
+                            <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
+                          <% end %>
+                        <% end %>
                       </div>
                       <!--<#% if @comic.bookmarked_by?(current_user) %>-->
                       <!--  <td>-->

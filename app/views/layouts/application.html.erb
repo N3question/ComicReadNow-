@@ -32,9 +32,11 @@
                 <!--検索フォーム-->
                 <%= form_with url: search_index_comics_path, local: true, method: :get do |f| %>
                 <div class="input-group my-3" style="width:300px; box-shadow:8px 8px 4px #000;"><br />
-                    <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend" placeholder="タイトル、漫画サイト名  "></input>
+                    <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend" placeholder="タイトル、漫画サイト名" required="required"></input>
                     <span class="input-group-btn input-group-append">
-                      <submit type="submit" id="btn-search" class="btn text-info rounded-0" style="background-color:white;"><i class="bi bi-search"></i></submit>
+                      <%= f.button type: 'submit', id: 'btn-search', class: 'btn text-info rounded-0', style: "background-color:white;" do %>
+                        <i class="bi bi-search"></i>
+                      <% end %>
                     </span>
                 </div>
                 <% end %>
@@ -64,7 +66,7 @@
                     </b>
                 </li>
                 <li class="my-auto ml-4">
-                    <%= link_to '新規登録', new_user_registration_path, class:"btn btn-success rounded-pill px-4" %>
+                    <%= link_to '新規登録', new_user_registration_path, class:"btn rounded-pill px-4 form-control", style:"background-color:#66CC00; color:white;" %>
                 </li>
               <% end %>
               
