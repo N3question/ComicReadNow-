@@ -22,8 +22,8 @@ admins.each do |admin|
     end
 end
 
-comic_sites = ['コミック！', 'COMIC漫画', 'Comic Comic']
-comic_sites.each do |comic_site|
-    ComicSite.find_or_create_by(site_name: comic_site)
+sites = ['コミック！', 'COMIC漫画', 'Comic Comic']
+sites.each do |site|
+    Site.find_or_create_by(name: site)
     # モデル.find_or_create_by(条件, ブロック引数)...条件を指定して初めの1件を取得し1件もなければ作成
 end

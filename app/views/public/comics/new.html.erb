@@ -21,10 +21,13 @@
                 <div>
                     <%= form_with model: @rakuten_book, url: comics_path, method: :post do |f| %>
                         <%= f.hidden_field :isbn, value: params[:isbn] %>
+                        <!--f.collection_check_boxes :author_ids, Author.all, :id, :name_with_initial-->
                         <!--f.collection_check_boxes(メソッド名, コレクション名, オプション={}, checked_value={}, ブロック引数)-->
-                        <%= collection_check_boxes(:site_name, :site_name_ids, ComicSite.all, :id, :site_name) do |b| %>
-                          <%= b.label { b.check_box + b.text } %>　
-                        <% end %><br>
+                        <% Site.all.each do |site| %>
+                            <!--f.checkboxの形に変換できるようであればする-->
+                            <input type="checkbox" id="site_<%= site.id %>" name="comic[site_ids][]" value="<%= site.id %>">
+                            <label for="site_<%= site.id %>"><%= site.name %></label>
+                        <% end %>
                         <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 px-2", style:"background-color:#66CC00; color:white;" %>
                     <% end %>
                 </div>
