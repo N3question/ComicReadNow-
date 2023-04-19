@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 2023_04_16_104819) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
+    t.integer "record_id", null: false
+    t.integer "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2023_04_16_104819) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+    t.integer "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
@@ -72,24 +72,15 @@ ActiveRecord::Schema.define(version: 2023_04_16_104819) do
     t.index ["user_id"], name: "index_can_read_judgements_on_user_id"
   end
 
-  create_table "comic_comic_sites", force: :cascade do |t|
-    t.integer "comic_id", null: false
-    t.integer "comic_site_id", null: false
-    t.integer "readable_info_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["comic_id"], name: "index_comic_comic_sites_on_comic_id"
-    t.index ["comic_site_id"], name: "index_comic_comic_sites_on_comic_site_id"
-    t.index ["readable_info_id"], name: "index_comic_comic_sites_on_readable_info_id"
-  end
-
   create_table "comic_sites", force: :cascade do |t|
+    t.integer "rakuten_book_id", null: false
     t.string "site_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "comics", force: :cascade do |t|
+    t.integer "rakuten_book_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -100,7 +91,7 @@ ActiveRecord::Schema.define(version: 2023_04_16_104819) do
     t.string "author", null: false
     t.string "author_kana", null: false
     t.string "publisher_name", null: false
-    t.date "sales_date", null: false
+    t.string "sales_date", null: false
     t.string "large_image_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -134,9 +125,6 @@ ActiveRecord::Schema.define(version: 2023_04_16_104819) do
   add_foreign_key "bookmarks", "users", column: "comic_id"
   add_foreign_key "can_read_judgements", "readable_infos"
   add_foreign_key "can_read_judgements", "users"
-  add_foreign_key "comic_comic_sites", "comic_sites"
-  add_foreign_key "comic_comic_sites", "comics"
-  add_foreign_key "comic_comic_sites", "readable_infos"
   add_foreign_key "readable_infos", "comics"
   add_foreign_key "readable_infos", "users"
 end

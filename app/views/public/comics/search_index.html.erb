@@ -27,11 +27,9 @@
                           <small><%= book["salesDate"] %></small><br>
                           <small><%= book["isbn"] %></small>
                         </p>
-                        <% if @comic_deta.nil? %>
                           <%= link_to new_comic_path(isbn: book['isbn']), class:'btn btn-outline-dark w-100' do %>
                             <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
                           <% end %>
-                        <% end %>
                       </div>
                       <!--<#% if @comic.bookmarked_by?(current_user) %>-->
                       <!--  <td>-->

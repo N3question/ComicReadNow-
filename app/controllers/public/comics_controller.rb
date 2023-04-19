@@ -7,13 +7,16 @@ class Public::ComicsController < ApplicationController
     @new_comics = RakutenWebService::Books::Book.search(size: 9, sort: "sales").sort_by {|v| v["-releaseDate"] }
   end
   
+  def top_comic_info
+    @top_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
+  end
+  
   def search_index
     if params[:keyword]
       @rakuten_web_services = RakutenWebService::Books::Book.search(size: 9, title: params[:keyword], sort: "standard")
     else
       @rakuten_web_services = []
     end
-    @comic_deta = RakutenBook.find_by(isbn: rakuten_book_params[:isbn])
   end
   
   def comic_site_index
@@ -34,8 +37,9 @@ class Public::ComicsController < ApplicationController
     @rakuten_book.author = rakuten_book_info['author']
     @rakuten_book.author_kana = rakuten_book_info['authorKana']
     @rakuten_book.publisher_name = rakuten_book_info['publisherName']
-    @rakuten_book.sales_date = rakuten_book_info['salesDate'].gsub(/年|月/, '-').gsub(/日/, '')
+    @rakuten_book.sales_date = rakuten_book_info['salesDate'] #.gsub(/年|月/, '-').gsub(/日/, '')
     @rakuten_book.large_image_url = rakuten_book_info['largeImageUrl'].split('?')[0]
+    
     
     rb_exists = RakutenBook.find_by(isbn: rakuten_book_params[:isbn])
     
