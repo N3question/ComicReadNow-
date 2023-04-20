@@ -9,6 +9,7 @@ class Public::ComicsController < ApplicationController
   
   def top_comic_info
     @top_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
+    # @any_comic_info = Comic.find_by(isbn: comic_params[:isbn])
   end
   
   def search_index
@@ -24,34 +25,32 @@ class Public::ComicsController < ApplicationController
   
   def new
     @comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
-    @rakuten_book = Comic.new
-    # @comic_site = ComicSite.new
-    
-    # session[:previous_url] = request.referer
+    @rb_comic_info = Comic.new
   end
   
   def create
     rakuten_book_info = RakutenWebService::Books::Book.search(isbn: comic_params[:isbn]).first
-    @rakuten_book = Comic.new(comic_params)
+    @rb_comic_info = Comic.new(comic_params)
     
     
     # 以下に必要な内容を追加すると一緒に保存できる
-    @rakuten_book.title = rakuten_book_info['title']
-    @rakuten_book.author = rakuten_book_info['author']
-    @rakuten_book.author_kana = rakuten_book_info['authorKana']
-    @rakuten_book.publisher_name = rakuten_book_info['publisherName']
-    @rakuten_book.sales_date = rakuten_book_info['salesDate'] #.gsub(/年|月/, '-').gsub(/日/, '')
-    @rakuten_book.large_image_url = rakuten_book_info['largeImageUrl'].split('?')[0]
+    @rb_comic_info.title = rakuten_book_info['title']
+    @rb_comic_info.author = rakuten_book_info['author']
+    @rb_comic_info.author_kana = rakuten_book_info['authorKana']
+    @rb_comic_info.publisher_name = rakuten_book_info['publisherName']
+    @rb_comic_info.sales_date = rakuten_book_info['salesDate'] #.gsub(/年|月/, '-').gsub(/日/, '')
+    @rb_comic_info.large_image_url = rakuten_book_info['largeImageUrl'].split('?')[0]
     
     
     rb_exists = Comic.find_by(isbn: comic_params[:isbn])
 
     if rb_exists.nil?
-      @rakuten_book.save!
+      # byebug
+      @rb_comic_info.save!
       site_params[:site_ids].each do |site_id|
-        ComicSite.create(site_id: site_id.to_i, comic_id: @rakuten_book.id)
+        ComicSite.create(site_id: site_id.to_i, comic_id: @rb_comic_info.id)
       end
-      redirect_to comic_path(@rakuten_book)
+      redirect_to comic_path(@rb_comic_info)
     else
       redirect_to comic_path(rb_exists)
     end
@@ -59,13 +58,13 @@ class Public::ComicsController < ApplicationController
   end
   
   def show
-    @rakuten_book = Comic.find(params[:id])
+    @rb_comic_info = Comic.find(params[:id])
+    # @site_comic_info = Comic.comic_site.where(site_id: comic_site_params[:site_id])
   end
   
   private
   
   def comic_params
-    # byebug
     params.require(:comic).permit(:isbn)
   end
   
@@ -73,4 +72,8 @@ class Public::ComicsController < ApplicationController
     params.require(:comic).permit(site_ids: [])
   end
   
+  # 追加
+  def comic_site_params
+    params.require(:comic_site).permit(:site_id,:comic_id)
+  end
 end

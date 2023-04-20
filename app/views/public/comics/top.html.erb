@@ -54,9 +54,15 @@
           <div class="contents_box">
             <% @new_comics.each do |book| %>
                   <div class="contents mr-3" style="width:150px; height:300px;">
-                    <%= link_to top_comic_comics_path(isbn: book['isbn']) do %>
-                      <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
-                    <% end %>
+                    <!--<#% if @any_comic_info.nil? %>-->
+                      <%= link_to top_comic_comics_path(isbn: book['isbn']) do %>
+                        <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+                      <% end %>
+                    <!--<#% else %>-->
+                    <!--  <#%= link_to comic_path(@top_comic_info) do %>-->
+                    <!--    <#%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>-->
+                    <!--  <#% end %>-->
+                    <!--<#% end %>-->
                     <p class="small mt-3">
                       <%= book["title"].truncate(13) %>
                     </p>

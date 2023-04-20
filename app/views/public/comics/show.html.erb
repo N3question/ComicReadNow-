@@ -2,29 +2,28 @@
   <div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
     
     <div class="col-lg-6 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
-        <!--<#%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>-->
-        <!--  <i class="bi bi-arrow-left"></i>-->
-        <!--<#% end %>-->
-        
-        <!--<#% if request.referer&.include?("/comics/new") %>-->
-          <!--前のページが指定したURLだった場合のリンク先-->
-        <!--<#% else %>-->
-          <!--その他のリンク先-->
-        <!--<#% end %>-->
+        <%= link_to 'javascript:history.back()', class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+          <i class="bi bi-arrow-left"></i>
+        <% end %>
         
         <div class="d-flex flex-wrap"  style="padding:30px 20px; justify-content:center;">
-            <!--<#%= image_tag @rakuten_book.large_image_url, class:"m-3", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>-->
+            <%= image_tag @rb_comic_info.large_image_url, class:"m-3", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
             <!--.split('?')[0]をつけることで、元の画像サイズで表示できる-->
-            <!--<div class="p-3">-->
-            <!--    <h5><b>' <#%= @rakuten_book.title %> '</b><small>の詳細</small></h5>-->
-            <!--    <div class="mt-3">-->
-            <!--      <#%= @rakuten_book.author %><br>-->
-            <!--      <small>(<#%= @rakuten_book.author_kana %>)</small><br>-->
-            <!--      <#%= @rakuten_book.publisher_name %><br>-->
-            <!--      <small><#%= @rakuten_book.sales_date %></small><br>-->
-                  <!--<small><#%= @rakuten_book.site_name_ids %></small>-->
-            <!--    </div>-->
-            <!--</div>-->
+            <div class="p-3">
+                <h5><b>' <%= @rb_comic_info.title %> '</b><small>の詳細</small></h5>
+                <div class="mt-3">
+                  <%= @rb_comic_info.author %><br>
+                  <small>(<%= @rb_comic_info.author_kana %>)</small><br>
+                  <%= @rb_comic_info.publisher_name %><br>
+                  <small><%= @rb_comic_info.sales_date %></small><br>
+                  <small>
+                    <!--<#% @site_comic_info.each do |sc_info| %>-->
+                    <!--  <#%= sc_info.name %>-->
+                    <!--<#% end %>-->
+                  </small>
+                </div>
+                <div>
+            </div>
         </div>
     </div>
     
