@@ -20,19 +20,19 @@
       
       <div class="col-lg-6 p-5" style="border:1px solid #00264D; border-bottom-right-radius:20px; box-shadow:4px 5px 7px #CCC;">
           <div class="mx-3 user_icon" style="float:left;">
-            <% if current_user.profile_image.attached? %>
-              <%= image_tag current_user.profile_image, size: "80x80" %>
-            <% else %>
-              <%= image_tag 'no_image', size: "80x80" %>
-            <% end %>
+            <!--<#% if current_user.profile_image.attached? %>-->
+            <!--  <#%= image_tag current_user.profile_image, size: "80x80" %>-->
+            <!--<#% else %>-->
+            <!--  <#%= image_tag 'no_image', size: "80x80" %>-->
+            <!--<#% end %>-->
           </div>
           <div class="mx-1 p-3 user_nickname" style="float:left; margin-top:10px;">
             <h4 class="mb-0">
-              <%= current_user.nick_name %>
+              <!--<#%= current_user.nick_name %>-->
             </h4>
           </div>
           <p class="ml-2 my-3 p-3 user_email small" style="float:left; margin-top:10px; border-top:0.5px solid silver; border-bottom:0.5px solid silver;">
-            <%= current_user.email %>
+            <!--<#%= current_user.email %>-->
           </p>
           <%= link_to 'ユーザ情報の編集', edit_information_path, class:"btn btn-dark rounded-pill mt-4 w-100" %>
       </div>

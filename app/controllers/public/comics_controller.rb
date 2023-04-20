@@ -7,10 +7,12 @@ class Public::ComicsController < ApplicationController
     @new_comics = RakutenWebService::Books::Book.search(size: 9, sort: "sales").sort_by {|v| v["-releaseDate"] }
   end
   
-  def top_comic_info
-    @top_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
-    # @any_comic_info = Comic.find_by(isbn: comic_params[:isbn])
+  def top_rb_info
+    @rb_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
   end
+  
+  def top_comic_info
+  end 
   
   def search_index
     if params[:keyword]
