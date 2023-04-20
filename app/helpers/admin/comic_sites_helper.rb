@@ -1,2 +1,0 @@
-module Admin::ComicSitesHelper
-end

@@ -1,0 +1,33 @@
+<div class="container" style="margin-top:100px;">
+  <div class="row mx-auto" style="padding:30px 0px 45px;">
+      
+        <div class="col-lg-3 py-3 border" style="box-shadow:3px 10px 10px 10px #EEE;">
+          
+        </div>
+        <div class="col-lg-7 mx-auto py-3">
+            <h4 class="mb-5"><b>User 一覧</b></h4>
+            <% @users.each do |user| %>
+              <table class="table">
+                <tr>
+                    <td class="user_icon" style="width:104px;">
+                      <%= link_to admin_information_path(user.id) do %>
+                        <% if user.profile_image.attached? %>
+                          <%= image_tag user.profile_image, size: "80x80" %>
+                        <% else %>
+                          <%= image_tag 'no_image', size: "80x80" %>
+                        <% end %>
+                      <% end %>
+                    </td>
+                    <td style="width:200px; vertical-align:middle;">
+                        <%= user.nick_name %>
+                    </td>
+                    <td style="vertical-align:middle">
+                        <%= user.email %>
+                    </td>
+                </tr>
+              </table>
+            <% end %>
+        </div>
+      
+  </div>
+</div>

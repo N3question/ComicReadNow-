@@ -29,16 +29,20 @@
         <nav class="navbar navbar-light my-auto ml-auto">
           <ul class="d-inline-flex flex-wrap mb-0 ml-auto" style="list-style:none;">
             <li class="nav-item my-auto">
-                <!--検索フォーム-->
-                <%= form_with url: search_index_comics_path, local: true, method: :get do |f| %>
-                <div class="input-group my-3" style="width:300px; box-shadow:8px 8px 4px #000;"><br />
-                    <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend" placeholder="タイトル、漫画サイト名" required="required"></input>
-                    <span class="input-group-btn input-group-append">
-                      <%= f.button type: 'submit', id: 'btn-search', class: 'btn text-info rounded-0', style: "background-color:white;" do %>
-                        <i class="bi bi-search"></i>
-                      <% end %>
-                    </span>
-                </div>
+                
+                <% if admin_signed_in? %>
+                <% else %>
+                    <!--検索フォーム-->
+                    <%= form_with url: search_index_comics_path, local: true, method: :get do |f| %>
+                    <div class="input-group my-3" style="width:300px; box-shadow:8px 8px 4px #000;"><br />
+                        <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend" placeholder="タイトル、漫画サイト名" required="required"></input>
+                        <span class="input-group-btn input-group-append">
+                          <%= f.button type: 'submit', id: 'btn-search', class: 'btn text-info rounded-0', style: "background-color:white;" do %>
+                            <i class="bi bi-search"></i>
+                          <% end %>
+                        </span>
+                    </div>
+                    <% end %>
                 <% end %>
             </li>
               
@@ -52,10 +56,10 @@
                 
               <!--管理者ログイン後-->
               <% elsif admin_signed_in? %>
-                <li class="nav-item my-auto ml-4">
-                    <b>
-                    <%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class:"text-light", style:"text-decoration:none;" %>
-                    </b>
+                <li class="nav-item mt-3  mr-3 mb-4" style="height:40px;">
+                    <%= link_to destroy_admin_session_path, method: :delete, class:"text-light mr-3", style:"text-decoration:none;" do %>
+                      <h1><b><i class="bi bi-box-arrow-right"></i></b></h1>
+                    <% end %>
                 </li>
                 
               <!--ユーザ・管理者ログイン前-->
@@ -70,6 +74,8 @@
                 </li>
               <% end %>
               
+              <% if admin_signed_in? %>
+              <% else %>
               <li class="my-auto ml-4 dropdown">
                   <a href="#" class="dropdown-toggle" style="color: #00264D;" data-toggle="dropdown" role="button">
                     <button class="navbar-toggler" style="border-color:white;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -106,6 +112,7 @@
                     <li class="mx-4"><a href="/admins/sign_in" class="text-dark"><i class="bi bi-gear btn btn-outline-secondary btn-sm w-100"></i></a></li>
                   </ul>
               </li>
+              <% end %>
             </ul>
         </nav>
       </div>

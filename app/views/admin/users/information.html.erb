@@ -1,0 +1,29 @@
+<div style="background-color:#EEE; height:100px;"></div>
+  <div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
+        
+        <div class="col-lg-7 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
+            <%= link_to admin_top_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+              <i class="bi bi-arrow-left"></i>
+            <% end %>
+      
+            <div class="d-flex" style="justify-content: center; align-items: center;">
+                <h4 class="mb-0"><b><%= @user.nick_name %></b></h4>
+                <p class="mb-0">　のユーザ情報</p>
+            </div>
+            <div class="user_icon mt-4 mb-2 d-flex" style="justify-content: center; align-items: center;">
+                <% if @user.profile_image.attached? %>
+                  <%= image_tag @user.profile_image, size: "180x180" %>
+                <% else %>
+                  <%= image_tag 'no_image', size: "180x180" %>
+                <% end %>
+            </div>
+            <p class="d-flex" style="justify-content:center; align-items:center;">
+                <%= @user.email %>
+            </p>
+            <p class="d-flex" style="justify-content:center; align-items:center;">
+                評価＆コメント内容の表示
+            </p>
+        </div>
+      
+  </div>
+</div>
