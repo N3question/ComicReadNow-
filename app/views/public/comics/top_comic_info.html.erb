@@ -1,7 +1,7 @@
 <div style="background-color:#EEE; height:100px;"></div>
   <div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
-    
     <div class="col-lg-6 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
+       
         <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
           <i class="bi bi-arrow-left"></i>
         <% end %>
@@ -14,18 +14,38 @@
                 <div class="mt-3">
                   <%= @top_comic_info["author"] %><br>
                   <small>(<%= @top_comic_info["authorKana"] %>)</small><br>
-                  <!--<#%= @top_comic_info["publisherName"] %><br>-->
-                  <!--<small><#%= @top_comic_info["salesDate"] %></small><br>-->
-                  <!--<small><#%= @top_comic_info["isbn"] %></small>-->
                 </div>
-                <% if user_signed_in? %>
-                  <%= link_to new_comic_path(isbn: @top_comic_info['isbn']), class:'btn btn-outline-dark mt-3 w-100' do %>
-                    <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
-                  <% end %>
-                <% end %>
+                <!--<div class="mt-2">-->
+                <!--  <#%= @top_comic_info["publisherName"] %><br>-->
+                <!--  <small><#%= @top_comic_info["salesDate"] %></small><br>-->
+                <!--  <small><#%= @top_comic_info["isbn"] %></small>-->
+                <!--</div>-->
+                <div class="mt-3">
+                    <% comic = Comic.find_by(isbn: @top_comic_info["isbn"]) %>
+                    <% if user_signed_in? && comic %>
+                        <% if Bookmark.find_by(comic_id: comic.id, user_id: current_user.id) %>
+                          <div class="d-inline-flex">
+                          <h4><i class="bi bi-bookmark-check-fill"></i></h4>
+                          <small class="p-1" style="vertical-align:middle;">追加済み</small>
+                          </div>
+                        <% else %>
+                          <%= link_to comic_bookmark_path(comic.id), class:"btn p-0" do %>
+                            <div class="d-inline-flex">
+                              <h4><i class="bi bi-bookmark-plus"></i></h4>
+                              <small class="p-1" style="vertical-align:middle;">追加</small>
+                            </div>
+                          <% end %>
+                        <% end %>
+                    <% elsif user_signed_in? && !comic %>
+                        <%= link_to new_comic_path(isbn: @top_comic_info['isbn']), class:'btn btn-outline-dark w-100' do %>
+                          <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
+                        <% end %>
+                    <% end %>
+                </div>
             </div>
+            
         </div>
+        
     </div>
-    
   </div>
 </div>

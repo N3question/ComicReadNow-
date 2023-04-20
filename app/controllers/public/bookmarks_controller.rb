@@ -1,6 +1,6 @@
 class Public::BookmarksController < ApplicationController
   
-  def create
+  def new
     bookmark = Bookmark.new(
       user_id: current_user.id,
       comic_id: params[:comic_id],
@@ -24,6 +24,10 @@ class Public::BookmarksController < ApplicationController
   #       redirect_to bookmark_comics_path
   #   end
   # end
+  
+  def index
+    # @bookmarks = Bookmark.comic.find_by(user_id: current_user.id)
+  end
   
   private
 

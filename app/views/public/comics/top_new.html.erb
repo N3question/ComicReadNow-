@@ -1,0 +1,29 @@
+<!--<div style="background-color:#EEE; height:100px;"></div>-->
+<!--  <div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">-->
+    
+<!--    <div class="col-lg-6 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">-->
+<!--        <#%= link_to 'javascript:history.back()', class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>-->
+<!--          <i class="bi bi-arrow-left"></i>-->
+<!--        <#% end %>-->
+            
+<!--        <div class="d-flex flex-wrap"  style="padding:30px 20px; justify-content:center;">-->
+<!--            <#%= image_tag @top_comic_info['largeImageUrl'], class:"m-3", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>-->
+<!--            <div class="p-3">-->
+<!--                <h5><b>' <#%= @top_comic_info["title"] %> '</b><small>の情報を追加中...</small></h5>-->
+<!--                <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>-->
+<!--                <div class="mt-4">-->
+<!--                    <#%= form_with model: @top_rb_comic_info, url: top_comics_path, method: :post do |f| %>-->
+<!--                        <#%= f.hidden_field :isbn, value: params[:isbn] %>-->
+<!--                        <#% Site.all.each do |site| %>-->
+<!--                            <#%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>-->
+<!--                            <#%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　-->
+<!--                        <#% end %><br>-->
+<!--                        <#%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>-->
+<!--                    <#% end %>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    
+<!--  </div>-->
+<!--</div>-->

@@ -6,9 +6,9 @@
               <i class="bi bi-arrow-left"></i>
             <% end %>
             
-            <h5 class="mb-5"><b>'<%= params[:keyword] %>'の検索結果</b></h5>
+            <h5 class="mb-5"><b>新着一覧</b></h5>
             <div class="d-inline-flex flex-wrap" style="justify-content:center;">
-                <% @rakuten_web_services.each do |book| %>
+                <% @new_comics.each do |book| %>
                 <% comic = Comic.find_by(isbn: book["isbn"]) %>
                     <div class="mx-2">
                       <div style="width:150px;">

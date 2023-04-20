@@ -45,7 +45,7 @@
           <div class="d-flex">
               <h4 class="mt-4 ml-5 mb-2"><b>新着</b></h4>
               <div class="mt-4 ml-auto mr-5 mb-3" style="box-shadow:4px 5px 7px #EEE;">
-                <%= link_to root_path, class:"btn btn-sm btn-outline-dark px-3" do %>
+                <%= link_to sale_index_comics_path, class:"btn btn-sm btn-outline-dark px-3" do %>
                   全て見る <i class="bi bi-arrow-right-circle"></i>
                 <% end %>
               </div>
@@ -55,14 +55,8 @@
               <% @new_comics.each do |book| %>
               <% comic = Comic.find_by(isbn: book["isbn"]) %>
                   <div class="contents mr-3" style="width:150px; height:300px;">
-                    <% if comic %>
-                      <%= link_to comic_path(comic.id) do %>
-                        <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
-                      <% end %>
-                    <% else %>
-                      <%= link_to top_comic_comics_path(isbn: book['isbn']) do %>
-                        <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
-                      <% end %>
+                    <%= link_to top_comic_info_comics_path(isbn: book['isbn']) do %>
+                      <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
                     <% end %>
                     <p class="small mt-3">
                       <%= book["title"].truncate(13) %>
@@ -80,7 +74,7 @@
           <div class="d-flex">
             <h4 class="mt-4 ml-5 mb-2"><b>総合ランキング</b></h4>
             <div class="mt-4 ml-auto mr-5 mb-3" style="box-shadow:4px 5px 7px #EEE;">
-              <%= link_to root_path, class:"btn btn-sm btn-outline-dark px-3" do %>
+              <%= link_to review_count_index_comics_path, class:"btn btn-sm btn-outline-dark px-3" do %>
                 全て見る <i class="bi bi-arrow-right-circle"></i>
               <% end %>
             </div>
@@ -89,7 +83,7 @@
           <div class="contents_box">
             <% @comics.each do |book| %>
                 <div class="contents mr-3">
-                  <%= link_to top_comic_comics_path(isbn: book['isbn']) do %>
+                  <%= link_to top_comic_info_comics_path(isbn: book['isbn']) do %>
                     <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
                   <% end %>
                   <p class="small mt-3">
