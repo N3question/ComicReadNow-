@@ -9,7 +9,7 @@
             <h5 class="mb-5"><b>'<%= params[:keyword] %>'の検索結果</b></h5>
             
             <div class="d-inline-flex flex-wrap" style="justify-content:center;">
-                  <% @rakuten_web_services.each do |book| %>
+                <% @rakuten_web_services.each do |book| %>
                     <div class="mx-2">
                       <div style="width:150px;">
                         <%= link_to root_path do %>
@@ -18,34 +18,16 @@
                       </div>
                       <div class="py-4 mb-3" style="width:150px; height:200px;">
                         <%= link_to root_path do %>
-                          <p style="height:60px;"><b><%= book["title"].truncate(13) %></b></p>
+                          <p style="height:60px;"><b><%= book["title"].truncate(20) %></b></p>
                         <% end %>
-                        <!--<p class="mb-0" style="height:170px;">-->
-                        <!--  <#%= book["author"] %><br>-->
-                        <!--  <small>(<#%= book["authorKana"] %>)</small><br>-->
-                          <!--<#%= book["publisherName"] %><br>-->
-                          <!--<small><#%= book["salesDate"] %></small><br>-->
-                          <!--<small><#%= book["isbn"] %></small>-->
-                        <!--</p>-->
-                        <%= link_to new_comic_path(isbn: book['isbn']), class:'btn btn-outline-dark w-100' do %>
-                          <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
+                        <% if user_signed_in? %>
+                          <%= link_to new_comic_path(isbn: book['isbn']), class:'btn btn-outline-dark w-100' do %>
+                            <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
+                          <% end %>
                         <% end %>
                       </div>
-                      <!--<#% if @comic.bookmarked_by?(current_user) %>-->
-                      <!--  <td>-->
-                      <!--    <#%= link_to  destroy_bookmark_comics_path(@comic), method: :delete do %>-->
-                      <!--      <i class="bi bi-bookmark-check-fill"></i>-->
-                      <!--    <#% end %>-->
-                      <!--  </td>-->
-                      <!--<#% else %>-->
-                      <!--  <td>-->
-                      <!--    <#%= link_to create_bookmark_comics_path(@comic), method: :post do %>-->
-                      <!--      <i class="bi bi-bookmark"></i>-->
-                      <!--    <#% end %>-->
-                      <!--  </td>-->
-                      <!--<#% end %>-->
                     </div>
-                  <% end %>
+                <% end %>
             </div>
         </div>
       

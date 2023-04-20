@@ -1,6 +1,6 @@
-class CreateReadableInfos < ActiveRecord::Migration[6.1]
+class CreateTotalReadableInfos < ActiveRecord::Migration[6.1]
   def change
-    create_table :readable_infos do |t|
+    create_table :total_readable_infos do |t|
       t.references :user, null: false, foreign_key: true
       t.references :comic, null: false, foreign_key: true
       t.timestamps

@@ -62,16 +62,6 @@ ActiveRecord::Schema.define(version: 2023_04_19_105252) do
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
-  create_table "can_read_judgements", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "readable_info_id", null: false
-    t.boolean "can_read", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["readable_info_id"], name: "index_can_read_judgements_on_readable_info_id"
-    t.index ["user_id"], name: "index_can_read_judgements_on_user_id"
-  end
-
   create_table "comic_sites", force: :cascade do |t|
     t.integer "site_id"
     t.integer "comic_id"
@@ -91,19 +81,29 @@ ActiveRecord::Schema.define(version: 2023_04_19_105252) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "readable_infos", force: :cascade do |t|
+  create_table "readable_info_logs", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "comic_id", null: false
+    t.integer "total_readable_info_id", null: false
+    t.boolean "can_read", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["comic_id"], name: "index_readable_infos_on_comic_id"
-    t.index ["user_id"], name: "index_readable_infos_on_user_id"
+    t.index ["total_readable_info_id"], name: "index_readable_info_logs_on_total_readable_info_id"
+    t.index ["user_id"], name: "index_readable_info_logs_on_user_id"
   end
 
   create_table "sites", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "total_readable_infos", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "comic_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["comic_id"], name: "index_total_readable_infos_on_comic_id"
+    t.index ["user_id"], name: "index_total_readable_infos_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -123,8 +123,8 @@ ActiveRecord::Schema.define(version: 2023_04_19_105252) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "bookmarks", "users", column: "comic_id"
-  add_foreign_key "can_read_judgements", "readable_infos"
-  add_foreign_key "can_read_judgements", "users"
-  add_foreign_key "readable_infos", "comics"
-  add_foreign_key "readable_infos", "users"
+  add_foreign_key "readable_info_logs", "total_readable_infos"
+  add_foreign_key "readable_info_logs", "users"
+  add_foreign_key "total_readable_infos", "comics"
+  add_foreign_key "total_readable_infos", "users"
 end

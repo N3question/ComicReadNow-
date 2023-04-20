@@ -6,6 +6,9 @@ class User < ApplicationRecord
          
   has_one_attached :profile_image
   has_many :bookmarks, dependent: :destroy
+  has_many :readable_info_logs, dependent: :destroy
+  has_many :total_readable_infos, dependent: :destroy
+  has_many :comics, dependent: :destroy
   
   # PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i.freeze
   # # 半角アルファベット（大文字・小文字・数値）

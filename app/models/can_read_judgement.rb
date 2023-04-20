@@ -1,2 +1,0 @@
-class CanReadJudgement < ApplicationRecord
-end

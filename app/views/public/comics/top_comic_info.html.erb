@@ -18,8 +18,10 @@
                   <!--<small><#%= @top_comic_info["salesDate"] %></small><br>-->
                   <!--<small><#%= @top_comic_info["isbn"] %></small>-->
                 </div>
-                <%= link_to new_comic_path(isbn: @top_comic_info['isbn']), class:'btn btn-outline-dark mt-3 w-100' do %>
-                  <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
+                <% if user_signed_in? %>
+                  <%= link_to new_comic_path(isbn: @top_comic_info['isbn']), class:'btn btn-outline-dark mt-3 w-100' do %>
+                    <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
+                  <% end %>
                 <% end %>
             </div>
         </div>

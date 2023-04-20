@@ -21,9 +21,9 @@ Rails.application.routes.draw do
       get '/top_comic_info', to: 'comics#top_comic_info', on: :collection, as: 'top_comic'
       get '/search_index', to: 'comics#search_index', on: :collection, as: 'search_index'
       get '/comic_site_index', to: 'comics#comic_site_index', on: :collection, as: 'comic_site_index'
-      # get '/bookmarks', to: 'bookmarks#index', on: :collection, as: 'bookmark'
-      # post '/bookmarks', to: 'bookmarks#create', on: :collection, as: 'create_bookmark'
-      # delete '/bookmarks', to: 'bookmarks#destroy', on: :collection, as: 'destroy_bookmark'
+      get '/bookmarks', to: 'bookmarks#index', on: :collection, as: 'bookmark'
+      post '/bookmarks', to: 'bookmarks#create', on: :collection, as: 'create_bookmark'
+      delete '/bookmarks', to: 'bookmarks#destroy', on: :collection, as: 'destroy_bookmark'
     end
   end
   

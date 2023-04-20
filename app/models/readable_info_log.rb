@@ -1,0 +1,2 @@
+class ReadableInfoLog < ApplicationRecord
+end

@@ -31,6 +31,7 @@ class Public::ComicsController < ApplicationController
   def create
     rakuten_book_info = RakutenWebService::Books::Book.search(isbn: comic_params[:isbn]).first
     @rb_comic_info = Comic.new(comic_params)
+    @rb_comic_info.user_id = current_user.id
     
     
     # 以下に必要な内容を追加すると一緒に保存できる
@@ -39,7 +40,7 @@ class Public::ComicsController < ApplicationController
     @rb_comic_info.author_kana = rakuten_book_info['authorKana']
     @rb_comic_info.publisher_name = rakuten_book_info['publisherName']
     @rb_comic_info.sales_date = rakuten_book_info['salesDate'] #.gsub(/年|月/, '-').gsub(/日/, '')
-    @rb_comic_info.large_image_url = rakuten_book_info['largeImageUrl'].split('?')[0]
+    @rb_comic_info.large_image_url = rakuten_book_info['largeImageUrl'].split('?')[0] #.split('?')[0]をつけることで、元の画像サイズで表示
     
     
     rb_exists = Comic.find_by(isbn: comic_params[:isbn])
@@ -54,7 +55,6 @@ class Public::ComicsController < ApplicationController
     else
       redirect_to comic_path(rb_exists)
     end
-    
   end
   
   def show
@@ -73,7 +73,7 @@ class Public::ComicsController < ApplicationController
   end
   
   # 追加
-  def comic_site_params
-    params.require(:comic_site).permit(:site_id,:comic_id)
-  end
+  # def comic_site_params
+  #   params.require(:comic_site).permit(:site_id,:comic_id)
+  # end
 end

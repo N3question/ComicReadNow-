@@ -1,2 +1,0 @@
-class ReadableInfo < ApplicationRecord
-end
