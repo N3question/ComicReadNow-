@@ -1,17 +1,13 @@
 class Public::BookmarksController < ApplicationController
   
   def create
-    @comic = RakutenWebService::Books::Book.search(size:9)
-    bookmark = @comic.bookmarks.create(
-      user_id: current_user,
-      title: book["title"], 
-      isbn: book["isbn"], 
-      image_url: book["largeImageUrl"])
+    bookmark = Bookmark.new(
+      user_id: current_user.id,
+      comic_id: params[:comic_id]
+      )
       
-    if bookmark.create!
-      redirect_to search_index_comics_path
-    else
-      redirect_to search_index_comics_path
+    if bookmark.save!
+      redirect_to bookmark_comics_path
     end
   end
   

@@ -5,5 +5,7 @@ class CreateTotalReadableInfos < ActiveRecord::Migration[6.1]
       t.references :comic, null: false, foreign_key: true
       t.timestamps
     end
+      # 2つのカラムにまたがる設定のため、別途設定のための文書を記述してあげる必要
+      add_index :bookmarks, [:user_id, :comic_id], unique: true
   end
 end

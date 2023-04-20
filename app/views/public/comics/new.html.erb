@@ -16,9 +16,7 @@
                         <%= f.hidden_field :isbn, value: params[:isbn] %>
                         <% Site.all.each do |site| %>
                             <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
-                            <%= f.label site.name %>　
-                            <!--<input type="checkbox" id="site_<#%= site.id %>" name="comic[site_ids][]" value="<#%= site.id %>">-->
-                            <!--<label for="site_<#%= site.id %>"><#%= site.name %></label>-->
+                            <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
                         <% end %><br>
                         <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>
                     <% end %>

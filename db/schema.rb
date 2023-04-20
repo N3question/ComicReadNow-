@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 2023_04_19_105252) do
   end
 
   create_table "comics", force: :cascade do |t|
+    t.integer "user_id", null: false
     t.bigint "isbn", null: false
     t.string "title", null: false
     t.string "author", null: false
@@ -121,8 +122,8 @@ ActiveRecord::Schema.define(version: 2023_04_19_105252) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bookmarks", "comics"
   add_foreign_key "bookmarks", "users"
-  add_foreign_key "bookmarks", "users", column: "comic_id"
   add_foreign_key "readable_info_logs", "total_readable_infos"
   add_foreign_key "readable_info_logs", "users"
   add_foreign_key "total_readable_infos", "comics"

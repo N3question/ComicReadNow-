@@ -15,6 +15,7 @@ class Public::ComicsController < ApplicationController
   def search_index
     if params[:keyword]
       @rakuten_web_services = RakutenWebService::Books::Book.search(size: 9, title: params[:keyword], sort: "standard")
+      session["search_keyword"] = params[:keyword]
     else
       @rakuten_web_services = []
     end
@@ -31,10 +32,10 @@ class Public::ComicsController < ApplicationController
   def create
     rakuten_book_info = RakutenWebService::Books::Book.search(isbn: comic_params[:isbn]).first
     @rb_comic_info = Comic.new(comic_params)
+    
+    
+    # 以下の内容と一緒に保存
     @rb_comic_info.user_id = current_user.id
-    
-    
-    # 以下に必要な内容を追加すると一緒に保存できる
     @rb_comic_info.title = rakuten_book_info['title']
     @rb_comic_info.author = rakuten_book_info['author']
     @rb_comic_info.author_kana = rakuten_book_info['authorKana']
@@ -59,13 +60,12 @@ class Public::ComicsController < ApplicationController
   
   def show
     @rb_comic_info = Comic.find(params[:id])
-    # @site_comic_info = Comic.comic_site.where(site_id: comic_site_params[:site_id])
   end
   
   private
   
   def comic_params
-    params.require(:comic).permit(:isbn)
+    params.require(:comic).permit(:isbn, :user_id)
   end
   
   def site_params

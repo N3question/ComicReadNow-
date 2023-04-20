@@ -2,7 +2,8 @@
   <div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
     
     <div class="col-lg-6 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
-        <%= link_to 'javascript:history.back()', class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+        <%= link_to search_index_comics_path(keyword: session["search_keyword"]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+          <!--hidden（タグ...データの引き継ぎができない）かsessionデータ（ブラウザに持たせる）-->
           <i class="bi bi-arrow-left"></i>
         <% end %>
         

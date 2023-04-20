@@ -1,6 +1,7 @@
 class CreateComics < ActiveRecord::Migration[6.1]
   def change
     create_table :comics do |t|
+      t.integer :user_id, null: false, foreign_key: true
       t.bigint :isbn, null: false
       t.string :title, null: false
       t.string :author, null: false
