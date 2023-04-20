@@ -3,7 +3,7 @@ class Public::BookmarksController < ApplicationController
   def new
     bookmark = Bookmark.new(
       user_id: current_user.id,
-      comic_id: params[:comic_id],
+      comic_id: params[:comic_id]
       )
       
     if bookmark.save!
@@ -26,13 +26,16 @@ class Public::BookmarksController < ApplicationController
   # end
   
   def index
-    # @bookmarks = Bookmark.comic.find_by(user_id: current_user.id)
+    @bookmarks = Bookmark.where(
+      user_id: current_user.id,
+      comic_id: params[:comic_id]
+    )
   end
   
   private
 
   def bookmark_params
-    params.require(:bookmark).permit(:user_id, :isbn)
+    params.require(:bookmark).permit(:user_id, :comic_id, :isbn)
   end
   
 end

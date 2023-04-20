@@ -6,7 +6,7 @@
               <i class="bi bi-arrow-left"></i>
             <% end %>
             
-            <h5 class="mb-5"><b>総合ランキング一覧</b></h5>
+            <h5 class="ml-5 mb-5"><b>総合ランキング一覧</b></h5>
             <div class="d-inline-flex flex-wrap" style="justify-content:center;">
                 <% @comics.each do |book| %>
                 <% comic = Comic.find_by(isbn: book["isbn"]) %>

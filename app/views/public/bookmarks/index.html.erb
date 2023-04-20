@@ -4,20 +4,20 @@
         <h5 class="my-5"><b>MY本棚</b></h5>
         <div class="mx-auto">
             <div class="d-inline-flex flex-wrap" style="justify-content:center;">
-                <!--<#% @bookmarks.each do |bookmark_comic| %>-->
-                <!--    <div class="mx-2">-->
-                <!--      <div style="width:150px;">-->
-                <!--          <#%= link_to root_path do %>-->
-                <!--            <#%= image_tag bookmark_comic["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>-->
-                <!--          <#% end %>-->
-                <!--      </div>-->
-                <!--      <div class="py-4 mb-3" style="width:150px; height:170px;">-->
-                <!--        <#%= link_to root_path do %>-->
-                <!--          <p class="mb-2" style="height:50px;"><b><#%= bookmark_comic["title"].truncate(20) %></b></p>-->
-                <!--        <#% end %>-->
-                <!--      </div>-->
-                <!--    </div>-->
-                <!--<#% end %>-->
+                <% @bookmarks.each do |bookmark| %>
+                    <div class="mx-2">
+                      <div style="width:150px;">
+                          <%= link_to root_path do %>
+                            <%= image_tag bookmark.large_image_url style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+                          <% end %>
+                      </div>
+                      <div class="py-4 mb-3" style="width:150px; height:170px;">
+                        <%= link_to root_path do %>
+                          <p class="mb-2" style="height:50px;"><b><%= bookmark.title.truncate(20) %></b></p>
+                        <% end %>
+                      </div>
+                    </div>
+                <% end %>
             </div>
         </div>
       

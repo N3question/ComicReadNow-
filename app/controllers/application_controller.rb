@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   private
   
   def after_sign_in_path_for(resource_or_scope)
-    reset_session
+    # reset_session
       if resource_or_scope.is_a?(Admin)
         root_path
       else

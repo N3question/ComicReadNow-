@@ -1,2 +1,2 @@
-class Public::CanReadJudgementsController < ApplicationController
+class Public::ReadableInfoLogsController < ApplicationController
 end
