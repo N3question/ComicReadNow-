@@ -13,26 +13,35 @@
                     <div class="mx-2">
                       <div style="width:150px;">
                         <% if comic %>
-                          <%= link_to root_path do %>
-                            <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
-                          <% end %>
+                            <%= link_to root_path do %>
+                              <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+                            <% end %>
                         <% else %>
-                          <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+                            <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
                         <% end %>
                         
                       </div>
                       <div class="py-4 mb-3" style="width:150px; height:200px;">
-                        <%= link_to root_path do %>
-                          <p style="height:60px;"><b><%= book["title"].truncate(20) %></b></p>
+                        <% if comic %>
+                            <%= link_to root_path do %>
+                              <p style="height:60px;"><b><%= book["title"].truncate(20) %></b></p>
+                            <% end %>
+                        <% else %>
+                            <p style="height:60px;"><b><%= book["title"].truncate(20) %></b></p>
                         <% end %>
-                        <% if user_signed_in? %>
-                          <% if comic %>
-                            <%= link_to "ブックマーク", comic_create_bookmark_path(comic.id), class:"btn btn-dark" %>
-                          <% else %>
+                        <!--リファクタリングを時間があればする。なるべくifは減らす-->
+                        <!--swich-->
+                        <!--&&を使用してuser_sign_inとcomicがある場合のifを作るとか・・・-->
+                        <% if user_signed_in? && comic %>
+                            <% if Bookmark.find_by(comic_id: comic.id, user_id: current_user.id) %>
+                              ブックマーク済
+                            <% else %>
+                              <%= link_to "ブックマークする", comic_create_bookmark_path(comic.id), class:"btn btn-dark w-100" %>
+                            <% end %>
+                        <% elsif user_signed_in? && !comic %>
                             <%= link_to new_comic_path(isbn: book['isbn']), class:'btn btn-outline-dark w-100' do %>
                               <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
                             <% end %>
-                          <% end %>
                         <% end %>
                       </div>
                     </div>
