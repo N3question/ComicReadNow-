@@ -8,14 +8,14 @@
         <% end %>
         
         <div class="d-flex flex-wrap"  style="padding:30px 20px; justify-content:center;">
-            <%= image_tag @comic_info.large_image_url, class:"m-3", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+            <%= image_tag @rb_comic_info.large_image_url, class:"m-3", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
             <div class="p-3">
-                <h5><b>' <%= @comic_info.title %> '</b><small>の詳細</small></h5>
+                <h5><b>' <%= @rb_comic_info.title %> '</b><small>の詳細</small></h5>
                 <div class="mt-3">
-                  <%= @comic_info.author %><br>
-                  <small>(<%= @comic_info.author_kana %>)</small><br>
-                  <%= @comic_info.publisher_name %><br>
-                  <small><%= @comic_info.sales_date %></small><br>
+                  <%= @rb_comic_info.author %><br>
+                  <small>(<%= @rb_comic_info.author_kana %>)</small><br>
+                  <%= @rb_comic_info.publisher_name %><br>
+                  <small><%= @rb_comic_info.sales_date %></small><br>
                   <small>
                     <!--<#% @site_comic_info.each do |sc_info| %>-->
                     <!--  <#%= sc_info.name %>-->
