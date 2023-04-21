@@ -1,33 +1,34 @@
-<div class="container" style="margin-top:100px;">
-  <div class="row mx-auto" style="padding:30px 0px 45px;">
+<div class="col-3" style="background-color:#00264D; height:100px;"></div>
+
+<div class="d-flex" style="padding:0px; min-height: 74vh;">
       
-        <div class="col-lg-3 py-3 border" style="box-shadow:3px 10px 10px 10px #EEE;">
-          
-        </div>
-        <div class="col-lg-7 mx-auto py-3">
-            <h4 class="mb-5"><b>User 一覧</b></h4>
-            <% @users.each do |user| %>
-              <table class="table">
-                <tr>
-                    <td class="user_icon" style="width:104px;">
-                      <%= link_to admin_information_path(user.id) do %>
-                        <% if user.profile_image.attached? %>
-                          <%= image_tag user.profile_image, size: "80x80" %>
-                        <% else %>
-                          <%= image_tag 'no_image', size: "80x80" %>
-                        <% end %>
-                      <% end %>
-                    </td>
-                    <td style="width:200px; vertical-align:middle;">
-                        <%= user.nick_name %>
-                    </td>
-                    <td style="vertical-align:middle">
-                        <%= user.email %>
-                    </td>
-                </tr>
-              </table>
-            <% end %>
-        </div>
+    <div class="col-3 p-0">
+      <%= render'layouts/sidebar' %>
+    </div>
+    
+    <div class="col-8 p-5" style="border-right:0.5px solid silver; border-top-right-radius: 20px; border-bottom-right-radius: 20px; box-shadow:10px 5px 7px #BBB;">
+        <h5 class="mb-5"><b>User 一覧</b></h5>
+        <% @users.each do |user| %>
+          <table class="table">
+            <tr>
+                <td class="user_icon" style="width:104px;">
+                  <%= link_to admin_information_path(user.id) do %>
+                    <% if user.profile_image.attached? %>
+                      <%= image_tag user.profile_image, size: "80x80" %>
+                    <% else %>
+                      <%= image_tag 'no_image', size: "80x80" %>
+                    <% end %>
+                  <% end %>
+                </td>
+                <td style="width:200px; vertical-align:middle;">
+                    <%= user.nick_name %>
+                </td>
+                <td style="vertical-align:middle">
+                    <%= user.email %>
+                </td>
+            </tr>
+          </table>
+        <% end %>
+    </div>
       
-  </div>
 </div>

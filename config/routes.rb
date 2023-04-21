@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/', to: 'users#top', as: 'top'
     get 'user/:id/information', to: 'users#information', as: 'information'
+    get 'user/comment_index', to: 'users#comment_index', as: 'comment_index'
+    get 'user/premium_index', to: 'users#premium_index', as: 'premium_index'
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
