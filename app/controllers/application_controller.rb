@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   
   def set_sites
     @all_sites = Site.all
+    @all_site_count = Site.all.count
   end
   
   private

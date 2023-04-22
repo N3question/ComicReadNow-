@@ -29,21 +29,6 @@
                         <% else %>
                             <p class="mb-2" style="height:50px;"><b><%= book["title"].truncate(20) %></b></p>
                         <% end %>
-                        <!--リファクタリングを時間があればする。なるべくifは減らす-->
-                        <!--<#% if user_signed_in? && comic %>-->
-                            <!--<#% if Bookmark.find_by(comic_id: comic.id, user_id: current_user.id) %>-->
-                            <!--  <div class="d-inline-flex">-->
-                            <!--  <h4><i class="bi bi-bookmark-check-fill"></i></h4>-->
-                            <!--  <small class="p-1" style="vertical-align:middle;">追加済み</small>-->
-                            <!--  </div>-->
-                            <!--<#% else %>-->
-                            <!--  <#%= link_to comic_bookmark_path(comic.id), class:"btn p-0" do %>-->
-                            <!--    <div class="d-inline-flex">-->
-                            <!--      <h4><i class="bi bi-bookmark-plus"></i></h4>-->
-                            <!--      <small class="p-1" style="vertical-align:middle;">追加</small>-->
-                            <!--    </div>-->
-                            <!--  <#% end %>-->
-                            <!--<#% end %>-->
                         <% if user_signed_in? && !comic %>
                             <%= link_to new_comic_path(isbn: book['isbn']), class:'btn btn-outline-dark w-100' do %>
                               <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
@@ -55,5 +40,14 @@
             </div>
         </div>
       
+        <span id="back" style="width:100%;">
+          <a href=""  style="text-decoration:none;">
+              <div class="d-flex justify-content-center border mt-5 mb-4 mx-auto" 
+                   style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
+                <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
+              </div>
+          </a>
+        </span>
+        
   </div>
 </div>

@@ -1,4 +1,38 @@
-<div style="margin-top:100px;"></div>
-<% @comic_sites.each do |comic_site| %>
-  <%= comic_site.comic.title %> 
-<% end %>
+<div class="container" style="margin-top:100px;">
+  <div class="row mx-auto" style="padding:30px 0px 45px;">
+    
+    <div class="mt-4">
+        <div class="ml-5 mb-5 d-flex flex-wrap">
+            <h5><b>サイト毎一覧　</b></h5>
+            <p><b>全<%= @comic_site_amount.count %>件</b></p>
+        </div>
+        <div class="d-inline-flex flex-wrap" style="justify-content:center;">
+            <% @comic_sites.each do |comic_site| %>
+            <% comic = Comic.find_by(isbn: comic_site.comic["isbn"]) %>
+              <div class="mx-2">
+                <div>
+                  <%= link_to comic_path(comic) do %>
+                    <%= image_tag comic_site.comic.large_image_url, style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+                  <% end %>
+                </div>
+                <div class="py-4 mb-3" style="width:150px; height:100px;">
+                  <%= link_to comic_path(comic_site.comic.id) do %>
+                    <p class="mb-2"><b><%= comic_site.comic.title.truncate(20) %></b></p>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+        </div>
+    </div>
+    
+    <span id="back" style="width:100%;">
+      <a href=""  style="text-decoration:none;">
+          <div class="d-flex justify-content-center border mt-5 mb-4 mx-auto" 
+               style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
+            <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
+          </div>
+      </a>
+    </span>
+    
+  </div>
+</div>
