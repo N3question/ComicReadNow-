@@ -1,6 +1,6 @@
 <div style="background-color:#EEE; height:100px;"></div>
   <div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
-    <div class="col-lg-6 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
+    <div class="col-lg-9 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
        
         <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
           <i class="bi bi-arrow-left"></i>
@@ -25,7 +25,7 @@
                         <% user = User.find(comic.user_id) %>
                         <% sites = comic.sites.all %>
                         
-                            <small class="border p-1">以下の漫画サイトで読むことができます！</small><br>
+                            <small class="border p-1 text-success">以下の漫画サイトで読むことができます！</small><br>
                             <% sites.each do |site| %>
                               <p class="pb-0 text-success d-inline-flex">
                                 <i class="bi bi-check-lg"></i>
@@ -34,13 +34,15 @@
                             <% end %><br>
                             
                             <small><%= comic.created_at.strftime('%Y年%m月%d日%H時%M分') %>　</small>
-                            <small><%= user.nick_name %> さんがサイト情報更新</small><br>
+                            <small><b><%= user.nick_name %></b> さんがサイト情報更新</small><br>
                             
                             <% if Bookmark.find_by(comic_id: comic.id, user_id: current_user.id) %>
-                              <div class="d-inline-flex mt-4">
-                              <h4><i class="bi bi-bookmark-check-fill"></i></h4>
-                              <small class="p-1" style="vertical-align:middle;">追加済み</small>
-                              </div>
+                              <%= link_to comic_destroy_bookmark_path(comic.id), class:"btn p-0" do %>
+                                <div class="d-inline-flex mt-4">
+                                  <h4><i class="bi bi-bookmark-check-fill"></i></h4>
+                                  <small class="p-1" style="vertical-align:middle;">追加済み</small>
+                                </div>
+                              <% end %>
                             <% else %>
                               <%= link_to comic_bookmark_path(comic.id), class:"btn p-0" do %>
                                 <div class="d-inline-flex mt-4">

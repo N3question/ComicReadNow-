@@ -13,7 +13,7 @@
                     <div class="mx-2">
                       <div style="width:150px;">
                         <% if comic %>
-                            <%= link_to root_path do %>
+                            <%= link_to comic_path(comic.id) do %>
                               <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
                             <% end %>
                         <% else %>
@@ -23,28 +23,13 @@
                       </div>
                       <div class="py-4 mb-3" style="width:150px; height:170px;">
                         <% if comic %>
-                            <%= link_to root_path do %>
+                            <%= link_to comic_path(comic.id) do %>
                               <p class="mb-2" style="height:50px;"><b><%= book["title"].truncate(20) %></b></p>
                             <% end %>
                         <% else %>
                             <p class="mb-2" style="height:50px;"><b><%= book["title"].truncate(20) %></b></p>
                         <% end %>
-                        <!--リファクタリングを時間があればする。なるべくifは減らす-->
-                        <% if user_signed_in? && comic %>
-                            <% if Bookmark.find_by(comic_id: comic.id, user_id: current_user.id) %>
-                              <div class="d-inline-flex">
-                              <h4><i class="bi bi-bookmark-check-fill"></i></h4>
-                              <small class="p-1" style="vertical-align:middle;">追加済み</small>
-                              </div>
-                            <% else %>
-                              <%= link_to comic_bookmark_path(comic.id), class:"btn p-0" do %>
-                                <div class="d-inline-flex">
-                                  <h4><i class="bi bi-bookmark-plus"></i></h4>
-                                  <small class="p-1" style="vertical-align:middle;">追加</small>
-                                </div>
-                              <% end %>
-                            <% end %>
-                        <% elsif user_signed_in? && !comic %>
+                        <% if user_signed_in? && !comic %>
                             <%= link_to new_comic_path(isbn: book['isbn']), class:'btn btn-outline-dark w-100' do %>
                               <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
                             <% end %>

@@ -92,19 +92,20 @@
                     
                     <li><hr class="dropdown-divider m-0" style=""></li>
                     <div class="d-flex flex-wrap">
-                        <div class="text-center ml-auto py-3" 
-                             style="width:120px; border-bottom:0.5px solid silver; border-right:0.5px solid silver;">
-                             <%= link_to 'コミック！', root_path %>
+                      <% @all_sites.each do |all_site| %>
+                        <div class="text-center py-3" style="width:120px;">
+                             <%= link_to all_site.name, comic_site_index_comics_path(id: all_site.id) %>
                         </div>
-                        <div class="text-center mr-auto py-3" 
-                             style="width:120px; border-bottom:0.5px solid silver;">
-                             <%= link_to 'COMIC漫画', root_path %>
-                        </div>
-                        <div class="text-center ml-auto py-3" 
-                             style="width:120px; border-right:0.5px solid silver;">
-                             <%= link_to 'Comic Comic', root_path %>
-                        </div>
-                        <div class="text-center mr-auto py-3" style="width:120px;"></div>
+                        <!--<div class="text-center mr-auto py-3" -->
+                        <!--     style="width:120px; border-bottom:0.5px solid silver;">-->
+                        <!--     <#%= link_to 'COMIC漫画', comic_site_index_comics_path(id: 2) %>-->
+                        <!--</div>-->
+                        <!--<div class="text-center ml-auto py-3" -->
+                        <!--     style="width:120px; border-right:0.5px solid silver;">-->
+                        <!--     <#%= link_to 'Comic Comic', comic_site_index_comics_path(id: 3) %>-->
+                        <!--</div>-->
+                        <!--<div class="text-center mr-auto py-3" style="width:120px;"></div>-->
+                      <% end %>
                     </div>
                     <li class="mb-4"><hr class="dropdown-divider m-0" style=""></li>
                     <li class="mx-4 mb-3"><a href="#" class="text-dark">お知らせ</a></li>

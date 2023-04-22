@@ -67,6 +67,7 @@ class Public::ComicsController < ApplicationController
   end
   
   def comic_site_index
+    @comic_sites = ComicSite.where(site_id: params[:id]).joins(:comic)
   end
   
   private

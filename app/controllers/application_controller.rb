@@ -1,5 +1,10 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_sites
+  
+  def set_sites
+    @all_sites = Site.all
+  end
   
   private
   
