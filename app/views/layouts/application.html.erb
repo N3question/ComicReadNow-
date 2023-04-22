@@ -15,15 +15,26 @@
     <header class="fixed-top" style="border:1px solid #000;">
       <div class="d-flex" style="background-color:#00264D; height:100px;">
         
-        <%= link_to root_path, style:"text-decoration:none;" do %>
-          <div class="mx-4 my-3 d-flex">
-            <h1 class="text-center px-2 text-light my-auto" style="width:45px;">
-              <i class="bi bi-journal-bookmark"></i>
-            </h1>
-            <h6 class="text-center px-2 text-light my-1 ml-1">
-              <b>Comic<br>Read<br>now!</b>
-            </h6>
-          </div>
+        <% if admin_signed_in? %>
+            <div class="mx-4 my-3 d-flex">
+              <h1 class="text-center px-2 text-light my-auto" style="width:45px;">
+                <i class="bi bi-journal-bookmark"></i>
+              </h1>
+              <h6 class="text-center px-2 text-light my-1 ml-1">
+                <b>Comic<br>Read<br>now!</b>
+              </h6>
+            </div>
+        <% else %>
+            <%= link_to root_path, style:"text-decoration:none;" do %>
+              <div class="mx-4 my-3 d-flex">
+                <h1 class="text-center px-2 text-light my-auto" style="width:45px;">
+                  <i class="bi bi-journal-bookmark"></i>
+                </h1>
+                <h6 class="text-center px-2 text-light my-1 ml-1">
+                  <b>Comic<br>Read<br>now!</b>
+                </h6>
+              </div>
+            <% end %>
         <% end %>
         
         <nav class="navbar navbar-light my-auto ml-auto">
