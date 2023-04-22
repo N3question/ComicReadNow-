@@ -38,6 +38,7 @@ class Public::BookmarksController < ApplicationController
   end
   
   def index
+    session["search_keyword"] = nil
     @bookmarks = Bookmark.where(user_id: current_user.id).joins(:comic).order(:title)
   end
   

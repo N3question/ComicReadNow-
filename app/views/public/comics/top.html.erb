@@ -55,7 +55,7 @@
               <% @new_comics.each do |book| %>
               <% comic = Comic.find_by(isbn: book["isbn"]) %>
                   <div class="contents mr-3" style="width:150px; height:300px;">
-                    <%= link_to top_comic_info_comics_path(isbn: book['isbn']) do %>
+                    <%= link_to top_comic_info_comics_path(isbn: book['isbn']), class:"img_link" do %>
                       <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
                     <% end %>
                     <p class="small mt-3">
@@ -83,7 +83,7 @@
           <div class="contents_box">
             <% @comics.each do |book| %>
                 <div class="contents mr-3">
-                  <%= link_to top_comic_info_comics_path(isbn: book['isbn']) do %>
+                  <%= link_to top_comic_info_comics_path(isbn: book['isbn']), class:"img_link" do %>
                     <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
                   <% end %>
                   <p class="small mt-3">

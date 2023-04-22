@@ -44,15 +44,44 @@
       <h5 class="ml-4 mb-0 mr-3 p-1" style="float: left;">
         <strong>お気に入りの漫画</strong>
       </h5>
-      <p class="mb-0 mr-3 p-1" style="float: left;">全○件</p>
-      <%= link_to bookmarks_comics_path, class:"btn btn-sm btn-dark px-3" do %>
+      <p class="mb-0 mr-3 p-1" style="float: left;"><b>全<%= @bookmark_amount.count %>件</b></p>
+      <%= link_to bookmarks_comics_path, class:"btn btn-sm btn-dark mr-5 px-3", style:"float: right;" do %>
         全て見る <i class="bi bi-arrow-right-circle"></i>
       <% end %>
 
+    
     </div>
+    <div class="col-lg-10 mt-5 mx-auto">
+            <div class="d-inline-flex flex-wrap" style="justify-content:center;">
+                <% @bookmarks.each do |bookmark| %>
+                    <div class="mx-2">
+                      <div>
+                          <%= link_to comic_path(bookmark.comic.id), class:"img_link" do %>
+                            <%= image_tag bookmark.comic.large_image_url, style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+                          <% end %>
+                      </div>
+                      <div class="py-4 mb-3" style="width:150px; height:100px;">
+                        <%= link_to comic_path(bookmark.comic.id) do %>
+                          <p class="mb-2"><b><%= bookmark.comic.title.truncate(20) %></b></p>
+                        <% end %>
+                      </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
   </div>
 
   <div class="row mx-auto d-flex justify-content-center">
     <%= link_to 'Premiumプランに移行', root_path, class:"btn my-5 px-5", style:"width:400px; border:2px solid #00264D; background-color:#FF8000; color:white; box-shadow:4px 5px 7px #CCC;" %>
   </div>
+  
 </div>
+
+<span id="back" style="width:100%;">
+  <a href=""  style="text-decoration:none;">
+      <div class="d-flex justify-content-center border mt-5 mb-4 mx-auto" 
+           style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
+        <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
+      </div>
+  </a>
+</span>

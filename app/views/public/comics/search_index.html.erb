@@ -13,7 +13,7 @@
                     <div class="mx-2">
                       <div style="width:150px;">
                         <% if comic %>
-                            <%= link_to comic_path(comic.id) do %>
+                            <%= link_to comic_path(comic.id), class:"img_link" do %>
                               <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
                             <% end %>
                         <% else %>
@@ -27,7 +27,7 @@
                               <p class="mb-2" style="height:50px;"><b><%= book["title"].truncate(20) %></b></p>
                             <% end %>
                         <% else %>
-                            <p class="mb-2" style="height:50px;"><b><%= book["title"].truncate(20) %></b></p>
+                            <p class="mb-2" style="height:50px;"><b><%= book["title"].truncate(18) %></b></p>
                         <% end %>
                         <% if user_signed_in? && !comic %>
                             <%= link_to new_comic_path(isbn: book['isbn']), class:'btn btn-outline-dark w-100' do %>
@@ -39,15 +39,15 @@
                 <% end %>
             </div>
         </div>
-      
-        <span id="back" style="width:100%;">
-          <a href=""  style="text-decoration:none;">
-              <div class="d-flex justify-content-center border mt-5 mb-4 mx-auto" 
-                   style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
-                <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
-              </div>
-          </a>
-        </span>
         
   </div>
 </div>
+
+<span id="back" style="width:100%;">
+  <a href=""  style="text-decoration:none;">
+      <div class="d-flex justify-content-center border mt-5 mb-4 mx-auto" 
+           style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
+        <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
+      </div>
+  </a>
+</span>
