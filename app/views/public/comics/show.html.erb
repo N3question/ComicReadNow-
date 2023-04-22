@@ -2,25 +2,56 @@
   <div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
     
     <div class="col-lg-6 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
-        <%= link_to search_index_comics_path(keyword: session["search_keyword"]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
-          <!--hidden（タグ...データの引き継ぎができない）かsessionデータ（ブラウザに持たせる）-->
-          <i class="bi bi-arrow-left"></i>
+        <% if session["search_keyword"].nil? %>
+          <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+            <i class="bi bi-arrow-left"></i>
+          <% end %>
+        <% else %>
+          <%= link_to search_index_comics_path(keyword: session["search_keyword"]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+            <i class="bi bi-arrow-left"></i>
+          <% end %>
         <% end %>
         
         <div class="d-flex flex-wrap"  style="padding:30px 20px; justify-content:center;">
             <%= image_tag @rb_comic_info.large_image_url, class:"m-3", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
             <div class="p-3">
-                <h5><b>' <%= @rb_comic_info.title %> '</b><small>の詳細</small></h5>
+                <h5><b><%= @rb_comic_info.title %>　</b><small>の詳細</small></h5>
                 <div class="mt-3">
-                  <%= @rb_comic_info.author %><br>
+                  著者：　　<%= @rb_comic_info.author %>
                   <small>(<%= @rb_comic_info.author_kana %>)</small><br>
-                  <%= @rb_comic_info.publisher_name %><br>
-                  <small><%= @rb_comic_info.sales_date %></small><br>
-                  <small>
-                    <!--<#% @site_comic_info.each do |sc_info| %>-->
-                    <!--  <#%= sc_info.name %>-->
-                    <!--<#% end %>-->
-                  </small>
+                  出版社：　<%= @rb_comic_info.publisher_name %><br>
+                  発売日：　<%= @rb_comic_info.sales_date %>
+                </div>
+                
+                <div class="mt-4">
+                  <% user = User.find(@rb_comic_info.user_id) %>
+                  <% sites = @rb_comic_info.sites.all %>
+                  
+                      <small class="border p-1">以下の漫画サイトで読むことができます！</small><br>
+                      <% sites.each do |site| %>
+                        <p class="pb-0 text-success d-inline-flex">
+                          <i class="bi bi-check-lg"></i>
+                        </p>
+                        <%= site.name %>　
+                      <% end %><br>
+                      
+                      <small><%= @rb_comic_info.created_at.strftime('%Y年%m月%d日%H時%M分') %>　</small>
+                      <small><%= user.nick_name %> さんがサイト情報更新</small><br>
+                      
+                      <% if Bookmark.find_by(comic_id: @rb_comic_info.id, user_id: current_user.id) %>
+                        <div class="d-inline-flex mt-4">
+                        <h4><i class="bi bi-bookmark-check-fill"></i></h4>
+                        <small class="p-1" style="vertical-align:middle;">追加済み</small>
+                        </div>
+                      <% else %>
+                        <%= link_to comic_bookmark_path(@rb_comic_info.id), class:"btn p-0" do %>
+                          <div class="d-inline-flex mt-4">
+                            <h4><i class="bi bi-bookmark-plus"></i></h4>
+                            <small class="p-1" style="vertical-align:middle;">追加</small>
+                          </div>
+                        <% end %>
+                      <% end %>
+                      
                 </div>
                 <div>
             </div>

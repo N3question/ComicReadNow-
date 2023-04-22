@@ -9,7 +9,7 @@
     <div class="col-8 p-5" style="border-right:0.5px solid silver; border-top-right-radius: 20px; border-bottom-right-radius: 20px; box-shadow:10px 5px 7px #BBB;">
         <h5 class="mb-5"><b>User 一覧</b></h5>
         <% @users.each do |user| %>
-          <table class="table">
+          <table class="table admin_table">
             <tr>
                 <td class="user_icon" style="width:104px;">
                   <%= link_to admin_information_path(user.id) do %>

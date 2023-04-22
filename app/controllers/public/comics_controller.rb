@@ -3,6 +3,7 @@ class Public::ComicsController < ApplicationController
   # 楽天APIから直接呼び出して表示させる
   # データが呼び出せるのはsearchメゾットのみなので、コントローラ内で指定して表示しておく
   def top
+    session["search_keyword"] = nil
     @new_comics = RakutenWebService::Books::Book.search(size: 9, sort: "sales").sort_by {|v| v["-releaseDate"] }.first(15)
     @comics = RakutenWebService::Books::Book.search(size: 9, sort: "reviewCount").sort_by {|v| v["reviewAverage"] }.first(15)
   end
@@ -10,41 +11,6 @@ class Public::ComicsController < ApplicationController
   def top_comic_info
     @top_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
   end
-  
-  # def top_new
-  #   @top_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
-  #   @top_rb_comic_info = Comic.new
-  # end
-  
-  # def top_create
-  #   rakuten_book_info = RakutenWebService::Books::Book.search(isbn: comic_params[:isbn]).first
-  #   @top_rb_comic_info = Comic.new(comic_params)
-    
-  #   @top_rb_comic_info.user_id = current_user.id
-  #   @top_rb_comic_info.title = rakuten_book_info['title']
-  #   @top_rb_comic_info.author = rakuten_book_info['author']
-  #   @top_rb_comic_info.author_kana = rakuten_book_info['authorKana']
-  #   @top_rb_comic_info.publisher_name = rakuten_book_info['publisherName']
-  #   @top_rb_comic_info.sales_date = rakuten_book_info['salesDate'] #.gsub(/年|月/, '-').gsub(/日/, '')
-  #   @top_rb_comic_info.large_image_url = rakuten_book_info['largeImageUrl'].split('?')[0] #.split('?')[0]をつけることで、元の画像サイズで表示
-    
-  #   rb_exists = Comic.find_by(isbn: comic_params[:isbn])
-
-  #   if rb_exists.nil?
-  #     # byebug
-  #     @top_rb_comic_info.save!
-  #     site_params[:site_ids].each do |site_id|
-  #       ComicSite.create(site_id: site_id.to_i, comic_id: @top_rb_comic_info.id)
-  #     end
-  #     redirect_to comic_top_show_path(@top_rb_comic_info)
-  #   else
-  #     redirect_to comic_top_show_path(rb_exists)
-  #   end
-  # end
-  
-  # def top_show
-  #   @top_rb_comic_info = Comic.find_by(isbn: comic_params[:isbn])
-  # end
   
   def sale_index
     @new_comics = RakutenWebService::Books::Book.search(size: 9, sort: "sales").sort_by {|v| v["-releaseDate"] }
@@ -86,7 +52,6 @@ class Public::ComicsController < ApplicationController
     rb_exists = Comic.find_by(isbn: comic_params[:isbn])
 
     if rb_exists.nil?
-      # byebug
       @rb_comic_info.save!
       site_params[:site_ids].each do |site_id|
         ComicSite.create(site_id: site_id.to_i, comic_id: @rb_comic_info.id)
@@ -114,8 +79,4 @@ class Public::ComicsController < ApplicationController
     params.require(:comic).permit(site_ids: [])
   end
   
-  # 追加
-  # def comic_site_params
-  #   params.require(:comic_site).permit(:site_id,:comic_id)
-  # end
 end
