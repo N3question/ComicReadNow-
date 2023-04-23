@@ -16,10 +16,10 @@ class Public::ComicsController < ApplicationController
         false
       end
     end
-    @now_comics = @new_comics.select do |comic|
+    @now_comics = RakutenBookApi.select do |comic|
       begin
         # stringから日付を取り出しDateにする。それがDate.currentよりも小さい場合はtrue
-        Date.current > Date.parse(comic["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0])
+        Date.current > Date.parse(comic.sales_date.gsub("年", "/").gsub("月", "/").split("日")[0])
       rescue => error
         # エラーの場合はfalseで、selectは取得されず弾かれる
         false
@@ -36,7 +36,21 @@ class Public::ComicsController < ApplicationController
   end
   
   def review_count_index
-    @comics = RakutenWebService::Books::Book.search(size: 9, sort: "reviewCount").sort_by {|v| v["reviewAverage"] }
+    page = 1
+    if params[:page].present?
+      page = params[:page].to_i
+    end
+    @prev = page - 1
+    if page <= 1
+      page = 1
+      @prev = 1
+    end
+    @next = page + 1
+    if page > 10
+      page = 10
+      @next = 10
+    end
+    @comics = RakutenWebService::Books::Book.search(size: 9, sort: "reviewCount", page: page).sort_by {|v| v["reviewAverage"] }
   end
   
   def search_index
@@ -85,14 +99,16 @@ class Public::ComicsController < ApplicationController
     if !request.referer&.include?("/comics") || 
       request.referer&.include?("/sale_index") || 
       request.referer&.include?("/review_count_index") || 
-      request.referer&.include?("/search_index")
-      # byebug
+      request.referer&.include?("/search_index") ||
+      request.referer&.include?("/comic_site_index") 
+      
       session["url"] = request.referer
     end
     @rb_comic_info = Comic.find(params[:id])
   end
   
   def comic_site_index
+    @comic_site = ComicSite.find_by(site_id: params[:id])
     @comic_sites = ComicSite.where(site_id: params[:id]).joins(:comic).order(:title)
     @comic_site_amount = ComicSite.where(site_id: params[:id]).joins(:comic).all
   end

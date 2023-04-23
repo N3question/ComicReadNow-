@@ -9,10 +9,8 @@ class Public::BookmarksController < ApplicationController
       
     if bookmark.save!
       if session["search_keyword"].nil?
-        # redirect_to top_comic_info_comics_path(isbn: comic['isbn'])
         redirect_to request.referer
       else
-        # redirect_to comic_path(comic.id)
         redirect_to request.referer
       end
     end

@@ -1,7 +1,7 @@
 # 以下の内容でそれぞれの順番ごとにDBに保存が完了
 # 定期的にDBを更新させる定義はしていないので、自分がターミナルで都度たたかない限りは古いデータのまま
 namespace :rakuten_book do
-    
+    # whenever(config/schedule.rb)で定期実行している
     # 売れてる順
     desc 'Insert sale book' # desc内容説明部分
     task insert: :environment do

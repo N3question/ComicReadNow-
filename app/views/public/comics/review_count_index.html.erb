@@ -37,6 +37,12 @@
                       </div>
                     </div>
                 <% end %>
+                <%= link_to review_count_index_comics_path(page: @prev) do %>
+                  前の頁
+                <% end %>
+                <%= link_to review_count_index_comics_path(page: @next) do %>
+                  次の頁
+                <% end %>
             </div>
         </div>
       
