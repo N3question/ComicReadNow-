@@ -52,9 +52,9 @@
           </div>
           <p class="mx-5 mb-5">~ 今売れている漫画を読もう！最新情報はこちらからチェック！！~</p>
           <div class="contents_box">
-              <% @now_comics.each do |book| %>
+              <% @now_comics.first(15).each do |book| %>
                   <div class="contents mr-3">
-                    <%= link_to top_comic_info_comics_path(book.id), class:"img_link" do %>
+                    <%= link_to top_comic_info_comics_path(isbn: book['isbn']), class:"img_link" do %>
                       <%= image_tag book.large_image_url, style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
                     <% end %>
                     <p class="small mt-3">
@@ -99,22 +99,23 @@
       <div class="py-4" style="min-height: 53vh; margin-bottom:80px;">
         
           <div class="d-flex">
-            <h4 class="mt-4 ml-5 mb-2"><b>User select</b></h4>
+            <h4 class="mt-4 ml-5 mb-2"><b>User Select</b></h4>
             <div class="mt-4 ml-auto mr-5 mb-3" style="box-shadow:4px 5px 7px #EEE;">
-              <%= link_to root_path, class:"btn btn-sm btn-outline-dark px-3" do %>
+              <%= link_to user_select_index_comics_path, class:"btn btn-sm btn-outline-dark px-3" do %>
                 全て見る <i class="bi bi-arrow-right-circle"></i>
               <% end %>
             </div>
           </div>
-          <p class="mx-5 mb-5">~  ~</p>
+          <p class="mx-5 mb-5">~ Comic Read now!の利用ユーザに人気の漫画を見てみよう！ ~</p>
           <div class="contents_box">
             <% @bookmark_comics.each do |book| %>
-                <div class="contents mr-3">
-                  <%= link_to top_comic_info_comics_path(book.id), class:"img_link" do %>
+            <% comic = Comic.find_by(isbn: book["isbn"]) %>
+              <div class="contents mr-3">
+                  <%= link_to top_comic_info_comics_path(isbn: book['isbn']), class:"img_link" do %>
                     <%= image_tag book.large_image_url, style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
                   <% end %>
                   <p class="small mt-3">
-                    <%= book.title.truncate(13) %>
+                  <%= book.title.truncate(13) %>
                   </p>
                 </div>
             <% end %>
@@ -128,22 +129,17 @@
         
           <div class="d-flex">
             <h4 class="mt-4 ml-5 mb-2"><b>Next Coming</b></h4>
-            <div class="mt-4 ml-auto mr-5 mb-3" style="box-shadow:4px 5px 7px #EEE;">
-              <%= link_to root_path, class:"btn btn-sm btn-outline-dark px-3" do %>
-                全て見る <i class="bi bi-arrow-right-circle"></i>
-              <% end %>
-            </div>
           </div>
-          <p class="mx-5 mb-5">~  ~</p>
+          <p class="mx-5 mb-5">~ 気になる漫画の新刊情報をチェック！ ~</p>
           <div class="contents_box">
             <% @next_comics.each do |book| %>
+            <% comic = Comic.find_by(isbn: book["isbn"]) %>
                 <div class="contents mr-3">
                   <%= link_to top_comic_info_comics_path(isbn: book['isbn']), class:"img_link" do %>
                     <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
                   <% end %>
                   <p class="small mt-3">
-                    <%= book["title"].truncate(13) %><br>
-                    <%= book["salesDate"] %>
+                    <%= book["title"].truncate(13) %>
                   </p>
                 </div>
             <% end %>
@@ -152,8 +148,9 @@
       </div>
     </div>
   
-    <!--総合とNextComing、search_indexは同じ-->
-    <!--新着とUserSelect,comic_site_indexはモデルから呼び出してるからkaminariで可能-->
+    <!--ページネーションについて-->
+    <!--総合ランキングとNextComing,search_index,review_count_indexは同じ-->
+    <!--新着,UserSelect,comic_site_indexはモデルから呼び出してるからkaminariで可能-->
     <!--=>該当のコントローラに同じ内容を定義-->
     
   

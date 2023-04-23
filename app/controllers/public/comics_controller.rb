@@ -6,7 +6,13 @@ class Public::ComicsController < ApplicationController
     session["search_keyword"] = nil
     @new_comics = RakutenWebService::Books::Book.search(size: 9, sort: "sales").sort_by {|v| v["-releaseDate"] }.first(15)
     @comics = RakutenWebService::Books::Book.search(size: 9, sort: "reviewCount").sort_by {|v| v["reviewAverage"] }.first(15)
-    @bookmark_comics = Comic.find(Bookmark.joins(:comic).group(:comic_id).order('count(bookmarks.comic_id) DESC').order('comics.title ASC').pluck(:comic_id))
+    @bookmark_comics = Comic.find(
+                        Bookmark.joins(:comic)
+                        .group(:comic_id)
+                        .order('count(bookmarks.comic_id) DESC')
+                        .order('comics.title ASC')
+                        .pluck(:comic_id)
+                        ).first(15)
     @next_comics = @new_comics.select do |comic|
       begin
         # stringから日付を取り出しDateにする。それがDate.currentよりも大きい場合はtrue
@@ -32,7 +38,15 @@ class Public::ComicsController < ApplicationController
   end
   
   def sale_index
-    @new_comics = RakutenWebService::Books::Book.search(size: 9, sort: "sales").sort_by {|v| v["-releaseDate"] }
+    @now_comics = RakutenBookApi.select do |comic|
+      begin
+        # stringから日付を取り出しDateにする。それがDate.currentよりも小さい場合はtrue
+        Date.current > Date.parse(comic.sales_date.gsub("年", "/").gsub("月", "/").split("日")[0])
+      rescue => error
+        # エラーの場合はfalseで、selectは取得されず弾かれる
+        false
+      end
+    end
   end
   
   def review_count_index
@@ -54,6 +68,20 @@ class Public::ComicsController < ApplicationController
   end
   
   def search_index
+    page = 1
+    if params[:page].present?
+      page = params[:page].to_i
+    end
+    @prev = page - 1
+    if page <= 1
+      page = 1
+      @prev = 1
+    end
+    @next = page + 1
+    if page > 10
+      page = 10
+      @next = 10
+    end
     if params[:keyword]
       @rakuten_web_services = RakutenWebService::Books::Book.search(size: 9, title: params[:keyword], sort: "standard")
       session["search_keyword"] = params[:keyword]
@@ -100,7 +128,9 @@ class Public::ComicsController < ApplicationController
       request.referer&.include?("/sale_index") || 
       request.referer&.include?("/review_count_index") || 
       request.referer&.include?("/search_index") ||
-      request.referer&.include?("/comic_site_index") 
+      request.referer&.include?("/comic_site_index") ||
+      request.referer&.include?("/next_coming_index") ||
+      request.referer&.include?("/user_select_index") 
       
       session["url"] = request.referer
     end
@@ -111,6 +141,16 @@ class Public::ComicsController < ApplicationController
     @comic_site = ComicSite.find_by(site_id: params[:id])
     @comic_sites = ComicSite.where(site_id: params[:id]).joins(:comic).order(:title)
     @comic_site_amount = ComicSite.where(site_id: params[:id]).joins(:comic).all
+  end
+  
+  def user_select_index
+    @bookmark_comics = Comic.find(
+                        Bookmark.joins(:comic)
+                        .group(:comic_id)
+                        .order('count(bookmarks.comic_id) DESC')
+                        .order('comics.title ASC')
+                        .pluck(:comic_id)
+                        )#.page(params[:page]).per(30)
   end
   
   private

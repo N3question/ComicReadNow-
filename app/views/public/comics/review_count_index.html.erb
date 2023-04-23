@@ -37,12 +37,14 @@
                       </div>
                     </div>
                 <% end %>
-                <%= link_to review_count_index_comics_path(page: @prev) do %>
-                  前の頁
-                <% end %>
-                <%= link_to review_count_index_comics_path(page: @next) do %>
-                  次の頁
-                <% end %>
+            </div>
+            <div class="d-flex flex-wrap" style="justify-content:center;">
+              <%= link_to review_count_index_comics_path(page: @prev) do %>
+                <i class="bi bi-arrow-left-circle"></i> 前の頁
+              <% end %>　　　　　　　　　　
+              <%= link_to review_count_index_comics_path(page: @next) do %>
+                次の頁 <i class="bi bi-arrow-right-circle"></i>
+              <% end %>
             </div>
         </div>
       

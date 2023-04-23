@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_23_072723) do
+ActiveRecord::Schema.define(version: 2023_04_19_105252) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -76,15 +76,6 @@ ActiveRecord::Schema.define(version: 2023_04_23_072723) do
     t.string "author", null: false
     t.string "author_kana", null: false
     t.string "publisher_name", null: false
-    t.string "sales_date", null: false
-    t.string "large_image_url", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "rakuten_book_apis", force: :cascade do |t|
-    t.bigint "isbn", null: false
-    t.string "title", null: false
     t.string "sales_date", null: false
     t.string "large_image_url", null: false
     t.datetime "created_at", precision: 6, null: false

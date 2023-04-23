@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get '/review_count_index', to: 'comics#review_count_index', on: :collection, as: 'review_count_index'
       get '/search_index', to: 'comics#search_index', on: :collection, as: 'search_index'
       get '/comic_site_index/:id', to: 'comics#comic_site_index', on: :collection, as: 'comic_site_index'
+      get '/user_select_index', to: 'comics#user_select_index', on: :collection, as: 'user_select_index'
       get '/bookmarks', to: 'bookmarks#index', on: :collection, as: 'bookmarks'
       get '/bookmarks', to: 'bookmarks#new', as: 'bookmark'
       get '/:comic_id/bookmarks', to: 'bookmarks#destroy', as: 'destroy_bookmark'

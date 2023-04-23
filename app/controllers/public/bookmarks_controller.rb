@@ -26,10 +26,8 @@ class Public::BookmarksController < ApplicationController
     if bookmark.present?
         bookmark.destroy!
         if session["search_keyword"].nil?
-        # redirect_to top_comic_info_comics_path(isbn: comic['isbn'])
         redirect_to request.referer
         else
-        # redirect_to comic_path(comic.id)
         redirect_to request.referer
         end
     end
@@ -37,7 +35,8 @@ class Public::BookmarksController < ApplicationController
   
   def index
     session["search_keyword"] = nil
-    @bookmarks = Bookmark.where(user_id: current_user.id).joins(:comic).order(:title)
+    @bookmarks = Bookmark.where(user_id: current_user.id).joins(:comic).order(:title).page(params[:page]).per(30)
+    @bookmark_amount = Bookmark.where(user_id: current_user.id).joins(:comic).order(:title)
   end
   
   private

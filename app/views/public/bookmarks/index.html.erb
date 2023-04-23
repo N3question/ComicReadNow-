@@ -4,7 +4,7 @@
       <div class="mt-4">
         <div class="ml-5 mb-5 d-flex flex-wrap">
             <h5><b>MY本棚　</b></h5>
-            <p><b>全<%= @bookmarks.count %>件</b></p>
+            <p><b>全<%= @bookmark_amount.count %>件</b></p>
         </div>
         <div class="mx-auto">
             <div class="d-inline-flex flex-wrap" style="justify-content:center;">
@@ -27,6 +27,10 @@
       </div>
       
   </div>
+</div>
+
+<div class="d-flex flex-wrap" style="justify-content:center;">
+  <%= paginate @bookmarks ,theme:'twitter-bootstrap-4' %>
 </div>
 
 <span id="back" style="width:100%;">

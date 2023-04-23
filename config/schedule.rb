@@ -29,7 +29,7 @@ set :environment, rails_env
 # cronのログの吐き出し場所
 set :output, "#{Rails.root}/log/cron.log"
 
-every 5.minute do
+every 6.hour do
   rake "rakuten_book:insert", :environment_variable => "RAILS_ENV", :environment => "development"
 end
 
