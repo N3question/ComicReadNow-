@@ -6,6 +6,25 @@ class Public::ComicsController < ApplicationController
     session["search_keyword"] = nil
     @new_comics = RakutenWebService::Books::Book.search(size: 9, sort: "sales").sort_by {|v| v["-releaseDate"] }.first(15)
     @comics = RakutenWebService::Books::Book.search(size: 9, sort: "reviewCount").sort_by {|v| v["reviewAverage"] }.first(15)
+    @bookmark_comics = Comic.find(Bookmark.joins(:comic).group(:comic_id).order('count(bookmarks.comic_id) DESC').order('comics.title ASC').pluck(:comic_id))
+    @next_comics = @new_comics.select do |comic|
+      begin
+        # stringから日付を取り出しDateにする。それがDate.currentよりも大きい場合はtrue
+        Date.current < Date.parse(comic["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0])
+      rescue => error
+        # エラーの場合はfalseで、selectは取得されず弾かれる
+        false
+      end
+    end
+    @now_comics = @new_comics.select do |comic|
+      begin
+        # stringから日付を取り出しDateにする。それがDate.currentよりも小さい場合はtrue
+        Date.current > Date.parse(comic["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0])
+      rescue => error
+        # エラーの場合はfalseで、selectは取得されず弾かれる
+        false
+      end
+    end
   end
   
   def top_comic_info
@@ -63,6 +82,13 @@ class Public::ComicsController < ApplicationController
   end
   
   def show
+    if !request.referer&.include?("/comics") || 
+      request.referer&.include?("/sale_index") || 
+      request.referer&.include?("/review_count_index") || 
+      request.referer&.include?("/search_index")
+      # byebug
+      session["url"] = request.referer
+    end
     @rb_comic_info = Comic.find(params[:id])
   end
   

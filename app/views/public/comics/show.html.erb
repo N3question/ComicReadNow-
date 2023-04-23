@@ -2,28 +2,16 @@
   <div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
     
     <div class="col-lg-9 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
-        <% if request.referer&.include?("/sale_index") %>
-            <%= link_to sale_index_comics_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+        <% if session["search_keyword"].present? %>
+            <%= link_to search_index_comics_path(keyword: session["search_keyword"]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
             <% end %>
-        <% elsif request.referer&.include?("/review_count_index") %>
-            <%= link_to review_count_index_comics_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
-              <i class="bi bi-arrow-left"></i>
-            <% end %>
-        <% elsif request.referer&.include?("/bookmarks") %>
-            <%= link_to bookmarks_comics_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
-              <i class="bi bi-arrow-left"></i>
-            <% end %>
-        <% elsif request.referer&.include?("/my_page") %>
-            <%= link_to my_page_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
-              <i class="bi bi-arrow-left"></i>
-            <% end %>
-        <% elsif session["search_keyword"].nil? %>
-            <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+        <% elsif session["url"] %>
+            <%= link_to session["url"], class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
             <% end %>
         <% else %>
-            <%= link_to search_index_comics_path(keyword: session["search_keyword"]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+            <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
             <% end %>
         <% end %>
@@ -69,6 +57,7 @@
                           </div>
                         <% end %>
                       <% end %>
+                      <p><%= request.referer %></p>
                       
                 </div>
                 <div>

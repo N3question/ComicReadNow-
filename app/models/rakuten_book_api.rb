@@ -1,0 +1,2 @@
+class RakutenBookApi < ApplicationRecord
+end
