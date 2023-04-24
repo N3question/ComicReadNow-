@@ -144,6 +144,8 @@ class Public::ComicsController < ApplicationController
       session["url"] = request.referer
     end
     @rb_comic_info = Comic.find(params[:id])
+    @create_user = User.find(@rb_comic_info.user_id)
+    @create_sites = @rb_comic_info.sites.all
     @can_read = TotalReadableInfo.where(
         comic_id: @rb_comic_info.id,
         can_read: true
@@ -152,7 +154,7 @@ class Public::ComicsController < ApplicationController
         comic_id: @rb_comic_info.id,
         can_read: false
         ).count
-    @read_judgement_info = TotalReadableInfo.find_by(
+    @user_read_judgement = TotalReadableInfo.find_by(
       comic_id: @rb_comic_info.id,
       user_id: current_user.id
       )
@@ -209,15 +211,15 @@ class Public::ComicsController < ApplicationController
         redirect_to request.referer
     end
     
-    limit = user_comic_info.remaining_one_comic_update_limit # 追加
+    # limit = user_comic_info.remaining_one_comic_update_limit # 追加
     
     # 漫画情報更新
     comic_info.update(update_params.merge({
         # 更新時に行う動作
-        can_read_count:0,  
-        can_not_read_count:0, 
+        can_read_count: 0,  
+        can_not_read_count: 0, 
         version: comic_info.version + 1,
-        remaining_one_comic_update_limit: limit - 1
+        # remaining_one_comic_update_limit: limit - 1
         }))
         
     total_limit = current_user.remaining_total_update_limit

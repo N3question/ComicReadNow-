@@ -33,33 +33,29 @@
                 <hr>
                 
                 <div class="mt-4">
-                  <% user = User.find(@rb_comic_info.user_id) %>
-                  <% sites = @rb_comic_info.sites.all %>
-                  
                       <div class="d-flex" style="align-items: center;">
                         <small class="border mb-2 mr-4 p-1">以下の漫画サイトで読むことができます！</small><br>
-                        <% read_judgement_false = TotalReadableInfo.find_by(comic_id: @rb_comic_info.id, can_read: false) %>
-                        <% if read_judgement_false.present? %>
+                        <% if @user_read_judgement.present? && @can_not_read.present? %>
                           <%= link_to "編集", edit_comic_path(@rb_comic_info.id), class:"btn btn-sm rounded-pill mb-2 ml-auto px-3 text-nowrap", style:"background-color:#66CC00; color:white;" %>
                         <% end %>
                       </div>
                       
-                      <% sites.each do |site| %>
+                      <% @create_sites.each do |create_site| %>
                         <p class="pb-0 d-inline-flex">
                           <i class="bi bi-check-lg text-success"></i>
-                          <%= site.name %>
+                          <%= create_site.name %>
                         </p>
                       <% end %><br>
                       
                       <small>
                         <%= @rb_comic_info.created_at.strftime('%Y年%m月%d日%H時%M分') %>　
-                        <b><%= user.nick_name %></b> さんがサイト情報更新
+                        <b><%= @create_user.nick_name %></b> さんがサイト情報更新
                       </small>
                          
                       <hr>
                       
                       <div class="d-flex" style="align-items: center;">
-                        <% if user_signed_in? && @read_judgement_info.nil? %>
+                        <% if user_signed_in? && @user_read_judgement.nil? %>
                             <%= form_with url: comic_read_judgement_path(@rb_comic_info.id) do |f| %>
                               <div class="d-flex">
                               <%= f.radio_button :read_info, true, checked: true, style:"display:none;" %>
