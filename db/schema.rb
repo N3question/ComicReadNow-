@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_19_105252) do
+ActiveRecord::Schema.define(version: 2023_04_24_125158) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -80,6 +80,18 @@ ActiveRecord::Schema.define(version: 2023_04_19_105252) do
     t.string "large_image_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "can_read", default: 0, null: false
+    t.integer "can_not_read", default: 0, null: false
+    t.integer "version", default: 0, null: false
+  end
+
+  create_table "rakuten_book_apis", force: :cascade do |t|
+    t.bigint "isbn", null: false
+    t.string "title", null: false
+    t.string "sales_date", null: false
+    t.string "large_image_url", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "readable_info_logs", force: :cascade do |t|
@@ -103,6 +115,9 @@ ActiveRecord::Schema.define(version: 2023_04_19_105252) do
     t.integer "comic_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "remaining_comic_total_update_limit", default: 50
+    t.boolean "can_read", default: false, null: false
+    t.integer "version", default: 0, null: false
     t.index ["comic_id"], name: "index_total_readable_infos_on_comic_id"
     t.index ["user_id"], name: "index_total_readable_infos_on_user_id"
   end
@@ -116,6 +131,7 @@ ActiveRecord::Schema.define(version: 2023_04_19_105252) do
     t.string "nick_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "remaining_comic_update_limit", default: 50
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

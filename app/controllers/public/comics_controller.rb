@@ -13,7 +13,8 @@ class Public::ComicsController < ApplicationController
                         .order('comics.title ASC')
                         .pluck(:comic_id)
                         ).first(15)
-    @next_comics = @new_comics.select do |comic|
+    @new_comic_all = RakutenWebService::Books::Book.search(size: 9, sort: "sales").sort_by {|v| v["-releaseDate"] }
+    @next_comics = @new_comic_all.select do |comic|
       begin
         # stringから日付を取り出しDateにする。それがDate.currentよりも大きい場合はtrue
         Date.current < Date.parse(comic["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0])
@@ -69,6 +70,9 @@ class Public::ComicsController < ApplicationController
   
   def search_index
     page = 1
+    if params[:keyword]
+      session["search_keyword"] = params[:keyword]
+    end
     if params[:page].present?
       page = params[:page].to_i
     end
@@ -82,9 +86,8 @@ class Public::ComicsController < ApplicationController
       page = 10
       @next = 10
     end
-    if params[:keyword]
-      @rakuten_web_services = RakutenWebService::Books::Book.search(size: 9, title: params[:keyword], sort: "standard")
-      session["search_keyword"] = params[:keyword]
+    if session["search_keyword"]
+      @rakuten_web_services = RakutenWebService::Books::Book.search(size: 9, title: session["search_keyword"], sort: "standard", page: page)
     else
       @rakuten_web_services = []
     end
@@ -144,14 +147,47 @@ class Public::ComicsController < ApplicationController
   end
   
   def user_select_index
-    @bookmark_comics = Comic.find(
-                        Bookmark.joins(:comic)
+    comic_ids = Bookmark.joins(:comic)
                         .group(:comic_id)
                         .order('count(bookmarks.comic_id) DESC')
                         .order('comics.title ASC')
                         .pluck(:comic_id)
-                        )#.page(params[:page]).per(30)
+    @bookmark_comics = Comic.where(id: comic_ids).page(params[:page]).per(30)
   end
+  
+  def edit
+    # 後でviewにもifを定義する
+    if current_user.remaining_comic_update_limit < 1
+      # redirect_to
+    end
+    @comic_info_edit = Comic.find(params[:id])
+  end
+  
+  def update
+    comic_info = Comic.find(params[:id])
+    user_comic_info = TotalReadableInfo.find_by(user_id: current_user, comic_id: comic_info.id)
+    if current_user.remaining_comic_update_limit < 1
+       # redirect_to
+    elsif user_comic_info && user_comic_info.remaining_comic_total_update_limit < 1
+       # redirect_to
+    end
+    comic_info.update(update_params.merge({can_read:0, can_not_read:0, version: comic_info.version + 1}))
+    limit = current_user.remaining_comic_update_limit
+    current_user.update!(remaining_comic_update_limit: limit - 1)
+    redirect_to comic_path(comic_info.id)  
+  end
+  
+  def read_judgement
+    comic = Comic.find(params[:comic_id])
+    version = comic.version
+    @total_readable_info = comic.total_readable_infos.new({can_read: params[:read_info],version: version, user_id: current_user.id})
+    @total_readable_info.save
+    redirect_to comic_path(comic.id)
+  end
+  
+  # View＝＞
+  # comicの詳細ページで一回押したら押せないようにする。submitを非表示
+  # 件数表示はいいねと同じ
   
   private
   
@@ -159,8 +195,11 @@ class Public::ComicsController < ApplicationController
     params.require(:comic).permit(:isbn, :user_id)
   end
   
+  def update_params
+    params.require(:comic).permit(:user_id)
+  end
+  
   def site_params
     params.require(:comic).permit(site_ids: [])
   end
-  
 end

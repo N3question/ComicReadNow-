@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     get '/users/information/edit', to: 'users#edit', as: 'edit_information'
     patch '/users/information', to: 'users#update', as: 'update_information'
     get 'users/rank_index', to: 'users#rank_index', as: 'user_rank_index'
-    resources :comics, only: [:top, :show, :new, :create] do
+    resources :comics, only: [:top, :show, :new, :create, :edit, :update] do
       get '/top_comic_info', to: 'comics#top_comic_info', on: :collection, as: 'top_comic_info'
       get '/sale_index', to: 'comics#sale_index', on: :collection, as: 'sale_index'
       get '/review_count_index', to: 'comics#review_count_index', on: :collection, as: 'review_count_index'
@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       get '/bookmarks', to: 'bookmarks#index', on: :collection, as: 'bookmarks'
       get '/bookmarks', to: 'bookmarks#new', as: 'bookmark'
       get '/:comic_id/bookmarks', to: 'bookmarks#destroy', as: 'destroy_bookmark'
+      post '/read_judgement', to: 'comics#read_judgement', as: 'read_judgement'
     end
   end
   

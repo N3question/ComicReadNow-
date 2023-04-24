@@ -50,8 +50,8 @@
                                   <small class="p-1" style="vertical-align:middle;">追加</small>
                                 </div>
                               <% end %>
-                            <% end %>
-                            
+                            <% end %><br>
+                            <%= link_to "編集", edit_comic_path(comic.id), class:"btn rounded-pill mt-4 px-4", style:"width:90px; background-color:#66CC00; color:white;" %>
                         <% elsif user_signed_in? && !comic %>
                             <%= link_to new_comic_path(isbn: @top_comic_info['isbn']), class:'btn btn-outline-dark w-100' do %>
                               <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>

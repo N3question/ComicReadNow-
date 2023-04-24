@@ -56,9 +56,15 @@
                             <small class="p-1" style="vertical-align:middle;">追加</small>
                           </div>
                         <% end %>
+                      <% end %><br>
+                      <%= link_to "編集", edit_comic_path(@rb_comic_info.id), class:"btn rounded-pill mt-4 px-4", style:"width:90px; background-color:#66CC00; color:white;" %>
+                      <%= form_with url: comic_read_judgement_path(@rb_comic_info.id) do |f| %>
+                        <%= f.radio_button :read_info, true, checked: true %>
+                        <%= f.label :read_info, "読めた" %>
+                        <%= f.radio_button :read_info, false %>
+                        <%= f.label :read_info, "読めなかった" %>
+                        <%= f.submit "確定" %>
                       <% end %>
-                      <p><%= request.referer %></p>
-                      
                 </div>
                 <div>
             </div>
