@@ -141,7 +141,14 @@ class Public::ComicsController < ApplicationController
       session["url"] = request.referer
     end
     @rb_comic_info = Comic.find(params[:id])
-    @read_judgement_info = TotalReadableInfo.find_by(comic_id: @rb_comic_info.id, user_id: current_user.id)
+    @read_judgement_info = TotalReadableInfo.find_by(
+      comic_id: @rb_comic_info.id,
+      user_id: current_user.id
+      )
+    @has_bookmark = Bookmark.find_by(
+      comic_id: @rb_comic_info.id,
+      user_id: current_user.id
+      )
   end
   
   def comic_site_index
@@ -162,7 +169,7 @@ class Public::ComicsController < ApplicationController
   def edit
     # 後でviewにもifを定義する
     if current_user.remaining_comic_update_limit < 1
-      # redirect_to
+      redirect_to request.referer
     end
     @comic_info_edit = Comic.find(params[:id])
   end
@@ -177,7 +184,7 @@ class Public::ComicsController < ApplicationController
     elsif user_comic_info && user_comic_info.remaining_comic_total_update_limit < 1
         redirect_to request.referer
     end
-    comic_info.update(update_params.merge({can_read_count:0, can_not_read_count:0, version: comic_info.version + 1}))
+    comic_info.update(update_params.merge({can_read:0, can_not_read:0, version: comic_info.version + 1}))
     limit = current_user.remaining_comic_update_limit
     current_user.update!(remaining_comic_update_limit: limit - 1)
     redirect_to comic_path(comic_info.id)  
