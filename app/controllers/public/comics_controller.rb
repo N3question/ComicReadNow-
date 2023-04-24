@@ -36,6 +36,7 @@ class Public::ComicsController < ApplicationController
   
   def top_comic_info
     @top_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
+    @top_rb_comic_info = Comic.find_by(isbn: params[:isbn])
   end
   
   def sale_index
@@ -124,8 +125,10 @@ class Public::ComicsController < ApplicationController
           )
       end
       redirect_to comic_path(@rb_comic_info)
+      # redirect_to request.referer
     else
       redirect_to comic_path(rb_exists)
+      # redirect_to request.referer
     end
   end
   
