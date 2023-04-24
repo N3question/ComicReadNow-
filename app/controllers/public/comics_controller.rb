@@ -4,6 +4,7 @@ class Public::ComicsController < ApplicationController
   # データが呼び出せるのはsearchメゾットのみなので、コントローラ内で指定して表示しておく
   def top
     session["search_keyword"] = nil
+    
     @new_comics = RakutenWebService::Books::Book.search(size: 9, sort: "sales").sort_by {|v| v["-releaseDate"] }.first(15)
     @comics = RakutenWebService::Books::Book.search(size: 9, sort: "reviewCount").sort_by {|v| v["reviewAverage"] }.first(15)
     @bookmark_comics = Comic.find(
@@ -13,8 +14,8 @@ class Public::ComicsController < ApplicationController
                         .order('comics.title ASC')
                         .pluck(:comic_id)
                         ).first(15)
-    @new_comic_all = RakutenWebService::Books::Book.search(size: 9, sort: "sales").sort_by {|v| v["-releaseDate"] }
-    @next_comics = @new_comic_all.select do |comic|
+    @new_comics_all = RakutenWebService::Books::Book.search(size: 9, sort: "sales").sort_by {|v| v["-releaseDate"] }
+    @next_comics = @new_comics_all.select do |comic|
       begin
         # stringから日付を取り出しDateにする。それがDate.currentよりも大きい場合はtrue
         Date.current < Date.parse(comic["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0])
