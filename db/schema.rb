@@ -116,7 +116,7 @@ ActiveRecord::Schema.define(version: 2023_04_24_125158) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "remaining_comic_total_update_limit", default: 50
-    t.boolean "can_read", default: false, null: false
+    t.boolean "can_read", default: false
     t.integer "version", default: 0, null: false
     t.index ["comic_id"], name: "index_total_readable_infos_on_comic_id"
     t.index ["user_id"], name: "index_total_readable_infos_on_user_id"

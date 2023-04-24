@@ -118,7 +118,10 @@ class Public::ComicsController < ApplicationController
     if rb_exists.nil?
       @rb_comic_info.save!
       site_params[:site_ids].each do |site_id|
-        ComicSite.create(site_id: site_id.to_i, comic_id: @rb_comic_info.id)
+        ComicSite.create(
+          site_id: site_id.to_i,
+          comic_id: @rb_comic_info.id
+          )
       end
       redirect_to comic_path(@rb_comic_info)
     else
@@ -138,6 +141,7 @@ class Public::ComicsController < ApplicationController
       session["url"] = request.referer
     end
     @rb_comic_info = Comic.find(params[:id])
+    @read_judgement_info = TotalReadableInfo.find_by(comic_id: @rb_comic_info.id, user_id: current_user.id)
   end
   
   def comic_site_index
@@ -165,13 +169,15 @@ class Public::ComicsController < ApplicationController
   
   def update
     comic_info = Comic.find(params[:id])
+    
+    # 「読めた」「読めなかった」の情報が入ったデータをTotalReadableInfoから探す
     user_comic_info = TotalReadableInfo.find_by(user_id: current_user, comic_id: comic_info.id)
     if current_user.remaining_comic_update_limit < 1
-       # redirect_to
+        redirect_to request.referer
     elsif user_comic_info && user_comic_info.remaining_comic_total_update_limit < 1
-       # redirect_to
+        redirect_to request.referer
     end
-    comic_info.update(update_params.merge({can_read:0, can_not_read:0, version: comic_info.version + 1}))
+    comic_info.update(update_params.merge({can_read_count:0, can_not_read_count:0, version: comic_info.version + 1}))
     limit = current_user.remaining_comic_update_limit
     current_user.update!(remaining_comic_update_limit: limit - 1)
     redirect_to comic_path(comic_info.id)  
@@ -182,6 +188,7 @@ class Public::ComicsController < ApplicationController
     version = comic.version
     @total_readable_info = comic.total_readable_infos.new({can_read: params[:read_info],version: version, user_id: current_user.id})
     @total_readable_info.save
+    # render :partial => 'total'
     redirect_to comic_path(comic.id)
   end
   
