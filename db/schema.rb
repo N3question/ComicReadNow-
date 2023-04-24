@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 2023_04_24_125158) do
 
   create_table "comics", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.bigint "isbn", null: false
+    t.integer "isbn", null: false
     t.string "title", null: false
     t.string "author", null: false
     t.string "author_kana", null: false
@@ -80,8 +80,8 @@ ActiveRecord::Schema.define(version: 2023_04_24_125158) do
     t.string "large_image_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "can_read", default: 0, null: false
-    t.integer "can_not_read", default: 0, null: false
+    t.integer "can_read_count", default: 0, null: false
+    t.integer "can_not_read_count", default: 0, null: false
     t.integer "version", default: 0, null: false
   end
 
@@ -92,16 +92,6 @@ ActiveRecord::Schema.define(version: 2023_04_24_125158) do
     t.string "large_image_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "readable_info_logs", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "total_readable_info_id", null: false
-    t.boolean "can_read", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["total_readable_info_id"], name: "index_readable_info_logs_on_total_readable_info_id"
-    t.index ["user_id"], name: "index_readable_info_logs_on_user_id"
   end
 
   create_table "sites", force: :cascade do |t|
@@ -115,8 +105,8 @@ ActiveRecord::Schema.define(version: 2023_04_24_125158) do
     t.integer "comic_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "remaining_comic_total_update_limit", default: 50
-    t.boolean "can_read", default: false
+    t.integer "remaining_one_comic_update_limit", default: 10
+    t.boolean "can_read", default: false, null: false
     t.integer "version", default: 0, null: false
     t.index ["comic_id"], name: "index_total_readable_infos_on_comic_id"
     t.index ["user_id"], name: "index_total_readable_infos_on_user_id"
@@ -131,7 +121,7 @@ ActiveRecord::Schema.define(version: 2023_04_24_125158) do
     t.string "nick_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "remaining_comic_update_limit", default: 50
+    t.integer "remaining_total_update_limit", default: 50
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -140,8 +130,6 @@ ActiveRecord::Schema.define(version: 2023_04_24_125158) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bookmarks", "comics"
   add_foreign_key "bookmarks", "users"
-  add_foreign_key "readable_info_logs", "total_readable_infos"
-  add_foreign_key "readable_info_logs", "users"
   add_foreign_key "total_readable_infos", "comics"
   add_foreign_key "total_readable_infos", "users"
 end

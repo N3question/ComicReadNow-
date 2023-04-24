@@ -74,11 +74,11 @@
                         <% else %>
                           <p class="mt-3 mr-2 mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio">読めた</p>
                           <p class="mt-3 mb-0">
-                            人
+                            <%= @can_read %>人
                             </p>
                           <p class="mt-3 mr-2 ml-3 mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio">読めなかった</p>
                           <p class="mt-3 mb-0">
-                            人
+                            <%= @can_not_read %>人
                           </p>
                         <% end %>
                         
@@ -100,8 +100,6 @@
                       </div><br>
                       
                       version : <%= @rb_comic_info.version %><br>
-                      can_read : <%= @rb_comic_info.can_read %><br>
-                      can_not_read: <%= @rb_comic_info.can_not_read %>
                 </div>
                 
             </div>

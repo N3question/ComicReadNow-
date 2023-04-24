@@ -144,6 +144,14 @@ class Public::ComicsController < ApplicationController
       session["url"] = request.referer
     end
     @rb_comic_info = Comic.find(params[:id])
+    @can_read = TotalReadableInfo.where(
+        comic_id: @rb_comic_info.id,
+        can_read: true
+        ).count
+    @can_not_read = TotalReadableInfo.where(
+        comic_id: @rb_comic_info.id,
+        can_read: false
+        ).count
     @read_judgement_info = TotalReadableInfo.find_by(
       comic_id: @rb_comic_info.id,
       user_id: current_user.id
@@ -170,33 +178,67 @@ class Public::ComicsController < ApplicationController
   end
   
   def edit
+    comic_info = Comic.find(params[:id])
+    
+    # 特定のユーザが押した「読めた」または「読めなかった」のデータをTotalReadableInfoから探す
+    user_comic_info = TotalReadableInfo.find_by(user_id: current_user, comic_id: comic_info.id)
+    
     # 後でviewにもifを定義する
-    if current_user.remaining_comic_update_limit < 1
-      redirect_to request.referer
+    # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
+    if current_user.remaining_total_update_limit < 1 || user_comic_info.remaining_one_comic_update_limit < 1
+        redirect_to request.referer
+    # 特定のユーザが押した「読めた」または「読めなかった」のデータ && ユーザのupdateのlimit(漫画単体)が1以下
+    elsif user_comic_info && user_comic_info.remaining_one_comic_update_limit < 1
+        redirect_to request.referer
     end
+    
     @comic_info_edit = Comic.find(params[:id])
   end
   
   def update
     comic_info = Comic.find(params[:id])
     
-    # 「読めた」「読めなかった」の情報が入ったデータをTotalReadableInfoから探す
+    # （！）特定のユーザが（漫画単体に対して）押した「読めた」または「読めなかった」のデータをTotalReadableInfoから探す
     user_comic_info = TotalReadableInfo.find_by(user_id: current_user, comic_id: comic_info.id)
-    if current_user.remaining_comic_update_limit < 1
+    
+    # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
+    if current_user.remaining_total_update_limit < 1 || user_comic_info.remaining_one_comic_update_limit < 1
         redirect_to request.referer
-    elsif user_comic_info && user_comic_info.remaining_comic_total_update_limit < 1
+    # （！） && ユーザのupdateのlimit(漫画単体)が1以下
+    elsif user_comic_info && user_comic_info.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     end
-    comic_info.update(update_params.merge({can_read:0, can_not_read:0, version: comic_info.version + 1}))
-    limit = current_user.remaining_comic_update_limit
-    current_user.update!(remaining_comic_update_limit: limit - 1)
+    
+    limit = user_comic_info.remaining_one_comic_update_limit # 追加
+    
+    # 漫画情報更新
+    comic_info.update(update_params.merge({
+        # 更新時に行う動作
+        can_read_count:0,  
+        can_not_read_count:0, 
+        version: comic_info.version + 1,
+        remaining_one_comic_update_limit: limit - 1
+        }))
+        
+    total_limit = current_user.remaining_total_update_limit
+    
+    # 同時にユーザの更新
+    current_user.update!(
+        remaining_total_update_limit: total_limit - 1
+        )
     redirect_to comic_path(comic_info.id)  
   end
   
   def read_judgement
     comic = Comic.find(params[:comic_id])
+    
     version = comic.version
-    @total_readable_info = comic.total_readable_infos.new({can_read: params[:read_info],version: version, user_id: current_user.id})
+    @total_readable_info = comic.total_readable_infos.new({
+        can_read: params[:read_info],
+        version: version, 
+        user_id: current_user.id
+        })
+    
     @total_readable_info.save
     # render :partial => 'total'
     redirect_to comic_path(comic.id)

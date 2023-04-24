@@ -92,9 +92,11 @@
                       <% end %>
                     <% end %>
                 </div><br>
-                version : <%= @top_rb_comic_info.version %><br>
-                can_read : <%= @top_rb_comic_info.can_read %><br>
-                can_not_read: <%= @top_rb_comic_info.can_not_read %>
+                <% if @top_rb_comic_info.present? %>
+                  version : <%= @top_rb_comic_info.version %><br>
+                  can_read_count : <%= @top_rb_comic_info.can_read_count %><br>
+                  can_not_read_count: <%= @top_rb_comic_info.can_not_read_count %>
+                <% end %>
             </div>
             
         </div>
