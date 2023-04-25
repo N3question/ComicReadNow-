@@ -40,16 +40,6 @@ class Public::ComicsController < ApplicationController
   def top_comic_info
     @top_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
     @top_rb_comic_info = Comic.find_by(isbn: params[:isbn])
-    @create_sites = @top_rb_comic_info.sites.all
-    @can_read = TotalReadableInfo.where(
-        comic_id: @top_rb_comic_info.id,
-        can_read: true
-        )
-    @can_not_read = TotalReadableInfo.where(
-        comic_id: @top_rb_comic_info.id,
-        can_read: false
-        )
-    @comic_update_limit_count = @top_rb_comic_info.remaining_one_comic_update_limit
   end
   
   
@@ -63,6 +53,7 @@ class Public::ComicsController < ApplicationController
         false
       end
     end
+    @now_comics = Kaminari.paginate_array(@now_comics).page(params[:page]).per(30)
   end
   
   
@@ -81,20 +72,29 @@ class Public::ComicsController < ApplicationController
       page = 10
       @next = 10
     end
-    @comics = RakutenWebService::Books::Book.search(size: 9, sort: "reviewCount", page: page).sort_by {|v| v["reviewAverage"] }
+    @comics = RakutenWebService::Books::Book.search(
+          size: 9, 
+          sort: "reviewCount", 
+          page: page
+          ).sort_by {|v| v["reviewAverage"] }
   end
   
   
   def search_index
+    session["url"] = nil
     page = 1
     if params[:keyword]
-      session["search_keyword"] = params[:keyword]
+      params[:keyword] = session["search_keyword"]
     elsif params[:page].present?
       page = params[:page].to_i
     end
     
     if session["search_keyword"]
-      @rakuten_web_services = RakutenWebService::Books::Book.search(size: 9, title: session["search_keyword"], sort: "standard", page: page)
+      @rakuten_web_services = RakutenWebService::Books::Book.search(
+            size: 9, title: session["search_keyword"], 
+            sort: "standard", 
+            page: page
+            )
     else
       @rakuten_web_services = []
     end
@@ -152,7 +152,8 @@ class Public::ComicsController < ApplicationController
   
   def show
     if !request.referer&.include?("/comics") || 
-      request.referer&.include?("/sale_index") || 
+      request.referer&.include?("/sale_index")||
+      request.referer&.include?("/sale_index/#{params[:current_page]}") || 
       request.referer&.include?("/review_count_index") || 
       request.referer&.include?("/search_index") ||
       request.referer&.include?("/comic_site_index") ||

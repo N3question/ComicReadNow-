@@ -108,8 +108,9 @@
                 version : <%= @rb_comic_info.version %><br>
                 更新残数 : <%= @rb_comic_info.remaining_one_comic_update_limit %>回
                 <small>(for <%= @rb_comic_info.title %>)</small>
-                <% end %>
+                <% end %><br>
                 
+                <%= request.referer %>
             </div>
         </div>
     </div>

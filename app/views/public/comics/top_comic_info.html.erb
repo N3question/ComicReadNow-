@@ -7,31 +7,33 @@
         <% end %>
             
         <div class="d-flex flex-wrap"  style="padding:30px 20px; justify-content:center;">
-            <%= image_tag @top_comic_info["largeImageUrl"], class:"m-3", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+            <%= image_tag @top_comic_info["largeImageUrl"], class:"my-3 mx-5", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
          
             <div class="p-3">
                 <h5><b><%= @top_comic_info["title"] %>　</b><small>の詳細</small></h5>
                 <div class="mt-3">
-                  著者：　　　<%= @top_comic_info["author"] %>
+                  著者：　　<%= @top_comic_info["author"] %>
                   <small>(<%= @top_comic_info["authorKana"] %>)</small><br>
-                  出版社：　　<%= @top_comic_info["publisherName"] %><br>
-                  発売日：　　<%= @top_comic_info["salesDate"] %><br>
+                  出版社：　<%= @top_comic_info["publisherName"] %><br>
+                  発売日：　<%= @top_comic_info["salesDate"] %><br>
                 </div>
                 
                 <hr>
                 
                 <div class="mt-4">
                     <% if @top_rb_comic_info.present? %>
+                        <% create_sites = @top_rb_comic_info.sites.all %>
+                        <% can_not_read = TotalReadableInfo.where(comic_id: @top_rb_comic_info.id, can_read: false) %>
                         <% user = User.find(@top_rb_comic_info.user_id) %>
                         
                         <div class="d-flex" style="align-items: center;">
                           <small class="border p-1 text-success">以下の漫画サイトで読むことができます！</small><br>
-                          <% if user_signed_in? && @can_not_read.count > 0 %>
+                          <% if user_signed_in? && can_not_read.count > 0 %>
                             <%= link_to "編集", edit_comic_path(@top_rb_comic_info.id), class:"btn btn-sm rounded-pill mb-2 ml-auto px-3 text-nowrap", style:"background-color:#66CC00; color:white;" %>
                           <% end %>
                         </div>
                         
-                        <% @create_sites.each do |site| %>
+                        <% create_sites.each do |site| %>
                           <p class="pb-0 text-success d-inline-flex">
                             <i class="bi bi-check-lg"></i>
                           </p>
@@ -45,13 +47,17 @@
                     <% end %>
                     
                     <!--ログイン後の表示内容-->
-                    <% if user_signed_in? %>
-                    <hr>
+                    <% if user_signed_in? && @top_rb_comic_info.present?%>
+                    <% can_read = TotalReadableInfo.where(comic_id: @top_rb_comic_info.id, can_read: true) %>
+                    <% can_not_read = TotalReadableInfo.where(comic_id: @top_rb_comic_info.id, can_read: false) %>
+                    <% comic_update_limit_count = @top_rb_comic_info.remaining_one_comic_update_limit %>
                     <% user_read_judgement = TotalReadableInfo.find_by(comic_id: @top_rb_comic_info.id, user_id: current_user.id) %>
+                    
+                    <hr>
                         <!--可読判定に対するメッセージ-->
-                        <% if @can_read.present? %>
+                        <% if can_read.present? %>
                           <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
-                        <% elsif @can_not_read.present? %>
+                        <% elsif can_not_read.present? %>
                           <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
                         <% else %>
                           <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
@@ -73,11 +79,11 @@
                               <% else %>
                                     <p class="mr-2 mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio">読めた</p>
                                     <p class="mb-0">
-                                      <%= @can_read.count %>人
+                                      <%= can_read.count %>人
                                       </p>
                                     <p class="mr-2 ml-3 mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio">読めなかった</p>
                                     <p class="mb-0">
-                                      <%= @can_not_read.count %>人
+                                      <%= can_not_read.count %>人
                                     </p>
                               <% end %>
                               
