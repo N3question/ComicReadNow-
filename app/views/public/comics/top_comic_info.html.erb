@@ -23,7 +23,6 @@
                 <div class="mt-4">
                     <% if @top_rb_comic_info.present? %>
                         <% user = User.find(@top_rb_comic_info.user_id) %>
-                        <% sites = @top_rb_comic_info.sites.all %>
                         
                         <div class="d-flex" style="align-items: center;">
                           <small class="border p-1 text-success">以下の漫画サイトで読むことができます！</small><br>
@@ -32,7 +31,7 @@
                           <% end %>
                         </div>
                         
-                        <% sites.each do |site| %>
+                        <% @create_sites.each do |site| %>
                           <p class="pb-0 text-success d-inline-flex">
                             <i class="bi bi-check-lg"></i>
                           </p>
@@ -47,12 +46,12 @@
                     
                     <!--ログイン後の表示内容-->
                     <% if user_signed_in? %>
-                    <% user_read_judgement = TotalReadableInfo.find_by(comic_id: @top_rb_comic_info.id, user_id: current_user.id) %>
                     <hr>
+                    <% user_read_judgement = TotalReadableInfo.find_by(comic_id: @top_rb_comic_info.id, user_id: current_user.id) %>
                         <!--可読判定に対するメッセージ-->
-                        <% if user_read_judgement && @can_read.present? %>
+                        <% if @can_read.present? %>
                           <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
-                        <% elsif user_read_judgement && @can_not_read.present? %>
+                        <% elsif @can_not_read.present? %>
                           <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
                         <% else %>
                           <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
@@ -84,14 +83,14 @@
                               
                               <!--ブックマーク-->
                               <% has_bookmark = Bookmark.find_by(comic_id: @top_rb_comic_info.id, user_id: current_user.id) %>
-                              <% if has_bookmark %>
+                              <% if has_bookmark.present? %>
                                   <%= link_to comic_destroy_bookmark_path(@top_rb_comic_info.id), class:"btn p-0" do %>
                                     <div class="d-inline-flex ml-5">
                                       <h3><i class="bi bi-bookmark-check-fill"></i></h3>
                                       <small class="p-1" style="vertical-align:middle;">追加済み</small>
                                     </div>
                                   <% end %>
-                              <% elsif has_bookmark.nil? %>
+                              <% else %>
                                   <%= link_to comic_bookmark_path(@top_rb_comic_info.id), class:"btn p-0" do %>
                                     <div class="d-inline-flex ml-5">
                                       <h3><i class="bi bi-bookmark-plus"></i></h3>
