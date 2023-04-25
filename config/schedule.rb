@@ -32,5 +32,8 @@ set :output, "#{Rails.root}/log/cron.log"
 every 6.hour do
   rake "rakuten_book:insert", :environment_variable => "RAILS_ENV", :environment => "development"
 end
-
 # デブロイの時に、.envファイルにRAILS_ENV = productionを追加しておくと良い。
+
+every 1.day, at: '00:00 am' do
+  runner 'update_limit:reset'
+end

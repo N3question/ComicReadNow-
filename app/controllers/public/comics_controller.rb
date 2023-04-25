@@ -38,6 +38,10 @@ class Public::ComicsController < ApplicationController
   def top_comic_info
     @top_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
     @top_rb_comic_info = Comic.find_by(isbn: params[:isbn])
+    # @can_not_read = TotalReadableInfo.where(
+    #     comic_id: @rb_comic_info.id,
+    #     can_read: false
+    #     ).count
   end
   
   def sale_index
@@ -78,20 +82,22 @@ class Public::ComicsController < ApplicationController
     if params[:page].present?
       page = params[:page].to_i
     end
+    if session["search_keyword"]
+      @rakuten_web_services = RakutenWebService::Books::Book.search(size: 9, title: session["search_keyword"], sort: "standard", page: page)
+    else
+      @rakuten_web_services = []
+    end
+    
     @prev = page - 1
     if page <= 1
       page = 1
       @prev = 1
     end
-    @next = page + 1
+    
+    @next = page + 1 if @rakuten_web_services.next_page.count > 0 
     if page > 10
       page = 10
       @next = 10
-    end
-    if session["search_keyword"]
-      @rakuten_web_services = RakutenWebService::Books::Book.search(size: 9, title: session["search_keyword"], sort: "standard", page: page)
-    else
-      @rakuten_web_services = []
     end
   end
   
@@ -188,10 +194,10 @@ class Public::ComicsController < ApplicationController
     
     # 後でviewにもifを定義する
     # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
-    if current_user.remaining_total_update_limit < 1 || user_comic_info.remaining_one_comic_update_limit < 1
+    if current_user.remaining_total_update_limit < 1 || comic_info.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     # 特定のユーザが押した「読めた」または「読めなかった」のデータ && ユーザのupdateのlimit(漫画単体)が1以下
-    elsif user_comic_info && user_comic_info.remaining_one_comic_update_limit < 1
+    elsif user_comic_info && comic_info.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     end
     
@@ -201,18 +207,18 @@ class Public::ComicsController < ApplicationController
   def update
     comic_info = Comic.find(params[:id])
     
-    # （！）特定のユーザが（漫画単体に対して）押した「読めた」または「読めなかった」のデータをTotalReadableInfoから探す
+    # （！）...特定のユーザが（漫画単体に対して）押した「読めた」または「読めなかった」のデータをTotalReadableInfoから探す
     user_comic_info = TotalReadableInfo.find_by(user_id: current_user, comic_id: comic_info.id)
     
     # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
-    if current_user.remaining_total_update_limit < 1 || user_comic_info.remaining_one_comic_update_limit < 1
+    if current_user.remaining_total_update_limit < 1 || comic_info.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     # （！） && ユーザのupdateのlimit(漫画単体)が1以下
-    elsif user_comic_info && user_comic_info.remaining_one_comic_update_limit < 1
+    elsif user_comic_info && comic_info.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     end
     
-    # limit = user_comic_info.remaining_one_comic_update_limit # 追加
+    limit = comic_info.remaining_one_comic_update_limit # 追加
     
     # 漫画情報更新
     comic_info.update(update_params.merge({
@@ -220,9 +226,21 @@ class Public::ComicsController < ApplicationController
         can_read_count: 0,  
         can_not_read_count: 0, 
         version: comic_info.version + 1,
-        # remaining_one_comic_update_limit: limit - 1
+        remaining_one_comic_update_limit: limit - 1
         }))
-        
+    
+    comic_info.comic_sites.destroy_all
+    site_params[:site_ids].each do |site_id|
+      ComicSite.create(
+        site_id: site_id.to_i,
+        comic_id: comic_info.id
+        )
+    end
+    
+    comic_info.update(
+        user_id: current_user.id
+        )
+    
     total_limit = current_user.remaining_total_update_limit
     
     # 同時にユーザの更新
