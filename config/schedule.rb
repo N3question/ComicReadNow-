@@ -19,6 +19,7 @@
 
 # Learn more: http://github.com/javan/whenever
 
+## rakuten_web_serviceのための定期実行
 # config/schedule.rb
 # Rails.rootを使用するために必要
 require File.expand_path(File.dirname(__FILE__) + "/environment")
@@ -34,6 +35,16 @@ every 6.hour do
 end
 # デブロイの時に、.envファイルにRAILS_ENV = productionを追加しておくと良い。
 
-every 1.day, at: '00:00 am' do
+
+## update_limitのための定期実行
+# 現状動かず。
+require 'active_support/core_ext/time'
+
+def jst(time)
+  Time.zone = 'Asia/Tokyo'
+  Time.zone.parse(time).localtime($system_utc_offset)
+end
+
+every 1.day, at: jst('4:00 am') do
   runner 'update_limit:reset'
 end

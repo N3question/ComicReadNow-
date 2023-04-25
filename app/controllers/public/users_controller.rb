@@ -1,6 +1,7 @@
 class Public::UsersController < ApplicationController
   
   def my_page
+    session["url"] = nil
     session["search_keyword"] = nil
     @bookmarks = Bookmark.where(user_id: current_user.id).joins(:comic).order(:title).first(10)
     @bookmark_amount = Bookmark.where(user_id: current_user.id).joins(:comic).all

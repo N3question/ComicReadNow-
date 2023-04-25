@@ -3,6 +3,7 @@ class Public::ComicsController < ApplicationController
   # 楽天APIから直接呼び出して表示させる
   # データが呼び出せるのはsearchメゾットのみなので、コントローラ内で指定して表示しておく
   def top
+    session["url"] = nil
     session["search_keyword"] = nil
     
     @new_comics = RakutenWebService::Books::Book.search(size: 9, sort: "sales").sort_by {|v| v["-releaseDate"] }.first(15)
@@ -39,6 +40,16 @@ class Public::ComicsController < ApplicationController
   def top_comic_info
     @top_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
     @top_rb_comic_info = Comic.find_by(isbn: params[:isbn])
+    @create_sites = @top_rb_comic_info.sites.all
+    @can_read = TotalReadableInfo.where(
+        comic_id: @top_rb_comic_info.id,
+        can_read: true
+        )
+    @can_not_read = TotalReadableInfo.where(
+        comic_id: @top_rb_comic_info.id,
+        can_read: false
+        )
+    @comic_update_limit_count = @top_rb_comic_info.remaining_one_comic_update_limit
   end
   
   
@@ -146,7 +157,9 @@ class Public::ComicsController < ApplicationController
       request.referer&.include?("/search_index") ||
       request.referer&.include?("/comic_site_index") ||
       request.referer&.include?("/next_coming_index") ||
-      request.referer&.include?("/user_select_index") 
+      request.referer&.include?("/user_select_index") ||
+      request.referer&.include?("/my_page") ||
+      request.referer&.include?("/bookmarks") 
       
       session["url"] = request.referer
     end
@@ -161,14 +174,7 @@ class Public::ComicsController < ApplicationController
         comic_id: @rb_comic_info.id,
         can_read: false
         )
-    @user_read_judgement = TotalReadableInfo.find_by(
-      comic_id: @rb_comic_info.id,
-      user_id: current_user.id
-      )
-    @has_bookmark = Bookmark.find_by(
-      comic_id: @rb_comic_info.id,
-      user_id: current_user.id
-      )
+    @comic_update_limit_count = @rb_comic_info.remaining_one_comic_update_limit
   end
   
   
@@ -286,3 +292,7 @@ class Public::ComicsController < ApplicationController
     params.require(:comic).permit(site_ids: [])
   end
 end
+
+# comic2に対してのversion0のときのtrueの数をカウントできる。
+# TotalReadableInfo.where(comic_id: 2,version:0,can_read:true).count
+# これをversion毎にユーザと紐付ける
