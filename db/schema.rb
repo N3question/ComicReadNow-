@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 2023_04_24_125158) do
     t.string "large_image_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "remaining_one_comic_update_limit", default: 10
+    t.integer "remaining_one_comic_update_limit", default: 1
     t.integer "can_read_count", default: 0, null: false
     t.integer "can_not_read_count", default: 0, null: false
     t.integer "version", default: 0, null: false
@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(version: 2023_04_24_125158) do
     t.string "nick_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "remaining_total_update_limit", default: 50
+    t.integer "remaining_total_update_limit", default: 100
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

@@ -46,7 +46,7 @@
                     <!--検索フォーム-->
                     <%= form_with url: search_index_comics_path, local: true, method: :get do |f| %>
                     <div class="input-group my-3" style="width:300px; box-shadow:8px 8px 4px #000;"><br />
-                        <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend" placeholder="タイトル、漫画サイト名" required="required"></input>
+                        <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend" placeholder="漫画タイトル" required="required"></input>
                         <span class="input-group-btn input-group-append">
                           <%= f.button type: 'submit', id: 'btn-search', class: 'btn text-info rounded-0', style: "background-color:white;" do %>
                             <i class="bi bi-search"></i>

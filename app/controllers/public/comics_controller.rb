@@ -35,14 +35,12 @@ class Public::ComicsController < ApplicationController
     end
   end
   
+  
   def top_comic_info
     @top_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
     @top_rb_comic_info = Comic.find_by(isbn: params[:isbn])
-    # @can_not_read = TotalReadableInfo.where(
-    #     comic_id: @rb_comic_info.id,
-    #     can_read: false
-    #     ).count
   end
+  
   
   def sale_index
     @now_comics = RakutenBookApi.select do |comic|
@@ -55,6 +53,7 @@ class Public::ComicsController < ApplicationController
       end
     end
   end
+  
   
   def review_count_index
     page = 1
@@ -74,14 +73,15 @@ class Public::ComicsController < ApplicationController
     @comics = RakutenWebService::Books::Book.search(size: 9, sort: "reviewCount", page: page).sort_by {|v| v["reviewAverage"] }
   end
   
+  
   def search_index
     page = 1
     if params[:keyword]
       session["search_keyword"] = params[:keyword]
-    end
-    if params[:page].present?
+    elsif params[:page].present?
       page = params[:page].to_i
     end
+    
     if session["search_keyword"]
       @rakuten_web_services = RakutenWebService::Books::Book.search(size: 9, title: session["search_keyword"], sort: "standard", page: page)
     else
@@ -101,15 +101,16 @@ class Public::ComicsController < ApplicationController
     end
   end
   
+  
   def new
     @comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
     @rb_comic_info = Comic.new
   end
   
+  
   def create
     rakuten_book_info = RakutenWebService::Books::Book.search(isbn: comic_params[:isbn]).first
     @rb_comic_info = Comic.new(comic_params)
-    
     
     # 以下の内容と一緒に保存
     @rb_comic_info.user_id = current_user.id
@@ -132,12 +133,11 @@ class Public::ComicsController < ApplicationController
           )
       end
       redirect_to comic_path(@rb_comic_info)
-      # redirect_to request.referer
     else
       redirect_to comic_path(rb_exists)
-      # redirect_to request.referer
     end
   end
+  
   
   def show
     if !request.referer&.include?("/comics") || 
@@ -150,17 +150,17 @@ class Public::ComicsController < ApplicationController
       
       session["url"] = request.referer
     end
+    
     @rb_comic_info = Comic.find(params[:id])
-    @create_user = User.find(@rb_comic_info.user_id)
     @create_sites = @rb_comic_info.sites.all
     @can_read = TotalReadableInfo.where(
         comic_id: @rb_comic_info.id,
         can_read: true
-        ).count
+        )
     @can_not_read = TotalReadableInfo.where(
         comic_id: @rb_comic_info.id,
         can_read: false
-        ).count
+        )
     @user_read_judgement = TotalReadableInfo.find_by(
       comic_id: @rb_comic_info.id,
       user_id: current_user.id
@@ -171,11 +171,13 @@ class Public::ComicsController < ApplicationController
       )
   end
   
+  
   def comic_site_index
     @comic_site = ComicSite.find_by(site_id: params[:id])
     @comic_sites = ComicSite.where(site_id: params[:id]).joins(:comic).order(:title)
     @comic_site_amount = ComicSite.where(site_id: params[:id]).joins(:comic).all
   end
+  
   
   def user_select_index
     comic_ids = Bookmark.joins(:comic)
@@ -185,6 +187,7 @@ class Public::ComicsController < ApplicationController
                         .pluck(:comic_id)
     @bookmark_comics = Comic.where(id: comic_ids).page(params[:page]).per(30)
   end
+  
   
   def edit
     comic_info = Comic.find(params[:id])
@@ -204,6 +207,7 @@ class Public::ComicsController < ApplicationController
     @comic_info_edit = Comic.find(params[:id])
   end
   
+  
   def update
     comic_info = Comic.find(params[:id])
     
@@ -220,15 +224,20 @@ class Public::ComicsController < ApplicationController
     
     limit = comic_info.remaining_one_comic_update_limit # 追加
     
-    # 漫画情報更新
+    # 漫画情報と編集者の更新
     comic_info.update(update_params.merge({
         # 更新時に行う動作
-        can_read_count: 0,  
-        can_not_read_count: 0, 
+        can_read_count: 0, # 更新と同時に0になってない
+        can_not_read_count: 0, # 更新と同時に0になってない
         version: comic_info.version + 1,
-        remaining_one_comic_update_limit: limit - 1
+        remaining_one_comic_update_limit: limit - 1,
+        user_id: current_user.id
         }))
+        
+    # comic_info.can_read_count.destroy_all
+    # comic_info.can_read_count.destroy_all
     
+    # 同時に漫画に紐づくサイト情報を一度削除し、作成
     comic_info.comic_sites.destroy_all
     site_params[:site_ids].each do |site_id|
       ComicSite.create(
@@ -237,19 +246,17 @@ class Public::ComicsController < ApplicationController
         )
     end
     
-    comic_info.update(
-        user_id: current_user.id
-        )
-    
     total_limit = current_user.remaining_total_update_limit
     
-    # 同時にユーザの更新
-    current_user.update!(
+    # 同時にユーザの更新回数を１減らす
+    current_user.update(
         remaining_total_update_limit: total_limit - 1
         )
     redirect_to comic_path(comic_info.id)  
   end
   
+  
+  # 可読判定のcreate機能
   def read_judgement
     comic = Comic.find(params[:comic_id])
     
@@ -261,13 +268,9 @@ class Public::ComicsController < ApplicationController
         })
     
     @total_readable_info.save
-    # render :partial => 'total'
     redirect_to comic_path(comic.id)
   end
   
-  # View＝＞
-  # comicの詳細ページで一回押したら押せないようにする。submitを非表示
-  # 件数表示はいいねと同じ
   
   private
   

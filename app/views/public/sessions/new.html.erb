@@ -7,7 +7,7 @@
           <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
             <div class="field mb-2">
               <%= f.label :email %><br />
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control", placeholder:"sample@gmail.com" %>
             </div>
     
             <div class="field mb-3">
@@ -15,17 +15,10 @@
               <%= f.password_field :password, autocomplete: "current-password", class:"form-control" %>
             </div>
     
-            <% if devise_mapping.rememberable? %>
-              <div class="field mb-4">
-                <%= f.check_box :remember_me %>
-                <%= f.label :remember_me %>
-              </div>
-            <% end %>
-    
-              <div class="actions mt-4 mb-3">
-               <%= f.submit "ログイン", class:"btn rounded-pill form-control", style:"background-color:#66CC00; color:white;" %>
-              </div>
-            <% end %>
+            <div class="actions mt-4 mb-3">
+             <%= f.submit "ログイン", class:"btn rounded-pill form-control mt-4 mb-2", style:"background-color:#66CC00; color:white;" %>
+            </div>
+          <% end %>
           <%= render "public/shared/links" %>
         </div>
     

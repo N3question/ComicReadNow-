@@ -35,7 +35,7 @@
                 <div class="mt-4">
                       <div class="d-flex" style="align-items: center;">
                         <small class="border mb-2 mr-4 p-1">以下の漫画サイトで読むことができます！</small><br>
-                        <% if @can_not_read > 0 %>
+                        <% if @can_not_read.count > 0 %>
                           <%= link_to "編集", edit_comic_path(@rb_comic_info.id), class:"btn btn-sm rounded-pill mb-2 ml-auto px-3 text-nowrap", style:"background-color:#66CC00; color:white;" %>
                         <% end %>
                       </div>
@@ -48,46 +48,51 @@
                       <% end %><br>
                       
                       <small>
-                        <%= @rb_comic_info.created_at.strftime('%Y年%m月%d日%H時%M分') %>　
-                        <b><%= @rb_comic_info.user.nick_name %></b> さんがサイト情報更新
+                        <%= @rb_comic_info.created_at.strftime('%Y年%m月%d日%H時%M分') %>
+                        <b><%= @rb_comic_info.user.nick_name %></b> さんが更新済み
                       </small>
                          
                       <hr>
+                      
+                      <% if @user_read_judgement && @can_read.present? %>
+                        <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
+                      <% elsif @user_read_judgement && @can_not_read.present? %>
+                        <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
+                      <% else %>
+                        <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
+                      <% end %>
                       
                       <div class="d-flex" style="align-items: center;">
                         <% if user_signed_in? && @user_read_judgement.nil? %>
                             <%= form_with url: comic_read_judgement_path(@rb_comic_info.id), id:"comic_read_judgement" do |f| %>
                               <div class="d-flex">
-                              <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>
-                              <%= f.label :read_info, "読めた", for:"read_info_true", class:"mt-3 mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio" %>　
-                              <%= f.radio_button :read_info, false, style:"display:none;", onchange:"radio_func()" %>
-                              <%= f.label :read_info, "読めなかった", for:"read_info_false", class:"mt-3 mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio" %>　
-                              <!--<#%= f.radio_button :type, 'hoge',{ :onclick => remote_function(:update => "total", :url =>{ :action => 'total_number'}, :submit => :user) } %>-->
-                              <!--<span id="total"><#%= render :partial => 'total' %>&lt;</span>-->
-                              <!--<#%= f.submit "確定", class:"btn btn-sm btn-dark mt-3 mr-5" %>-->
+                                <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>
+                                <%= f.label :read_info, "読めた", for:"read_info_true", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio" %>　
+                                <%= f.radio_button :read_info, false, style:"display:none;", onchange:"radio_func()" %>
+                                <%= f.label :read_info, "読めなかった", for:"read_info_false", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio" %>　
                               </div>
                             <% end %>
                         <% else %>
-                          <p class="mt-3 mr-2 mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio">読めた</p>
-                          <p class="mt-3 mb-0">
-                            <%= @can_read %>人
+                            <p class="mr-2 mb-0 px-2 py-1 text-nowrap can_read_radio">読めた</p>
+                            <p class="mb-0">
+                              <%= @can_read.count %>人
+                              </p>
+                            <p class="mr-2 ml-3 mb-0 px-2 py-1 text-nowrap can_not_read_radio">読めなかった</p>
+                            <p class="mb-0">
+                              <%= @can_not_read.count %>人
                             </p>
-                          <p class="mt-3 mr-2 ml-3 mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio">読めなかった</p>
-                          <p class="mt-3 mb-0">
-                            <%= @can_not_read %>人
-                          </p>
                         <% end %>
                         
                         <% if user_signed_in? && @has_bookmark %>
                           <%= link_to comic_destroy_bookmark_path(@rb_comic_info.id), class:"btn p-0" do %>
-                            <div class="d-inline-flex mt-4 ml-5">
+                            <div class="d-inline-flex ml-5">
                               <h3><i class="bi bi-bookmark-check-fill mb-0"></i></h3>
                               <small class="p-1 text-nowrap" style="vertical-align:middle;">追加済み</small>
                             </div>
                           <% end %>
                         <% elsif user_signed_in? && @has_bookmark.nil? %>
                           <%= link_to comic_bookmark_path(@rb_comic_info.id), class:"btn p-0" do %>
-                            <div class="d-inline-flex mt-4 ml-5">
+                            <div class="d-inline-flex ml-5">
                               <h3><i class="bi bi-bookmark-plus mb-0"></i></h3>
                               <small class="p-1 text-nowrap" style="vertical-align:middle;">追加</small>
                             </div>
@@ -96,9 +101,6 @@
                       </div><br>
                       
                       version :　<%= @rb_comic_info.version %><br>
-                      <% if @user_read_judgement.present? %>
-                        user_read_judgement: 　<%= @user_read_judgement.can_read %>
-                      <% end %>
                 </div>
                 
             </div>
@@ -110,8 +112,8 @@
 
 <script>
   function radio_func() {
+    alert('情報は間違いありませんか？意図的に誤った内容を送信することは禁止されています。');
     var form =document.getElementById('comic_read_judgement');
     form.submit();
-    // 実行する処理
   }
 </script>
