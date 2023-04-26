@@ -7,13 +7,13 @@
         <% end %>
             
         <div class="d-flex flex-wrap"  style="padding:30px 20px; justify-content:center;">
-            <%= image_tag @comic_info.large_image_url, class:"m-3", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+            <%= image_tag @comic.large_image_url, class:"m-3", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
             <div class="p-3">
-                <h5><b>' <%= @comic_info.title %> '</b><small>の情報を編集中...</small></h5>
+                <h5><b>' <%= @comic.title %> '</b><small>の情報を編集中...</small></h5>
                 <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
                 
                 <div class="mt-4">
-                    <%= form_with model: @comic_info, url: comic_path(@comic_info.id), method: :patch do |f| %>
+                    <%= form_with model: @comic, url: comic_path(@comic.id), method: :patch do |f| %>
                         <%= f.hidden_field :isbn, value: params[:isbn] %>
                         <% Site.all.each do |site| %>
                             <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>

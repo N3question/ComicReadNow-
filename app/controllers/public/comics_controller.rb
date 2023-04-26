@@ -145,36 +145,36 @@ class Public::ComicsController < ApplicationController
   
   ## サイト情報新規作成(new)
   def new
-    @comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
-    @rb_comic_info = Comic.new
+    @rb_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
+    @comic_info = Comic.new
   end
   
   
   ## サイト情報新規作成(create))
   def create
     rakuten_book_info = RakutenWebService::Books::Book.search(isbn: comic_params[:isbn]).first
-    @rb_comic_info = Comic.new(comic_params)
+    @comic_info = Comic.new(comic_params)
     
     # 以下の内容と一緒に保存
-    @rb_comic_info.user_id = current_user.id
-    @rb_comic_info.title = rakuten_book_info['title']
-    @rb_comic_info.author = rakuten_book_info['author']
-    @rb_comic_info.author_kana = rakuten_book_info['authorKana']
-    @rb_comic_info.publisher_name = rakuten_book_info['publisherName']
-    @rb_comic_info.sales_date = rakuten_book_info['salesDate'] #.gsub(/年|月/, '-').gsub(/日/, '')
-    @rb_comic_info.large_image_url = rakuten_book_info['largeImageUrl'].split('?')[0] #.split('?')[0]をつけることで、元の画像サイズで表示
+    @comic_info.user_id = current_user.id
+    @comic_info.title = rakuten_book_info['title']
+    @comic_info.author = rakuten_book_info['author']
+    @comic_info.author_kana = rakuten_book_info['authorKana']
+    @comic_info.publisher_name = rakuten_book_info['publisherName']
+    @comic_info.sales_date = rakuten_book_info['salesDate'] #.gsub(/年|月/, '-').gsub(/日/, '')
+    @comic_info.large_image_url = rakuten_book_info['largeImageUrl'].split('?')[0] #.split('?')[0]をつけることで、元の画像サイズで表示
     
     # コミックが既に存在していた場合、リダイレクト
     rb_exists = Comic.find_by(isbn: comic_params[:isbn])
     if rb_exists.nil?
-      @rb_comic_info.save!
+      @comic_info.save!
       site_params[:site_ids].each do |site_id|
         ComicSite.create(
           site_id: site_id.to_i,
-          comic_id: @rb_comic_info.id
+          comic_id: @comic_info.id
           )
       end
-      redirect_to comic_path(@rb_comic_info)
+      redirect_to comic_path(@comic_info)
     else
       redirect_to comic_path(rb_exists)
     end
@@ -194,20 +194,20 @@ class Public::ComicsController < ApplicationController
       session["url"] = request.referer
     end
     
-    @rb_comic_info = Comic.find(params[:id])
-    @create_sites = @rb_comic_info.sites.all
+    @comic_info = Comic.find(params[:id])
+    @sites = @comic_info.sites.all
     @can_read = TotalReadableInfo.where(
-        comic_id: @rb_comic_info.id,
+        comic_id: @comic_info.id,
         can_read: true # = 読めた
         )
     @can_not_read = TotalReadableInfo.where(
-        comic_id: @rb_comic_info.id,
+        comic_id: @comic_info.id,
         can_read: false # = 読め
         )
-    @comic_update_limit_count = @rb_comic_info.remaining_one_comic_update_limit
+    @comic_update_limit_count = @comic_info.remaining_one_comic_update_limit
   end
   
-  
+  ## サイト毎の一覧
   def comic_site_index
     @comic_site = ComicSite.find_by(site_id: params[:id])
     @comic_sites = ComicSite.where(site_id: params[:id]).joins(:comic).order(:title)
@@ -215,16 +215,16 @@ class Public::ComicsController < ApplicationController
   end
   
   
-  # サイト情報の編集
+  ## サイト情報の編集
   def edit
-    @comic_info = Comic.find(params[:id])
-    user_can_read_info = TotalReadableInfo.find_by(user_id: current_user, comic_id: @comic_info.id)
+    @comic = Comic.find(params[:id])
+    user_can_read_info = TotalReadableInfo.find_by(user_id: current_user, comic_id: @edit_comic.id)
     
     # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
     if current_user.remaining_total_update_limit < 1 || comic_info.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     # （！） && ユーザのupdateのlimit(漫画単体)が1以下
-    elsif user_can_read_info && @comic_info.remaining_one_comic_update_limit < 1
+    elsif user_can_read_info && @edit_comic.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     end
   end
@@ -232,35 +232,35 @@ class Public::ComicsController < ApplicationController
   
   ## サイト情報の更新
   def update
-    comic_info = Comic.find(params[:id])
-    user_can_read_info = TotalReadableInfo.find_by(user_id: current_user, comic_id: comic_info.id)
+    comic = Comic.find(params[:id])
+    user_can_read_info = TotalReadableInfo.find_by(user_id: current_user, comic_id: comic.id)
     
     # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
-    if current_user.remaining_total_update_limit < 1 || comic_info.remaining_one_comic_update_limit < 1
+    if current_user.remaining_total_update_limit < 1 || comic.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     # （！） && ユーザのupdateのlimit(漫画単体)が1以下
-    elsif user_can_read_info && comic_info.remaining_one_comic_update_limit < 1
+    elsif user_can_read_info && comic.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     end
     
-    limit = comic_info.remaining_one_comic_update_limit # 追加
+    limit = comic.remaining_one_comic_update_limit # 追加
     
     # 漫画情報と編集者の更新
-    comic_info.update(update_params.merge({
+    comic.update(update_params.merge({
         # 更新時に行う動作
         can_read_count: 0, # 更新と同時に0になってない
         can_not_read_count: 0,
-        version: comic_info.version + 1,
+        version: comic.version + 1,
         remaining_one_comic_update_limit: limit - 1,
         user_id: current_user.id
         }))
         
     # 同時に漫画に紐づくサイト情報を一度削除し、作成
-    comic_info.comic_sites.destroy_all
-    site_params[:site_ids].each do |site_id|
+    comic.comic_sites.destroy_all
+    site_params[:site_ids].each do |site_ids|
       ComicSite.create(
-        site_id: site_id.to_i,
-        comic_id: comic_info.id
+        site_id: site_ids.to_i,
+        comic_id: comic.id
         )
     end
     
@@ -270,7 +270,7 @@ class Public::ComicsController < ApplicationController
     current_user.update(
         remaining_total_update_limit: total_limit - 1
         )
-    redirect_to comic_path(comic_info.id)  
+    redirect_to comic_path(comic.id)  
   end
   
   

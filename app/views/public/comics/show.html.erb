@@ -40,10 +40,10 @@
                   <% end %>
                 </div>
                 
-                <% @create_sites.each do |create_site| %>
+                <% @sites.each do |site| %>
                   <p class="pb-0 d-inline-flex">
                     <i class="bi bi-check-lg text-success"></i>
-                    <%= create_site.name %>
+                    <%= site.name %>
                   </p>
                 <% end %><br>
                 
