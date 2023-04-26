@@ -7,31 +7,31 @@
         <% end %>
             
         <div class="d-flex flex-wrap"  style="padding:30px 20px; justify-content:center;">
-            <%= image_tag @top_comic_info["largeImageUrl"], class:"my-3 mx-5", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+            <%= image_tag @top_rb_comic_info["largeImageUrl"], class:"my-3 mx-5", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
          
             <div class="p-3">
-                <h5><b><%= @top_comic_info["title"] %>　</b><small>の詳細</small></h5>
+                <h5><b><%= @top_rb_comic_info["title"] %>　</b><small>の詳細</small></h5>
                 <div class="mt-3">
-                  著者：　　<%= @top_comic_info["author"] %>
-                  <small>(<%= @top_comic_info["authorKana"] %>)</small><br>
-                  出版社：　<%= @top_comic_info["publisherName"] %><br>
-                  発売日：　<%= @top_comic_info["salesDate"] %><br>
+                  著者：　　<%= @top_rb_comic_info["author"] %>
+                  <small>(<%= @top_rb_comic_info["authorKana"] %>)</small><br>
+                  出版社：　<%= @top_rb_comic_info["publisherName"] %><br>
+                  発売日：　<%= @top_rb_comic_info["salesDate"] %><br>
                 </div>
                 
                 <hr>
                 
                 <div class="mt-4">
-                    <% if @top_rb_comic_info.present? %>
-                        <% can_read = TotalReadableInfo.where(comic_id: @top_rb_comic_info.id, can_read: true) %>
-                        <% can_not_read = TotalReadableInfo.where(comic_id: @top_rb_comic_info.id, can_read: false) %>
-                        <% comic_update_limit_count = @top_rb_comic_info.remaining_one_comic_update_limit %>
-                        <% create_sites = @top_rb_comic_info.sites.all %>
-                        <% user = User.find(@top_rb_comic_info.user_id) %>
+                    <% if @top_comic_info.present? %>
+                        <% can_read = TotalReadableInfo.where(comic_id: @top_comic_info.id, can_read: true) %>
+                        <% can_not_read = TotalReadableInfo.where(comic_id: @top_comic_info.id, can_read: false) %>
+                        <% comic_update_limit_count = @top_comic_info.remaining_one_comic_update_limit %>
+                        <% create_sites = @top_comic_info.sites.all %>
+                        <% user = User.find(@top_comic_info.user_id) %>
                         
                         <div class="d-flex" style="align-items: center;">
                           <small class="border p-1 text-success">以下の漫画サイトで読むことができます！</small><br>
                           <% if user_signed_in? && can_not_read.count > 0 && comic_update_limit_count > 0 %>
-                            <%= link_to "編集", edit_comic_path(@top_rb_comic_info.id), class:"btn btn-sm rounded-pill mb-2 ml-auto px-3 text-nowrap", style:"background-color:#66CC00; color:white;" %>
+                            <%= link_to "編集", edit_comic_path(@top_comic_info.id), class:"btn btn-sm rounded-pill mb-2 ml-auto px-3 text-nowrap", style:"background-color:#66CC00; color:white;" %>
                           <% end %>
                         </div>
                         
@@ -43,17 +43,17 @@
                         <% end %><br>
                         
                         <small>
-                          <%= @top_rb_comic_info.created_at.strftime('%Y年%m月%d日%H時%M分') %>　
-                          <b><%= @top_rb_comic_info.user.nick_name %></b> さんがサイト情報更新
+                          <%= @top_comic_info.created_at.strftime('%Y年%m月%d日%H時%M分') %>　
+                          <b><%= @top_comic_info.user.nick_name %></b> さんがサイト情報更新
                         </small>
                     <% end %>
                     
                     <!--ログイン後の表示内容-->
-                    <% if user_signed_in? && @top_rb_comic_info.present?%>
-                    <% comic_update_limit_count = @top_rb_comic_info.remaining_one_comic_update_limit %>
-                    <% user_read_judgement = TotalReadableInfo.find_by(comic_id: @top_rb_comic_info.id, user_id: current_user.id) %>
-                    <% can_read = TotalReadableInfo.where(comic_id: @top_rb_comic_info.id, can_read: true) %>
-                    <% can_not_read = TotalReadableInfo.where(comic_id: @top_rb_comic_info.id, can_read: false) %>
+                    <% if user_signed_in? && @top_comic_info.present?%>
+                    <% comic_update_limit_count = @top_comic_info.remaining_one_comic_update_limit %>
+                    <% user_read_judgement = TotalReadableInfo.find_by(comic_id: @top_comic_info.id, user_id: current_user.id) %>
+                    <% can_read = TotalReadableInfo.where(comic_id: @top_comic_info.id, can_read: true) %>
+                    <% can_not_read = TotalReadableInfo.where(comic_id: @top_comic_info.id, can_read: false) %>
                         
                     <hr>
                         <!--可読判定に対するメッセージ-->
@@ -68,7 +68,7 @@
                         <div class="d-flex" style="align-items: center;">
                               <!--可読情報が未追加-->
                               <% if user_read_judgement.nil? %>
-                                    <%= form_with url: comic_read_judgement_path(@top_rb_comic_info.id), id:"comic_read_judgement" do |f| %>
+                                    <%= form_with url: comic_read_judgement_path(@top_comic_info.id), id:"comic_read_judgement" do |f| %>
                                       <div class="d-flex">
                                         <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>
                                         <%= f.label :read_info, "読めた", for:"read_info_true", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio" %>　
@@ -90,16 +90,16 @@
                               <% end %>
                               
                               <!--ブックマーク-->
-                              <% has_bookmark = Bookmark.find_by(comic_id: @top_rb_comic_info.id, user_id: current_user.id) %>
+                              <% has_bookmark = Bookmark.find_by(comic_id: @top_comic_info.id, user_id: current_user.id) %>
                               <% if has_bookmark.present? %>
-                                  <%= link_to comic_destroy_bookmark_path(@top_rb_comic_info.id), class:"btn p-0" do %>
+                                  <%= link_to comic_destroy_bookmark_path(@top_comic_info.id), class:"btn p-0" do %>
                                     <div class="d-inline-flex ml-5">
                                       <h3><i class="bi bi-bookmark-check-fill"></i></h3>
                                       <small class="p-1" style="vertical-align:middle;">追加済み</small>
                                     </div>
                                   <% end %>
                               <% else %>
-                                  <%= link_to comic_bookmark_path(@top_rb_comic_info.id), class:"btn p-0" do %>
+                                  <%= link_to comic_bookmark_path(@top_comic_info.id), class:"btn p-0" do %>
                                     <div class="d-inline-flex ml-5">
                                       <h3><i class="bi bi-bookmark-plus"></i></h3>
                                       <small class="p-1" style="vertical-align:middle;">追加</small>
@@ -107,7 +107,7 @@
                                   <% end %>
                               <% end %>
                           </div>
-                    <% elsif user_signed_in? && @top_rb_comic_info.nil? %>
+                    <% elsif user_signed_in? && @top_comic_info.nil? %>
                         <%= link_to new_comic_path(isbn: @top_comic_info['isbn']), class:'btn btn-outline-dark w-100' do %>
                           <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
                         <% end %>
@@ -115,12 +115,12 @@
                 </div><br>
                 
                 <!--確認用。あとで消す-->
-                <% if user_signed_in? && @top_rb_comic_info.present? %>
-                <% user_read_judgement = TotalReadableInfo.find_by(comic_id: @top_rb_comic_info.id, user_id: current_user.id) %>
-                  version : <%= @top_rb_comic_info.version %><br>
+                <% if user_signed_in? && @top_comic_info.present? %>
+                <% user_read_judgement = TotalReadableInfo.find_by(comic_id: @top_comic_info.id, user_id: current_user.id) %>
+                  version : <%= @top_comic_info.version %><br>
                   user_read_judgement: <%= user_read_judgement %><br>
-                  更新残数 : <%= @top_rb_comic_info.remaining_one_comic_update_limit %>回
-                  <small>(for <%= @top_rb_comic_info.title %>)</small>
+                  更新残数 : <%= @top_comic_info.remaining_one_comic_update_limit %>回
+                  <small>(for <%= @top_comic_info.title %>)</small>
                 <% end %>
                 
             </div>

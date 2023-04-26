@@ -50,9 +50,9 @@
                 <% end %>
               </div>
           </div>
-          <p class="mx-5 mb-5">~ 今売れている漫画を読もう！最新情報はこちらからチェック！！~</p>
+          <p class="mx-5 mb-5">~ 最新情報はこちらからチェック！！~</p>
           <div class="contents_box">
-              <% @now_comics.first(15).each do |book| %>
+              <% @new_comics.each do |book| %>
                   <div class="contents mr-3">
                     <%= link_to top_comic_info_comics_path(isbn: book['isbn']), class:"img_link" do %>
                       <%= image_tag book.large_image_url, style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
@@ -109,7 +109,7 @@
           </div>
           <p class="mx-5 mb-5">~ 不動の人気漫画！！時代を超えて楽しめる漫画を読もう ~</p>
           <div class="contents_box">
-            <% @comics.each do |book| %>
+            <% @review_comics.each do |book| %>
                 <div class="contents mr-3">
                   <%= link_to top_comic_info_comics_path(isbn: book['isbn']), class:"img_link" do %>
                     <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>

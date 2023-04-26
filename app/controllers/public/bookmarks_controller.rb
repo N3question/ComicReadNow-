@@ -34,7 +34,6 @@ class Public::BookmarksController < ApplicationController
   end
   
   def index
-    # session["url"] = nil
     session["search_keyword"] = nil
     @bookmarks = Bookmark.where(user_id: current_user.id).joins(:comic).order(:title).page(params[:page]).per(30)
     @bookmark_amount = Bookmark.where(user_id: current_user.id).joins(:comic).order(:title)

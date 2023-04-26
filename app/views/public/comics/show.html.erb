@@ -6,10 +6,6 @@
             <%= link_to search_index_comics_path(keyword: session["search_keyword"], page: params[:page]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
             <% end %>
-        <% elsif session["search_keyword"].present? %>
-            <%= link_to search_index_comics_path(keyword: session["search_keyword"]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
-              <i class="bi bi-arrow-left"></i>
-            <% end %>
         <% elsif session["url"] %>
             <%= link_to session["url"], class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
