@@ -51,9 +51,9 @@
                     <!--ログイン後の表示内容-->
                     <% if user_signed_in? && @top_comic_info.present?%>
                     <% comic_update_limit_count = @top_comic_info.remaining_one_comic_update_limit %>
-                    <% user_read_judgement = TotalReadableInfo.find_by(comic_id: @top_comic_info.id, user_id: current_user.id) %>
-                    <% can_read = TotalReadableInfo.where(comic_id: @top_comic_info.id, can_read: true) %>
-                    <% can_not_read = TotalReadableInfo.where(comic_id: @top_comic_info.id, can_read: false) %>
+                    <% user_read_judgement = ReadJudgement.find_by(comic_id: @top_comic_info.id, user_id: current_user.id) %>
+                    <% can_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: true) %>
+                    <% can_not_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: false) %>
                         
                     <hr>
                         <!--可読判定に対するメッセージ-->
@@ -116,7 +116,7 @@
                 
                 <!--確認用。あとで消す-->
                 <% if user_signed_in? && @top_comic_info.present? %>
-                <% user_read_judgement = TotalReadableInfo.find_by(comic_id: @top_comic_info.id, user_id: current_user.id) %>
+                <% user_read_judgement = ReadJudgement.find_by(comic_id: @top_comic_info.id, user_id: current_user.id) %>
                   version : <%= @top_comic_info.version %><br>
                   user_read_judgement: <%= user_read_judgement %><br>
                   更新残数 : <%= @top_comic_info.remaining_one_comic_update_limit %>回

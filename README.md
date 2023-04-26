@@ -42,14 +42,8 @@
 「仕事の休憩時間にどんな漫画を読もうか迷った時」<br>
 
 ## 設計書
-[機能一覧]<br>
-https://docs.google.com/spreadsheets/d/1utfUDZ9FNCkzduDopFDZh-sK2lkFYkG9qo0u00mNLBM/edit?usp=share_link<br>
-
 [ER図]<br>
-https://drive.google.com/file/d/1qF0SpDZwEZSNh4MKWPWOL3y_bW7GMvTe/view?usp=share_link<br>
-
-[画面遷移図・フレームワーク]<br>
-https://drive.google.com/drive/u/0/folders/1xYzt7tZlYkISDQw3UvJV3YCSIPAU80i1?ths=true<br>
+https://drive.google.com/file/d/1yGtGFVTxFn9KF-GHxCLMgX-HWciIJ3W5/view?usp=share_link<br>
 
 ## 開発環境
 - OS：Linux(CentOS)
@@ -59,4 +53,4 @@ https://drive.google.com/drive/u/0/folders/1xYzt7tZlYkISDQw3UvJV3YCSIPAU80i1?ths
 - IDE：Cloud9
 
 ## 使用素材
-- 現段階では提携の承認を得ていないため、架空のサイト名になっているが漫画サイト会社と提携をしていると想定して、サイトのリンクを掲載
+- 現段階では提携の承認を得ていないため、架空のサイト名になっているが漫画サイト会社と提携をしていると想定して、サイト名を掲載（漫画詳細画面）

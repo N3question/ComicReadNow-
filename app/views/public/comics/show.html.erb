@@ -54,7 +54,7 @@
                    
                 <% if user_signed_in? %>
                 <hr>
-                <% user_read_judgement = TotalReadableInfo.find_by(comic_id: @comic.id, user_id: current_user.id) %>
+                <% user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id) %>
                 
                     <% if user_read_judgement.present? && @comic.can_read_count = true %>
                       <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>

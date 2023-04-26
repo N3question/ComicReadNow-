@@ -6,8 +6,7 @@ class User < ApplicationRecord
          
   has_one_attached :profile_image
   has_many :bookmarks, dependent: :destroy
-  has_many :readable_info_logs, dependent: :destroy
-  has_many :total_readable_infos, dependent: :destroy
+  has_many :read_judgements, dependent: :destroy
   has_many :comics, dependent: :destroy
   
   # PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i.freeze

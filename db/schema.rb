@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_24_125158) do
+ActiveRecord::Schema.define(version: 2023_04_26_191500) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -95,21 +95,21 @@ ActiveRecord::Schema.define(version: 2023_04_24_125158) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "sites", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "total_readable_infos", force: :cascade do |t|
+  create_table "read_judgements", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "comic_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "can_read", default: false, null: false
     t.integer "version", default: 0, null: false
-    t.index ["comic_id"], name: "index_total_readable_infos_on_comic_id"
-    t.index ["user_id"], name: "index_total_readable_infos_on_user_id"
+    t.index ["comic_id"], name: "index_read_judgements_on_comic_id"
+    t.index ["user_id"], name: "index_read_judgements_on_user_id"
+  end
+
+  create_table "sites", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -130,6 +130,6 @@ ActiveRecord::Schema.define(version: 2023_04_24_125158) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bookmarks", "comics"
   add_foreign_key "bookmarks", "users"
-  add_foreign_key "total_readable_infos", "comics"
-  add_foreign_key "total_readable_infos", "users"
+  add_foreign_key "read_judgements", "comics"
+  add_foreign_key "read_judgements", "users"
 end

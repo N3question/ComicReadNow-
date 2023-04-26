@@ -1,6 +1,6 @@
 <div class="" style="margin-top:100px;">
   <div class="row mx-auto" style="padding:30px 30px 45px;">
-    
+      
       <div class="col-lg-6 mx-auto p-5" style="background-color:#FFF; box-shadow:0.5px 5px 5px 5px #DDD;">
           <div class="d-flex align-items-end mb-3">
                 <h5 class="ml-2 my-auto"><b>User Ranking</b></h5>
@@ -10,6 +10,7 @@
                   <% end %>
                 </p>
           </div>
+          
           <table class="table table-borderless mb-0">
             <tr>
                 <td style="width:40px; text-align:left;">１位</td>
@@ -50,6 +51,7 @@
                 <% end %>
               </div>
           </div>
+          
           <p class="mx-5 mb-5">~ 最新情報はこちらからチェック！！~</p>
           <div class="contents_box">
               <% @new_comics.each do |book| %>
@@ -67,6 +69,7 @@
       </div>
     </div>
     
+    
     <div style="box-shadow:10px 0px 10px 3px #EEE;">
       <div class="py-4" style="min-height: 53vh; margin-bottom:80px;">
         
@@ -78,7 +81,9 @@
               <% end %>
             </div>
           </div>
+          
           <p class="mx-5 mb-5">~ Comic Read now!の利用ユーザに人気の漫画を見てみよう！ ~</p>
+          
           <div class="contents_box">
             <% @bookmark_comics.each do |book| %>
             <% comic = Comic.find_by(isbn: book["isbn"]) %>
@@ -107,7 +112,9 @@
               <% end %>
             </div>
           </div>
+          
           <p class="mx-5 mb-5">~ 不動の人気漫画！！時代を超えて楽しめる漫画を読もう ~</p>
+          
           <div class="contents_box">
             <% @review_comics.each do |book| %>
                 <div class="contents mr-3">
@@ -130,7 +137,9 @@
           <div class="d-flex">
             <h4 class="mt-4 ml-5 mb-2"><b>Next Coming</b></h4>
           </div>
+          
           <p class="mx-5 mb-5">~ 気になる漫画の新刊情報をチェック！ ~</p>
+          
           <div class="contents_box">
             <% @next_comics.each do |book| %>
                 <div class="contents mr-3">
@@ -146,12 +155,6 @@
           
       </div>
     </div>
-  
-    <!--ページネーションについて-->
-    <!--総合ランキングとNextComing,search_index,review_count_indexは同じ-->
-    <!--新着,UserSelect,comic_site_indexはモデルから呼び出してるからkaminariで可能-->
-    <!--=>該当のコントローラに同じ内容を定義-->
-    
   
     <span id="back">
       <a href=""  style="text-decoration:none;">
