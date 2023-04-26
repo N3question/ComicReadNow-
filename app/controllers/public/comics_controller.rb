@@ -256,14 +256,14 @@ class Public::ComicsController < ApplicationController
     @comic = Comic.find(params[:id])
     user_can_read_info = ReadJudgement.find_by(
                           user_id: current_user, 
-                          comic_id: @edit_comic.id
+                          comic_id: @comic.id
                           )
     
     # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
-    if current_user.remaining_total_update_limit < 1 || comic_info.remaining_one_comic_update_limit < 1
+    if current_user.remaining_total_update_limit < 1 || @comic.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     # （！） && ユーザのupdateのlimit(漫画単体)が1以下
-    elsif user_can_read_info && @edit_comic.remaining_one_comic_update_limit < 1
+    elsif user_can_read_info && @comic.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     end
   end
@@ -276,7 +276,7 @@ class Public::ComicsController < ApplicationController
   def update
     comic = Comic.find(params[:id])
     user_can_read_info = ReadJudgement.find_by(
-                          user_id: current_user, 
+                          user_id: current_user.id, 
                           comic_id: comic.id
                           )
     
