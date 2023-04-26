@@ -116,6 +116,7 @@
                 
                 <!--確認用。あとで消す-->
                 <% if user_signed_in? && @top_rb_comic_info.present? %>
+                <% user_read_judgement = TotalReadableInfo.find_by(comic_id: @top_rb_comic_info.id, user_id: current_user.id) %>
                   version : <%= @top_rb_comic_info.version %><br>
                   user_read_judgement: <%= user_read_judgement %><br>
                   更新残数 : <%= @top_rb_comic_info.remaining_one_comic_update_limit %>回

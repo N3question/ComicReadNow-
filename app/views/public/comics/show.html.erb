@@ -2,7 +2,11 @@
   <div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
     
     <div class="col-lg-9 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
-        <% if session["search_keyword"].present? %>
+        <% if session["search_keyword"].present? && params[:page] %>
+            <%= link_to search_index_comics_path(keyword: session["search_keyword"], page: params[:page]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+              <i class="bi bi-arrow-left"></i>
+            <% end %>
+        <% elsif session["search_keyword"].present? %>
             <%= link_to search_index_comics_path(keyword: session["search_keyword"]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
             <% end %>

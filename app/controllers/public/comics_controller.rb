@@ -82,6 +82,19 @@ class Public::ComicsController < ApplicationController
   
   def search_index
     page = 1
+    
+    if params[:keyword] && params[:page].present?# :keywordのparamsがあるかのif文
+      session["search_keyword"] = params[:keyword] 
+      page = params[:page].to_i
+      
+    elsif params[:keyword] # :keywordのparamsがあるかのif文
+      session["search_keyword"] = params[:keyword]
+    # elsif params[:page].present?
+    #   page = params[:page].to_i
+    end
+    
+    @current_page = page # 最終結果
+    
     @prev = page - 1
     if page <= 1
       page = 1
@@ -93,14 +106,6 @@ class Public::ComicsController < ApplicationController
       page = 10
       @next = 10
     end
-    
-    if params[:keyword] # :keywordのparamsがあるかのif文
-      session["search_keyword"] = params[:keyword]
-    elsif params[:page].present?
-      page = params[:page].to_i
-    end
-    
-    @current_page = page # 最終結果
     
     if session["search_keyword"]
       @rakuten_web_services = RakutenWebService::Books::Book.search(
@@ -155,9 +160,10 @@ class Public::ComicsController < ApplicationController
   def show
     if !request.referer&.include?("/comics") || 
       request.referer&.include?("/sale_index")||
-      request.referer&.include?("/sale_index/#{params[:current_page]}") || 
+      request.referer&.include?("/sale_index/#{params[:current_page]}")|| 
       request.referer&.include?("/review_count_index") || 
       request.referer&.include?("/search_index") ||
+      request.referer&.include?("/search_index/#{params[:current_page]}")||
       request.referer&.include?("/comic_site_index") ||
       request.referer&.include?("/next_coming_index") ||
       request.referer&.include?("/user_select_index") ||
@@ -219,7 +225,7 @@ class Public::ComicsController < ApplicationController
   def update
     comic_info = Comic.find(params[:id])
     
-    # （！）...特定のユーザが（漫画単体に対して）押した「読めた」または「読めなかった」のデータをTotalReadableInfoから探す
+    # （！）...特定のユーザが（漫画単体に対して）押した可読のtrue、falseのデータをTotalReadableInfoから探す
     user_comic_info = TotalReadableInfo.find_by(user_id: current_user, comic_id: comic_info.id)
     
     # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
