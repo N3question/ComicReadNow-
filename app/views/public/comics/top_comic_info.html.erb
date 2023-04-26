@@ -22,13 +22,15 @@
                 
                 <div class="mt-4">
                     <% if @top_rb_comic_info.present? %>
-                        <% create_sites = @top_rb_comic_info.sites.all %>
+                        <% can_read = TotalReadableInfo.where(comic_id: @top_rb_comic_info.id, can_read: true) %>
                         <% can_not_read = TotalReadableInfo.where(comic_id: @top_rb_comic_info.id, can_read: false) %>
+                        <% comic_update_limit_count = @top_rb_comic_info.remaining_one_comic_update_limit %>
+                        <% create_sites = @top_rb_comic_info.sites.all %>
                         <% user = User.find(@top_rb_comic_info.user_id) %>
                         
                         <div class="d-flex" style="align-items: center;">
                           <small class="border p-1 text-success">以下の漫画サイトで読むことができます！</small><br>
-                          <% if user_signed_in? && can_not_read.count > 0 %>
+                          <% if user_signed_in? && can_not_read.count > 0 && comic_update_limit_count > 0 %>
                             <%= link_to "編集", edit_comic_path(@top_rb_comic_info.id), class:"btn btn-sm rounded-pill mb-2 ml-auto px-3 text-nowrap", style:"background-color:#66CC00; color:white;" %>
                           <% end %>
                         </div>
@@ -42,22 +44,22 @@
                         
                         <small>
                           <%= @top_rb_comic_info.created_at.strftime('%Y年%m月%d日%H時%M分') %>　
-                          <b><%= user.nick_name %></b> さんがサイト情報更新
+                          <b><%= @top_rb_comic_info.user.nick_name %></b> さんがサイト情報更新
                         </small>
                     <% end %>
                     
                     <!--ログイン後の表示内容-->
                     <% if user_signed_in? && @top_rb_comic_info.present?%>
-                    <% can_read = TotalReadableInfo.where(comic_id: @top_rb_comic_info.id, can_read: true) %>
-                    <% can_not_read = TotalReadableInfo.where(comic_id: @top_rb_comic_info.id, can_read: false) %>
                     <% comic_update_limit_count = @top_rb_comic_info.remaining_one_comic_update_limit %>
                     <% user_read_judgement = TotalReadableInfo.find_by(comic_id: @top_rb_comic_info.id, user_id: current_user.id) %>
-                    
+                    <% can_read = TotalReadableInfo.where(comic_id: @top_rb_comic_info.id, can_read: true) %>
+                    <% can_not_read = TotalReadableInfo.where(comic_id: @top_rb_comic_info.id, can_read: false) %>
+                        
                     <hr>
                         <!--可読判定に対するメッセージ-->
-                        <% if can_read.present? %>
+                        <% if user_read_judgement.present? && user_read_judgement = true %>
                           <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
-                        <% elsif can_not_read.present? %>
+                        <% elsif user_read_judgement.present? && user_read_judgement = false %>
                           <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
                         <% else %>
                           <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
@@ -115,6 +117,7 @@
                 <!--確認用。あとで消す-->
                 <% if user_signed_in? && @top_rb_comic_info.present? %>
                   version : <%= @top_rb_comic_info.version %><br>
+                  user_read_judgement: <%= user_read_judgement %><br>
                   更新残数 : <%= @top_rb_comic_info.remaining_one_comic_update_limit %>回
                   <small>(for <%= @top_rb_comic_info.title %>)</small>
                 <% end %>

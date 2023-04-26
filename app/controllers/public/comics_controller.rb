@@ -25,7 +25,7 @@ class Public::ComicsController < ApplicationController
         false
       end
     end
-    @now_comics = RakutenBookApi.select do |comic|
+    @now_comics = @new_comics_all.select do |comic|
       begin
         # stringから日付を取り出しDateにする。それがDate.currentよりも小さい場合はtrue
         Date.current > Date.parse(comic.sales_date.gsub("年", "/").gsub("月", "/").split("日")[0])
@@ -81,34 +81,36 @@ class Public::ComicsController < ApplicationController
   
   
   def search_index
-    session["url"] = nil
     page = 1
-    if params[:keyword]
-      params[:keyword] = session["search_keyword"]
-    elsif params[:page].present?
-      page = params[:page].to_i
-    end
-    
-    if session["search_keyword"]
-      @rakuten_web_services = RakutenWebService::Books::Book.search(
-            size: 9, title: session["search_keyword"], 
-            sort: "standard", 
-            page: page
-            )
-    else
-      @rakuten_web_services = []
-    end
-    
     @prev = page - 1
     if page <= 1
       page = 1
       @prev = 1
     end
     
-    @next = page + 1 if @rakuten_web_services.next_page.count > 0 
+    @next = page + 1
     if page > 10
       page = 10
       @next = 10
+    end
+    
+    if params[:keyword] # :keywordのparamsがあるかのif文
+      session["search_keyword"] = params[:keyword]
+    elsif params[:page].present?
+      page = params[:page].to_i
+    end
+    
+    @current_page = page # 最終結果
+    
+    if session["search_keyword"]
+      @rakuten_web_services = RakutenWebService::Books::Book.search(
+            size: 9, 
+            title: session["search_keyword"], 
+            sort: "standard", 
+            page: page
+            )
+    else
+      @rakuten_web_services = []
     end
   end
   
@@ -169,11 +171,11 @@ class Public::ComicsController < ApplicationController
     @create_sites = @rb_comic_info.sites.all
     @can_read = TotalReadableInfo.where(
         comic_id: @rb_comic_info.id,
-        can_read: true
+        can_read: true # = 読めた
         )
     @can_not_read = TotalReadableInfo.where(
         comic_id: @rb_comic_info.id,
-        can_read: false
+        can_read: false # = 読め
         )
     @comic_update_limit_count = @rb_comic_info.remaining_one_comic_update_limit
   end
@@ -199,14 +201,13 @@ class Public::ComicsController < ApplicationController
   def edit
     comic_info = Comic.find(params[:id])
     
-    # 特定のユーザが押した「読めた」または「読めなかった」のデータをTotalReadableInfoから探す
+    # （！）...特定のユーザが（漫画単体に対して）押した「読めた」または「読めなかった」のデータをTotalReadableInfoから探す
     user_comic_info = TotalReadableInfo.find_by(user_id: current_user, comic_id: comic_info.id)
     
-    # 後でviewにもifを定義する
     # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
     if current_user.remaining_total_update_limit < 1 || comic_info.remaining_one_comic_update_limit < 1
         redirect_to request.referer
-    # 特定のユーザが押した「読めた」または「読めなかった」のデータ && ユーザのupdateのlimit(漫画単体)が1以下
+    # （！） && ユーザのupdateのlimit(漫画単体)が1以下
     elsif user_comic_info && comic_info.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     end
@@ -268,12 +269,19 @@ class Public::ComicsController < ApplicationController
     comic = Comic.find(params[:comic_id])
     
     version = comic.version
+    if params[:read_info]
+      comic.can_read_count =+ 1
+    else
+      comic.can_not_read_count =+ 1
+    end
+
     @total_readable_info = comic.total_readable_infos.new({
         can_read: params[:read_info],
         version: version, 
         user_id: current_user.id
         })
     
+    comic.save
     @total_readable_info.save
     redirect_to comic_path(comic.id)
   end

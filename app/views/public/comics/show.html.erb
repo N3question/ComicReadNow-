@@ -56,9 +56,9 @@
                 <hr>
                 <% user_read_judgement = TotalReadableInfo.find_by(comic_id: @rb_comic_info.id, user_id: current_user.id) %>
                 
-                    <% if @can_read.present? %>
+                    <% if user_read_judgement.present? && @rb_comic_info.can_read_count = true %>
                       <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
-                    <% elsif @can_not_read.present? %>
+                    <% elsif user_read_judgement.present? && @rb_comic_info.can_not_count = false %>
                       <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
                     <% else %>
                       <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
@@ -77,11 +77,11 @@
                       <% else %>
                             <p class="mr-2 mb-0 px-2 py-1 text-nowrap can_read_radio">読めた</p>
                             <p class="mb-0">
-                              <%= @can_read.count %>人
+                              <%= @rb_comic_info.can_read_count %>人
                               </p>
                             <p class="mr-2 ml-3 mb-0 px-2 py-1 text-nowrap can_not_read_radio">読めなかった</p>
                             <p class="mb-0">
-                              <%= @can_not_read.count %>人
+                              <%= @rb_comic_info.can_not_read_count %>人
                             </p>
                       <% end %>
                       
@@ -120,8 +120,11 @@
 
 <script>
   function radio_func() {
-    alert('情報は間違いありませんか？意図的に誤った内容を送信することは禁止されています。');
-    var form =document.getElementById('comic_read_judgement');
-    form.submit();
+    if(window.confirm('情報は間違いありませんか？意図的に誤った内容を送信することは禁止されています。')) {
+      var form =document.getElementById('comic_read_judgement');
+      form.submit();    
+    }else {
+      return
+    }
   }
 </script>

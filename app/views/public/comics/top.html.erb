@@ -1,9 +1,9 @@
 <div class="" style="margin-top:100px;">
   <div class="row mx-auto" style="padding:30px 30px 45px;">
     
-      <div class="col-lg-6 mx-auto mb-2 p-5" style="border:10px solid #00264D; border-radius:10px;">
+      <div class="col-lg-6 mx-auto p-5" style="background-color:#FFF; box-shadow:0.5px 5px 5px 5px #DDD;">
           <div class="d-flex align-items-end mb-3">
-                <h5 class="ml-2 my-auto"><i class="bi bi-award" style="color:gold;"></i> <b>User Ranking</b></h5>
+                <h5 class="ml-2 my-auto"><b>User Ranking</b></h5>
                 <p class="mb-0 ml-auto mr-2" style="box-shadow:4px 5px 7px #EEE;">
                   <%= link_to user_rank_index_path, class:"btn btn-sm btn-outline-dark px-3" do %>
                     全て見る <i class="bi bi-arrow-right-circle"></i>
@@ -32,8 +32,8 @@
       </div>
       
       <% if user_signed_in? %>
-          <div class="col-lg-5 mx-auto mb-2 p-5" style="border:10px solid #00264D; border-radius:10px;">
-              <h5><i class="bi bi-award-fill" style="color:gold;"></i> <b>My Ranking</b></h5>
+          <div class="col-lg-5 mx-auto p-5" style="background-color:#FFF; box-shadow:0.5px 5px 5px 5px #DDD;">
+              <h5><b>My Ranking</b></h5>
               <div></div>
           </div>
       <% end %>

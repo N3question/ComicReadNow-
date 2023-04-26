@@ -46,5 +46,5 @@ def jst(time)
 end
 
 every 1.day, at: jst('4:00 am') do
-  runner 'update_limit:reset'
+  rake 'update_limit:reset'
 end

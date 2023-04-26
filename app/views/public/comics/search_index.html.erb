@@ -38,11 +38,15 @@
                 <% end %>
             </div>
             <div class="d-flex flex-wrap" style="justify-content:center;">
-              <%= link_to search_index_comics_path(page: @prev) do %>
-                < Prev
-              <% end %>　　　　　　　　
-              <%= link_to search_index_comics_path(page: @next) do %>
-                Next >
+              <% if @current_page != @prev %>
+                <%= link_to search_index_comics_path(page: @prev) do %>
+                  < Prev
+                <% end %>
+              <% end %>
+              <% if @current_page != @next %>
+                <%= link_to search_index_comics_path(page: @next) do %>
+                  Next >
+                <% end %>
               <% end %>
             </div>
         </div>
