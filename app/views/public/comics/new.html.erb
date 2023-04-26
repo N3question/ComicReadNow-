@@ -13,7 +13,7 @@
                 <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
                 
                 <div class="mt-4">
-                    <%= form_with model: @comic_info, url: comics_path, method: :post do |f| %>
+                    <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
                         <%= f.hidden_field :isbn, value: params[:isbn] %>
                         <% Site.all.each do |site| %>
                             <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>

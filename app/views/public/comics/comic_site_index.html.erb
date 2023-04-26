@@ -11,7 +11,7 @@
             <% comic = Comic.find_by(isbn: comic_site.comic["isbn"]) %>
               <div class="mx-2">
                 <div>
-                  <%= link_to comic_path(comic), class:"img_link" do %>
+                  <%= link_to comic_path(comic_site.comic.id), class:"img_link" do %>
                     <%= image_tag comic_site.comic.large_image_url, style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
                   <% end %>
                 </div>

@@ -146,35 +146,35 @@ class Public::ComicsController < ApplicationController
   ## サイト情報新規作成(new)
   def new
     @rb_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
-    @comic_info = Comic.new
+    @comic = Comic.new
   end
   
   
   ## サイト情報新規作成(create))
   def create
     rakuten_book_info = RakutenWebService::Books::Book.search(isbn: comic_params[:isbn]).first
-    @comic_info = Comic.new(comic_params)
+    @comic = Comic.new(comic_params)
     
     # 以下の内容と一緒に保存
-    @comic_info.user_id = current_user.id
-    @comic_info.title = rakuten_book_info['title']
-    @comic_info.author = rakuten_book_info['author']
-    @comic_info.author_kana = rakuten_book_info['authorKana']
-    @comic_info.publisher_name = rakuten_book_info['publisherName']
-    @comic_info.sales_date = rakuten_book_info['salesDate'] #.gsub(/年|月/, '-').gsub(/日/, '')
-    @comic_info.large_image_url = rakuten_book_info['largeImageUrl'].split('?')[0] #.split('?')[0]をつけることで、元の画像サイズで表示
+    @comic.user_id = current_user.id
+    @comic.title = rakuten_book_info['title']
+    @comic.author = rakuten_book_info['author']
+    @comic.author_kana = rakuten_book_info['authorKana']
+    @comic.publisher_name = rakuten_book_info['publisherName']
+    @comic.sales_date = rakuten_book_info['salesDate'] #.gsub(/年|月/, '-').gsub(/日/, '')
+    @comic.large_image_url = rakuten_book_info['largeImageUrl'].split('?')[0] #.split('?')[0]をつけることで、元の画像サイズで表示
     
     # コミックが既に存在していた場合、リダイレクト
     rb_exists = Comic.find_by(isbn: comic_params[:isbn])
     if rb_exists.nil?
-      @comic_info.save!
+      @comic.save!
       site_params[:site_ids].each do |site_id|
         ComicSite.create(
           site_id: site_id.to_i,
-          comic_id: @comic_info.id
+          comic_id: @comic.id
           )
       end
-      redirect_to comic_path(@comic_info)
+      redirect_to comic_path(@comic)
     else
       redirect_to comic_path(rb_exists)
     end
@@ -185,7 +185,7 @@ class Public::ComicsController < ApplicationController
     if !request.referer&.include?("/comics") || 
       request.referer&.include?("/sale_index/#{params[:current_page]}")|| 
       request.referer&.include?("/review_count_index") || 
-      request.referer&.include?("/comic_site_index") ||
+      request.referer&.include?("/comic_site_index/#{params[:site_id]}") ||
       request.referer&.include?("/next_coming_index") ||
       request.referer&.include?("/user_select_index") ||
       request.referer&.include?("/my_page") ||
@@ -194,17 +194,17 @@ class Public::ComicsController < ApplicationController
       session["url"] = request.referer
     end
     
-    @comic_info = Comic.find(params[:id])
-    @sites = @comic_info.sites.all
+    @comic = Comic.find(params[:id])
+    @sites = @comic.sites.all
     @can_read = TotalReadableInfo.where(
-        comic_id: @comic_info.id,
+        comic_id: @comic.id,
         can_read: true # = 読めた
         )
     @can_not_read = TotalReadableInfo.where(
-        comic_id: @comic_info.id,
+        comic_id: @comic.id,
         can_read: false # = 読め
         )
-    @comic_update_limit_count = @comic_info.remaining_one_comic_update_limit
+    @comic_update_limit_count = @comic.remaining_one_comic_update_limit
   end
   
   ## サイト毎の一覧
