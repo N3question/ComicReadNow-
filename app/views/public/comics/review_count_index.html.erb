@@ -38,14 +38,17 @@
                     </div>
                 <% end %>
             </div>
+            <!--<div class="d-flex flex-wrap" style="justify-content:center;">-->
+            <!--    <#%= link_to review_count_index_comics_path(page: @prev) do %>-->
+            <!--      < Prev　　　　　　　　　　　　　　　　　　-->
+            <!--    <#% end %>-->
+            <!--    <#%= link_to review_count_index_comics_path(page: @next) do %>-->
+            <!--      Next >-->
+            <!--    <#% end %>-->
+            <!--</div>-->
             <div class="d-flex flex-wrap" style="justify-content:center;">
-                <%= link_to search_index_comics_path(page: @prev, keyword: params[:keyword]) do %>
-                  < Prev
-                <% end %>
-                <%= link_to search_index_comics_path(page: @next, keyword: params[:keyword]) do %>
-                  Next >
-                <% end %>
-            </div>
+            <%= paginate @comics %>
+        </div>
         </div>
       
   </div>

@@ -26,7 +26,7 @@
                     著者：　　<%= @comic.author %>
                     <small>(<%= @comic.author_kana %>)</small><br>
                     出版社：　<%= @comic.publisher_name %><br>
-                    発売日：　<%= @comic.sales_date %>
+                    発売日：　<%= @rb_comic.sales_date %>
                   </div>
                 </div>
                 
@@ -53,14 +53,15 @@
                 </small>
                    
                 <% if user_signed_in? %>
-                <hr>
                 <% user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id) %>
+                <% current_version = Comic.order(version: :desc).limit(1) %>
+                <hr>
                 
-                    <% if user_read_judgement.can_read == true %>
+                    <% if user_read_judgement.present? && user_read_judgement.can_read == true %>
                       <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
-                    <% elsif user_read_judgement.can_read == false %>
+                    <% elsif user_read_judgement.present? &&  user_read_judgement.can_read == false %>
                       <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
-                    <% else %>
+                    <% elsif current_version && %>
                       <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
                     <% end %>
                     
@@ -105,11 +106,14 @@
                 <% end %>
                 
                 <% if user_signed_in? %>
-                version : <%= @comic.version %><br>
-                更新残数 : <%= @comic.remaining_one_comic_update_limit %>回
-                <small>(for <%= @comic.title %>)</small>
-                <% user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id) %>
-                <%= user_read_judgement.can_read %>
+                  version : <%= @comic.version %><br>
+                  更新残数 : <%= @comic.remaining_one_comic_update_limit %>回
+                  <% user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id) %><br>
+                  <% if user_read_judgement.present? && user_read_judgement.can_read == true %>
+                    <%= current_user.nick_name %>が選択した可読情報：<%= user_read_judgement.can_read %>
+                  <% elsif user_read_judgement.present? && user_read_judgement.can_read == false %>
+                    <%= current_user.nick_name %>が選択した可読情報：<%= user_read_judgement.can_read %>
+                  <% end %>
                 <% end %><br>
                 
                 <%= request.referer %>

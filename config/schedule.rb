@@ -30,14 +30,13 @@ set :environment, rails_env
 # cronのログの吐き出し場所
 set :output, "#{Rails.root}/log/cron.log"
 
-every 6.hour do
+every 4.hour do
   rake "rakuten_book:insert", :environment_variable => "RAILS_ENV", :environment => "development"
 end
 # デブロイの時に、.envファイルにRAILS_ENV = productionを追加しておくと良い。
 
 
 ## update_limitのための定期実行
-# 現状動かず。
 require 'active_support/core_ext/time'
 
 def jst(time)

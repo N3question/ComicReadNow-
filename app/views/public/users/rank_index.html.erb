@@ -12,6 +12,8 @@
         <% @users.each do |user| %>
           <tr>
             <td><%= user.nick_name %></td>
+            <td>新規追加回数：<%= user.update_count %></td>
+            <td>評価件数：<%= user.read_judgements.where(can_read: true).count %></td>
           </tr>
         <% end %>
       </table>

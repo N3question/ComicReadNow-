@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_26_191500) do
+ActiveRecord::Schema.define(version: 2023_04_27_145150) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -89,7 +89,6 @@ ActiveRecord::Schema.define(version: 2023_04_26_191500) do
   create_table "rakuten_book_apis", force: :cascade do |t|
     t.bigint "isbn", null: false
     t.string "title", null: false
-    t.string "sales_date", null: false
     t.string "large_image_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -122,6 +121,7 @@ ActiveRecord::Schema.define(version: 2023_04_26_191500) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "remaining_total_update_limit", default: 100
+    t.integer "update_count", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
