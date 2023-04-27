@@ -170,34 +170,10 @@ class Public::ComicsController < ApplicationController
   
   ## 検索結果一覧
   def search_index
-    # page = 1
-    
     # ## 前提
-      # :keywordのparamsの有無を確認 && :pageの存在も確認
-      # その場合、sessionに:keywordが保持される＋paramsの数字を正数にする（？）
     if params[:keyword] #&& params[:page].present?
       session["search_keyword"] = params[:keyword] 
-      # page = params[:page].to_i
-    # :keywordのparamsの有無を確認 
-    # その場合、sessionに:keywordが保持される
-    # elsif params[:keyword]
-    #   session["search_keyword"] = params[:keyword]
     end
-    
-    # # 最終結果(pageに入る値が決定）
-    # @current_page = page
-    
-    # # pageを前後に遷移させるための実装
-    # @prev = page - 1
-    # if page <= 1
-    #   page = 1
-    #   @prev = 1
-    # end
-    # @next = page + 1
-    # if page > 10
-    #   page = 10
-    #   @next = 10
-    # end
     
     # 楽天APIを直接search
     if session["search_keyword"]
@@ -205,11 +181,18 @@ class Public::ComicsController < ApplicationController
             size: 9, 
             title: session["search_keyword"], 
             sort: "standard", 
-            # page: page
             )
     else
       @rakuten_web_services = []
     end
+    
+    rakuten_web_services = RakutenWebService::Books::Book.search(
+            size: 9, 
+            title: session["search_keyword"], 
+            sort: "standard", 
+            )
+    
+    @rakuten_web_services = rakuten_web_services.page(params[:page]).per(30)
   end
   
   
