@@ -8,7 +8,7 @@
             
             <h5 class="ml-5 mb-5"><b>新着一覧</b></h5>
             <div class="d-inline-flex flex-wrap" style="justify-content:center;">
-                <% @now_comics.each do |book| %>
+                <% @now_comics_page.each do |book| %>
                 <% comic = Comic.find_by(isbn: book["isbn"]) %>
                   <div class="mx-2">
                     <div style="width:150px;">
@@ -40,7 +40,9 @@
             <div class="d-flex flex-wrap" style="justify-content:center;">
                 <%= paginate @now_comics_page %>
             </div>
+     
         </div>
+        
       
   </div>
 </div>

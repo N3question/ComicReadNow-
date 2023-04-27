@@ -23,6 +23,12 @@ class Public::UsersController < ApplicationController
   def unsubscribe
   end
   
+  def rank_index
+    @users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count <=> a.read_judgements.where(can_read: true).count }
+    # @users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count * 2 <=> a.read_judgements.where(can_read: true).count + b.update_count * 2 }
+  end
+    
+  
   private
   
   def user_params

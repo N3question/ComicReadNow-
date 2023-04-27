@@ -6,9 +6,15 @@
         <i class="bi bi-arrow-left"></i>
       <% end %>
       
-      <h5 class="ml-2 my-auto"><i class="bi bi-award" style="color:gold;"></i> <b>User Ranking</b></h5>
+      <h5 class="ml-2 mb-5"><i class="bi bi-award" style="color:gold;"></i> <b>User Ranking</b></h5>
       
-      <div style="height:1000px;"></div>
+      <table class="table user_rank_table">
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.nick_name %></td>
+          </tr>
+        <% end %>
+      </table>
       <span id="back">
       <a href=""  style="text-decoration:none;">
           <div class="d-flex justify-content-center border w-100" 

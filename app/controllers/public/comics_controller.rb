@@ -7,7 +7,12 @@ class Public::ComicsController < ApplicationController
     
     
     ### 新着
-    comics =  RakutenBookApi.select do |comic|
+    rb= RakutenWebService::Books::Book.search(
+          size: 9, 
+          sort: "sales"
+          )
+          .sort_by {|v| v["-releaseDate"] }
+    comics =  rb.select do |comic|
       begin
         Date.current > Date.parse(comic.sales_date.gsub("年", "/").gsub("月", "/").split("日")[0])
       rescue => error
@@ -36,8 +41,13 @@ class Public::ComicsController < ApplicationController
           .first(15)
           
           
-    ## #Next Coming
-    @next_comics = RakutenBookApi.select do |comic|
+    ## Next Coming
+    rb= RakutenWebService::Books::Book.search(
+          size: 9, 
+          sort: "sales"
+          )
+          .sort_by {|v| v["-releaseDate"] }
+    @next_comics = rb.select do |comic|
       begin
         Date.current < Date.parse(comic["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0])
       rescue => error
@@ -51,7 +61,9 @@ class Public::ComicsController < ApplicationController
   
   ## TOP / 漫画情報詳細
   def top_comic_info
+    @ranking = params[:ranking]
     @top_rb_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
+    @isbn = params[:isbn]
     @top_comic_info = Comic.find_by(isbn: params[:isbn])
   end
   
@@ -61,13 +73,20 @@ class Public::ComicsController < ApplicationController
   
   ## 新着一覧
   def sale_index
-    @now_comics = RakutenBookApi.select do |comic|
+    rb= RakutenWebService::Books::Book.search(
+          size: 9, 
+          sort: "sales"
+          )
+          .sort_by {|v| v["-releaseDate"] }
+    @now_comics = rb.select do |comic|
       begin
         Date.current > Date.parse(comic.sales_date.gsub("年", "/").gsub("月", "/").split("日")[0])
       rescue => error
         false
       end
     end
+  
+ 
     @now_comics_page = Kaminari.paginate_array(@now_comics).page(params[:page]).per(30)
   end
   
@@ -167,7 +186,7 @@ class Public::ComicsController < ApplicationController
    ## サイト毎の一覧
   def comic_site_index
     @comic_site = ComicSite.find_by(site_id: params[:id])
-    @comic_sites = ComicSite.where(site_id: params[:id]).joins(:comic).order(:title)
+    @comic_sites = ComicSite.where(site_id: params[:id]).page(params[:page]).per(30).order(:title)
     @comic_site_amount = ComicSite.where(site_id: params[:id]).joins(:comic).all
   end
   
@@ -203,12 +222,18 @@ class Public::ComicsController < ApplicationController
     comic_exists = Comic.find_by(isbn: comic_params[:isbn])
     if comic_exists.nil?
       @comic.save!
+      
       site_params[:site_ids].each do |site_id|
         ComicSite.create(
           site_id: site_id.to_i,
           comic_id: @comic.id
           )
       end
+      
+      # update_amount = current_user.update_count
+      # current_user.update(
+      #   update_count: update_amount + 1
+      #   )
       redirect_to comic_path(@comic)
     else
       redirect_to comic_path(comic_exists)
@@ -310,10 +335,12 @@ class Public::ComicsController < ApplicationController
     end
     
     total_limit = current_user.remaining_total_update_limit
+    # update_amount = current_user.update_count
     
     # 同時にユーザの更新回数を１減らす
     current_user.update(
-        remaining_total_update_limit: total_limit - 1
+        remaining_total_update_limit: total_limit - 1,
+        # update_count: update_amount + 1
         )
     redirect_to comic_path(comic.id)  
   end
@@ -332,9 +359,16 @@ class Public::ComicsController < ApplicationController
     else
       comic.can_not_read_count =+ 1
     end
-
-    @total_readable_info = comic.total_readable_infos.new({
+    
+    if params[:read_info] == "true"
+      comic.update(can_read_count: comic.can_read_count + 1)
+    else
+      comic.update(can_not_read_count: comic.can_not_read_count + 1)
+    end
+    
+    @total_readable_info = comic.read_judgements.new({
         can_read: params[:read_info],
+        
         version: version, 
         user_id: current_user.id
         })

@@ -10,6 +10,7 @@
             <%= image_tag @top_rb_comic_info["largeImageUrl"], class:"my-3 mx-5", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
          
             <div class="p-3">
+              <% if @ranking %>
                 <h5><b><%= @top_rb_comic_info["title"] %>　</b><small>の詳細</small></h5>
                 <div class="mt-3">
                   著者：　　<%= @top_rb_comic_info["author"] %>
@@ -17,13 +18,22 @@
                   出版社：　<%= @top_rb_comic_info["publisherName"] %><br>
                   発売日：　<%= @top_rb_comic_info["salesDate"] %><br>
                 </div>
+              <% else %>  
+                <h5><b><%= @top_comic_info.title %>　</b><small>の詳細</small></h5>
+                <div class="mt-3">
+                  著者：　　<%= @top_comic_info.author %>
+                  <small>(<%= @top_comic_info.author_kana %>)</small><br>
+                  出版社：　<%= @top_comic_info.publisher_name %><br>
+                  発売日：　<%= @top_comic_info.sales_date %><br>
+                </div>
+              <%end%>
                 
                 <hr>
                 
                 <div class="mt-4">
                     <% if @top_comic_info.present? %>
-                        <% can_read = TotalReadableInfo.where(comic_id: @top_comic_info.id, can_read: true) %>
-                        <% can_not_read = TotalReadableInfo.where(comic_id: @top_comic_info.id, can_read: false) %>
+                        <% can_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: true) %>
+                        <% can_not_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: false) %>
                         <% comic_update_limit_count = @top_comic_info.remaining_one_comic_update_limit %>
                         <% create_sites = @top_comic_info.sites.all %>
                         <% user = User.find(@top_comic_info.user_id) %>
@@ -108,7 +118,7 @@
                               <% end %>
                           </div>
                     <% elsif user_signed_in? && @top_comic_info.nil? %>
-                        <%= link_to new_comic_path(isbn: @top_comic_info['isbn']), class:'btn btn-outline-dark w-100' do %>
+                        <%= link_to new_comic_path(isbn: @isbn), class:'btn btn-outline-dark w-100' do %>
                           <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
                         <% end %>
                     <% end %>

@@ -48,7 +48,7 @@
                 <% end %><br>
                 
                 <small>
-                  <%= @comic.created_at.strftime('%Y年%m月%d日%H時%M分') %>
+                  <%= @comic.updated_at.strftime('%Y年%m月%d日%H時%M分') %>
                   <b><%= @comic.user.nick_name %></b> さんが更新済み
                 </small>
                    
@@ -56,9 +56,9 @@
                 <hr>
                 <% user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id) %>
                 
-                    <% if user_read_judgement.present? && @comic.can_read_count = true %>
+                    <% if user_read_judgement.can_read == true %>
                       <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
-                    <% elsif user_read_judgement.present? && @comic.can_not_count = false %>
+                    <% elsif user_read_judgement.can_read == false %>
                       <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
                     <% else %>
                       <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
@@ -108,6 +108,8 @@
                 version : <%= @comic.version %><br>
                 更新残数 : <%= @comic.remaining_one_comic_update_limit %>回
                 <small>(for <%= @comic.title %>)</small>
+                <% user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id) %>
+                <%= user_read_judgement.can_read %>
                 <% end %><br>
                 
                 <%= request.referer %>
