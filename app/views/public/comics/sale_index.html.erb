@@ -54,7 +54,7 @@
   </div>
 </div>
 
-<span id="back" style="width:100%;">
+<span id="back" style="width:100%; display:none;">
   <a href=""  style="text-decoration:none;">
       <div class="d-flex justify-content-center border mt-5 mb-4 mx-auto" 
            style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
@@ -62,3 +62,20 @@
       </div>
   </a>
 </span>
+
+<script>
+  $(function(){
+    // ウィンドウの高さとmain要素の高さを取得
+    var windowHeight = $(window).height();
+    var mainHeight = $('main').height();
+
+    // main要素の高さがウィンドウの高さより大きい場合
+    if(mainHeight > windowHeight) {
+        // 特定の要素を表示
+        $('#back').show();
+    } else {
+        // そうでない場合、要素を非表示
+        $('#back').hide();
+    }
+  })
+</script>

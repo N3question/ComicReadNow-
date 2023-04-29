@@ -53,7 +53,7 @@
                 </small>
                    
                 <% if user_signed_in? %>
-                <% user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id) %>
+                <% user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id, version: @comic.version) %>
                 <% current_version = Comic.order(version: :desc).limit(1) %>
                 <hr>
                 

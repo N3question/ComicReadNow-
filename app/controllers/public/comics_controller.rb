@@ -21,6 +21,7 @@ class Public::ComicsController < ApplicationController
     end
     @new_comics = comic.first(15) #追加
     
+    
     ### User Select
     @bookmark_comics = Comic.find(
           Bookmark.joins(:comic)
@@ -75,29 +76,19 @@ class Public::ComicsController < ApplicationController
   
   ## 新着一覧
   def sale_index
-    # page = 1
-    
-    # # ページネーション
-    # if params[:page].present?
-    #   page = params[:page].to_i
-    # end
-    # @prev = page - 1
-    # if page <= 1
-    #   page = 1
-    #   @prev = 1
-    # end
-    # @next = page + 1
-    # if page > 30
-    #   page = 30
-    #   @next = 30
-    # end
-    
-    now_comics= RakutenWebService::Books::Book.search(
+    if params[:page].nil?
+      page = 1
+    else
+      page = params[:page].to_i
+    end
+
+    now_comics = RakutenWebService::Books::Book.search(
           size: 9, 
-          sort: "sales"
-          # page: page
-          )
-          .sort_by {|v| v["-releaseDate"] }
+          sort: "sales",
+          page: page
+          ).sort_by {|v| v["-releaseDate"] }
+    
+    
     now_comics = now_comics.select do |comic|
       begin
         Date.current > Date.parse(comic["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0])
@@ -105,6 +96,10 @@ class Public::ComicsController < ApplicationController
         false
       end
     end
+    
+     if now_comics.count == 0
+      redirect_to sale_index_comics_path(page: page + 1)
+    end 
     
     @now_comics = Kaminari.paginate_array(now_comics, total_count: 900).page(params[:page]).per(30)
   end
@@ -130,11 +125,18 @@ class Public::ComicsController < ApplicationController
   
   ## 総合ランキング一覧
   def review_count_index
+    # 前提
+    if params[:page].nil?
+      page = 1
+    else
+      page = params[:page].to_i
+    end
     
     # 表示内容
     comics = RakutenWebService::Books::Book.search(
           size: 9, 
-          sort: "reviewCount"
+          sort: "reviewCount",
+          page: page
           ).sort_by {|v| v["reviewAverage"] }
           
     @comics = Kaminari.paginate_array(comics, total_count: 900).page(params[:page]).per(30)
@@ -175,24 +177,37 @@ class Public::ComicsController < ApplicationController
       session["search_keyword"] = params[:keyword] 
     end
     
+    if params[:page].nil?
+      page = 1
+    else
+      page = params[:page].to_i
+    end
+    
     # 楽天APIを直接search
     if session["search_keyword"]
       @rakuten_web_services = RakutenWebService::Books::Book.search(
             size: 9, 
             title: session["search_keyword"], 
-            sort: "standard", 
+            sort: "standard",
+            page: page 
             )
+            # RakutenWebService::SearchResult (返り値)
+            
+    # @rakuten_web_services = rakuten_web_services.select do |comic|
+    #   true
+    # end
+    # [#<RakutenWebService::Books::Book...] = 配列 (返り値)
+    
+
     else
       @rakuten_web_services = []
     end
-    
-    rakuten_web_services = RakutenWebService::Books::Book.search(
-            size: 9, 
-            title: session["search_keyword"], 
-            sort: "standard", 
-            )
-    
-    @rakuten_web_services = rakuten_web_services.page(params[:page]).per(30)
+    # fisrtを入れることで配列に変換 = 205〜208を省く場合
+    # 205〜208を省かない場合...@rakuten_web_servicesだけ。.first(view_count)はなし。
+    # 推奨...今回は205~208を省く
+    # 配列の場合はarrayが使用
+    view_count = 30
+    @rakuten_web_services = Kaminari.paginate_array(@rakuten_web_services.first(view_count), total_count: @rakuten_web_services.response["count"]).page(params[:page]).per(view_count)
   end
   
   
@@ -249,7 +264,7 @@ class Public::ComicsController < ApplicationController
       # ログインユーザのupdate回数を＋１
       update_amount = current_user.update_count
       
-      User.create(
+      current_user.update(
         update_count: update_amount + 1
         )
         
@@ -289,7 +304,8 @@ class Public::ComicsController < ApplicationController
                   )
     @can_not_read = ReadJudgement.where(
                       comic_id: @comic.id,
-                      can_read: false # 読めなかった
+                      can_read: false, # 読めなかった
+                      version: @comic.version
                       )
     @comic_update_limit_count = @comic.remaining_one_comic_update_limit
   end
@@ -390,8 +406,7 @@ class Public::ComicsController < ApplicationController
         user_id: current_user.id
         })
     
-    comic.save
-    @total_readable_info.save
+    @total_readable_info.save!
     redirect_to comic_path(comic.id)
   end
   
