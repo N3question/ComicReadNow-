@@ -26,7 +26,7 @@
                     著者：　　<%= @comic.author %>
                     <small>(<%= @comic.author_kana %>)</small><br>
                     出版社：　<%= @comic.publisher_name %><br>
-                    発売日：　<%= @rb_comic.sales_date %>
+                    発売日：　<%= @rb_comic["salesDate"] %>
                   </div>
                 </div>
                 
@@ -34,7 +34,7 @@
                 
                 <div class="mt-4">
                 <div class="d-flex" style="align-items: center;">
-                  <small class="border mb-2 mr-4 p-1">以下の漫画サイトで読むことができます！</small><br>
+                  <small class="border mb-2 mr-4 p-1 text-success">以下の漫画サイトで読むことができます！</small><br>
                   <% if user_signed_in? && @can_not_read.count > 0 && @comic_update_limit_count > 0 %>
                     <%= link_to "編集", edit_comic_path(@comic.id), class:"btn btn-sm rounded-pill mb-2 ml-auto px-3 text-nowrap", style:"background-color:#66CC00; color:white;" %>
                   <% end %>
@@ -48,13 +48,20 @@
                 <% end %><br>
                 
                 <small>
-                  <%= @comic.updated_at.strftime('%Y年%m月%d日%H時%M分') %>
+                  <%= @comic.updated_at.strftime('%Y年%m月%d日%H時%M分') %>　
                   <b><%= @comic.user.nick_name %></b> さんが更新済み
+                  (ver.<%= @comic.version %>)<br>
+                  <% if @comic.remaining_one_comic_update_limit < 1 %>
+                    今日の更新はこれ以上できません。
+                  <% else %>
+                    この漫画の更新残数は <%= @comic.remaining_one_comic_update_limit %> 回です。
+                  <% end %>
                 </small>
                    
                 <% if user_signed_in? %>
                 <% user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id, version: @comic.version) %>
                 <% current_version = Comic.order(version: :desc).limit(1) %>
+                <% bookmark = Bookmark.where(comic_id: @comic.id, user_id: current_user) %>
                 <hr>
                 
                     <% if user_read_judgement.present? && user_read_judgement.can_read == true %>
@@ -87,7 +94,7 @@
                       <% end %>
                       
                       
-                      <% if @has_bookmark.present? %>
+                      <% if bookmark.present? %>
                             <%= link_to comic_destroy_bookmark_path(@comic.id), class:"btn p-0" do %>
                               <div class="d-inline-flex ml-5">
                                 <h3><i class="bi bi-bookmark-check-fill mb-0"></i></h3>
@@ -106,17 +113,8 @@
                 <% end %>
                 
                 <% if user_signed_in? %>
-                  version : <%= @comic.version %><br>
-                  更新残数 : <%= @comic.remaining_one_comic_update_limit %>回
-                  <% user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id) %><br>
-                  <% if user_read_judgement.present? && user_read_judgement.can_read == true %>
-                    <%= current_user.nick_name %>が選択した可読情報：<%= user_read_judgement.can_read %>
-                  <% elsif user_read_judgement.present? && user_read_judgement.can_read == false %>
-                    <%= current_user.nick_name %>が選択した可読情報：<%= user_read_judgement.can_read %>
-                  <% end %>
-                <% end %><br>
-                
-                <%= request.referer %>
+                  <%= request.referer %>
+                <% end %>
             </div>
         </div>
     </div>

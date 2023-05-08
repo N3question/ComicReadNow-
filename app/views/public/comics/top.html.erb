@@ -14,7 +14,7 @@
           <table class="table table-borderless mb-0">
             <tr>
                 <td style="width:40px; text-align:left;">１位</td>
-                <td class="border">ユーザ１</td>
+                <td class="border"><%= @user_rank_1 %></td>
                 <td></td>
             </tr>
             <tr>
@@ -163,14 +163,6 @@
                     <%= book["title"].truncate(13) %>
                   </p>
                 </div>
-                <!--<div class="contents mr-3">-->
-                <!--  <#%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: false), class:"img_link" do %>-->
-                <!--    <#%= image_tag book.large_image_url, style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>-->
-                <!--  <#% end %>-->
-                <!--  <p class="small mt-3">-->
-                <!--    <#%= book.title.truncate(13) %>-->
-                <!--  </p>-->
-                <!--</div>-->
             <% end %>
           </div>
           

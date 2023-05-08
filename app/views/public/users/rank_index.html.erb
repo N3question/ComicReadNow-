@@ -1,32 +1,69 @@
 <div class="" style="background-color:#EEE; height:100px;"></div>
   <div class="" style="background-color:#EEE; padding:30px; min-height: 71vh;">
     
-    <div class="col-lg-6 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
+    <div class="col-lg-7 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
       <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
         <i class="bi bi-arrow-left"></i>
       <% end %>
       
-      <h5 class="ml-2 mb-5"><i class="bi bi-award" style="color:gold;"></i> <b>User Ranking</b></h5>
+      <h5 class="ml-4 mb-5"><b>User Ranking</b></h5>
       
       <table class="table user_rank_table">
+        <tr style="text-align: center;">
+          <th>順位</th>
+          <th></th>
+          <th>アイコン</th>
+          <th>ユーザ名</th>
+          <th>更新回数</th>
+          <th>評価件数</th>
+        </tr>
         <% @users.each do |user| %>
-          <tr>
-            <td><%= user.nick_name %></td>
-            <td>新規追加回数：<%= user.update_count %></td>
-            <td>評価件数：<%= user.read_judgements.where(can_read: true).count %></td>
+          <tr style="text-align: center;">
+            <td><%=  %></td>
+            <td></td>
+            <td>
+              <div class="user_icon">
+                <% if user.profile_image.attached? %>
+                  <%= image_tag user.profile_image, size: "60x60" %>
+                <% else %>
+                  <%= image_tag 'no_image', size: "60x60" %>
+                <% end %>
+              </div>
+            </td>
+            <td style="vertical-align: middle;"><%= user.nick_name %></td>
+            <td style="vertical-align: middle;"><%= user.update_count %></td>
+            <td style="vertical-align: middle;"><%= user.read_judgements.where(can_read: true).count %></td>
           </tr>
         <% end %>
       </table>
-      <span id="back">
-      <a href=""  style="text-decoration:none;">
-          <div class="d-flex justify-content-center border w-100" 
-               style="width:95%; height:40px; line-height:40px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
-            <p class="mb-0 text-dark ">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
-          </div>
-      </a>
-    </span>
-    </div>
       
-      <%= pp User.all.class %>
+      <span id="back" style="width:100%; display:none;">
+        <a href=""  style="text-decoration:none;">
+            <div class="d-flex justify-content-center border w-100" 
+                 style="width:95%; height:40px; line-height:40px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
+              <p class="mb-0 text-dark ">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
+            </div>
+        </a>
+      </span>
+      
+    </div>
+    
   </div>
 </div>
+
+<script>
+        $(function(){
+          // ウィンドウの高さとmain要素の高さを取得
+          var windowHeight = $(window).height();
+          var mainHeight = $('main').height();
+      
+          // main要素の高さがウィンドウの高さより大きい場合
+          if(mainHeight > windowHeight) {
+              // 特定の要素を表示
+              $('#back').show();
+          } else {
+              // そうでない場合、要素を非表示
+              $('#back').hide();
+          }
+        })
+      </script>

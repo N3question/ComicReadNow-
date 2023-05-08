@@ -24,7 +24,7 @@ class Public::UsersController < ApplicationController
   end
   
   def rank_index
-    @users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + (b.update_count * 2) <=> a.read_judgements.where(can_read: true).count + (b.update_count * 2) }
+    @users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count * 2 <=> a.read_judgements.where(can_read: true).count + b.update_count * 2 }
   end
     
   

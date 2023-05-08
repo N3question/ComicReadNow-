@@ -32,11 +32,14 @@
                 
                 <div class="mt-4">
                     <% if @top_comic_info.present? %>
+                    
+                        <!--前提定義-->
                         <% can_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: true) %>
                         <% can_not_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: false) %>
                         <% comic_update_limit_count = @top_comic_info.remaining_one_comic_update_limit %>
                         <% create_sites = @top_comic_info.sites.all %>
                         <% user = User.find(@top_comic_info.user_id) %>
+                        <!--ここまで-->
                         
                         <div class="d-flex" style="align-items: center;">
                           <small class="border p-1 text-success">以下の漫画サイトで読むことができます！</small><br>
@@ -53,19 +56,29 @@
                         <% end %><br>
                         
                         <small>
-                          <%= @top_comic_info.created_at.strftime('%Y年%m月%d日%H時%M分') %>　
-                          <b><%= @top_comic_info.user.nick_name %></b> さんがサイト情報更新
+                          <%= @top_comic_info.updated_at.strftime('%Y年%m月%d日%H時%M分') %>　
+                          <b><%= @top_comic_info.user.nick_name %></b> さんがサイト情報更新済み 
+                          (ver.<%= @top_comic_info.version %>)<br>
+                          <% if @top_comic_info.remaining_one_comic_update_limit < 1 %>
+                            今日の更新はこれ以上できません。
+                          <% else %>
+                            この漫画の更新残数は <%= @top_comic_info.remaining_one_comic_update_limit %> 回です。
+                          <% end %>
                         </small>
                     <% end %>
                     
                     <!--ログイン後の表示内容-->
                     <% if user_signed_in? && @top_comic_info.present?%>
-                    <% comic_update_limit_count = @top_comic_info.remaining_one_comic_update_limit %>
-                    <% user_read_judgement = ReadJudgement.find_by(comic_id: @top_comic_info.id, user_id: current_user.id) %>
-                    <% can_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: true) %>
-                    <% can_not_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: false) %>
+                    
+                      <!--前提定義-->
+                      <% comic_update_limit_count = @top_comic_info.remaining_one_comic_update_limit %>
+                      <% user_read_judgement = ReadJudgement.find_by(comic_id: @top_comic_info.id, user_id: current_user.id) %>
+                      <% can_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: true) %>
+                      <% can_not_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: false) %>
+                      <!--ここまで-->
                         
                     <hr>
+                    
                         <!--可読判定に対するメッセージ-->
                         <% if user_read_judgement.present? && user_read_judgement.can_read == true %>
                           <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
@@ -126,21 +139,11 @@
                     <% end %>
                 </div><br>
                 
-                <!--確認用。あとで消す-->
+                <!--確認用。後日消す-->
                 <% if user_signed_in? && @top_comic_info.present? %>
-                  version : <%= @top_comic_info.version %><br>
-                  更新残数 : <%= @top_comic_info.remaining_one_comic_update_limit %>回
-                  <% user_read_judgement = ReadJudgement.find_by(comic_id: @top_comic_info.id, user_id: current_user.id) %><br>
-                  <% if user_read_judgement.present? && user_read_judgement.can_read == true %>
-                    <%= current_user.nick_name %>が選択した可読情報：<%= user_read_judgement.can_read %>
-                  <% elsif user_read_judgement.present? && user_read_judgement.can_read == false %>
-                    <%= current_user.nick_name %>が選択した可読情報：<%= user_read_judgement.can_read %>
-                  <% end %>
-                <% end %><br>
-                
-                <% if !@can_not_create_record %>
                   <%= request.referer %>
                 <% end %>
+                <!--ここまで-->
                 
             </div>
         </div>

@@ -5,6 +5,13 @@ class Public::ComicsController < ApplicationController
     session["url"] = nil
     session["search_keyword"] = nil
     
+    ### User Ranking
+    user_rank = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count * 2 <=> a.read_judgements.where(can_read: true).count + b.update_count * 2 }.first(1)
+    @user_rank_1 = User.where(nick_name: user_rank)
+    
+    
+    ### MY Ranking
+    
     
     ### 新着
     rb= RakutenWebService::Books::Book.search(
@@ -41,7 +48,7 @@ class Public::ComicsController < ApplicationController
           .first(15)
           
           
-    ## Next Coming
+    ### Next Coming
     rb= RakutenWebService::Books::Book.search(
           size: 9, 
           sort: "sales"
@@ -147,12 +154,18 @@ class Public::ComicsController < ApplicationController
   
   
   
-  ## Next Coming
+  ## Next Coming一覧
   def next_coming_index
+    if params[:page].nil?
+      page = 1
+    else
+      page = params[:page].to_i
+    end
     
     next_comics = RakutenWebService::Books::Book.search(
           size: 9, 
           sort: "sales",
+          page: page
           )
           .sort_by {|v| v["-releaseDate"] }
     next_comics = next_comics.select do |comic|
@@ -224,7 +237,7 @@ class Public::ComicsController < ApplicationController
   
   
   
-  ## サイト情報新規作成(new)
+  ## 漫画サイト情報新規作成(new)
   def new
     @rb_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
     @comic = Comic.new
@@ -234,7 +247,7 @@ class Public::ComicsController < ApplicationController
   
   
   
-  ## サイト情報新規作成(create))
+  ## 漫画サイト情報新規作成(create))
   def create
     rakuten_book_info = RakutenWebService::Books::Book.search(isbn: comic_params[:isbn]).first
     @comic = Comic.new(comic_params)
@@ -253,7 +266,7 @@ class Public::ComicsController < ApplicationController
     if comic_exists.nil? # Comicのレコードがない場合
       @comic.save!
       
-      # サイト情報を新規作成
+      # 漫画サイト情報を新規作成
       site_params[:site_ids].each do |site_id|
         ComicSite.create(
           site_id: site_id.to_i,
@@ -263,7 +276,6 @@ class Public::ComicsController < ApplicationController
       
       # ログインユーザのupdate回数を＋１
       update_amount = current_user.update_count
-      
       current_user.update(
         update_count: update_amount + 1
         )
@@ -281,10 +293,11 @@ class Public::ComicsController < ApplicationController
   
   ## 漫画情報詳細
   def show
-    if !request.referer&.include?("/comics") || 
+    if !request.referer&.include?("/comics/:id") || 
       !request.referer&.include?("/new") || 
-      !request.referer&.include?("/comics") || 
-      request.referer&.include?("/sale_index/#{params[:current_page]}")|| 
+      !request.referer&.include?("/edit") ||
+      !request.referer&.include?("comics#update") ||
+      request.referer&.include?("/sale_index/#{params[:current_page]}") || 
       request.referer&.include?("/review_count_index") || 
       request.referer&.include?("/comic_site_index/#{params[:site_id]}") ||
       request.referer&.include?("/next_coming_index") ||
@@ -300,7 +313,8 @@ class Public::ComicsController < ApplicationController
     @sites = @comic.sites.all
     @can_read = ReadJudgement.where(
                   comic_id: @comic.id,
-                  can_read: true # 読めた
+                  can_read: true, # 読めた
+                  version: @comic.version
                   )
     @can_not_read = ReadJudgement.where(
                       comic_id: @comic.id,
@@ -389,7 +403,7 @@ class Public::ComicsController < ApplicationController
   
   
   
-  ## create - 可読判定
+  ## 可読判定(create)
   def read_judgement
     comic = Comic.find(params[:comic_id])
     version = comic.version
@@ -428,7 +442,3 @@ class Public::ComicsController < ApplicationController
     params.require(:comic).permit(site_ids: [])
   end
 end
-
-# comic2に対してのversion0のときのtrueの数をカウントできる。
-# TotalReadableInfo.where(comic_id: 2,version:0,can_read:true).count
-# これをversion毎にユーザと紐付ける

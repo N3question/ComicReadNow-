@@ -38,23 +38,16 @@
                     </div>
                 <% end %>
             </div>
-            <!--<div class="d-flex flex-wrap" style="justify-content:center;">-->
-            <!--    <#%= link_to review_count_index_comics_path(page: @prev) do %>-->
-            <!--      < Prev　　　　　　　　　　　　　　　　　　-->
-            <!--    <#% end %>-->
-            <!--    <#%= link_to review_count_index_comics_path(page: @next) do %>-->
-            <!--      Next >-->
-            <!--    <#% end %>-->
-            <!--</div>-->
+            
             <div class="d-flex flex-wrap" style="justify-content:center;">
             <%= paginate @comics %>
-        </div>
+            </div>
         </div>
       
   </div>
 </div>
 
-<span id="back" style="width:100%;">
+<span id="back" style="width:100%; display:none;">
   <a href=""  style="text-decoration:none;">
       <div class="d-flex justify-content-center border mt-5 mb-4 mx-auto" 
            style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
