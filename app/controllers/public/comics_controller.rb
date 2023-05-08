@@ -117,12 +117,22 @@ class Public::ComicsController < ApplicationController
   
   ## User Select一覧
   def user_select_index
-    comic_ids = Bookmark.joins(:comic)
-                        .group(:comic_id)
-                        .order('count(bookmarks.comic_id) DESC')
-                        .order('comics.title ASC')
-                        .pluck(:comic_id)
-    @bookmark_comics = Comic.where(id: comic_ids).page(params[:page]).per(30)
+    bookmark_comics = Comic.find(
+          Bookmark.joins(:comic)
+          .group(:comic_id)
+          .order('count(bookmarks.comic_id) DESC')
+          .order('comics.title ASC')
+          .pluck(:comic_id)
+          )
+    @bookmark_comics = Kaminari.paginate_array(bookmark_comics).page(params[:page]).per(30)
+    # comic_ids = Comic.find(
+    #       Bookmark.joins(:comic)
+    #       .group(:comic_id)
+    #       .order('count(bookmarks.comic_id) DESC')
+    #       .order('comics.title ASC')
+    #       .pluck(:comic_id)
+    #       )
+    # @bookmark_comics = Comic.where(id: comic_ids).page(params[:page]).per(30)
   end
   
   
@@ -293,11 +303,8 @@ class Public::ComicsController < ApplicationController
   
   ## 漫画情報詳細
   def show
-    # byebug
     if !request.referer &.include?("/comics") || 
       !request.referer&.include?("/new") || 
-      # !request.referer&.include?("/edit") ||
-      # !request.referer&.include?("comics#update") ||
       request.referer&.include?("/sale_index/#{params[:current_page]}") || 
       request.referer&.include?("/review_count_index") || 
       request.referer&.include?("/comic_site_index/#{params[:site_id]}") ||
@@ -309,7 +316,21 @@ class Public::ComicsController < ApplicationController
       session["url"] = request.referer
     end
     
+    
     @comic = Comic.find(params[:id])
+    
+    user_can_read_info = ReadJudgement.find_by(
+                          user_id: current_user.id, 
+                          comic_id: @comic.id
+                          )
+    # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
+    if current_user.remaining_total_update_limit < 1 || @comic.remaining_one_comic_update_limit < 1
+        redirect_to request.referer
+    # （！） && ユーザのupdateのlimit(漫画単体)が1以下
+    elsif user_can_read_info && @comic.remaining_one_comic_update_limit < 1
+        redirect_to request.referer
+    end
+    
     @rb_comic = RakutenWebService::Books::Book.search(isbn: @comic.isbn).first
     @sites = @comic.sites.all
     @can_read = ReadJudgement.where(
@@ -323,6 +344,7 @@ class Public::ComicsController < ApplicationController
                       version: @comic.version
                       )
     @comic_update_limit_count = @comic.remaining_one_comic_update_limit
+    
   end
   
   
@@ -331,21 +353,21 @@ class Public::ComicsController < ApplicationController
   
   
   ## サイト情報の編集
-  def edit
-    @comic = Comic.find(params[:id])
-    user_can_read_info = ReadJudgement.find_by(
-                          user_id: current_user, 
-                          comic_id: @comic.id
-                          )
+  # def edit
+  #   @comic = Comic.find(params[:id])
+  #   user_can_read_info = ReadJudgement.find_by(
+  #                         user_id: current_user, 
+  #                         comic_id: @comic.id
+  #                         )
     
-    # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
-    if current_user.remaining_total_update_limit < 1 || @comic.remaining_one_comic_update_limit < 1
-        redirect_to request.referer
-    # （！） && ユーザのupdateのlimit(漫画単体)が1以下
-    elsif user_can_read_info && @comic.remaining_one_comic_update_limit < 1
-        redirect_to request.referer
-    end
-  end
+  #   # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
+  #   if current_user.remaining_total_update_limit < 1 || @comic.remaining_one_comic_update_limit < 1
+  #       redirect_to request.referer
+  #   # （！） && ユーザのupdateのlimit(漫画単体)が1以下
+  #   elsif user_can_read_info && @comic.remaining_one_comic_update_limit < 1
+  #       redirect_to request.referer
+  #   end
+  # end
   
   
   
@@ -359,21 +381,22 @@ class Public::ComicsController < ApplicationController
                           comic_id: comic.id
                           )
     
-    # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
+    # 各ユーザの更新限度 < 1、漫画（単体）の更新限度 < 1
     if current_user.remaining_total_update_limit < 1 || comic.remaining_one_comic_update_limit < 1
         redirect_to request.referer
-    # （！） && ユーザのupdateのlimit(漫画単体)が1以下
+    # 各ユーザが押した可読情報が存在、漫画（単体）の更新限度 < 1
     elsif user_can_read_info && comic.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     end
     
-    # aa = ComicSite.where(comic_id: 66).pluck(:site_id) #（今現在保存されているデータ）
-    # bb = site_params[:site_ids] #（これから更新するデータ）
-    # aa == bb # 配列の比較で検索してみる  # 文字列、整数の場合は==でできる。
-    # if # ここに記述する条件式をDB（登録されているデータ）から内容を取得しView側からのデータを取得し比較する。
-    #   redirect_to edit_comic_path(comic.id)
-    #   return
-    # end
+    before_comic_info = ComicSite.where(comic_id: 66).pluck(:site_id) #（今現在保存されているデータ）
+    after_comic_info = site_params[:site_ids] #（これから更新するデータ）
+    # 配列の比較で検索してみる  # 文字列、整数の場合は[値] == [値]でできる。
+    if before_comic_info.uniq.length != after_comic_info.length
+      flash[:alert] = '同じ内容の為、更新ができませんでした。'
+      redirect_to comic_path(comic.id)
+      return
+    end
     
     limit = comic.remaining_one_comic_update_limit # 追加
     

@@ -6,7 +6,7 @@
         <i class="bi bi-arrow-left"></i>
       <% end %>
       
-      <h5 class="ml-4 mb-5"><b>User Ranking</b></h5>
+      <h4 class="ml-4 mb-5" style="font-family: 'Bruno Ace', cursive; text-shadow: 4px 4px 4px #aaa;"><b>User Ranking</b></h4>
       
       
       <!--Viewでn+1をしていく。
@@ -16,17 +16,18 @@
       -->
       <table class="table user_rank_table">
         <tr style="text-align: center;">
-          <th>順位</th>
+          <th class="small">順位</th>
           <th></th>
-          <th>アイコン</th>
-          <th>ユーザ名</th>
-          <th>更新回数</th>
-          <th>評価件数</th>
+          <th class="small">アイコン</th>
+          <th class="small">ユーザ名</th>
+          <th class="small">更新</th>
+          <th class="small">評価</th>
         </tr>
         
+        <% default = 1 %>
         <% @users.each do |user| %>
           <tr style="text-align: center;">
-            <td><%=  %></td>
+            <td style="vertical-align: middle; font-family: 'Dela Gothic One', cursive;"><%= default %></td>
             <td></td>
             <td>
               <div class="user_icon">
@@ -37,18 +38,19 @@
                 <% end %>
               </div>
             </td>
-            <td style="vertical-align: middle;"><%= user.nick_name %></td>
-            <td style="vertical-align: middle;"><%= user.update_count %></td>
-            <td style="vertical-align: middle;"><%= user.read_judgements.where(can_read: true).count %></td>
+            <td style="vertical-align: middle; font-family: 'Bruno Ace', cursive;"><%= user.nick_name %></td>
+            <td style="vertical-align: middle;"><%= user.update_count %>回</td>
+            <td style="vertical-align: middle;"><%= user.read_judgements.where(can_read: true).count %>件</td>
           </tr>
+          <% default + 1 %>
         <% end %>
       </table>
       
       <span id="back" style="width:100%; display:none;">
         <a href=""  style="text-decoration:none;">
             <div class="d-flex justify-content-center border w-100" 
-                 style="width:95%; height:40px; line-height:40px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
-              <p class="mb-0 text-dark ">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
+                 style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
+              <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
             </div>
         </a>
       </span>

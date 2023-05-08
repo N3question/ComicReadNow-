@@ -22,6 +22,8 @@ import "../stylesheets/application"
   });
 });
 
+//= require jquery
+//= require jquery_ujs
 
 Rails.start()
 Turbolinks.start()

@@ -181,3 +181,18 @@ a.img_link:hover {
 .channel.active {
   background: #003973;
 }
+
+ul li .list_icon {
+  position: relative;
+  padding-left: 25px;
+}
+
+ul li .list_icon::before {
+  content: '\F270';
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  position: absolute;
+  top: 4px;
+  left: 0;
+  color: green;
+}
