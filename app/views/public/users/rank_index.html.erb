@@ -8,6 +8,12 @@
       
       <h5 class="ml-4 mb-5"><b>User Ranking</b></h5>
       
+      
+      <!--Viewでn+1をしていく。
+          1.eachの上で変数の定義をする。初期値１
+          2.eachの中で変数を表示する
+          3.ループの終わりで変数を+1する（％end%の前でする）
+      -->
       <table class="table user_rank_table">
         <tr style="text-align: center;">
           <th>順位</th>
@@ -17,6 +23,7 @@
           <th>更新回数</th>
           <th>評価件数</th>
         </tr>
+        
         <% @users.each do |user| %>
           <tr style="text-align: center;">
             <td><%=  %></td>

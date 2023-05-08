@@ -7,7 +7,7 @@ class Public::ComicsController < ApplicationController
     
     ### User Ranking
     user_rank = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count * 2 <=> a.read_judgements.where(can_read: true).count + b.update_count * 2 }
-    @user_rank_1 = User.where(user_id: user_rank.first(1))
+    @user_rank = user_rank.first(5)
     
     
     ### MY Ranking
@@ -274,10 +274,10 @@ class Public::ComicsController < ApplicationController
           )
       end
       
-      # ログインユーザのupdate回数を＋１
+      # ログインユーザのupdate回数を＋2
       update_amount = current_user.update_count
       current_user.update(
-        update_count: update_amount + 1
+        update_count: update_amount + 2
         )
         
       redirect_to comic_path(@comic)
@@ -293,10 +293,11 @@ class Public::ComicsController < ApplicationController
   
   ## 漫画情報詳細
   def show
-    if !request.referer&.include?("/comics:id") || 
+    # byebug
+    if !request.referer &.include?("/comics") || 
       !request.referer&.include?("/new") || 
-      !request.referer&.include?("/edit") ||
-      !request.referer&.include?("comics#update") ||
+      # !request.referer&.include?("/edit") ||
+      # !request.referer&.include?("comics#update") ||
       request.referer&.include?("/sale_index/#{params[:current_page]}") || 
       request.referer&.include?("/review_count_index") || 
       request.referer&.include?("/comic_site_index/#{params[:site_id]}") ||
@@ -365,6 +366,14 @@ class Public::ComicsController < ApplicationController
     elsif user_can_read_info && comic.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     end
+    
+    # aa = ComicSite.where(comic_id: 66).pluck(:site_id) #（今現在保存されているデータ）
+    # bb = site_params[:site_ids] #（これから更新するデータ）
+    # aa == bb # 配列の比較で検索してみる  # 文字列、整数の場合は==でできる。
+    # if # ここに記述する条件式をDB（登録されているデータ）から内容を取得しView側からのデータを取得し比較する。
+    #   redirect_to edit_comic_path(comic.id)
+    #   return
+    # end
     
     limit = comic.remaining_one_comic_update_limit # 追加
     

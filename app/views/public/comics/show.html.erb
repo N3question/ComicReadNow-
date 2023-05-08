@@ -62,7 +62,7 @@
                       <b><%= @comic.user.nick_name %></b> さんが更新済み
                       (ver.<%= @comic.version %>)<br>
                       <% if @comic.remaining_one_comic_update_limit < 1 %>
-                        今日の更新はこれ以上できません。
+                        今日の更新はこれ以上することができません。
                       <% else %>
                         この漫画の更新残数は <%= @comic.remaining_one_comic_update_limit %> 回です。
                       <% end %>
@@ -124,23 +124,26 @@
                           
                           <!--ブックマーク-->
                           <div>
-                          <% if bookmark.present? %>
-                                <%= link_to comic_destroy_bookmark_path(@comic.id), class:"btn p-0" do %>
-                                  <div class="d-inline-flex">
-                                    <h3><i class="bi bi-bookmark-check-fill mb-0"></i></h3>
-                                    <small class="p-1 text-nowrap" style="vertical-align:middle;">追加済み</small>
-                                  </div>
+                              <div class="d-inline-flex">
+                                <% if bookmark.present? %>
+                                    <%= link_to comic_destroy_bookmark_path(@comic.id), class:"btn p-0" do %>
+                                      <div class="d-inline-flex">
+                                        <h3 class="mb-0"><i class="bi bi-bookmark-check-fill"></i></h3>
+                                        <small class="p-1" style="vertical-align:middle;">追加済み</small>
+                                      </div>
+                                    <% end %>
+                                <% else %>
+                                    <%= link_to comic_bookmark_path(@comic.id), class:"btn p-0" do %>
+                                      <div class="d-inline-flex">
+                                        <h3 class="mb-0"><i class="bi bi-bookmark-plus"></i></h3>
+                                        <small class="p-1" style="vertical-align:middle;">追加</small>
+                                      </div>
+                                    <% end %>
                                 <% end %>
-                          <% else %>
-                                <%= link_to comic_bookmark_path(@comic.id), class:"btn p-0" do %>
-                                  <div class="d-inline-flex">
-                                    <h3><i class="bi bi-bookmark-plus mb-0"></i></h3>
-                                    <small class="p-1 text-nowrap" style="vertical-align:middle;">追加</small>
-                                  </div>
-                                <% end %>
-                          <% end %>
-                        </div><br>
-                    <% end %>
+                              </div>
+                              <p class="mb-0">⚪︎人がブックマークしています。</p>
+                          </div><br>
+                      <% end %>
                     
                     <!--確認用。後日消す-->
                     <div>
