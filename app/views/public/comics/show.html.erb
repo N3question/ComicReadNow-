@@ -1,7 +1,9 @@
 <div style="background-color:#EEE; height:100px;"></div>
-  <div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
-    
-    <div class="col-lg-9 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
+<div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
+  <div class="col-lg-9 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
+        
+        
+        <!--前の画面に遷移するボタン-->
         <% if session["search_keyword"].present? && params[:page] %>
             <%= link_to search_index_comics_path(keyword: session["search_keyword"], page: params[:page]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
@@ -16,9 +18,13 @@
             <% end %>
         <% end %>
         
+        
+        <!--漫画情報詳細-->
         <div class="d-flex flex-wrap"  style="padding:30px 20px; justify-content:center;">
+            
             <%= image_tag @comic.large_image_url, class:"my-3 mx-5", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
             
+            <!--書籍情報-->
             <div class="p-3">
                 <div>
                   <h5><b><%= @comic.title %>　</b><small>の詳細</small></h5>
@@ -30,94 +36,122 @@
                   </div>
                 </div>
                 
+                
                 <hr>
+                
                 
                 <div class="mt-4">
-                <div class="d-flex" style="align-items: center;">
-                  <small class="border mb-2 mr-4 p-1 text-success">以下の漫画サイトで読むことができます！</small><br>
-                  <% if user_signed_in? && @can_not_read.count > 0 && @comic_update_limit_count > 0 %>
-                    <%= link_to "編集", edit_comic_path(@comic.id), class:"btn btn-sm rounded-pill mb-2 ml-auto px-3 text-nowrap", style:"background-color:#66CC00; color:white;" %>
-                  <% end %>
-                </div>
+                  
+                    <!--漫画サイト情報-->
+                    <div class="d-flex" style="align-items: center;">
+                      <small class="border mb-2 mr-4 p-1 text-success">以下の漫画サイトで読むことができます！</small><br>
+                      <% if user_signed_in? && @can_not_read.count > 0 && @comic_update_limit_count > 0 %>
+                        <%= link_to "編集", edit_comic_path(@comic.id), class:"btn btn-sm rounded-pill mb-2 ml-auto px-3 text-nowrap", style:"background-color:#66CC00; color:white;" %>
+                      <% end %>
+                    </div>
                 
-                <% @sites.each do |site| %>
-                  <p class="pb-0 d-inline-flex">
-                    <i class="bi bi-check-lg text-success"></i>
-                    <%= site.name %>
-                  </p>
-                <% end %><br>
+                    <% @sites.each do |site| %>
+                      <p class="pb-0 d-inline-flex">
+                        <i class="bi bi-check-lg text-success"></i>
+                        <%= site.name %>
+                      </p>
+                    <% end %><br>
                 
-                <small>
-                  <%= @comic.updated_at.strftime('%Y年%m月%d日%H時%M分') %>　
-                  <b><%= @comic.user.nick_name %></b> さんが更新済み
-                  (ver.<%= @comic.version %>)<br>
-                  <% if @comic.remaining_one_comic_update_limit < 1 %>
-                    今日の更新はこれ以上できません。
-                  <% else %>
-                    この漫画の更新残数は <%= @comic.remaining_one_comic_update_limit %> 回です。
-                  <% end %>
-                </small>
-                   
-                <% if user_signed_in? %>
-                <% user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id, version: @comic.version) %>
-                <% current_version = Comic.order(version: :desc).limit(1) %>
-                <% bookmark = Bookmark.where(comic_id: @comic.id, user_id: current_user) %>
-                <hr>
-                
-                    <% if user_read_judgement.present? && user_read_judgement.can_read == true %>
-                      <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
-                    <% elsif user_read_judgement.present? &&  user_read_judgement.can_read == false %>
-                      <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
-                    <% elsif current_version && %>
-                      <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
+                    <small>
+                      <%= @comic.updated_at.strftime('%Y年%m月%d日%H時%M分') %>　
+                      <b><%= @comic.user.nick_name %></b> さんが更新済み
+                      (ver.<%= @comic.version %>)<br>
+                      <% if @comic.remaining_one_comic_update_limit < 1 %>
+                        今日の更新はこれ以上できません。
+                      <% else %>
+                        この漫画の更新残数は <%= @comic.remaining_one_comic_update_limit %> 回です。
+                      <% end %>
+                    </small>
+                    
+                    
+                    <!--前提定義-->
+                    <% if user_signed_in? %>
+                    <% user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id, version: @comic.version) %>
+                    <% current_version = Comic.order(version: :desc).limit(1) %>
+                    <% bookmark = Bookmark.where(comic_id: @comic.id, user_id: current_user) %>
+                    <!--ここまで-->
+                        
+                        
+                        <hr>
+                        
+                        
+                        <!--可読判定に対するメッセージ-->
+                        <div class="mb-2">
+                            <% if user_read_judgement.present? && user_read_judgement.can_read == true %>
+                              <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
+                            <% elsif user_read_judgement.present? && user_read_judgement.can_read == false %>
+                              <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
+                            <% elsif current_version && %>
+                              <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
+                            <% end %>
+                        </div>
+                        
+                        
+                        <!--可読判定-->
+                        <div class="d-flex" style="align-items: center;">
+                            <!--可読情報が未追加-->
+                            <% if user_read_judgement.nil? %>
+                                  <%= form_with url: comic_read_judgement_path(@comic.id), id:"comic_read_judgement" do |f| %>
+                                    <div class="d-flex">
+                                      <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>
+                                      <%= f.label :read_info, "読めた", for:"read_info_true", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio" %>　
+                                      <%= f.radio_button :read_info, false, style:"display:none;", onchange:"radio_func()" %>
+                                      <%= f.label :read_info, "読めなかった", for:"read_info_false", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio" %>　
+                                    </div>
+                                  <% end %>
+                            
+                            <!--可読情報が追加済-->
+                            <% else %>
+                                  <p class="mr-2 mb-0 px-2 py-1 text-nowrap can_read_radio">読めた</p>
+                                  <p class="mb-0">
+                                    <%= @comic.can_read_count %>人
+                                    </p>
+                                  <p class="mr-2 ml-3 mb-0 px-2 py-1 text-nowrap can_not_read_radio">読めなかった</p>
+                                  <p class="mb-0">
+                                    <%= @comic.can_not_read_count %>人
+                                  </p>
+                            <% end %>
+                          </div>
+                          
+                          
+                          <hr>
+                          
+                          
+                          <!--ブックマーク-->
+                          <div>
+                          <% if bookmark.present? %>
+                                <%= link_to comic_destroy_bookmark_path(@comic.id), class:"btn p-0" do %>
+                                  <div class="d-inline-flex">
+                                    <h3><i class="bi bi-bookmark-check-fill mb-0"></i></h3>
+                                    <small class="p-1 text-nowrap" style="vertical-align:middle;">追加済み</small>
+                                  </div>
+                                <% end %>
+                          <% else %>
+                                <%= link_to comic_bookmark_path(@comic.id), class:"btn p-0" do %>
+                                  <div class="d-inline-flex">
+                                    <h3><i class="bi bi-bookmark-plus mb-0"></i></h3>
+                                    <small class="p-1 text-nowrap" style="vertical-align:middle;">追加</small>
+                                  </div>
+                                <% end %>
+                          <% end %>
+                        </div><br>
                     <% end %>
                     
-                    <div class="d-flex" style="align-items: center;">
-                      <% if user_read_judgement.nil? %>
-                            <%= form_with url: comic_read_judgement_path(@comic.id), id:"comic_read_judgement" do |f| %>
-                              <div class="d-flex">
-                                <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>
-                                <%= f.label :read_info, "読めた", for:"read_info_true", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio" %>　
-                                <%= f.radio_button :read_info, false, style:"display:none;", onchange:"radio_func()" %>
-                                <%= f.label :read_info, "読めなかった", for:"read_info_false", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio" %>　
-                              </div>
-                            <% end %>
-                      <% else %>
-                            <p class="mr-2 mb-0 px-2 py-1 text-nowrap can_read_radio">読めた</p>
-                            <p class="mb-0">
-                              <%= @comic.can_read_count %>人
-                              </p>
-                            <p class="mr-2 ml-3 mb-0 px-2 py-1 text-nowrap can_not_read_radio">読めなかった</p>
-                            <p class="mb-0">
-                              <%= @comic.can_not_read_count %>人
-                            </p>
-                      <% end %>
-                      
-                      
-                      <% if bookmark.present? %>
-                            <%= link_to comic_destroy_bookmark_path(@comic.id), class:"btn p-0" do %>
-                              <div class="d-inline-flex ml-5">
-                                <h3><i class="bi bi-bookmark-check-fill mb-0"></i></h3>
-                                <small class="p-1 text-nowrap" style="vertical-align:middle;">追加済み</small>
-                              </div>
-                            <% end %>
-                      <% else %>
-                            <%= link_to comic_bookmark_path(@comic.id), class:"btn p-0" do %>
-                              <div class="d-inline-flex ml-5">
-                                <h3><i class="bi bi-bookmark-plus mb-0"></i></h3>
-                                <small class="p-1 text-nowrap" style="vertical-align:middle;">追加</small>
-                              </div>
-                            <% end %>
-                      <% end %>
-                    </div><br>
-                <% end %>
-                
-                <% if user_signed_in? %>
-                  <%= request.referer %>
-                <% end %>
+                    <!--確認用。後日消す-->
+                    <div>
+                    <% if user_signed_in? %>
+                      <%= request.referer %>
+                    <% end %>
+                    </div>
+                    <!--ここまで-->
+                </div>
             </div>
         </div>
-    </div>
     
   </div>
 </div>

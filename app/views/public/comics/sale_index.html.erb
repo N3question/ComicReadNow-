@@ -7,7 +7,7 @@
             <% end %>
             
             <h5 class="ml-5 mb-5"><b>新着一覧</b></h5>
-            <div class="d-inline-flex flex-wrap ml-5" style="justify-content:left;">
+            <div class="d-inline-flex flex-wrap ml-5">
                 <% @now_comics.each do |book| %>
                 <% comic = Comic.find_by(isbn: book["isbn"]) %>
                   <div class="mx-2">

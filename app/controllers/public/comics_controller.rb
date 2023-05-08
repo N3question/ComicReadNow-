@@ -6,8 +6,8 @@ class Public::ComicsController < ApplicationController
     session["search_keyword"] = nil
     
     ### User Ranking
-    user_rank = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count * 2 <=> a.read_judgements.where(can_read: true).count + b.update_count * 2 }.first(1)
-    @user_rank_1 = User.where(nick_name: user_rank)
+    user_rank = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count * 2 <=> a.read_judgements.where(can_read: true).count + b.update_count * 2 }
+    @user_rank_1 = User.where(user_id: user_rank.first(1))
     
     
     ### MY Ranking
@@ -108,7 +108,7 @@ class Public::ComicsController < ApplicationController
       redirect_to sale_index_comics_path(page: page + 1)
     end 
     
-    @now_comics = Kaminari.paginate_array(now_comics, total_count: 900).page(params[:page]).per(30)
+    @now_comics = Kaminari.paginate_array(now_comics, total_count: 1200).page(params[:page]).per(30)
   end
   
   
@@ -146,7 +146,7 @@ class Public::ComicsController < ApplicationController
           page: page
           ).sort_by {|v| v["reviewAverage"] }
           
-    @comics = Kaminari.paginate_array(comics, total_count: 900).page(params[:page]).per(30)
+    @comics = Kaminari.paginate_array(comics, total_count: 1200).page(params[:page]).per(30)
   end
   
   
@@ -176,7 +176,7 @@ class Public::ComicsController < ApplicationController
       end
     end
     
-    @next_comics = Kaminari.paginate_array(next_comics, total_count: 900).page(params[:page]).per(30)
+    @next_comics = Kaminari.paginate_array(next_comics, total_count: 1200).page(params[:page]).per(30)
   end
   
   
@@ -293,7 +293,7 @@ class Public::ComicsController < ApplicationController
   
   ## 漫画情報詳細
   def show
-    if !request.referer&.include?("/comics/:id") || 
+    if !request.referer&.include?("/comics:id") || 
       !request.referer&.include?("/new") || 
       !request.referer&.include?("/edit") ||
       !request.referer&.include?("comics#update") ||
