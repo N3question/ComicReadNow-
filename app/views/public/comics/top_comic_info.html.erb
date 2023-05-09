@@ -157,9 +157,28 @@
                       </div>
                   
                 <% elsif user_signed_in? && @top_comic_info.nil? %>
-                    <%= link_to new_comic_path(isbn: @isbn), class:'btn btn-outline-dark w-100' do %>
-                      <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
-                    <% end %>
+                      <div class= "sample mb-2 d-flex" style="justify-content: flex-end;">
+                            <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
+                      </div>
+                      <div class= "sampleA mb-3 border" style="height:250px; width:auto; padding:30px 20px; display:flex; justify-content:center;">
+                          <div class="p-3">
+                            <%= flash[:alert] %>
+                            <p><b>' <%= @top_rb_comic_info["title"] %> '</b><small>の情報を追加中...</small></p>
+                            <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
+                            
+                            <div class="mt-4">
+                                <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
+                                    <%= f.hidden_field :isbn, value: params[:isbn] %>
+                                    <% Site.all.each do |site| %>
+                                        <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
+                                        <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
+                                    <% end %><br>
+                                    <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>
+                                <% end %>
+                            </div>
+                          </div>
+                      </div>
+                      <script src="index.js"></script>
                     
                 <% elsif @can_not_create_record %>
                     <p>サイト情報の追加は発売日以降に可能になります。</p>
@@ -191,4 +210,12 @@
       return
     }
   }
+  
+  $(function(){
+    //ボタンのイベント
+    $(".btn").click(function(){
+      // sampleAクラスをスライドアップ/ダウンさせる
+      $(".sampleA").slideToggle();
+    });
+  });
 </script>
