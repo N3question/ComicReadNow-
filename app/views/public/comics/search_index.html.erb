@@ -39,7 +39,7 @@
                                   
                                   <div class="mt-4">
                                       <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
-                                          <%= f.hidden_field :isbn, value: params[:isbn] %>
+                                          <%= f.hidden_field :isbn, value: book["isbn"] %>
                                           <% Site.all.each do |site| %>
                                               <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
                                               <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
@@ -91,9 +91,11 @@
     
   $(function(){
     //ボタンのイベント
-    $(".btn").click(function(){
+    $(".btn").click(function(e){
       // sampleAクラスをスライドアップ/ダウンさせる
-      $(".sampleA").slideToggle();
+      $(e.target).parent().next('.sampleA').slideToggle();
     });
   });
 </script>
+
+$(this)

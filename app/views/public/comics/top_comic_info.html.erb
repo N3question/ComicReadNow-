@@ -13,11 +13,13 @@
         <!--漫画情報詳細-->
         <div class="d-flex flex-wrap"  style="padding:30px 20px; justify-content:center;">
             
+            <% if !@top_rb_comic_info.blank? %>
             <!--書籍情報-->
             <%= image_tag @top_rb_comic_info["largeImageUrl"], class:"my-3 mx-5", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
-         
+            <% end %>
+            
             <div class="p-3">
-              <% if @from_rws %>
+              <% if @from_rws == "true" %>
                 <h5><b><%= @top_rb_comic_info["title"] %>　</b><small>の詳細</small></h5>
                 <div class="mt-3">
                   著者：　　<%= @top_rb_comic_info["author"] %>
@@ -31,10 +33,14 @@
                   著者：　　<%= @top_comic_info.author %>
                   <small>(<%= @top_comic_info.author_kana %>)</small><br>
                   出版社：　<%= @top_comic_info.publisher_name %><br>
-                  発売日：　<%= @top_rb_comic_info["salesDate"] %><br>
+                  <% if !@top_rb_comic_info.blank? %>
+                  発売日：　<%= @top_rb_comic_info["salesDate"] %>
+                  <% else %>
+                  発売日が見つかりませんでした。
+                  <% end %>
                 </div>
-              <%end%>
-                
+              <% end %>
+              
               <hr>
                 
               <div class="mt-4">
@@ -146,7 +152,7 @@
                                   </div>
                                 <% end %>
                             <% else %>
-                                <%= link_to comic_bookmark_path(@top_comic_info.id), class:"btn p-0" do %>
+                                <%= link_to comic_create_bookmark_path(@top_comic_info.id), class:"btn p-0" do %>
                                   <div class="d-inline-flex">
                                     <small class="p-1" style="vertical-align:middle;">追加</small>
                                     <h3 class="mb-0"><i class="bi bi-bookmark-plus"></i></h3>

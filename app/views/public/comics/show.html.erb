@@ -48,7 +48,8 @@
                       <div class= "sample d-flex" style="justify-content: flex-end;">
                         <input type="button" class="btn btn-sm rounded-pill mb-2 px-3 text-nowrap" style="background-color:#66CC00; color:white;" value="編集">
                       </div>
-                      <div class= "sampleA mb-3 border" style="height:250px; width:100%; padding:30px 20px; display:flex; justify-content:center;">
+                      <div class= "sampleA mb-3 border" style="display:none;">
+                        <div style="height:250px; width:100%; padding:30px 20px; display:flex; justify-content:center;">
                           <div class="p-3">
                               <%= flash[:alert] %>
                               <p><b>' <%= @comic.title %> '</b><small>の編集...</small></p>
@@ -65,6 +66,7 @@
                                   <% end %>
                               </div>
                           </div>
+                        </div>
                       </div>
                       <script src="index.js"></script>
                     <% end %>
@@ -114,10 +116,10 @@
                         
                         
                         <!--可読判定-->
-                        <div class="d-flex" style="align-items: center;">
+                        <div id="read_judgement_id" class="d-flex" style="align-items: center;">
                             <!--可読情報が未追加-->
                             <% if user_read_judgement.nil? %>
-                                  <%= form_with url: comic_read_judgement_path(@comic.id), id:"comic_read_judgement" do |f| %>
+                                  <%= form_with url: comic_read_judgement_path(@comic.id), id:"comic_read_judgement" do |f| %> <!-- , data: {remote: true} -->
                                     <div class="d-flex">
                                       <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>
                                       <%= f.label :read_info, "読めた", for:"read_info_true", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio" %>　
@@ -147,21 +149,9 @@
                           <div class="d-flex flex-wrap" style="align-items: center;">
                               <p class="small mb-0"><%= bookmark_all_user.count %>人がブックマーク中...</p>
                               <div class="ml-auto">
-                                <% if bookmark.present? %>
-                                    <%= link_to comic_destroy_bookmark_path(@comic.id), class:"btn p-0" do %>
-                                      <div class="d-inline-flex" style="align-items: center;">
-                                        <small class="p-1">追加済み</small>
-                                        <h3 class="mb-0"><i class="bi bi-bookmark-check-fill"></i></h3>
-                                      </div>
-                                    <% end %>
-                                <% else %>
-                                    <%= link_to comic_bookmark_path(@comic.id), class:"btn p-0" do %>
-                                      <div class="d-inline-flex" style="align-items: center;">
-                                        <small class="p-1">追加</small>
-                                        <h3 class="mb-0"><i class="bi bi-bookmark-plus"></i></h3>
-                                      </div>
-                                    <% end %>
-                                <% end %>
+                                  <div id="bookmarks_buttons_<%= @comic.id %>">
+                                    <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @comic} %>
+                                  </div>
                               </div>
                           </div><br>
                       <% end %>
@@ -183,8 +173,32 @@
 <script>
   function radio_func() {
     if(window.confirm('情報は間違いありませんか？意図的に誤った内容を送信することは禁止されています。')) {
-      var form =document.getElementById('comic_read_judgement');
-      form.submit();    
+      var form = document.getElementById('comic_read_judgement');
+      // form.submit(); 
+      // $('input[name=read_info]:checked').val()
+      // $('#read_judgement_id').html('<p>change</p>');
+      // let token = $('meta[name="csrf-token"]').attr('content');
+      // let read_info_value = $('input[name=read_info]:checked').val();
+      // $.ajax({
+      //   type: 'post',
+      //   url: '/comics/<#%= @comic.id %>/read_judgement.js',
+      //   data: {
+      //     read_info: read_info_value
+      //   },
+      //   headers: {
+      //     'X-CSRF-Token': token
+      //     'Content-Type': 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'
+      //   },
+      //   dataType: 'json'
+      // }).done(function (data) {
+      //   console.log(data);
+      //   //成功処理
+  
+      // }).fail(function () {
+  
+      //   //失敗処理
+  
+      // });
     }else {
       return
     }
