@@ -6,20 +6,21 @@ class Public::ComicsController < ApplicationController
     session["search_keyword"] = nil
     
     ### User Ranking
-    user_rank = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + b.update_count }
+    user_rank = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count }
     @user_rank = user_rank.first(5)
     
-    @users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + b.update_count}
-    default = 1 
-      @users.each do |user| 
-        if user_signed_in? && user.id == current_user.id
-          @my_rank = default # 13行目と＝じゃない。
-        end
-        default += 1 
-      end
-    
-    
     ### MY Ranking
+    @users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
+    
+    default = 1 
+    @users.each do |user| 
+      if user_signed_in? && user.id == current_user.id
+        @my_rank = default # 13行目と＝じゃない。
+      end
+      default += 1 
+    end
+    
+    
     
     
     ### 新着
@@ -249,29 +250,23 @@ class Public::ComicsController < ApplicationController
   
   ## 可読判定(create)
   def read_judgement
-    @comic = Comic.find(params[:comic_id])
-    version = @comic.version
+    comic = Comic.find(params[:comic_id])
+    version = comic.version
     
     if params[:read_info] == "true"
-      @comic.update(can_read_count: @comic.can_read_count + 1)
+      comic.update(can_read_count: comic.can_read_count + 1)
     else
-      @comic.update(can_not_read_count: @comic.can_not_read_count + 1)
+      comic.update(can_not_read_count: comic.can_not_read_count + 1)
     end
     
-    @total_readable_info = @comic.read_judgements.new({
+    readable_info = comic.read_judgements.new({
         can_read: params[:read_info],
         version: version, 
         user_id: current_user.id
         })
     
-    @total_readable_info.save!
-    redirect_to comic_path(@comic.id)
-    
-    # command_result.jsやcommand_result.coffeeの内容を、クライアントへ返す
-    # respond_to do |format|
-    #   format.js { render 'read_judgement' }
-    # end
-    # render json: @comic
+    readable_info.save!
+    redirect_to comic_path(comic.id)
   end
   
   
@@ -412,15 +407,6 @@ class Public::ComicsController < ApplicationController
       #   true
       # end
       # [#<RakutenWebService::Books::Book...] = 配列 (返り値)
-    
-      # @rakuten_web_services =  @rakuten_web_services.select do |comic|
-      #   begin
-      #     Date.current > Date.parse(comic["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0])
-      #   rescue => error
-      #     false
-      #   end
-      # end
-    
     
     else
       @rakuten_web_services = []

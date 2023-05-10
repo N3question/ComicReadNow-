@@ -5,6 +5,20 @@ class Public::UsersController < ApplicationController
     session["search_keyword"] = nil
     @bookmarks = Bookmark.where(user_id: current_user.id).joins(:comic).order(:title).first(10)
     @bookmark_amount = Bookmark.where(user_id: current_user.id).joins(:comic).all
+    
+    users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
+    
+    # 順位の表示
+    default = 1 
+    
+    ## 該当のuserがヒットするまでeachを回し続ける
+    users.each do |user| 
+      if user_signed_in? && user.id == current_user.id
+        @my_rank = default # 13行目と＝じゃない
+      end
+      # 一周すると+1
+      default += 1 
+    end
   end
   
   def edit

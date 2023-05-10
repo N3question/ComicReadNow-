@@ -12,6 +12,7 @@ import "jquery";
 import "popper.js";
 import "bootstrap";
 import "../stylesheets/application" 
+import '@fortawesome/fontawesome-free/js/all'
 
 (function() {
   ('#back a').on('click',function(event){

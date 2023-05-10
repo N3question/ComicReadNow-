@@ -1,147 +1,152 @@
 <div class="" style="margin-top:100px;">
-  <div class="row mx-auto" style="padding:30px 30px 45px;">
-      
-      <div class="col-lg-6 mx-auto p-5" style="background-color:#FFF; box-shadow:0.5px 5px 5px 5px #DDD;">
-          <div class="d-flex align-items-end mb-3">
-                <h5 class="mr-2 mb-4" style="font-family: 'Bruno Ace', cursive; text-shadow: 4px 4px 4px #aaa;"><b>User Ranking</b></h5>
-                <p class="mb-0 ml-auto mr-2 mb-4" style="box-shadow:4px 5px 7px #EEE;">
-                  <%= link_to user_rank_index_path, class:"btn btn-sm btn-outline-dark px-3" do %>
-                    全て見る <i class="bi bi-arrow-right-circle"></i>
-                  <% end %>
-                </p>
-          </div>
-          
-          <div class="row">
-            <div class="col-lg-6 d-flex flex-wrap px-0">
-                  <table class="table table-borderless mb-3">
-                    <tr>
-                        <td class="text-nowrap" align="right" style="font-family: 'Dela Gothic One', cursive;">
-                          <h5>1</h5>
-                        </td>
-                        <td class="border" align="center">
-                          <div class="user_icon">
-                            <% if @user_rank[0].profile_image.attached? %>
-                              <%= image_tag @user_rank[0].profile_image, size: "65x65", class:"" %>
-                            <% else %>
-                              <%= image_tag 'no_image', size: "60x60" %>
-                            <% end %>
-                          </div>
-                          <div class="mt-2" style="font-family: 'Bruno Ace', cursive;">
-                            <%= @user_rank[0].nick_name %>
-                          </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-nowrap" align="right" style="font-family: 'Dela Gothic One', cursive;">2</td>
-                        <td class="border" align="center">
-                          <div class="user_icon">
-                            <% if @user_rank[1].profile_image.attached? %>
-                              <%= image_tag @user_rank[1].profile_image, size: "65x65", class:"" %>
-                            <% else %>
-                              <%= image_tag 'no_image', size: "60x60" %>
-                            <% end %>
-                          </div>
-                          <div class="mt-2" style="font-family: 'Bruno Ace', cursive;">
-                            <%= @user_rank[1].nick_name %>
-                          </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-nowrap" align="right" style="font-family: 'Dela Gothic One', cursive;">3</td>
-                        <td class="border" align="center">
-                          <div class="user_icon">
-                            <% if @user_rank[2].profile_image.attached? %>
-                              <%= image_tag @user_rank[2].profile_image, size: "65x65", class:"" %>
-                            <% else %>
-                              <%= image_tag 'no_image', size: "60x60" %>
-                            <% end %>
-                          </div>
-                          <div class="mt-2" style="font-family: 'Bruno Ace', cursive;">
-                            <%= @user_rank[2].nick_name %>
-                          </div>
-                        </td>
-                    </tr>
-                  </table>
+  
+    <div class="row mx-auto" style="padding:30px 30px 45px; background-color:#EEE;">
+        <!--User Ranking欄-->
+        <div class="col-lg-6 mx-auto p-5" style="background-color:#FFF; box-shadow:0.5px 5px 5px 5px #DDD;">
+            <div class="d-flex align-items-end mb-3">
+                  <h5 class="mr-2 mb-4" style="font-family: 'Bruno Ace', cursive; text-shadow: 4px 4px 4px #aaa;"><b>User Ranking</b></h5>
+                  <p class="mb-0 ml-auto mr-2 mb-4" style="box-shadow:4px 5px 7px #EEE;">
+                    <%= link_to user_rank_index_path, class:"btn btn-sm btn-outline-dark px-3" do %>
+                      全て見る <i class="bi bi-arrow-right-circle"></i>
+                    <% end %>
+                  </p>
             </div>
-                  
-                  
-            <div class="col-lg-5 align-self-end px-0">
-                  <table class="table table-borderless mb-3">
-                    <tr>
-                        <td class="" align="right" style="font-family: 'Dela Gothic One', cursive;">4</td>
-                        <td class="border" align="center">
-                          <div class="user_icon">
-                            <% if @user_rank[3].profile_image.attached? %>
-                              <%= image_tag @user_rank[3].profile_image, size: "55x55", class:"" %>
-                            <% else %>
-                              <%= image_tag 'no_image', size: "60x60" %>
-                            <% end %>
-                          </div>
-                          <div class="mt-2" style="font-family: 'Bruno Ace', cursive;">
-                            <%= @user_rank[3].nick_name %>
-                          </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="" align="right" style="font-family: 'Dela Gothic One', cursive;">5</td>
-                        <td class="border" align="center">
-                          <div class="user_icon">
-                            <% if @user_rank[4].profile_image.attached? %>
-                              <%= image_tag @user_rank[4].profile_image, size: "55x55", class:"" %>
-                            <% else %>
-                              <%= image_tag 'no_image', size: "60x60" %>
-                            <% end %>
-                          </div>
-                          <div class="mt-2" style="font-family: 'Bruno Ace', cursive;">
-                            <%= @user_rank[4].nick_name %>
-                          </div>
-                        </td>
-                    </tr>
-                  </table>
+            
+            <div class="row">
+              <div class="col-lg-6 d-flex flex-wrap px-0">
+                    <table class="table table-borderless mb-3">
+                      <tr>
+                          <td class="text-nowrap" align="right" style="font-family: 'Dela Gothic One', cursive;">
+                            <h5>1</h5>
+                          </td>
+                          <td class="border" align="center">
+                            <div class="user_icon">
+                              <% if @user_rank[0].profile_image.attached? %>
+                                <%= image_tag @user_rank[0].profile_image, size: "65x65", class:"" %>
+                              <% else %>
+                                <%= image_tag 'no_image', size: "60x60" %>
+                              <% end %>
+                            </div>
+                            <div class="mt-2" style="font-family: 'Bruno Ace', cursive;">
+                              <%= @user_rank[0].nick_name %>
+                            </div>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="text-nowrap" align="right" style="font-family: 'Dela Gothic One', cursive;">2</td>
+                          <td class="border" align="center">
+                            <div class="user_icon">
+                              <% if @user_rank[1].profile_image.attached? %>
+                                <%= image_tag @user_rank[1].profile_image, size: "65x65", class:"" %>
+                              <% else %>
+                                <%= image_tag 'no_image', size: "60x60" %>
+                              <% end %>
+                            </div>
+                            <div class="mt-2" style="font-family: 'Bruno Ace', cursive;">
+                              <%= @user_rank[1].nick_name %>
+                            </div>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="text-nowrap" align="right" style="font-family: 'Dela Gothic One', cursive;">3</td>
+                          <td class="border" align="center">
+                            <div class="user_icon">
+                              <% if @user_rank[2].profile_image.attached? %>
+                                <%= image_tag @user_rank[2].profile_image, size: "65x65", class:"" %>
+                              <% else %>
+                                <%= image_tag 'no_image', size: "60x60" %>
+                              <% end %>
+                            </div>
+                            <div class="mt-2" style="font-family: 'Bruno Ace', cursive;">
+                              <%= @user_rank[2].nick_name %>
+                            </div>
+                          </td>
+                      </tr>
+                    </table>
+              </div>
+                    
+                    
+              <div class="col-lg-5 align-self-end px-0">
+                    <table class="table table-borderless mb-3">
+                      <tr>
+                          <td class="" align="right" style="font-family: 'Dela Gothic One', cursive;">4</td>
+                          <td class="border" align="center">
+                            <div class="user_icon">
+                              <% if @user_rank[3].profile_image.attached? %>
+                                <%= image_tag @user_rank[3].profile_image, size: "55x55", class:"" %>
+                              <% else %>
+                                <%= image_tag 'no_image', size: "60x60" %>
+                              <% end %>
+                            </div>
+                            <div class="mt-2" style="font-family: 'Bruno Ace', cursive;">
+                              <%= @user_rank[3].nick_name %>
+                            </div>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="" align="right" style="font-family: 'Dela Gothic One', cursive;">5</td>
+                          <td class="border" align="center">
+                            <div class="user_icon">
+                              <% if @user_rank[4].profile_image.attached? %>
+                                <%= image_tag @user_rank[4].profile_image, size: "55x55", class:"" %>
+                              <% else %>
+                                <%= image_tag 'no_image', size: "60x60" %>
+                              <% end %>
+                            </div>
+                            <div class="mt-2" style="font-family: 'Bruno Ace', cursive;">
+                              <%= @user_rank[4].nick_name %>
+                            </div>
+                          </td>
+                      </tr>
+                    </table>
+              </div>
             </div>
-          </div>
-      </div>
-      
-      <% if user_signed_in? %>
-          <div class="col-lg-5 mx-auto p-5" style="font-family: 'Bruno Ace', cursive; background-color:#FFF; box-shadow:0.5px 5px 5px 5px #DDD;">
-              <h5 style="font-family: 'Bruno Ace', cursive; text-shadow: 4px 4px 4px #aaa;"><b>My Ranking</b></h5>
-              <div class="d-flex" style="align-items:center;">
-                <small>
-                  <b><%= current_user.nick_name %></b> さんの <b>Ranking</b> は...　
-                </small>
-                <h1 class="mb-0" style="font-family: 'Dela Gothic One', cursive;"><%= @my_rank %></h1>　位
-              </div>
-              <div class="mt-4 d-flex" style="align-items:center;">
-                <p class="mb-0">更新：</p><h4 class="mb-0" style="font-family: 'Dela Gothic One', cursive;">　5　</h4><p class="small mb-0">回</p>
-              </div>
-              <div class="mt-3 d-flex" style="align-items:center;">
-                <p class="mb-0">評価：</p><h4 class="mb-0" style="font-family: 'Dela Gothic One', cursive;">　5　</h4><p class="small mb-0">件</p>
-              </div>
-              <div class="mt-5 p-4 border">
-                <ul class="pl-0">
-                  <li style="list-style:none;">
-                    <p class="small list_icon">サイト情報の新規追加　×２倍</p>
-                  </li>
-                  <li style="list-style:none;">
-                    <p class="small list_icon">サイト情報の内容訂正　×１倍</p>
-                  </li>
-                  <li style="list-style:none;">
-                    <p class="small list_icon">ランキング上位者に報酬特典</p>
-                  </li>
-                  <li style="list-style:none;">
-                    <p class="small list_icon">漫画情報（全体）の更新回数　５０回まで（１日）</p>
-                  </li>
-                  <li style="list-style:none;">
-                    <p class="small list_icon">漫画情報（同一）の更新回数　１回まで（１日）</p>
-                  </li>
-                </ul>
-              </div>
-          </div>
-      <% end %>
+        </div>
+        
+        
+        <!--My Ranking欄-->
+        <% if user_signed_in? %>
+            <div class="col-lg-5 mx-auto p-5" style="font-family: 'Bruno Ace', cursive; background-color:#FFF; box-shadow:0.5px 5px 5px 5px #DDD;">
+                <h5 style="font-family: 'Bruno Ace', cursive; text-shadow: 4px 4px 4px #aaa;"><b>My Ranking</b></h5>
+                <div class="d-flex" style="align-items:center;">
+                  <small>
+                    <b><%= current_user.nick_name %></b> さんの <b>Ranking</b> は...　
+                  </small>
+                  <h1 class="mb-0" style="font-family: 'Dela Gothic One', cursive;"><%= @my_rank %></h1>　位
+                </div>
+                <div class="mt-4 d-flex" style="align-items:center;">
+                  <p class="mb-0">更新：</p><h4 class="mb-0" style="font-family: 'Dela Gothic One', cursive;">　5　</h4><p class="small mb-0">回</p>
+                </div>
+                <div class="mt-3 d-flex" style="align-items:center;">
+                  <p class="mb-0">評価：</p><h4 class="mb-0" style="font-family: 'Dela Gothic One', cursive;">　5　</h4><p class="small mb-0">件</p>
+                </div>
+                <div class="mt-5 p-4 border">
+                  <ul class="pl-0">
+                    <li style="list-style:none;">
+                      <p class="small list_icon">サイト情報の新規追加　×２倍</p>
+                    </li>
+                    <li style="list-style:none;">
+                      <p class="small list_icon">サイト情報の内容訂正　×１倍</p>
+                    </li>
+                    <li style="list-style:none;">
+                      <p class="small list_icon">ランキング上位者に報酬特典</p>
+                    </li>
+                    <li style="list-style:none;">
+                      <p class="small list_icon">漫画情報（全体）の更新回数　５０回まで（１日）</p>
+                    </li>
+                    <li style="list-style:none;">
+                      <p class="small list_icon">漫画情報（同一）の更新回数　１回まで（１日）</p>
+                    </li>
+                  </ul>
+                </div>
+            </div>
+        <% end %>
     </div>
   
+  
+  
     <div style="box-shadow:10px 0px 10px 3px #EEE;">
-      <div class="py-4" style="min-height: 53vh; margin-bottom:80px;">
+      <div class="py-4" style="min-height: 53vh; margin:80px 0;">
         
           <div class="d-flex">
               <h4 class="mt-4 ml-5 mb-2"><b>新着</b></h4>

@@ -19,21 +19,28 @@
 
 # Learn more: http://github.com/javan/whenever
 
+
+
+
 ## rakuten_web_serviceのための定期実行
 # config/schedule.rb
 # Rails.rootを使用するために必要
-require File.expand_path(File.dirname(__FILE__) + "/environment")
-# cronを実行する環境変数
-rails_env = ENV['RAILS_ENV'] || :development
-# cronを実行する環境変数をセット
-set :environment, rails_env
-# cronのログの吐き出し場所
-set :output, "#{Rails.root}/log/cron.log"
 
-every 4.hour do
-  rake "rakuten_book:insert", :environment_variable => "RAILS_ENV", :environment => "development"
-end
+# require File.expand_path(File.dirname(__FILE__) + "/environment")
+# # cronを実行する環境変数
+# rails_env = ENV['RAILS_ENV'] || :development
+# # cronを実行する環境変数をセット
+# set :environment, rails_env
+# # cronのログの吐き出し場所
+# set :output, "#{Rails.root}/log/cron.log"
+
+# every 4.hour do
+#   rake "rakuten_book:insert", :environment_variable => "RAILS_ENV", :environment => "development"
+# end
+
 # デブロイの時に、.envファイルにRAILS_ENV = productionを追加しておくと良い。
+
+
 
 
 ## update_limitのための定期実行

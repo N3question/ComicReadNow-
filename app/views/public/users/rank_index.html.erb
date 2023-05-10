@@ -6,15 +6,9 @@
         <i class="bi bi-arrow-left"></i>
       <% end %>
       
-      <h4 class="ml-4 mb-5" style="font-family: 'Bruno Ace', cursive; text-shadow: 4px 4px 4px #aaa;"><b>User Ranking</b></h4>
+      <h4 class="mt-4 ml-4 mb-5" style="font-family: 'Bruno Ace', cursive; text-shadow: 4px 4px 4px #aaa;"><b>User Ranking</b></h4>
       
-      
-      <!--Viewでn+1をしていく。
-          1.eachの上で変数の定義をする。初期値１
-          2.eachの中で変数を表示する
-          3.ループの終わりで変数を+1する（％end%の前でする）
-      -->
-      <table class="table user_rank_index_table">
+      <table class="table user_rank_index_table" style="margin-bottom:70px;">
         <tr style="text-align: center;">
           <th class="small">順位</th>
           <th></th>
@@ -61,18 +55,18 @@
 </div>
 
 <script>
-        $(function(){
-          // ウィンドウの高さとmain要素の高さを取得
-          var windowHeight = $(window).height();
-          var mainHeight = $('main').height();
-      
-          // main要素の高さがウィンドウの高さより大きい場合
-          if(mainHeight > windowHeight) {
-              // 特定の要素を表示
-              $('#back').show();
-          } else {
-              // そうでない場合、要素を非表示
-              $('#back').hide();
-          }
-        })
-      </script>
+  $(function(){
+    // ウィンドウの高さとmain要素の高さを取得
+    var windowHeight = $(window).height();
+    var mainHeight = $('main').height();
+
+    // main要素の高さがウィンドウの高さより大きい場合
+    if(mainHeight > windowHeight) {
+        // 特定の要素を表示
+        $('#back').show();
+    } else {
+        // そうでない場合、要素を非表示
+        $('#back').hide();
+    }
+  })
+</script>

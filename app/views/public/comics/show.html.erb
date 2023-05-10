@@ -121,10 +121,10 @@
                         
                         
                         <!--可読判定-->
-                        <div id="read_judgement_id" class="d-flex" style="align-items: center;">
+                        <div class="d-flex" style="align-items: center;">
                             <!--可読情報が未追加-->
                             <% if user_read_judgement.nil? %>
-                                  <%= form_with url: comic_read_judgement_path(@comic.id), id:"comic_read_judgement" do |f| %> <!-- , data: {remote: true} -->
+                                  <%= form_with url: comic_read_judgement_path(@comic.id), id:"comic_read_judgement" do |f| %>
                                     <div class="d-flex">
                                       <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>
                                       <%= f.label :read_info, "読めた", for:"read_info_true", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio" %>　
@@ -160,13 +160,6 @@
                           </div><br>
                       <% end %>
                     
-                    <!--確認用。後日消す-->
-                    <div>
-                    <% if user_signed_in? %>
-                      <%= request.referer %>
-                    <% end %>
-                    </div>
-                    <!--ここまで-->
                 </div>
             </div>
         </div>
@@ -177,7 +170,8 @@
 <script>
   function radio_func() {
     if(window.confirm('情報は間違いありませんか？意図的に誤った内容を送信することは禁止されています。')) {
-      var form = document.getElementById('comic_read_judgement');
+      var form =document.getElementById('comic_read_judgement');
+      form.submit();    
     }else {
       return
     }
