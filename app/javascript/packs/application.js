@@ -22,8 +22,16 @@ import "../stylesheets/application"
   });
 });
 
+
+
 //= require jquery
 //= require jquery_ujs
+
+//= require jquery
+require("@rails/ujs").start()
+// require("turbolinks").start()
+require("@rails/activestorage").start()
+require("channels")
 
 Rails.start()
 Turbolinks.start()

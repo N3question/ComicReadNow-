@@ -9,31 +9,15 @@
             <h5 class="ml-5 mb-5"><b>Next Coming一覧</b></h5>
             <div class="d-inline-flex flex-wrap" style="justify-content:center;">
                 <% @next_comics.each do |book| %>
-                <% comic = Comic.find_by(isbn: book["isbn"]) %>
                   <div class="mx-2">
                     <div style="width:150px;">
-                        <% if comic.present? %>
-                            <%= link_to comic_path(comic.id), class:"img_link" do %>
-                              <%= image_tag book.large_image_url, style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
-                            <% end %>
-                        <% else %>
-                            <%= image_tag book.large_image_url, style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
-                        <% end %>
+                      <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: true), class:"img_link" do %>
+                        <%= image_tag book.large_image_url, style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+                      <% end %>
                     </div>
-                    <div class="py-4 mb-3" style="width:150px; height:170px;">
-                        <% if comic %>
-                            <%= link_to comic_path(comic.id) do %>
-                              <p class="mb-2" style="height:50px;"><b><%= book.title.truncate(17) %></b></p>
-                            <% end %>
-                        <% else %>
-                            <p class="mb-2" style="height:50px;"><b><%= book.title.truncate(17) %></b></p>
-                        <% end %>
-                        <% if user_signed_in? && !comic %>
-                            <%= link_to new_comic_path(isbn: book['isbn']), class:'btn btn-outline-dark w-100' do %>
-                              <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
-                            <% end %>
-                        <% end %>
-                      </div>
+                    <div class="py-4 mb-3" style="width:150px; height:auto;">
+                      <p class="mb-2" style="height:50px;"><b><%= book.title.truncate(17) %></b></p>
+                    </div>
                   </div>
                 <% end %>
             </div>

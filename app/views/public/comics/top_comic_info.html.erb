@@ -4,8 +4,14 @@
        
        
         <!--前の画面に遷移するボタン-->
-        <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
-          <i class="bi bi-arrow-left"></i>
+        <% if session["url"] %>
+            <%= link_to session["url"], class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+              <i class="bi bi-arrow-left"></i>
+            <% end %>
+        <% else %>
+          <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+            <i class="bi bi-arrow-left"></i>
+          <% end %>
         <% end %>
             
             
@@ -13,9 +19,11 @@
         <!--漫画情報詳細-->
         <div class="d-flex flex-wrap"  style="padding:30px 20px; justify-content:center;">
             
-            <% if !@top_rb_comic_info.blank? %>
             <!--書籍情報-->
-            <%= image_tag @top_rb_comic_info["largeImageUrl"], class:"my-3 mx-5", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+            <% if !@top_rb_comic_info.blank? %>
+                <%= image_tag @top_rb_comic_info["largeImageUrl"], class:"my-3 mx-5", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+            <% else %>
+                <%= image_tag @top_comic_info.large_image_url, class:"my-3 mx-5", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
             <% end %>
             
             <div class="p-3">
@@ -36,7 +44,7 @@
                   <% if !@top_rb_comic_info.blank? %>
                   発売日：　<%= @top_rb_comic_info["salesDate"] %>
                   <% else %>
-                  発売日が見つかりませんでした。
+                  発売日：　-- none --
                   <% end %>
                 </div>
               <% end %>
@@ -55,12 +63,33 @@
                   <!--ここまで-->
                       
                       <!--漫画サイト情報-->
-                      <div class="d-flex" style="align-items: center;">
-                        <small class="border p-1 text-success">以下の漫画サイトで読むことができます！</small><br>
-                        <% if user_signed_in? && can_not_read.count > 0 && comic_update_limit_count > 0 %>
-                          <%= link_to "編集", edit_comic_path(@top_comic_info.id), class:"btn btn-sm rounded-pill mb-2 ml-auto px-3 text-nowrap", style:"background-color:#66CC00; color:white;" %>
-                        <% end %>
+                      <small class="border mb-2 mr-4 p-1 text-success">以下の漫画サイトで読むことができます！</small><br>
+                      <% if user_signed_in? && can_not_read.count > 0 && comic_update_limit_count > 0 %>
+                      <div class= "sample d-flex" style="justify-content: flex-end;">
+                        <input type="button" class="btn btn-sm rounded-pill mb-2 px-3 text-nowrap" style="background-color:#66CC00; color:white;" value="編集">
                       </div>
+                      <div class= "sampleA mb-3 border" style="display:none;">
+                        <div style="height:250px; width:100%; padding:30px 20px; display:flex; justify-content:center;">
+                          <div class="p-3">
+                              <%= flash[:alert] %>
+                              <p><b>' <%= @top_comic_info.title %> '</b><small>の編集...</small></p>
+                              <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
+                              
+                              <div class="mt-2">
+                                  <%= form_with model: @top_comic_info, url: comic_path(@top_comic_info.id), method: :patch do |f| %>
+                                      <%= f.hidden_field :isbn, value: params[:isbn] %>
+                                      <% Site.all.each do |site| %>
+                                          <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
+                                          <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
+                                      <% end %><br>
+                                      <%= f.submit "漫画情報を変更", class:"btn btn-sm btn-outline-dark rounded-pill mt-3 px-3 w-100", style:"" %>
+                                  <% end %>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <script src="index.js"></script>
+                    <% end %>
                       
                       <% sites.each do |site| %>
                         <p class="pb-0 text-success d-inline-flex">
@@ -142,7 +171,6 @@
                       
                       <!--ブックマーク-->
                       <div class="d-flex flex-wrap">
-                          <p class="small mb-0"><%= bookmark_all_user.count %>人がブックマーク中...</p>
                           <div class="ml-auto">
                             <% if bookmark.present? %>
                                 <%= link_to comic_destroy_bookmark_path(@top_comic_info.id), class:"btn p-0" do %>
@@ -162,33 +190,36 @@
                           </div>
                       </div>
                   
-                <% elsif user_signed_in? && @top_comic_info.nil? %>
+                <% elsif user_signed_in? && @top_comic_info.nil? && @can_not_create_record == "false" %>
                       <div class= "sample mb-2 d-flex" style="justify-content: flex-end;">
                             <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
                       </div>
-                      <div class= "sampleA mb-3 border" style="height:250px; width:auto; padding:30px 20px; display:flex; justify-content:center;">
-                          <div class="p-3">
-                            <%= flash[:alert] %>
-                            <p><b>' <%= @top_rb_comic_info["title"] %> '</b><small>の情報を追加中...</small></p>
-                            <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
-                            
-                            <div class="mt-4">
-                                <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
-                                    <%= f.hidden_field :isbn, value: params[:isbn] %>
-                                    <% Site.all.each do |site| %>
-                                        <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
-                                        <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
-                                    <% end %><br>
-                                    <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>
-                                <% end %>
+                      <div class= "sampleA mb-3 border" style="display:none;">
+                        <div style="height:250px; width:auto; padding:30px 20px; display:flex; justify-content:center;">
+                            <div class="p-3">
+                              <div class="alert alert-danger">
+                                <%= flash[:alert] %><button type="button" class="close" data-dismiss="alert">&times;</button>
+                              </div>
+                              <p><b>' <%= @top_rb_comic_info["title"] %> '</b><small>の情報を追加中...</small></p>
+                              <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
+                              
+                              <div class="mt-4">
+                                  <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
+                                      <%= f.hidden_field :isbn, value: params[:isbn] %>
+                                      <% Site.all.each do |site| %>
+                                          <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
+                                          <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
+                                      <% end %><br>
+                                      <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>
+                                  <% end %>
+                              </div>
                             </div>
-                          </div>
+                        </div>
                       </div>
                       <script src="index.js"></script>
                     
-                <% elsif @can_not_create_record %>
+                <% elsif user_signed_in? && @can_not_create_record == "true" %>
                     <p>サイト情報の追加は発売日以降に可能になります。</p>
-                    
                 <% end %>
                 
             </div><br>

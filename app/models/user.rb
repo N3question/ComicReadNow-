@@ -21,7 +21,7 @@ class User < ApplicationRecord
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
   
-  # def bookmarked_by?(current_user)
-  #   bookmarks.where(user_id: current_user).exists?
-  # end
+  def bookmarked?(comic_id)
+    bookmarks.where(comic_id: comic_id).exists?
+  end
 end

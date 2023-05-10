@@ -16,15 +16,18 @@
             <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
             <% end %>
-        <% end %>
+        <% end %><br>
+        
+        
+        <%= flash[:alert] %>
         
         
         <!--漫画情報詳細-->
         <div class="d-flex flex-wrap"  style="padding:30px 20px; justify-content:center;">
             
+            <!--書籍情報-->
             <%= image_tag @comic.large_image_url, class:"my-3 mx-5", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
             
-            <!--書籍情報-->
             <div class="p-3">
                 <div>
                   <h5><b><%= @comic.title %>　</b><small>の詳細</small></h5>
@@ -51,7 +54,6 @@
                       <div class= "sampleA mb-3 border" style="display:none;">
                         <div style="height:250px; width:100%; padding:30px 20px; display:flex; justify-content:center;">
                           <div class="p-3">
-                              <%= flash[:alert] %>
                               <p><b>' <%= @comic.title %> '</b><small>の編集...</small></p>
                               <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
                               
@@ -147,7 +149,6 @@
                           
                           <!--ブックマーク-->
                           <div class="d-flex flex-wrap" style="align-items: center;">
-                              <p class="small mb-0"><%= bookmark_all_user.count %>人がブックマーク中...</p>
                               <div class="ml-auto">
                                   <div id="bookmarks_buttons_<%= @comic.id %>">
                                     <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @comic} %>
@@ -174,31 +175,6 @@
   function radio_func() {
     if(window.confirm('情報は間違いありませんか？意図的に誤った内容を送信することは禁止されています。')) {
       var form = document.getElementById('comic_read_judgement');
-      // form.submit(); 
-      // $('input[name=read_info]:checked').val()
-      // $('#read_judgement_id').html('<p>change</p>');
-      // let token = $('meta[name="csrf-token"]').attr('content');
-      // let read_info_value = $('input[name=read_info]:checked').val();
-      // $.ajax({
-      //   type: 'post',
-      //   url: '/comics/<#%= @comic.id %>/read_judgement.js',
-      //   data: {
-      //     read_info: read_info_value
-      //   },
-      //   headers: {
-      //     'X-CSRF-Token': token
-      //     'Content-Type': 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'
-      //   },
-      //   dataType: 'json'
-      // }).done(function (data) {
-      //   console.log(data);
-      //   //成功処理
-  
-      // }).fail(function () {
-  
-      //   //失敗処理
-  
-      // });
     }else {
       return
     }
@@ -212,3 +188,36 @@
     });
   });
 </script>
+
+<!--function radio_func() {-->
+<!--    if(window.confirm('情報は間違いありませんか？意図的に誤った内容を送信することは禁止されています。')) {-->
+<!--      var form = document.getElementById('comic_read_judgement');-->
+<!--      // form.submit(); -->
+<!--      // $('input[name=read_info]:checked').val()-->
+<!--      // $('#read_judgement_id').html('<p>change</p>');-->
+<!--      // let token = $('meta[name="csrf-token"]').attr('content');-->
+<!--      // let read_info_value = $('input[name=read_info]:checked').val();-->
+<!--      // $.ajax({-->
+<!--      //   type: 'post',-->
+<!--      //   url: '/comics/<#%= @comic.id %>/read_judgement.js',-->
+<!--      //   data: {-->
+<!--      //     read_info: read_info_value-->
+<!--      //   },-->
+<!--      //   headers: {-->
+<!--      //     'X-CSRF-Token': token-->
+<!--      //     'Content-Type': 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'-->
+<!--      //   },-->
+<!--      //   dataType: 'json'-->
+<!--      // }).done(function (data) {-->
+<!--      //   console.log(data);-->
+<!--      //   //成功処理-->
+  
+<!--      // }).fail(function () {-->
+  
+<!--      //   //失敗処理-->
+  
+<!--      // });-->
+<!--    }else {-->
+<!--      return-->
+<!--    }-->
+<!--  }-->

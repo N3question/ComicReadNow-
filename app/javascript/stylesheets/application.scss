@@ -58,6 +58,10 @@ footer, .rank_que {
     border-bottom: 0.5px solid silver; 
 } 
 
+// .user_rank_index_table:last-child {
+//     border-bottom: 0.5px solid silver; 
+// } 
+
 a.img_link:hover {
 	opacity: 0.5;
 }
@@ -194,5 +198,5 @@ ul li .list_icon::before {
   position: absolute;
   top: 4px;
   left: 0;
-  color: green;
+  color: #66CC00;
 }

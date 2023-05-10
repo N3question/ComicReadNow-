@@ -70,6 +70,10 @@ class Public::ComicsController < ApplicationController
   
   ## TOP / 漫画情報詳細
   def top_comic_info
+    if request.referer&.include?("/next_coming_index") 
+      session["url"] = request.referer
+    end
+    
     @from_rws = params[:from_rws]
     @can_not_create_record = params[:can_not_create_record]
     @isbn = params[:isbn]
@@ -149,13 +153,6 @@ class Public::ComicsController < ApplicationController
                           user_id: current_user.id, 
                           comic_id: @comic.id
                           )
-    # ユーザのupdateのlimit(漫画全体)が1以下 |または| ユーザのupdateのlimit(漫画単体)が1以下
-    if current_user.remaining_total_update_limit < 1 || @comic.remaining_one_comic_update_limit < 1
-        redirect_to request.referer
-    # （！） && ユーザのupdateのlimit(漫画単体)が1以下
-    elsif user_can_read_info && @comic.remaining_one_comic_update_limit < 1
-        redirect_to request.referer
-    end
     
     @rb_comic = RakutenWebService::Books::Book.search(isbn: @comic.isbn).first
     @sites = @comic.sites.all
@@ -170,7 +167,6 @@ class Public::ComicsController < ApplicationController
                       version: @comic.version
                       )
     @comic_update_limit_count = @comic.remaining_one_comic_update_limit
-    
   end
   
   
@@ -197,8 +193,9 @@ class Public::ComicsController < ApplicationController
     before_comic_info = ComicSite.where(comic_id: comic.id).pluck(:site_id) #（今現在保存されているデータ）
     after_comic_info = site_params[:site_ids] #（これから更新するデータ）
     # 配列の比較で検索してみる  # 文字列、整数の場合は[値] == [値]でできる。
-    if before_comic_info.uniq.length != after_comic_info.length
-      flash[:alert] = '同じ内容の為、更新ができませんでした。'
+    # byebug
+    if before_comic_info.uniq == after_comic_info.map(&:to_i)
+      flash[:alert] = '更新前と同じ内容の為、更新ができませんでした。'
       redirect_to comic_path(comic.id)
       return
     end
@@ -243,23 +240,29 @@ class Public::ComicsController < ApplicationController
   
   ## 可読判定(create)
   def read_judgement
-    comic = Comic.find(params[:comic_id])
-    version = comic.version
+    @comic = Comic.find(params[:comic_id])
+    version = @comic.version
     
     if params[:read_info] == "true"
-      comic.update(can_read_count: comic.can_read_count + 1)
+      @comic.update(can_read_count: @comic.can_read_count + 1)
     else
-      comic.update(can_not_read_count: comic.can_not_read_count + 1)
+      @comic.update(can_not_read_count: @comic.can_not_read_count + 1)
     end
     
-    @total_readable_info = comic.read_judgements.new({
+    @total_readable_info = @comic.read_judgements.new({
         can_read: params[:read_info],
         version: version, 
         user_id: current_user.id
         })
     
     @total_readable_info.save!
-    redirect_to comic_path(comic.id)
+    redirect_to comic_path(@comic.id)
+    
+    # command_result.jsやcommand_result.coffeeの内容を、クライアントへ返す
+    # respond_to do |format|
+    #   format.js { render 'read_judgement' }
+    # end
+    # render json: @comic
   end
   
   
@@ -295,7 +298,7 @@ class Public::ComicsController < ApplicationController
     
     @now_comics = Kaminari.paginate_array(now_comics, total_count: 1200).page(params[:page]).per(30)
   
-    # @comic = Comic.new
+    @comic = Comic.new
   end
   
   
@@ -336,6 +339,7 @@ class Public::ComicsController < ApplicationController
           ).sort_by {|v| v["reviewAverage"] }
           
     @comics = Kaminari.paginate_array(comics, total_count: 1200).page(params[:page]).per(30)
+    @comic = Comic.new
   end
   
   
@@ -410,7 +414,15 @@ class Public::ComicsController < ApplicationController
     # 配列の場合はarrayが使用
     view_count = 30
     @rakuten_web_services = Kaminari.paginate_array(@rakuten_web_services.first(view_count), total_count: @rakuten_web_services.response["count"]).page(params[:page]).per(view_count)
-  
+    
+    # @comic_sales_date =  @rakuten_web_services.select do |comic|
+    #   begin
+    #     Date.current > Date.parse(comic["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0])
+    #   rescue => error
+    #     false
+    #   end
+    # end
+    
     @comic = Comic.new
   end
   

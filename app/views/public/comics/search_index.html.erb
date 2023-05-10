@@ -28,26 +28,28 @@
                         <% else %>
                             <p class="mb-2" style="height:50px;"><b><%= book["title"].truncate(20) %></b></p>
                         <% end %>
-                        <% if user_signed_in? && !comic %>
+                        <% if user_signed_in? && !comic &&  %>
                             <div class= "sample mb-2 d-flex" style="justify-content: flex-end;">
                                 <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
                             </div>
-                            <div class= "sampleA p-2 border" style="height:270px; width:100%; display:flex; justify-content:center;">
-                                <div class="p-3">
-                                  <%= flash[:alert] %>
-                                  <small style="color:red;">※ 読むことができるサイトを全て選択</small>
-                                  
-                                  <div class="mt-4">
-                                      <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
-                                          <%= f.hidden_field :isbn, value: book["isbn"] %>
-                                          <% Site.all.each do |site| %>
-                                              <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
-                                              <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
-                                          <% end %><br>
-                                          <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>
-                                      <% end %>
+                            <div class= "sampleA p-2 border" style="display:none;">
+                              <div style="height:270px; width:100%; display:flex; justify-content:center;">
+                                  <div class="p-3">
+                                    <%= flash[:alert] %>
+                                    <small style="color:red;">※ 読むことができるサイトを全て選択</small>
+                                    
+                                    <div class="mt-4">
+                                        <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
+                                            <%= f.hidden_field :isbn, value: book["isbn"] %>
+                                            <% Site.all.each do |site| %>
+                                                <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
+                                                <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
+                                            <% end %><br>
+                                            <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>
+                                        <% end %>
+                                    </div>
                                   </div>
-                                </div>
+                              </div>
                             </div>
                             <script src="index.js"></script>
                         <% end %>
