@@ -1,6 +1,8 @@
 <div class="" style="margin-top:100px;">
   
-    <div class="row mx-auto" style="padding:30px 30px 45px; background-color:#EEE;">
+    <!--ランキング-->
+    <div class="row mx-auto" style="padding:35px 30px 45px; background-color:#EEE;">
+      
         <!--User Ranking欄-->
         <div class="col-lg-6 mx-auto p-5" style="background-color:#FFF; box-shadow:0.5px 5px 5px 5px #DDD;">
             <div class="d-flex align-items-end mb-3">
@@ -13,7 +15,7 @@
             </div>
             
             <div class="row">
-              <div class="col-lg-6 d-flex flex-wrap px-0">
+              <div class="col-6 d-flex flex-wrap px-0">
                     <table class="table table-borderless mb-3">
                       <tr>
                           <td class="text-nowrap" align="right" style="font-family: 'Dela Gothic One', cursive;">
@@ -66,7 +68,7 @@
               </div>
                     
                     
-              <div class="col-lg-5 align-self-end px-0">
+              <div class="col-5 align-self-end px-0">
                     <table class="table table-borderless mb-3">
                       <tr>
                           <td class="" align="right" style="font-family: 'Dela Gothic One', cursive;">4</td>
@@ -108,11 +110,11 @@
         <% if user_signed_in? %>
             <div class="col-lg-5 mx-auto p-5" style="font-family: 'Bruno Ace', cursive; background-color:#FFF; box-shadow:0.5px 5px 5px 5px #DDD;">
                 <h5 style="font-family: 'Bruno Ace', cursive; text-shadow: 4px 4px 4px #aaa;"><b>My Ranking</b></h5>
-                <div class="d-flex" style="align-items:center;">
+                <div class="d-flex flex-wrap" style="align-items:center;">
                   <small>
                     <b><%= current_user.nick_name %></b> さんの <b>Ranking</b> は...　
                   </small>
-                  <h1 class="mb-0" style="font-family: 'Dela Gothic One', cursive;"><%= @my_rank %></h1>　位
+                  <h1 class="ml-2 mb-0" style="font-family: 'Dela Gothic One', cursive;"><%= @my_rank %></h1>　位
                 </div>
                 <div class="mt-4 d-flex" style="align-items:center;">
                   <p class="mb-0">更新：</p><h4 class="mb-0" style="font-family: 'Dela Gothic One', cursive;">　5　</h4><p class="small mb-0">回</p>
@@ -144,7 +146,7 @@
     </div>
   
   
-  
+    <!--新着-->
     <div style="box-shadow:10px 0px 10px 3px #EEE;">
       <div class="py-4" style="min-height: 53vh; margin:80px 0;">
         
@@ -175,6 +177,7 @@
     </div>
     
     
+    <!--User Select-->
     <div style="box-shadow:10px 0px 10px 3px #EEE;">
       <div class="py-4" style="min-height: 53vh; margin-bottom:80px;">
         
@@ -206,6 +209,8 @@
       </div>
     </div>
   
+  
+    <!--総合ランキング-->
     <div style="box-shadow:10px 0px 10px 3px #EEE;">
       <div class="py-4" style="min-height: 53vh; margin-bottom:80px;">
         
@@ -236,6 +241,8 @@
       </div>
     </div>
     
+    
+    <!--Next Coming-->
     <div style="box-shadow:10px 0px 10px 3px #EEE;">
       <div class="py-4" style="min-height: 53vh; margin-bottom:80px;">
         
@@ -265,7 +272,8 @@
           
       </div>
     </div>
-  
+    
+    
     <span id="back">
       <a href=""  style="text-decoration:none;">
           <div class="d-flex justify-content-center border mt-5 mb-4 mx-auto" 
@@ -274,6 +282,7 @@
           </div>
       </a>
     </span>
+    
     
   </div>
 </div>

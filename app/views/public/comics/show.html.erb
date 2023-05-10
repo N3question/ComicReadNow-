@@ -138,7 +138,7 @@
                                   <p class="mr-2 mb-0 px-2 py-1 text-nowrap can_read_radio">読めた</p>
                                   <p class="mb-0">
                                     <%= @comic.can_read_count %>人
-                                    </p>
+                                  </p>
                                   <p class="mr-2 ml-3 mb-0 px-2 py-1 text-nowrap can_not_read_radio">読めなかった</p>
                                   <p class="mb-0">
                                     <%= @comic.can_not_read_count %>人
@@ -151,7 +151,7 @@
                           
                           
                           <!--ブックマーク-->
-                          <div class="d-flex flex-wrap" style="align-items: center;">
+                          <div class="d-flex flex-wrap mr-2" style="align-items: center;">
                               <div class="ml-auto">
                                   <div id="bookmarks_buttons_<%= @comic.id %>">
                                     <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @comic} %>
