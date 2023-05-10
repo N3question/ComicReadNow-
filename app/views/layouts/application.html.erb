@@ -21,13 +21,11 @@
 
   <body class="wrapper">
     <header class="fixed-top" style="border:1px solid #000;">
-      <div class="d-flex" style="background-color:#00264D; height:100px;">
+      <div class="d-flex" style="align-items: center; background-color:#00264D; height:auto;">
         
-        <!--
-            font-family: 'Shrikhand', cursive;-->
         <% if admin_signed_in? %>
             <div class="mx-4 my-3 d-flex">
-              <h1 class="text-center px-2 text-light my-auto" style="width:45px;">
+              <h1 class="text-center px-2 text-light my-auto" style="width:45px; height:auto;">
                 <i class="bi bi-journal-bookmark"></i>
               </h1>
               <h6 class="text-center px-2 text-light my-1 ml-1">
@@ -37,7 +35,7 @@
         <% else %>
             <%= link_to root_path, style:"text-decoration:none;" do %>
               <div class="mx-4 my-3 d-flex">
-                <h1 class="text-center px-2 text-light my-auto" style="width:45px;">
+                <h1 class="text-center px-2 text-light my-auto" style="width:45px; height:auto;">
                   <i class="bi bi-journal-bookmark"></i>
                 </h1>
                 <h6 class="text-center px-2 text-light my-1 ml-1" style="font-family: 'Shrikhand', cursive;">
@@ -48,14 +46,14 @@
         <% end %>
         
         <nav class="navbar navbar-light my-auto ml-auto">
-          <ul class="d-inline-flex flex-wrap mb-0 ml-auto" style="list-style:none;">
-            <li class="nav-item my-auto">
-                
+          <ul class="d-inline-flex flex-wrap mb-0 ml-auto pl-0" style="align-items: center; list-style:none;">
+            
+            <li class="nav-item mr-4">
                 <% if admin_signed_in? %>
                 <% else %>
                     <!--検索フォーム-->
                     <%= form_with url: search_index_comics_path, local: true, method: :get do |f| %>
-                    <div class="input-group my-3" style="width:300px; box-shadow:8px 8px 4px #000;"><br />
+                    <div class="input-group my-3" style="width:100%; box-shadow:8px 8px 4px #000;"><br />
                         <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend" placeholder="漫画タイトル" required="required"></input>
                         <span class="input-group-btn input-group-append">
                           <%= f.button type: 'submit', id: 'btn-search', class: 'btn text-info rounded-0', style: "background-color:white;" do %>
@@ -67,37 +65,37 @@
                 <% end %>
             </li>
               
-              <!--ユーザ側ログイン後-->
-              <% if user_signed_in? %>
-                <li class="nav-item my-auto ml-4">
-                    <b>
-                    <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class:"text-light", style:"text-decoration:none;" %>
-                    </b>
-                </li>
-                
-              <!--管理者ログイン後-->
-              <% elsif admin_signed_in? %>
-                <li class="nav-item mt-3  mr-3 mb-4" style="height:40px;">
-                    <%= link_to destroy_admin_session_path, method: :delete, class:"text-light mr-3", style:"text-decoration:none;" do %>
-                      <h1><b><i class="bi bi-box-arrow-right"></i></b></h1>
-                    <% end %>
-                </li>
-                
-              <!--ユーザ・管理者ログイン前-->
-              <% else %>
-                <li class="nav-item my-auto ml-4">
-                    <b>
-                    <%= link_to 'ログイン', new_user_session_path, class:"text-light", style:"text-decoration:none;" %>
-                    </b>
-                </li>
-                <li class="my-auto ml-4">
-                    <%= link_to '新規登録', new_user_registration_path, class:"btn rounded-pill px-4 form-control", style:"background-color:#66CC00; color:white;" %>
-                </li>
-              <% end %>
+            <!--ユーザ側ログイン後-->
+            <% if user_signed_in? %>
+              <li class="nav-item my-3 mr-4">
+                  <b>
+                  <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class:"text-light", style:"text-decoration:none;" %>
+                  </b>
+              </li>
               
-              <% if admin_signed_in? %>
-              <% else %>
-              <li class="my-auto ml-4 dropdown">
+            <!--管理者ログイン後-->
+            <% elsif admin_signed_in? %>
+              <li class="nav-item mt-3 mr-3 mb-4" style="height:40px;">
+                  <%= link_to destroy_admin_session_path, method: :delete, class:"text-light mr-3", style:"text-decoration:none;" do %>
+                    <h1><b><i class="bi bi-box-arrow-right"></i></b></h1>
+                  <% end %>
+              </li>
+              
+            <!--ユーザ・管理者ログイン前-->
+            <% else %>
+              <li class="nav-item my-3 mr-4">
+                  <b>
+                  <%= link_to 'ログイン', new_user_session_path, class:"text-light", style:"text-decoration:none;" %>
+                  </b>
+              </li>
+              <li class="nav-item my-3 mr-4">
+                  <%= link_to '新規登録', new_user_registration_path, class:"btn rounded-pill px-4 form-control", style:"background-color:#66CC00; color:white;" %>
+              </li>
+            <% end %>
+            
+            <% if admin_signed_in? %>
+            <% else %>
+              <li class="my-3 ml-auto dropdown">
                   <a href="#" class="dropdown-toggle" style="color: #00264D;" data-toggle="dropdown" role="button">
                     <button class="navbar-toggler" style="border-color:white;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -128,8 +126,8 @@
                     <li class="mx-4"><a href="/admins/sign_in" class="text-dark"><i class="bi bi-gear btn btn-outline-dark btn-sm w-100"></i></a></li>
                   </ul>
               </li>
-              <% end %>
-            </ul>
+            <% end %>
+          </ul>
         </nav>
       </div>
     </header>
