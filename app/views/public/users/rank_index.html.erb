@@ -42,7 +42,7 @@
             <td style="vertical-align: middle;"><%= user.update_count %>回</td>
             <td style="vertical-align: middle;"><%= user.read_judgements.where(can_read: true).count %>件</td>
           </tr>
-          <% default + 1 %>
+          <% default += 1 %>
         <% end %>
       </table>
       

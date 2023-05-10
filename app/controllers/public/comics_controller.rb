@@ -6,8 +6,17 @@ class Public::ComicsController < ApplicationController
     session["search_keyword"] = nil
     
     ### User Ranking
-    user_rank = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count * 2 <=> a.read_judgements.where(can_read: true).count + b.update_count * 2 }
+    user_rank = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + b.update_count }
     @user_rank = user_rank.first(5)
+    
+    @users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + b.update_count}
+    default = 1 
+      @users.each do |user| 
+        if user_signed_in? && user.id == current_user.id
+          @my_rank = default # 13行目と＝じゃない。
+        end
+        default += 1 
+      end
     
     
     ### MY Ranking
@@ -399,10 +408,18 @@ class Public::ComicsController < ApplicationController
             )
             # RakutenWebService::SearchResult (返り値)
             
-    # @rakuten_web_services = rakuten_web_services.select do |comic|
-    #   true
-    # end
-    # [#<RakutenWebService::Books::Book...] = 配列 (返り値)
+      # @rakuten_web_services = rakuten_web_services.select do |comic|
+      #   true
+      # end
+      # [#<RakutenWebService::Books::Book...] = 配列 (返り値)
+    
+      # @rakuten_web_services =  @rakuten_web_services.select do |comic|
+      #   begin
+      #     Date.current > Date.parse(comic["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0])
+      #   rescue => error
+      #     false
+      #   end
+      # end
     
     
     else
@@ -414,15 +431,7 @@ class Public::ComicsController < ApplicationController
     # 配列の場合はarrayが使用
     view_count = 30
     @rakuten_web_services = Kaminari.paginate_array(@rakuten_web_services.first(view_count), total_count: @rakuten_web_services.response["count"]).page(params[:page]).per(view_count)
-    
-    # @comic_sales_date =  @rakuten_web_services.select do |comic|
-    #   begin
-    #     Date.current > Date.parse(comic["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0])
-    #   rescue => error
-    #     false
-    #   end
-    # end
-    
+     
     @comic = Comic.new
   end
   

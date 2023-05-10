@@ -172,21 +172,9 @@
                       <!--ブックマーク-->
                       <div class="d-flex flex-wrap">
                           <div class="ml-auto">
-                            <% if bookmark.present? %>
-                                <%= link_to comic_destroy_bookmark_path(@top_comic_info.id), class:"btn p-0" do %>
-                                  <div class="d-inline-flex">
-                                    <small class="p-1" style="vertical-align:middle;">追加済み</small>
-                                    <h3 class="mb-0"><i class="bi bi-bookmark-check-fill"></i></h3>
-                                  </div>
-                                <% end %>
-                            <% else %>
-                                <%= link_to comic_create_bookmark_path(@top_comic_info.id), class:"btn p-0" do %>
-                                  <div class="d-inline-flex">
-                                    <small class="p-1" style="vertical-align:middle;">追加</small>
-                                    <h3 class="mb-0"><i class="bi bi-bookmark-plus"></i></h3>
-                                  </div>
-                                <% end %>
-                            <% end %>
+                            <div id="bookmarks_buttons_<%= @top_comic_info.id %>">
+                              <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @top_comic_info} %>
+                            </div>
                           </div>
                       </div>
                   
@@ -197,9 +185,6 @@
                       <div class= "sampleA mb-3 border" style="display:none;">
                         <div style="height:250px; width:auto; padding:30px 20px; display:flex; justify-content:center;">
                             <div class="p-3">
-                              <div class="alert alert-danger">
-                                <%= flash[:alert] %><button type="button" class="close" data-dismiss="alert">&times;</button>
-                              </div>
                               <p><b>' <%= @top_rb_comic_info["title"] %> '</b><small>の情報を追加中...</small></p>
                               <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
                               
