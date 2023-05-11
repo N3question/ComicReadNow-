@@ -1,1 +1,1 @@
-$('#read_judgement_id').html('<p><%= j(@comic.can_read_count) %></p>');
+$('#read_judgements_buttons_<%= @comic.id %>').html("<%= j(render partial: '/public/comics/read_judgement', locals: {comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read}) %>");

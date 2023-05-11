@@ -123,27 +123,9 @@
                         <!--可読判定-->
                         <div class="d-flex" style="align-items: center;">
                             <!--可読情報が未追加-->
-                            <% if user_read_judgement.nil? %>
-                                  <%= form_with url: comic_read_judgement_path(@comic.id), id:"comic_read_judgement" do |f| %>
-                                    <div class="d-flex">
-                                      <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>
-                                      <%= f.label :read_info, "読めた", for:"read_info_true", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio" %>　
-                                      <%= f.radio_button :read_info, false, style:"display:none;", onchange:"radio_func()" %>
-                                      <%= f.label :read_info, "読めなかった", for:"read_info_false", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio" %>　
-                                    </div>
-                                  <% end %>
-                            
-                            <!--可読情報が追加済-->
-                            <% else %>
-                                  <p class="mr-2 mb-0 px-2 py-1 text-nowrap can_read_radio">読めた</p>
-                                  <p class="mb-0">
-                                    <%= @comic.can_read_count %>人
-                                  </p>
-                                  <p class="mr-2 ml-3 mb-0 px-2 py-1 text-nowrap can_not_read_radio">読めなかった</p>
-                                  <p class="mb-0">
-                                    <%= @comic.can_not_read_count %>人
-                                  </p>
-                            <% end %>
+                            <div id="read_judgements_buttons_<%= @comic.id %>">
+                              <%= render partial: '/public/comics/read_judgement', locals: {comic: @comic, user_read_judgement: user_read_judgement, can_read: @can_read, can_not_read: @can_not_read} %>
+                            </div>
                           </div>
                           
                           
@@ -159,6 +141,8 @@
                               </div>
                           </div><br>
                       <% end %>
+                      
+                      <%= request.referer %>
                     
                 </div>
             </div>
@@ -170,8 +154,22 @@
 <script>
   function radio_func() {
     if(window.confirm('情報は間違いありませんか？意図的に誤った内容を送信することは禁止されています。')) {
-      var form =document.getElementById('comic_read_judgement');
-      form.submit();    
+      // var form = document.getElementById('comic_read_judgement');
+      //   form.addEventListener('submit', (event) => {
+      //   event.stopPropagation();
+      //   event.preventDefault();
+      //   const formData = new formData(form);
+      //   const options = {
+      //     method: 'POST',
+      //     body: formData,
+      //     dataType: 'script'
+      //   }
+      //   const url = form.action;
+      //   fetch(url, options);
+      // });
+      // form.submit(); 
+      var submit = document.getElementById('read_judgements_submit')
+      submit.click()
     }else {
       return
     }

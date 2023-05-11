@@ -55,11 +55,11 @@ footer, .rank_que {
     border-bottom: 0.5px solid silver;
 }
 
-.admin_table:last-child {
+.admin_table tr:last-child {
     border-bottom: 0.5px solid silver; 
 } 
 
-.user_rank_index_table:last-child {
+.user_rank_index_table tr:last-child {
     border-bottom: 0.5px solid silver; 
 } 
 

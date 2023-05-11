@@ -250,23 +250,34 @@ class Public::ComicsController < ApplicationController
   
   ## 可読判定(create)
   def read_judgement
-    comic = Comic.find(params[:comic_id])
-    version = comic.version
+    @comic = Comic.find(params[:comic_id])
+    version = @comic.version
     
     if params[:read_info] == "true"
-      comic.update(can_read_count: comic.can_read_count + 1)
+      @comic.update(can_read_count: @comic.can_read_count + 1)
     else
-      comic.update(can_not_read_count: comic.can_not_read_count + 1)
+      @comic.update(can_not_read_count: @comic.can_not_read_count + 1)
     end
     
-    readable_info = comic.read_judgements.new({
+    readable_info = @comic.read_judgements.new({
         can_read: params[:read_info],
         version: version, 
         user_id: current_user.id
         })
     
     readable_info.save!
-    redirect_to comic_path(comic.id)
+    
+    @user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id, version: @comic.version)
+    @can_read = ReadJudgement.where(
+                  comic_id: @comic.id,
+                  can_read: true, # 読めた
+                  version: @comic.version
+                  )
+    @can_not_read = ReadJudgement.where(
+                      comic_id: @comic.id,
+                      can_read: false, # 読めなかった
+                      version: @comic.version
+                      )
   end
   
   

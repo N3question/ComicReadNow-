@@ -1,29 +1,63 @@
 <div style="background-color:#EEE; height:100px;"></div>
   <div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
         
-        <div class="col-lg-7 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
+        <div class="col-lg-9 col-md-9 mx-auto pt-5 px-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD; padding-bottom:80px;">
             <%= link_to admin_top_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
             <% end %>
       
-            <div class="d-flex" style="justify-content: center; align-items: center;">
+            <div class="d-flex mb-5" style="justify-content: center; align-items: center;">
                 <h4 class="mb-0"><b><%= @user.nick_name %></b></h4>
                 <p class="mb-0">　のユーザ情報</p>
             </div>
-            <div class="user_icon mt-4 mb-2 d-flex" style="justify-content: center; align-items: center;">
-                <% if @user.profile_image.attached? %>
-                  <%= image_tag @user.profile_image, size: "180x180" %>
-                <% else %>
-                  <%= image_tag 'no_image', size: "180x180" %>
-                <% end %>
+            
+            <div class="row d-flex" style="justify-content: center;">
+              
+                  <div class="col-lg-5">
+                      <div class="user_icon p-3 d-flex" style="justify-content: center; align-items: center;">
+                          <% if @user.profile_image.attached? %>
+                            <%= image_tag @user.profile_image, size: "150x150" %>
+                          <% else %>
+                            <%= image_tag 'no_image', size: "150x150" %>
+                          <% end %>
+                      </div>
+                      <p class="d-flex text-nowrap mt-3 mx-auto py-3 user_email small" style="justify-content:center; align-items:center; width:90%; margin-top:10px; border-top:0.5px solid silver; border-bottom:0.5px solid silver;">
+                        <i class="bi bi-envelope"></i>　　<%= @user.email %>
+                      </p>
+                  </div>
+                  
+                  <div class="col-lg-6">
+                      <table class="table table-borderless mt-3">
+                        <tr>
+                          <td style="width:40%;">順位</td>
+                          <td style="width:40%;"><%= @my_rank %>位</td>
+                        </tr>
+                        <tr>
+                          <td>更新</td>
+                          <td><%= @user.update_count %>回</td>
+                          <td class="text-center"><i class="bi bi-caret-down-square"></i></td>
+                        </tr>
+                        <tr>
+                          <td>評価</td>
+                          <td><%= @user.read_judgements.where(can_read: true).count %>件</td>
+                          <td class="text-center"><i class="bi bi-caret-down-square"></i></td>
+                        </tr>
+                        <tr>
+                          <td>更新残数</td>
+                          <td><%= @user.remaining_total_update_limit %>回</td>
+                        </tr>
+                        <tr>
+                          <td>ブックマーク</td>
+                          <td><%= @user.bookmarks.count %>件</td>
+                          <td class="text-center"><i class="bi bi-caret-down-square"></i></td>
+                        </tr>
+                      </table>
+                  </div>
+                  <div class="mt-5">
+                    <%= link_to "ユーザの削除", admin_top_path, class:"btn btn-danger px-5" %>
+                  </div>
             </div>
-            <p class="d-flex" style="justify-content:center; align-items:center;">
-                <%= @user.email %>
-            </p>
-            <p class="d-flex" style="justify-content:center; align-items:center;">
-                Total評価数<br>Total更新回数の表示<br>1日の更新回数の残数を表示<br>ブックマーク件数表示<br>コメント内容の表示
-            </p>
         </div>
-      
+        
   </div>
 </div>

@@ -218,7 +218,18 @@
 <script>
   function radio_func() {
     if(window.confirm('情報は間違いありませんか？意図的に誤った内容を送信することは禁止されています。')) {
-      var form =document.getElementById('comic_read_judgement');
+      var form = document.getElementById('comic_read_judgement');
+      form.addEventListener('submit', (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const formData = new formData(form);
+        const options = {
+          method: 'POST',
+          body: formData,
+        }
+        const url = form.action;
+        fetch(url, options);
+      });
       form.submit();    
     }else {
       return
