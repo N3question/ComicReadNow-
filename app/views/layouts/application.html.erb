@@ -129,6 +129,7 @@
             </nav>
         <% end %>
       </div>
+      
       <div class="mx-2">
         <% if !admin_signed_in? %>
             <!--検索フォーム-->
@@ -150,9 +151,12 @@
         <%= yield %>
     </main>
     
-    <footer class="text-light" style="height:100px; border:1px solid #000; background-color:#00264D; line-height:100px;">
-      <div class="d-flex justify-content-center">
-        <p class="mb-0">© 2023 Comic Read now! All Rights Reserved.</p>
+    <footer class="text-light" style="height:100px; border:1px solid #000; background-color:#00264D;">
+      <div class="d-flex justify-content-center" align="center">
+        <p class="mt-4 mb-0">
+          © 2023 Comic Read now! All Rights Reserved. <br>
+          <%= link_to "管理者はこちら", new_admin_session_path, class:"small", style:"text-decoration:none; color:white;" %>
+        </p>
       </div>
     </footer>
   </body>

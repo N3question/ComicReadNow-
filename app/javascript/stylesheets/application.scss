@@ -295,3 +295,26 @@ ul li .list_icon::before {
 .object-shadow {
     box-shadow: 10px 0px 10px 3px #EEE;
 }
+
+#error_explanation {
+  width: 90%;
+  border: 2px solid red;
+  padding: 7px 7px 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+
+  p {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px -7px 0;
+    background-color: #c00;
+    color: #fff;
+  }
+
+  ul li {
+    font-size: 12px;
+    list-style: square;
+  }
+}

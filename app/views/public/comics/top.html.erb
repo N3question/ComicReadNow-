@@ -1,9 +1,18 @@
+<div style="padding:160px 20px 40px; background-color:#EEE;"></div>
+
+<div style="background-color:#EEE; padding-bottom:15px;">
+  <div class="alert alert-success alert-dismissible mx-auto mb-0" style="width:90%;">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <%= flash[:notice] %>
+  </div>
+</div>
+
 <!--ランキング-->
-<div class="row top-blank mx-auto" style="padding:205px 20px 40px;">
-  
+<div class="row mx-auto" style="padding:0px 20px 40px; background-color:#EEE;">
+
     <!--User Ranking欄-->
     <div class="col-lg-6 col-md-10 object-background mx-auto p-5">
-        
+    
         
         
         <div class="d-flex align-items-end mb-3">
@@ -119,7 +128,7 @@
     <!--My Ranking欄-->
     <% if user_signed_in? %>
     <div class="col-lg-5 col-md-10 font_1 object-background mx-auto p-5">
-          
+    
           <h5 class="font_1 font_shadow">
             <b>My<br>Ranking</b>
           </h5>
@@ -174,7 +183,7 @@
     </div>
     <% else %>
     <div class="col-lg-5 col-md-10 object-background mx-auto p-5" style="height:100%;">
-          
+    
           <div class="mr-4 mb-4">
             <h5 class="font_1 font_shadow mb-0">
               <b>About<br>Ranking</b>

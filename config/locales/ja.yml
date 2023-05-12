@@ -6,3 +6,10 @@ ja:
       previous: <i class="fas fa-angle-left"></i>
       next: <i class="fas fa-angle-right"></i>
       truncate: "..."
+
+ja:
+  devise:
+    sessions:
+      user:
+        signed_in: "ログインが成功しました。"
+        signed_out: "ログアウトが成功しました。"

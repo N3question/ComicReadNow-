@@ -3,8 +3,6 @@ class Public::UsersController < ApplicationController
   def my_page
     session["url"] = nil
     session["search_keyword"] = nil
-    @bookmarks = Bookmark.where(user_id: current_user.id).joins(:comic).order(:title).first(10)
-    @bookmark_amount = Bookmark.where(user_id: current_user.id).joins(:comic).all
     
     users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
     
@@ -29,7 +27,7 @@ class Public::UsersController < ApplicationController
       flash[:notice] = "ユーザ情報を変更しました。"
       redirect_to my_page_path
     else
-      render :my_page
+      render :edit
     end
   end
   
