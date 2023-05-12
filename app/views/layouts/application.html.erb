@@ -90,13 +90,30 @@
                       </a>
                       
                       <ul class="dropdown-menu dropdown-menu-right py-4" role="menu" style="width:250px; box-shadow:10px 10px 20px #00264D;">
+                        <li class="mx-4 mb-3"><a href="#" class="text-dark">お知らせ</a></li>
                         <% if user_signed_in? %>
                           <li class="mx-4 mb-3"><a href="/users/my_page" class="text-dark">マイページ</a></li>
-                          <li class="mx-4 mb-4"><a href="/comics/bookmark_index" class="text-dark">MY本棚</a></li>
+                          <li class="mx-4 mb-3"><a href="/comics/bookmark_index" class="text-dark">MY本棚</a></li>
+                        <% else %>
+                          <li class="mx-4 mb-3">
+                              <%= link_to 'ログイン', new_user_session_path, style:"text-decoration:none;" %>
+                          </li>
+                        <% end %>
+                        <li class="mx-4 mb-3"><a href="#" class="text-dark">Comic Read now!とは</a></li>
+                        <% if user_signed_in? %>
+                          <div class="mx-4 mb-4">
+                            <%= link_to root_path, class:"btn rounded-pill py-3 px-4 text-nowrap", style:"width:100%; border:2px solid #00264D; background-color:#FF8000; color:white; box-shadow:4px 5px 7px #CCC;" do %>
+                              Premiumプラン <i class="fas fa-angle-double-right"></i>
+                            <% end %>
+                          </div>
+                        <% end %>
+                        <% if !user_signed_in? %>
+                          <li class="mx-4 mb-3">
+                              <%= link_to '新規登録', new_user_registration_path, class:"btn rounded-pill px-4 form-control", style:"background-color:#66CC00; color:white;" %>
+                          </li>
                         <% end %>
                         
-                        <li><hr class="dropdown-divider m-0"></li>
-                        
+                        <hr class="dropdown-divider m-0">
                         <div class="d-flex flex-wrap" style="justify-content:center;">
                           <% @all_sites.each do |all_site| %>
                             <div class="site_name_header text-center py-3" style="width:120px;">
@@ -107,21 +124,10 @@
                             <div class="site_name_header text-center py-3" style="width:120px;"></div>
                           <% end %>
                         </div>
-                        
-                        <li class="mb-4"><hr class="dropdown-divider m-0" style=""></li>
-                        <li class="mx-4 mb-3"><a href="#" class="text-dark">お知らせ</a></li>
-                        <li class="mx-4 mb-3"><a href="#" class="text-dark">Comic Read now!とは</a></li>
                         <% if user_signed_in? %>
-                          <li class="mx-4 mb-3">
-                              <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, style:"text-decoration:none;" %>
-                          </li>
-                        <% else %>
-                          <li class="mx-4 mb-3">
-                              <%= link_to 'ログイン', new_user_session_path, style:"text-decoration:none;" %>
-                          </li>
-                          <li class="mx-4 mb-3">
-                              <%= link_to '新規登録', new_user_registration_path, class:"btn rounded-pill px-4 form-control", style:"background-color:#66CC00; color:white;" %>
-                          </li>
+                          <div class="mx-4 mt-4">
+                            <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class:"btn btn-outline-dark w-100" %>
+                          </div>
                         <% end %>
                       </ul>
                   </li>
@@ -151,13 +157,23 @@
         <%= yield %>
     </main>
     
-    <footer class="text-light" style="height:100px; border:1px solid #000; background-color:#00264D;">
-      <div class="d-flex justify-content-center" align="center">
-        <p class="mt-4 mb-0">
-          © 2023 Comic Read now! All Rights Reserved. <br>
-          <%= link_to "管理者はこちら", new_admin_session_path, class:"small", style:"text-decoration:none; color:white;" %>
-        </p>
-      </div>
-    </footer>
+    <% if user_signed_in? %>
+      <footer class="text-light" style="height:100px; line-height:100px; border:1px solid #000; background-color:#00264D;">
+        <div class="d-flex justify-content-center">
+          <p class="mb-0">
+            © 2023 Comic Read now! All Rights Reserved. <br>
+          </p>
+        </div>
+      </footer>
+    <% elsif !user_signed_in? && !admin_signed_in? %>
+      <footer class="text-light" style="height:100px; border:1px solid #000; background-color:#00264D;">
+        <div class="d-flex justify-content-center" align="center">
+          <p class="mt-4 mb-0">
+            © 2023 Comic Read now! All Rights Reserved. <br>
+              <%= link_to "管理者ログインはこちら", new_admin_session_path, class:"small", style:"text-decoration:none; color:white;" %>
+          </p>
+        </div>
+      </footer>
+    <% end %>
   </body>
 </html>
