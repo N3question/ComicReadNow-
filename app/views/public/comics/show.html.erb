@@ -1,4 +1,4 @@
-<div style="background-color:#EEE; padding:130px 0; min-height: 74vh;">
+<div style="padding:205px 0 30px; background-color:#EEE; min-height:74vh;">
     <div class="col-lg-9 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
           
           
@@ -27,7 +27,7 @@
         
         
         <!--漫画情報詳細-->
-        <div class="d-flex flex-wrap"  style="padding:30px 20px; justify-content:center;">
+        <div class="d-flex flex-wrap"  style="padding:20px; justify-content:center;">
             
             <!--書籍情報-->
             <%= image_tag @comic.large_image_url, class:"img_comic my-3 mx-5" %>
@@ -47,10 +47,10 @@
                 <hr>
                 
                 
-                <div class="mt-4">
+                <!--<div>-->
                   
                     <!--漫画サイト情報-->
-                    <small class="border mb-2 mr-4 p-1 text-success">以下の漫画サイトで読むことができます！</small><br> 
+                    <small class="border mb-2 mr-4 p-1 text-nowrap text-success">以下の漫画サイトで読むことができます！</small><br> 
                     <% if user_signed_in? && @can_not_read.count > 0 && @comic_update_limit_count > 0 %>
                       <div class= "sample d-flex" style="justify-content: flex-end;">
                         <input type="button" class="btn btn-sm rounded-pill mb-2 px-3 text-nowrap" style="background-color:#66CC00; color:white;" value="編集">
@@ -58,6 +58,7 @@
                       <div class= "sampleA mb-3 border" style="display:none;">
                         <div style="height:250px; width:100%; padding:30px 20px; display:flex; justify-content:center;">
                           <div class="p-3">
+                              
                               <p><b>' <%= @comic.title %> '</b><small>の編集...</small></p>
                               <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
                               
@@ -71,6 +72,7 @@
                                       <%= f.submit "漫画情報を変更", class:"btn btn-sm btn-outline-dark rounded-pill mt-3 px-3 w-100", style:"" %>
                                   <% end %>
                               </div>
+                              
                           </div>
                         </div>
                       </div>
@@ -79,21 +81,33 @@
                     
                 
                     <% @sites.each do |site| %>
-                      <p class="pb-0 d-inline-flex">
+                      <p class="mt-3 mb-0 pb-0 d-inline-flex">
                         <i class="bi bi-check-lg text-success"></i>
                         <%= site.name %>
                       </p>
                     <% end %><br>
                 
-                    <p class="small mt-3">
-                      <%= @comic.updated_at.strftime('%Y年%m月%d日%H時%M分') %>　
-                      <b><%= @comic.user.nick_name %></b> さんが更新済み
-                      (ver.<%= @comic.version %>)<br>
-                      <% if @comic.remaining_one_comic_update_limit < 1 %>
-                        今日の更新はこれ以上することができません。
-                      <% else %>
-                        この漫画の更新残数は <%= @comic.remaining_one_comic_update_limit %> 回です。
-                      <% end %>
+                    <% if user_signed_in? %>
+                      <p class="small mt-3">
+                        <%= @comic.updated_at.strftime('%Y年%m月%d日%H時%M分') %>　
+                        <b><%= @comic.user.nick_name %></b> さんが更新済み
+                        (ver.<%= @comic.version %>)<br>
+                        <% if @comic.remaining_one_comic_update_limit < 1 %>
+                          今日の更新はこれ以上することができません。
+                        <% else %>
+                          この漫画の更新残数は <%= @comic.remaining_one_comic_update_limit %> 回です。
+                        <% end %>
+                      </p>
+                    <% end %>
+                    
+                    <hr>
+                    <p>
+                      <b>ゲスト</b> さんは ブックマークできません。<br>
+                      <small>
+                        ※ ブックマークするには
+                        <%= link_to "ログイン", new_user_session_path %>
+                        をしてください。
+                      </small>
                     </p>
                     
                     
@@ -142,9 +156,7 @@
                         </div><br>
                     <% end %>
                     
-                    <%= request.referer %>
-                    
-                </div>
+                <!--</div>-->
             </div>
         </div>
       

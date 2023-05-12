@@ -61,3 +61,5 @@ gem 'rakuten_web_service'
 gem 'kaminari','~> 1.2.1'
 gem 'whenever', require: false
 gem 'bootstrap4-kaminari-views'
+gem 'rails-i18n'
+gem 'pagy'

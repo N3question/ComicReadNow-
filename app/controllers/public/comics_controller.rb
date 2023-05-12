@@ -160,6 +160,7 @@ class Public::ComicsController < ApplicationController
     
     
     @comic = Comic.find(params[:id])
+    @user = User.find(@comic.user_id)
     
     @rb_comic = RakutenWebService::Books::Book.search(isbn: @comic.isbn).first
     @sites = @comic.sites.all
@@ -176,7 +177,7 @@ class Public::ComicsController < ApplicationController
     @comic_update_limit_count = @comic.remaining_one_comic_update_limit
     @user_read_judgement = ReadJudgement.find_by(
                   comic_id: @comic.id, 
-                  user_id: current_user.id, 
+                  user_id: @user.id, 
                   version: @comic.version
                   )
   end
@@ -274,16 +275,16 @@ class Public::ComicsController < ApplicationController
     
     readable_info.save!
     
-    @user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id, version: @comic.version)
+    @user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id, version: version)
     @can_read = ReadJudgement.where(
                   comic_id: @comic.id,
                   can_read: true, # 読めた
-                  version: @comic.version
+                  version: version
                   )
     @can_not_read = ReadJudgement.where(
                       comic_id: @comic.id,
                       can_read: false, # 読めなかった
-                      version: @comic.version
+                      version: version
                       )
     
   end

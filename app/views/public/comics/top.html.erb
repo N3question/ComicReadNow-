@@ -1,5 +1,5 @@
 <!--ランキング-->
-<div class="row top-blank mx-auto">
+<div class="row top-blank mx-auto" style="padding:205px 20px 40px;">
   
     <!--User Ranking欄-->
     <div class="col-lg-6 col-md-10 object-background mx-auto p-5">
@@ -7,7 +7,7 @@
         
         
         <div class="d-flex align-items-end mb-3">
-              <h5 class="font_1 font_shadow mr-2 mb-4"><b>User Ranking</b></h5>
+              <h5 class="font_1 font_shadow mr-2 mb-4"><b>User<br>Ranking</b></h5>
               <p class="button_shadow ml-auto mr-2 mb-4">
                 <%= link_to user_rank_index_path, class:"btn btn-sm btn-outline-dark px-3" do %>
                   全て見る <i class="bi bi-arrow-right-circle"></i>
@@ -120,52 +120,95 @@
     <% if user_signed_in? %>
     <div class="col-lg-5 col-md-10 font_1 object-background mx-auto p-5">
           
-        <h5 class="font_1 font_shadow">
-          <b>My Ranking</b>
-        </h5>
-        
-        <div class="d-flex flex-wrap" style="align-items:center;">
-          <small>
-            <b><%= current_user.nick_name %></b> さんの <b>Ranking</b> は...　
+          <h5 class="font_1 font_shadow">
+            <b>My<br>Ranking</b>
+          </h5>
+          
+          <div class="d-flex flex-wrap mt-4" style="align-items:center;">
+            <small>
+              <b><%= current_user.nick_name %></b> さんの <b>Ranking</b> は...　
+            </small>
+            <h1 class="font_2 ml-2 mb-0"><%= @my_rank %></h1>　位
+          </div>
+          
+          <div class="d-flex mt-3" style="align-items:center;">
+            <p class="mb-0">更新：</p>
+            <h4 class="font_2 mb-0">　<%= current_user.update_count %>　</h4>
+            <p class="small mb-0">回</p>
+          </div>
+          
+          <div class="d-flex mt-3" style="align-items:center;">
+            <p class="mb-0">評価：</p>
+            <h4 class="font_2 mb-0">　<%= current_user.read_judgements.where(can_read: true).count %>　</h4>
+            <p class="small mb-0">件</p>
+          </div>
+          
+          <div class="border mt-5 p-4">
+            <ul class="mb-0 pl-0">
+              <li class="list_marker">
+                <p class="small list_icon">サイト情報の新規追加　[ 回数×２ ]</p>
+              </li>
+              
+              <li class="list_marker">
+                <p class="small list_icon">サイト情報の内容訂正 & サイト情報に対する評価　[ 件数×１]</p>
+              </li>
+              
+              <li class="list_marker">
+                <p class="small list_icon">ランキング上位者に報酬特典</p>
+              </li>
+              
+              <li class="list_marker">
+                <p class="small list_icon">漫画情報（全体）の更新回数　１００回 / 日</p>
+              </li>
+              
+              <li class="list_marker">
+                <p class="small list_icon mb-0">漫画情報（同一）の更新回数　１回 / 日</p>
+              </li>
+            </ul>
+          </div>
+          
+          <small class="mt-2 mr-2" style="float:right;">
+            <%= link_to "more >>", url: "#", class:"font_1" %>
           </small>
-          <h1 class="font_2 ml-2 mb-0"><%= @my_rank %></h1>　位
-        </div>
-        
-        <div class="d-flex mt-4" style="align-items:center;">
-          <p class="mb-0">更新：</p>
-          <h4 class="font_2 mb-0">　<%= current_user.update_count %>　</h4>
-          <p class="small mb-0">回</p>
-        </div>
-        
-        <div class="d-flex mt-3" style="align-items:center;">
-          <p class="mb-0">評価：</p>
-          <h4 class="font_2 mb-0">　<%= current_user.read_judgements.where(can_read: true).count %>　</h4>
-          <p class="small mb-0">件</p>
-        </div>
-        
-        <div class="border mt-5 p-4">
-          <ul class="pl-0">
-            <li class="list_marker">
-              <p class="small list_icon">サイト情報の新規追加　×２倍</p>
-            </li>
-            
-            <li class="list_marker">
-              <p class="small list_icon">サイト情報の内容訂正　×１倍</p>
-            </li>
-            
-            <li class="list_marker">
-              <p class="small list_icon">ランキング上位者に報酬特典</p>
-            </li>
-            
-            <li class="list_marker">
-              <p class="small list_icon">漫画情報（全体）の更新回数　５０回まで（１日）</p>
-            </li>
-            
-            <li class="list_marker">
-              <p class="small list_icon">漫画情報（同一）の更新回数　１回まで（１日）</p>
-            </li>
-          </ul>
-        </div>
+          
+    </div>
+    <% else %>
+    <div class="col-lg-5 col-md-10 object-background mx-auto p-5" style="height:100%;">
+          
+          <div class="mr-4 mb-4">
+            <h5 class="font_1 font_shadow mb-0">
+              <b>About<br>Ranking</b>
+            </h5>
+          </div>
+          
+          <div class="border p-4 w-100" style="">
+              <ul class="mb-0 pl-0">
+                <li class="list_marker">
+                  <p class="small list_icon">サイト情報の新規追加　[ 回数×２ ]</p>
+                </li>
+                
+                <li class="list_marker">
+                  <p class="small list_icon">サイト情報の内容訂正 & サイト情報に対する評価　[ 件数×１]</p>
+                </li>
+                
+                <li class="list_marker">
+                  <p class="small list_icon">ランキング上位者に報酬特典</p>
+                </li>
+                
+                <li class="list_marker">
+                  <p class="small list_icon">漫画情報（全体）の更新回数　１００回 / 日</p>
+                </li>
+                
+                <li class="list_marker">
+                  <p class="small list_icon mb-0">漫画情報（同一）の更新回数　１回 / 日</p>
+                </li>
+              </ul>
+          </div>
+          
+          <small class="mt-2 mr-2" style="float:right;">
+            <%= link_to "more >>", url: "#", class:"font_1" %>
+          </small>
+          
     </div>
     <% end %>
 </div>

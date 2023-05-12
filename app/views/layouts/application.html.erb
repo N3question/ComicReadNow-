@@ -20,7 +20,7 @@
   </head>
 
   <body class="wrapper">
-    <header class="fixed-top" style="border:1px solid #000;">
+    <header class="fixed-top" style="">
       <div class="d-flex" style="align-items: center; background-color:#00264D; height:auto;">
         
         <% if admin_signed_in? %>
@@ -48,53 +48,17 @@
         <nav class="navbar navbar-light my-auto ml-auto">
           <ul class="d-inline-flex flex-wrap mb-0 ml-auto pl-0" style="align-items: center; list-style:none;">
             
-            <li class="nav-item mr-4">
-                <% if admin_signed_in? %>
-                <% else %>
-                    <!--検索フォーム-->
-                    <%= form_with url: search_index_comics_path, local: true, method: :get do |f| %>
-                    <div class="input-group my-3" style="width:100%; box-shadow:8px 8px 4px #000;"><br />
-                        <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend" placeholder="漫画タイトル" required="required"></input>
-                        <span class="input-group-btn input-group-append">
-                          <%= f.button type: 'submit', id: 'btn-search', class: 'btn text-info rounded-0', style: "background-color:white;" do %>
-                            <i class="bi bi-search"></i>
-                          <% end %>
-                        </span>
-                    </div>
-                    <% end %>
-                <% end %>
-            </li>
-              
-            <!--ユーザ側ログイン後-->
-            <% if user_signed_in? %>
-              <li class="nav-item my-3 mr-4">
-                  <b>
-                  <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class:"text-light", style:"text-decoration:none;" %>
-                  </b>
-              </li>
               
             <!--管理者ログイン後-->
-            <% elsif admin_signed_in? %>
+            <% if admin_signed_in? %>
               <li class="nav-item mt-3 mr-3 mb-4" style="height:40px;">
                   <%= link_to destroy_admin_session_path, method: :delete, class:"text-light mr-3", style:"text-decoration:none;" do %>
                     <h1><b><i class="bi bi-box-arrow-right"></i></b></h1>
                   <% end %>
               </li>
-              
-            <!--ユーザ・管理者ログイン前-->
-            <% else %>
-              <li class="nav-item my-3 mr-4">
-                  <b>
-                  <%= link_to 'ログイン', new_user_session_path, class:"text-light", style:"text-decoration:none;" %>
-                  </b>
-              </li>
-              <li class="nav-item my-3 mr-4">
-                  <%= link_to '新規登録', new_user_registration_path, class:"btn rounded-pill px-4 form-control", style:"background-color:#66CC00; color:white;" %>
-              </li>
             <% end %>
             
-            <% if admin_signed_in? %>
-            <% else %>
+            <% if !admin_signed_in? %>
               <li class="my-3 ml-auto dropdown">
                   <a href="#" class="dropdown-toggle" style="color: #00264D;" data-toggle="dropdown" role="button">
                     <button class="navbar-toggler" style="border-color:white;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -123,12 +87,39 @@
                     <li class="mb-4"><hr class="dropdown-divider m-0" style=""></li>
                     <li class="mx-4 mb-3"><a href="#" class="text-dark">お知らせ</a></li>
                     <li class="mx-4 mb-3"><a href="#" class="text-dark">Comic Read now!とは</a></li>
+                    <% if user_signed_in? %>
+                      <li class="mx-4 mb-3">
+                          <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, style:"text-decoration:none;" %>
+                      </li>
+                    <% else %>
+                      <li class="mx-4 mb-3">
+                          <%= link_to 'ログイン', new_user_session_path, style:"text-decoration:none;" %>
+                      </li>
+                      <li class="mx-4 mb-3">
+                          <%= link_to '新規登録', new_user_registration_path, class:"btn rounded-pill px-4 form-control", style:"background-color:#66CC00; color:white;" %>
+                      </li>
+                    <% end %>
                     <li class="mx-4"><a href="/admins/sign_in" class="text-dark"><i class="bi bi-gear btn btn-outline-dark btn-sm w-100"></i></a></li>
                   </ul>
               </li>
             <% end %>
           </ul>
         </nav>
+      </div>
+      <div class="mx-2">
+        <% if !admin_signed_in? %>
+            <!--検索フォーム-->
+            <%= form_with url: search_index_comics_path, local: true, method: :get do |f| %>
+            <div class="input-group my-4 mx-auto" style="width:95%; height:60px; box-shadow:10px 8px 5px rgba(128,128,128, 0.25);"><br />
+                <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend" placeholder="漫画タイトル" required="required" style="height:60px; border:0.5px solid #00264D;"></input>
+                <span class="input-group-btn input-group-append">
+                  <%= f.button type: 'submit', id: 'btn-search', class: 'btn text-light rounded-0', style: "background-color:#00264D;" do %>
+                    <i class="bi bi-search"></i>
+                  <% end %>
+                </span>
+            </div>
+            <% end %>
+        <% end %>
       </div>
     </header>
     

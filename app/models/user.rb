@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :read_judgements, dependent: :destroy
   has_many :comics, dependent: :destroy
-  # validates :nick_name, length: { maximum: 15 }
+  validates :nick_name, length: { maximum: 12 }
   
   # PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i.freeze
   # # 半角アルファベット（大文字・小文字・数値）

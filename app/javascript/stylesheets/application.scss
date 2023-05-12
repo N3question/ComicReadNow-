@@ -58,6 +58,23 @@ footer, .rank_que {
     margin-left: 50px;
 } 
 
+.contents_action_box {
+    display: flex; 
+    justify-content: flex-end;
+}
+
+.contents_action {
+    display: none;
+}
+
+.contents_action_slide {
+    height: auto; 
+    width: auto; 
+    padding: 30px 20px; 
+    display: flex; 
+    justify-content: center;
+}
+
 .site_name_header:nth-child(odd) {
     border-bottom: 0.5px solid silver;
     border-right: 0.5px solid silver;
@@ -219,8 +236,8 @@ a.img_link:hover {
     background: #003973;
 }
 
-.list_marker{
-    list-style:none;
+.list_marker {
+    list-style: none;
 }
 
 ul li .list_icon {
@@ -239,7 +256,7 @@ ul li .list_icon::before {
 }
 
 .top-blank {
-    padding: 135px 30px 45px; 
+    padding: 35px 30px 45px; 
     background-color:#EEE;
 }
 

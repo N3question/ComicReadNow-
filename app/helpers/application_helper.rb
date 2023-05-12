@@ -9,4 +9,6 @@ module ApplicationHelper
     end
   end
   
+  include Pagy::Frontend # 追記
+  
 end
