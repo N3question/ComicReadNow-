@@ -63,9 +63,11 @@
                   </div>
               </div>
               
-              <p class="my-5 mx-auto py-3 px-4 user_email small" style="width:90%; margin-top:10px; border-top:0.5px solid silver; border-bottom:0.5px solid silver; overflow-wrap: break-word;">
-                <i class="bi bi-envelope mr-2"></i><%= current_user.email %>
-              </p>
+              <div class="d-flex my-4" style="justify-content: center;">
+                <p class="mx-3 px-2 py-3 user_email small text-center" style="width:90%; margin-top:10px; border-top:0.5px solid silver; border-bottom:0.5px solid silver; overflow-wrap: break-word;">
+                  <i class="bi bi-envelope mx-2"></i><%= current_user.email %>
+                </p>
+              </div>
               
               <%= link_to "ユーザ情報の編集", edit_information_path(current_user), class:"btn btn-dark rounded-pill mb-4 px-3 border w-100" %>
               

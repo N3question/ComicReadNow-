@@ -1,28 +1,36 @@
-<div class="d-flex justify-content-center" style="margin-top:105px; min-height: 74vh;">
+<div style="padding:65px 20px 40px;"></div>
+  
+<div class="d-flex justify-content-center" style="margin-top:15px;">
+  
+  <div class="col-lg-8 col-md-8 col-sm-9 p-5" style="border-top-right-radius: 20px; border-bottom-right-radius: 20px; box-shadow:10px 5px 7px #BBB;">
       
-    <div class="col-lg-8 col-md-8 col-sm-9 p-5" style="border-top-right-radius: 20px; border-bottom-right-radius: 20px; box-shadow:10px 5px 7px #BBB;">
-        <h5 class="mb-5"><b>User 一覧</b></h5>
-        <table class="table table-responsive-sm table-responsive-md admin_table">
-          <% @users.each do |user| %>
-            <tr>
-                <td class="user_icon" style="width:104px;">
-                  <%= link_to admin_information_path(user.id) do %>
-                    <% if user.profile_image.attached? %>
-                      <%= image_tag user.profile_image, size: "80x80" %>
-                    <% else %>
-                      <%= image_tag 'no_image', size: "80x80" %>
-                    <% end %>
+      <div class="alert alert-success alert-dismissible mx-auto mb-0" style="width:90%;">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <%= flash[:notice] %>
+      </div>
+      
+      <h5 class="mb-5"><b>User 一覧</b></h5>
+      <table class="table table-responsive-sm table-responsive-md admin_table">
+        <% @users.each do |user| %>
+          <tr>
+              <td class="user_icon" style="width:104px;">
+                <%= link_to admin_information_path(user.id) do %>
+                  <% if user.profile_image.attached? %>
+                    <%= image_tag user.profile_image, size: "80x80" %>
+                  <% else %>
+                    <%= image_tag 'no_image', size: "80x80" %>
                   <% end %>
-                </td>
-                <td style="width:200px; vertical-align:middle;">
-                    <%= user.nick_name %>
-                </td>
-                <td style="vertical-align:middle">
-                    <%= user.email %>
-                </td>
-            </tr>
-          <% end %>
-        </table>
-    </div>
+                <% end %>
+              </td>
+              <td style="width:200px; vertical-align:middle;">
+                  <%= user.nick_name %>
+              </td>
+              <td style="vertical-align:middle">
+                  <%= user.email %>
+              </td>
+          </tr>
+        <% end %>
+      </table>
+  </div>
       
 </div>

@@ -328,6 +328,14 @@ ul li .list_icon::before {
 // }
 
 .link_text:hover {
-        text-decoration-line: underline;
-        color: black;
+    text-decoration-line: underline;
+    color: black;
 }
+
+.link:hover {
+    opacity: 0.5;
+}
+
+// .link:active{
+//     color: orange;
+// }

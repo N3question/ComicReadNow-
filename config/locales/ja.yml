@@ -13,3 +13,6 @@ ja:
       user:
         signed_in: "ログインが成功しました。"
         signed_out: "ログアウトが成功しました。"
+      admin:
+        signed_in: "管理者のログインが成功しました。"
+        signed_out: "管理者のログアウトが成功しました。"

@@ -3,7 +3,7 @@
     
     <div class="mt-4">
         <div class="ml-5 mb-5 d-flex flex-wrap">
-            <h5><b><%= @comic_site.site.name %> 一覧　</b></h5>
+            <h5><b>「 <%= @comic_site.site.name %> 」 一覧　</b></h5>
             <p><b>全<%= @comic_site_amount.count %>件</b></p>
         </div>
         <div class="d-inline-flex flex-wrap" style="justify-content:center;">
@@ -17,7 +17,9 @@
                 </div>
                 <div class="py-4 mb-3" style="width:150px; height:auto;">
                   <%= link_to comic_path(comic_site.comic.id) do %>
-                    <p class="mb-2"><b><%= comic_site.comic.title.truncate(20) %></b></p>
+                    <p class="mb-2 text-dark">
+                      <%= comic_site.comic.title.truncate(20) %>
+                    </p>
                   <% end %>
                 </div>
               </div>
