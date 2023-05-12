@@ -11,15 +11,17 @@
                 <% @bookmark_comics.each do |book| %>
                 <% comic = Comic.find_by(isbn: book["isbn"]) %>
                   <div class="mx-2">
+                    
                     <div style="width:150px;">
                         <% if comic %>
                             <%= link_to comic_path(comic.id), class:"img_link" do %>
-                              <%= image_tag book.large_image_url, style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+                              <%= image_tag book.large_image_url, class:"img_comic" %>
                             <% end %>
                         <% else %>
-                            <%= image_tag book.large_image_url, style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+                            <%= image_tag book.large_image_url, class:"img_comic" %>
                         <% end %>
                     </div>
+                    
                     <div class="py-4 mb-3" style="width:150px; height:auto;">
                         <% if comic %>
                             <%= link_to comic_path(comic.id) do %>
@@ -34,6 +36,7 @@
                             <% end %>
                         <% end %>
                       </div>
+                      
                   </div>
                 <% end %>
             </div>

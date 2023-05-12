@@ -1,1 +1,30 @@
-$('#read_judgements_buttons_<%= @comic.id %>').html("<%= j(render partial: '/public/comics/read_judgement', locals: {comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read}) %>");
+$('#read_judgements_buttons_<%= @comic.id %>').html("<%= j(render partial: '/public/comics/read_judgement',locals: { comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read }) %>");
+
+
+<!-- # 部分テンプレート内で使用しているローカル変数を定義-->
+<!-- # 右辺の内容は[comics#read_judgement]のアクション内で定義-->
+<!-- # 左辺のローカル変数は部分テンプレート内で定義-->
+
+<!--
+## .js.erb
+Rubyを埋め込むことのできるjsファイル
+-->
+
+<!--
+
+## コントローラの動作（ファイルを探す時）
+
+- app/views/コントローラ名/アクション名.リクエストの形式.〇〇 
+- app/views/public/comics/read_judgement.js.erb
+
+
+## リクエストの種類からレスポンスの種類 (js)
+
+1.  クライアントサイドからjs形式のリクエスト
+2.  MVC一連の流れ
+　 [ MVCモデル ]
+　   システム開発においての設計方針の一つ。
+　   「Model」「View」「Controller」の3つに分けてコードを管理するもの
+3.  アクションに沿ってビューファイルを部分的に変更
+
+-->

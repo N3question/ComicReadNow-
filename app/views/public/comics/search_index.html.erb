@@ -15,23 +15,20 @@
                 <% aa = Date.current > Date.parse(book["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0]) %>
                 
                 
-                
-                
-                    <div class="mx-2">
-                      <div style="width:150px;">
-                        <% if comic %>
-                            <%= link_to comic_path(id: comic.id, keyword: params[:keyword],page: @current_page), class:"img_link" do %>
-                              <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
-                            <% end %>
-                        <% else %>
-                            <%= image_tag book["largeImageUrl"], style:"width:150px; height:230px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
-                        <% end %>
-                      </div>
-                      
-                      
-                      
-                      
-                      <div class="py-4 mb-3" style="width:150px; height:auto;">
+                <div class="mx-2">
+                    
+                    <div style="width:150px;">
+                      <% if comic %>
+                          <%= link_to comic_path(id: comic.id, keyword: params[:keyword],page: @current_page), class:"img_link" do %>
+                            <%= image_tag book["largeImageUrl"], class:"img_comic" %>
+                          <% end %>
+                      <% else %>
+                          <%= image_tag book["largeImageUrl"], class:"img_comic" %>
+                      <% end %>
+                    </div>
+                        
+                        
+                    <div class="py-4 mb-3" style="width:150px; height:auto;">
                         <% if comic %>
                             <%= link_to comic_path(comic.id) do %>
                               <p class="mb-2" style="height:50px;"><b><%= book["title"].truncate(20) %></b></p>
@@ -39,12 +36,9 @@
                         <% else %>
                             <p class="mb-2" style="height:50px;"><b><%= book["title"].truncate(20) %></b></p>
                         <% end %>
-                        
-                        
-                        
-                        
+                      
+                      
                         <% if user_signed_in? && !comic && aa %>
-                        <!--<#%= @r_w_s["#{i}"]["salesDate"] %>-->
                         
                             <div class= "sample mb-2 d-flex" style="justify-content: flex-end;">
                                 <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
@@ -71,12 +65,13 @@
                                   
                               </div>
                             </div>
+                            
                             <script src="index.js"></script>
                         <% elsif user_signed_in? && !comic %>
                            pp
                         <% end %>
-                      </div>
                     </div>
+                </div>
                 <% comic_count += 1 %>
                 <% end %>
             </div>

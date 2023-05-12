@@ -85,10 +85,12 @@ class Public::ComicsController < ApplicationController
     end
     
     @from_rws = params[:from_rws]
-    @can_not_create_record = params[:can_not_create_record]
     @isbn = params[:isbn]
+    @can_not_create_record = params[:can_not_create_record]
+    
     @top_rb_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
     @top_comic_info = Comic.find_by(isbn: params[:isbn])
+    
     @comic = Comic.new
   end
   
@@ -159,11 +161,6 @@ class Public::ComicsController < ApplicationController
     
     @comic = Comic.find(params[:id])
     
-    user_can_read_info = ReadJudgement.find_by(
-                          user_id: current_user.id, 
-                          comic_id: @comic.id
-                          )
-    
     @rb_comic = RakutenWebService::Books::Book.search(isbn: @comic.isbn).first
     @sites = @comic.sites.all
     @can_read = ReadJudgement.where(
@@ -172,11 +169,16 @@ class Public::ComicsController < ApplicationController
                   version: @comic.version
                   )
     @can_not_read = ReadJudgement.where(
-                      comic_id: @comic.id,
-                      can_read: false, # 読めなかった
-                      version: @comic.version
-                      )
+                  comic_id: @comic.id,
+                  can_read: false, # 読めなかった
+                  version: @comic.version
+                  )
     @comic_update_limit_count = @comic.remaining_one_comic_update_limit
+    @user_read_judgement = ReadJudgement.find_by(
+                  comic_id: @comic.id, 
+                  user_id: current_user.id, 
+                  version: @comic.version
+                  )
   end
   
   
@@ -192,25 +194,30 @@ class Public::ComicsController < ApplicationController
                           comic_id: comic.id
                           )
     
-    # 各ユーザの更新限度 < 1、漫画（単体）の更新限度 < 1
+    # 前提条件
     if current_user.remaining_total_update_limit < 1 || comic.remaining_one_comic_update_limit < 1
         redirect_to request.referer
-    # 各ユーザが押した可読情報が存在、漫画（単体）の更新限度 < 1
     elsif user_can_read_info && comic.remaining_one_comic_update_limit < 1
         redirect_to request.referer
     end
     
-    before_comic_info = ComicSite.where(comic_id: comic.id).pluck(:site_id) #（今現在保存されているデータ）
-    after_comic_info = site_params[:site_ids] #（これから更新するデータ）
-    # 配列の比較で検索してみる  # 文字列、整数の場合は[値] == [値]でできる。
-    # byebug
-    if before_comic_info.uniq == after_comic_info.map(&:to_i)
+    
+    before_comic_info = ComicSite.where(comic_id: comic.id).pluck(:site_id)  # 今現在保存されているデータ
+    after_comic_info = site_params[:site_ids]                                # これから更新するデータ
+    
+    # 配列の比較
+    # 文字列、整数の場合は 値 == 値
+    # uniq...[配列] 重複した要素を取り除いた新しい配列を返すメゾット
+    # map...各要素へ順に処理を実行してくれるメソッド
+    # (&:to_i.to_proc)...
+    # [戻り値] 各要素の変更後の値が入った配列
+    if before_comic_info.uniq == after_comic_info.map(&:to_i)  # == (&:to_i.to_proc)
       flash[:alert] = '更新前と同じ内容の為、更新ができませんでした。'
       redirect_to comic_path(comic.id)
       return
     end
     
-    limit = comic.remaining_one_comic_update_limit # 追加
+    limit = comic.remaining_one_comic_update_limit
     
     # 漫画情報と編集者の更新
     comic.update(update_params.merge({
@@ -278,6 +285,7 @@ class Public::ComicsController < ApplicationController
                       can_read: false, # 読めなかった
                       version: @comic.version
                       )
+    
   end
   
   
@@ -307,12 +315,12 @@ class Public::ComicsController < ApplicationController
       end
     end
     
-     if now_comics.count == 0
+    # 次のページの漫画の数が0だった場合pageを+!
+    if now_comics.count == 0
       redirect_to sale_index_comics_path(page: page + 1)
     end 
     
     @now_comics = Kaminari.paginate_array(now_comics, total_count: 1200).page(params[:page]).per(30)
-  
     @comic = Comic.new
   end
   

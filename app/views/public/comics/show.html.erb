@@ -1,9 +1,8 @@
-<div style="background-color:#EEE; height:100px;"></div>
-<div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
-  <div class="col-lg-9 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
-        
-        
-        <!--前の画面に遷移するボタン-->
+<div style="background-color:#EEE; padding:130px 0; min-height: 74vh;">
+    <div class="col-lg-9 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
+          
+          
+        <!--「←」ボタン-->
         <% if session["search_keyword"].present? && params[:page] %>
             <%= link_to search_index_comics_path(keyword: session["search_keyword"], page: params[:page]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
@@ -19,17 +18,19 @@
         <% end %><br>
         
         
+        
         <%= flash[:alert] %>
-        <div class="alert alert-danger" style="display:none;">
-          <%= alert %><button type="button" class="close" data-dismiss="alert">&times;</button>
-        </div>
+        <!--<div class="alert alert-danger" style="display:none;">-->
+        <!--  <#%= alert %><button type="button" class="close" data-dismiss="alert">&times;</button>-->
+        <!--</div>-->
+        
         
         
         <!--漫画情報詳細-->
         <div class="d-flex flex-wrap"  style="padding:30px 20px; justify-content:center;">
             
             <!--書籍情報-->
-            <%= image_tag @comic.large_image_url, class:"my-3 mx-5", style:"width:170px; height:250px; background-size: cover; border:0.5px solid #00264D; box-shadow:8px 8px 20px #999;" %>
+            <%= image_tag @comic.large_image_url, class:"img_comic my-3 mx-5" %>
             
             <div class="p-3">
                 <div>
@@ -98,7 +99,6 @@
                     
                     <!--前提定義-->
                     <% if user_signed_in? %>
-                    <% user_read_judgement = ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id, version: @comic.version) %>
                     <% current_version = Comic.order(version: :desc).limit(1) %>
                     <% bookmark = Bookmark.where(comic_id: @comic.id, user_id: current_user) %>
                     <% bookmark_all_user = Bookmark.where(comic_id: @comic.id) %>
@@ -110,9 +110,9 @@
                         
                         <!--可読判定に対するメッセージ-->
                         <div class="mb-2">
-                            <% if user_read_judgement.present? && user_read_judgement.can_read == true %>
+                            <% if @user_read_judgement.present? && @user_read_judgement.can_read == true %>
                               <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
-                            <% elsif user_read_judgement.present? && user_read_judgement.can_read == false %>
+                            <% elsif @user_read_judgement.present? && @user_read_judgement.can_read == false %>
                               <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
                             <% elsif current_version && %>
                               <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
@@ -122,52 +122,38 @@
                         
                         <!--可読判定-->
                         <div class="d-flex" style="align-items: center;">
-                            <!--可読情報が未追加-->
-                            <div id="read_judgements_buttons_<%= @comic.id %>">
-                              <%= render partial: '/public/comics/read_judgement', locals: {comic: @comic, user_read_judgement: user_read_judgement, can_read: @can_read, can_not_read: @can_not_read} %>
-                            </div>
+                          <!--可読情報が未追加-->
+                          <div id="read_judgements_buttons_<%= @comic.id %>">
+                            <%= render partial: '/public/comics/read_judgement', locals: {comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read} %>
                           </div>
-                          
-                          
-                          <hr>
-                          
-                          
-                          <!--ブックマーク-->
-                          <div class="d-flex flex-wrap mr-2" style="align-items: center;">
-                              <div class="ml-auto">
-                                  <div id="bookmarks_buttons_<%= @comic.id %>">
-                                    <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @comic} %>
-                                  </div>
-                              </div>
-                          </div><br>
-                      <% end %>
-                      
-                      <%= request.referer %>
+                        </div>
+                        
+                        
+                        <hr>
+                        
+                        
+                        <!--ブックマーク-->
+                        <div class="d-flex flex-wrap mr-2" style="align-items: center;">
+                            <div class="ml-auto">
+                                <div id="bookmarks_buttons_<%= @comic.id %>">
+                                  <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @comic} %>
+                                </div>
+                            </div>
+                        </div><br>
+                    <% end %>
+                    
+                    <%= request.referer %>
                     
                 </div>
             </div>
         </div>
-    
-  </div>
+      
+    </div>
 </div>
 
 <script>
   function radio_func() {
     if(window.confirm('情報は間違いありませんか？意図的に誤った内容を送信することは禁止されています。')) {
-      // var form = document.getElementById('comic_read_judgement');
-      //   form.addEventListener('submit', (event) => {
-      //   event.stopPropagation();
-      //   event.preventDefault();
-      //   const formData = new formData(form);
-      //   const options = {
-      //     method: 'POST',
-      //     body: formData,
-      //     dataType: 'script'
-      //   }
-      //   const url = form.action;
-      //   fetch(url, options);
-      // });
-      // form.submit(); 
       var submit = document.getElementById('read_judgements_submit')
       submit.click()
     }else {
@@ -176,7 +162,7 @@
   }
   
   $(function(){
-    //ボタンのイベント
+    // ボタンのイベント
     $(".btn").click(function(){
       // sampleAクラスをスライドアップ/ダウンさせる
       $(".sampleA").slideToggle();
@@ -184,35 +170,26 @@
   });
 </script>
 
+<!--formを呼び出す動作-->
 <!--function radio_func() {-->
 <!--    if(window.confirm('情報は間違いありませんか？意図的に誤った内容を送信することは禁止されています。')) {-->
-<!--      var form = document.getElementById('comic_read_judgement');-->
-<!--      // form.submit(); -->
-<!--      // $('input[name=read_info]:checked').val()-->
-<!--      // $('#read_judgement_id').html('<p>change</p>');-->
-<!--      // let token = $('meta[name="csrf-token"]').attr('content');-->
-<!--      // let read_info_value = $('input[name=read_info]:checked').val();-->
-<!--      // $.ajax({-->
-<!--      //   type: 'post',-->
-<!--      //   url: '/comics/<#%= @comic.id %>/read_judgement.js',-->
-<!--      //   data: {-->
-<!--      //     read_info: read_info_value-->
-<!--      //   },-->
-<!--      //   headers: {-->
-<!--      //     'X-CSRF-Token': token-->
-<!--      //     'Content-Type': 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'-->
-<!--      //   },-->
-<!--      //   dataType: 'json'-->
-<!--      // }).done(function (data) {-->
-<!--      //   console.log(data);-->
-<!--      //   //成功処理-->
-  
-<!--      // }).fail(function () {-->
-  
-<!--      //   //失敗処理-->
-  
+
+<!--      // var form = document.getElementById('comic_read_judgement');-->
+<!--      //   form.addEventListener('submit', (event) => {-->
+<!--      //   event.stopPropagation();-->
+<!--      //   event.preventDefault();-->
+<!--      //   const formData = new formData(form);-->
+<!--      //   const options = {-->
+<!--      //     method: 'POST',-->
+<!--      //     body: formData,-->
+<!--      //     dataType: 'script'-->
+<!--      //   }-->
+<!--      //   const url = form.action;-->
+<!--      //   fetch(url, options);-->
 <!--      // });-->
+<!--      // form.submit(); -->
+
 <!--    }else {-->
-<!--      return-->
+<!--      return-->  <!-- 呼び出した動作を元に戻す = 実質キャンセルする -->
 <!--    }-->
 <!--  }-->

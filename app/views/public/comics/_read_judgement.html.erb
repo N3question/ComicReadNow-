@@ -10,12 +10,39 @@
     <% end %>
 
 <% else %>
-    <p class="mr-2 mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio">読めた</p>
-    <p class="mb-0">
-      <%= can_read.count %>人
-      </p>
-    <p class="mr-2 ml-3 mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio">読めなかった</p>
-    <p class="mb-0">
-      <%= can_not_read.count %>人
-    </p>
+    <div class="d-flex" style="align-items: center;">
+        <p class="mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio">読めた</p>
+        <p class="ml-2 mr-3 mb-0">
+          <%= can_read.count %>人
+        </p>
+        <p class="mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio">読めなかった</p>
+        <p class="ml-2 mr-3 mb-0">
+          <%= can_not_read.count %>人
+        </p>
+    </div>
 <% end %>
+
+<!--local: true...Rails6.1から仕様が変わってデフォルトで `local: true` となり、オプション不要-->
+<!--local: falseはAjax（エージャックス）-->
+
+<!--
+## Ajax（エージャックス）
+
+単語	            概要
+
+A（Asynchronous）	非同期、タイミングを合わせず複数の処理または通信を行う方法
+JA（JavaScript）	Webページに動きをつけるのに使用するプログラミング言語
+X（XML）	        文章の見た目や構造を記述するためのマークアップ言語
+-->
+
+
+<!--locals == ローカル変数（@のついてない変数）-->
+<!--今回で言うと、user_read_judgement、comic、can_read、can_not_readがそれにあたる-->
+
+<!--id: "read_judgements_submit"...任意で好きなid名にする。-->
+<!--idは一つしか存在しない点を利用し、特定のsubmitに対して動作が行われるようにする-->
+
+<!--
+## onChange
+動作によって、発動するイベントを処理する
+-->

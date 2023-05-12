@@ -32,6 +32,18 @@ footer, .rank_que {
     }
 }
 
+.comic_contents {
+    min-height: 53vh; 
+}
+
+.comic_contents_top {
+    margin: 80px 0;
+}
+
+.comic_contents_other {
+    margin-bottom: 80px;
+}
+
 .contents_box {
     overflow-x: scroll;
     white-space: nowrap;
@@ -64,140 +76,199 @@ footer, .rank_que {
 } 
 
 a.img_link:hover {
-	opacity: 0.5;
+	  opacity: 0.5;
+}
+
+.top_img_comic {
+  width: 150px; 
+  height: 230px; 
+  background-size: cover; 
+  border: 0.5px solid #00264D; 
+  box-shadow: 8px 8px 20px #999;
+}
+
+.img_comic {
+  width: 150px; 
+  height: 230px; 
+  background-size: cover; 
+  border: 0.5px solid #00264D; 
+  box-shadow: 8px 8px 20px #999;
 }
 
 .read_judgement:hover {
-  opacity: 0.5;
+    opacity: 0.5;
 }
 
 .can_read_radio{
-  border: 2px solid #2C7CFF; 
-  background-color: #A4C6FF; 
-  cursor: pointer; 
-  border-radius: 5px;
+    border: 2px solid #2C7CFF; 
+    background-color: #A4C6FF; 
+    cursor: pointer; 
+    border-radius: 5px;
 }
 
 .can_not_read_radio{
-  border: 2px solid #7B3CFF; 
-  background-color:#D0B0FF; 
-  cursor: pointer; 
-  border-radius: 5px;
+    border: 2px solid #7B3CFF; 
+    background-color:#D0B0FF; 
+    cursor: pointer; 
+    border-radius: 5px;
 }
 
 // 以下サイドバーのCSS
 .channel-menu {
-  position: fixed;
-  top: 0;
-  @media screen and (max-width: 600px) {
-    position: inherit;
-    margin-left: 0;
-  }
+    position: fixed;
+    top: 0;
+    @media screen and (max-width: 600px) {
+      position: inherit;
+      margin-left: 0;
+    }
 }
 
 .channel-menu_name {
-  display: inline-block;
-  padding: 0 0.5rem 0 1.5rem;
-  color: #555459;
-  font-size: 1.4rem;
-  font-weight: 900;
-  line-height: 53px;
-  cursor: pointer;
-  @media screen and (max-width: 600px) {
-    padding-left: 0;
-  }
+    display: inline-block;
+    padding: 0 0.5rem 0 1.5rem;
+    color: #555459;
+    font-size: 1.4rem;
+    font-weight: 900;
+    line-height: 53px;
+    cursor: pointer;
+    @media screen and (max-width: 600px) {
+      padding-left: 0;
+    }
 }
+
 .channel_name .prefix {
-  margin-right: 8px;
+    margin-right: 8px;
 }
 
 .channel-menu_prefix {
-  padding-right: 0.5rem;
-  font-weight: 500;
+    padding-right: 0.5rem;
+    font-weight: 500;
 }
+
 .channel-menu_date {
-  font-weight: bold;
+    font-weight: bold;
 }
+
 .channel-menu h3 {
-  float: right;
-  padding-right: 0.1rem;
-  font-weight: 500;
+    float: right;
+    padding-right: 0.1rem;
+    font-weight: 500;
 }
+
 .listings {
-  border: 0.5px solid #00264D; 
-  min-height: 70vh;
-  height: 100%;
-  width: 100%;
-  float: left;
-  color: #ab9ba9;
-  background-color: #00264D;
-  overflow-y: auto;
-  overflow-x: hidden;
-  z-index: 10;
-  @media screen and (max-width: 600px) {
-    display: none;
-    position: absolute;
-    &.show {
-      display: block;
+    border: 0.5px solid #00264D; 
+    min-height: 70vh;
+    height: 100%;
+    width: 100%;
+    float: left;
+    color: #ab9ba9;
+    background-color: #00264D;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 10;
+    @media screen and (max-width: 600px) {
+      display: none;
+      position: absolute;
+      &.show {
+        display: block;
+      }
     }
-  }
 }
 
 .listings_channels {
-  margin: 1rem 0 2rem;
+    margin: 1rem 0 2rem;
 }
 
 .listings_header {
-  text-align: left;
-  font-size: 0.8rem;
-  line-height: 1.25rem;
-  margin: 0 1rem 0.1rem;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: #778899;
-  width: 165px;
-  position: relative;
+    text-align: left;
+    font-size: 0.8rem;
+    line-height: 1.25rem;
+    margin: 0 1rem 0.1rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #778899;
+    width: 165px;
+    position: relative;
 }
 
 .channel_list {
-  padding: 0;
-  list-style-type: none;
-  text-align: left;
-  color: #ab9ba9;
+    padding: 0;
+    list-style-type: none;
+    text-align: left;
+    color: #ab9ba9;
 }
 
 .channel {
-  height: 24px;
-  line-height: 24px;
-  padding-right: 17px;
-  color: #ffffff;
-  padding-left: 1rem;
-  a {
-    color: #ddd;
-    text-decoration: none;
-    width: 100%;
-    display: inline-block;
-  }
-  a:hover {
-    color: #eee;
-  }
+    height: 24px;
+    line-height: 24px;
+    padding-right: 17px;
+    color: #ffffff;
+    padding-left: 1rem;
+    a {
+      color: #ddd;
+      text-decoration: none;
+      width: 100%;
+      display: inline-block;
+    }
+    a:hover {
+      color: #eee;
+    }
 }
 
 .channel.active {
-  background: #003973;
+    background: #003973;
+}
+
+.list_marker{
+    list-style:none;
 }
 
 ul li .list_icon {
-  position: relative;
-  padding-left: 25px;
+    position: relative;
+    padding-left: 25px;
 }
 
 ul li .list_icon::before {
-  content: '\f058';
-  font-family: "Font Awesome 5 Free";
-  font-weight: 400;
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: #66CC00;
+    content: '\f058';
+    font-family: "Font Awesome 5 Free";
+    font-weight: 400;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #66CC00;
+}
+
+.top-blank {
+    padding: 135px 30px 45px; 
+    background-color:#EEE;
+}
+
+.font_1 {
+    font-family: 'Bruno Ace', cursive; 
+}
+
+.font_2 {
+    font-family: 'Dela Gothic One', cursive;
+}
+
+.font_shadow {
+    text-shadow: 4px 4px 4px #aaa;
+}
+
+.button_shadow{
+    box-shadow: 4px 5px 7px #EEE;
+}
+
+.object-centering {
+    justify-content: center; 
+    align-items: center;
+}
+
+.object-background {
+    background-color:#FFF; 
+    box-shadow: 0.5px 5px 5px 5px #DDD;
+}
+
+.object-shadow {
+    box-shadow: 10px 0px 10px 3px #EEE;
 }
