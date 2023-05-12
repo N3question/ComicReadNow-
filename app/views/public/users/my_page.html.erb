@@ -1,7 +1,8 @@
-<div class="container" style="margin-top:100px;">
+<div class="container">
   
-  <div class="row mx-auto pb-4 d-flex justify-content-center" style="padding:30px 20px;">
+  <div class="row mx-auto pb-4 d-flex justify-content-center" style="padding:215px 20px 30px;">
       <div class="col-lg-4 p-0 rank_que_wrapper" style="border:1px solid #00264D; background-color:#00264D; border-top-left-radius: 20px; box-shadow:0px 5px 7px #BBB;">
+        
         <div class="p-5" style="margin-bottom:80px;">
               <h5 class="mb-3" style="font-family: 'Bruno Ace', cursive; color:#FFFFCC;">
                 <b>My Ranking</b>
@@ -53,10 +54,50 @@
                   </h4>
                 </div>
             </div>
-            <p class="mt-5 mx-auto py-3 px-4 user_email small" style="width:90%; margin-top:10px; border-top:0.5px solid silver; border-bottom:0.5px solid silver;">
-              <i class="bi bi-envelope"></i>　　<%= current_user.email %>
+            
+            <p class="mt-5 mx-auto py-3 px-4 user_email small" style="width:90%; margin-top:10px; border-top:0.5px solid silver; border-bottom:0.5px solid silver; overflow-wrap: break-word;">
+              <i class="bi bi-envelope mr-2"></i><%= current_user.email %>
             </p>
-            <%= link_to 'ユーザ情報の編集', edit_information_path, class:"btn btn-dark rounded-pill mt-4 w-100" %>
+            
+            
+            <p class="ml-3 mb-0"><%= flash[:notice] %></p>
+            <div class= "sample d-flex" style="justify-content: flex-end;">
+              <input type="button" class="btn btn-dark rounded-pill mt-4 w-100 mb-2 px-3 text-nowrap" value="ユーザ情報の編集">
+            </div>
+            <div class= "sampleA mb-3 border" style="display:none;">
+              <div style="height:100%; width:100%; padding:30px auto; display:flex; justify-content:center;">
+                    
+                    <div class="m-2">
+                        <p class="m-3"><b>ユーザ情報の編集...</small></p>
+                        
+                        <%= form_with url: update_information_path, model: current_user do |f| %>
+                          <table class="table table-borderless">
+                            <tr>
+                                <td style="overflow-wrap: break-word;">
+                                  <small>アイコン画像：</small><br>
+                                  <%= f.file_field :profile_image, accept: "image/*", class:"mt-2" %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                  <%= f.text_field :nick_name, autofocus: true, id:"inputName", placeholder:"ニックネーム", class:"form-control w-90" %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                  <%= f.text_field :email, autofocus: true, id:"inputName", placeholder:"sample@gmail.com", class:"form-control" %>
+                                </td>
+                            </tr>
+                            <tr>
+                              <td><%= f.submit "変更を保存", class:"btn rounded-pill mt-3 px-4 border", style:"background-color:#66CC00; color:white;" %></td>
+                            </tr>
+                          </table>
+                        <% end %>
+                    </div>
+                    
+              </div>
+            </div>
+            <script src="index.js"></script>
           </div>
       </div>
   </div>
@@ -64,13 +105,12 @@
   
   <div class="row mx-auto d-flex justify-content-center">
     
-      <div class="col-lg-10 mt-3 mx-auto p-0">
-  
-          <h5 class="ml-4 mb-0 mr-3 p-1" style="float: left;">
+      <div class="col-lg-10 mt-3 mx-auto p-0 d-flex flex-wrap">
+          <h5 class="ml-4 my-2 mr-3 p-1">
             <strong>お気に入りの漫画</strong>
           </h5>
-          <p class="mb-0 mr-3 p-1" style="float: left;"><b>全<%= @bookmark_amount.count %>件</b></p>
-          <%= link_to bookmarks_comics_path, class:"btn btn-sm btn-dark mr-5 px-3", style:"float: right;" do %>
+          <p class="ml-4 my-2 mr-3 p-1"><b>全<%= @bookmark_amount.count %>件</b></p>
+          <%= link_to bookmarks_comics_path, class:"btn btn-sm btn-dark ml-auto my-2 mr-4 px-3" do %>
             全て見る <i class="bi bi-arrow-right-circle"></i>
           <% end %>
       </div>
@@ -112,3 +152,13 @@
       </div>
   </a>
 </span>
+
+<script>
+  $(function(){
+    // ボタンのイベント
+    $(".btn").click(function(){
+      // sampleAクラスをスライドアップ/ダウンさせる
+      $(".sampleA").slideToggle();
+    });
+  });
+</script>

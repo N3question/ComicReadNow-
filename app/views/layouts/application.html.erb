@@ -20,17 +20,50 @@
   </head>
 
   <body class="wrapper">
-    <header class="fixed-top" style="">
-      <div class="d-flex" style="align-items: center; background-color:#00264D; height:auto;">
+    <header class="fixed-top">
+      <div class="d-flex" style="justify-content:center; align-items: center; background-color:#00264D; height:auto;">
         
         <% if admin_signed_in? %>
-            <div class="mx-4 my-3 d-flex">
-              <h1 class="text-center px-2 text-light my-auto" style="width:45px; height:auto;">
-                <i class="bi bi-journal-bookmark"></i>
-              </h1>
-              <h6 class="text-center px-2 text-light my-1 ml-1">
-                <b>Comic<br>Read<br>now!</b>
-              </h6>
+            <div style="height:150px;">
+              <div class="d-flex mx-4 my-3"  style="justify-content:center;">
+                <h3 class="text-light ml-4 my-auto" style="width:45px; height:auto;">
+                  <i class="bi bi-journal-bookmark"></i>
+                </h3>
+                <h5 class="text-center text-light my-auto" style="font-family: 'Shrikhand', cursive;">
+                  <b>Comic Read now!</b>
+                </h5>
+                
+                <nav class="navbar navbar-light my-2 ml-3 p-0">
+                  <ul class="d-inline-flex flex-wrap mb-0 ml-auto pl-0" style="align-items: center; list-style:none;">
+                    
+                    
+                      <li class="ml-auto dropdown">
+                          <a href="#" class="dropdown-toggle" style="color: #00264D;" data-toggle="dropdown" role="button">
+                            <button class="navbar-toggler" style="border-color:white;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                              aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                          </a>
+                          
+                          <ul class="dropdown-menu dropdown-menu-right py-4" role="menu" style="width:250px; box-shadow:10px 10px 20px #00264D;">
+                            <li class="mx-4">
+                              <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, style:"text-decoration:none;" %>
+                            </li>
+                          </ul>
+                      </li>
+                  </ul>
+                </nav>
+              </div>
+              <nav class="text-light">
+                <ul class="d-inline-flex m-3">
+                  <li class="list_marker list_deco">
+                    <%= link_to "User一覧", admin_top_path %>
+                  </li>
+                  <li class="list_marker list_deco">
+                    
+                  </li>
+                </ul>
+              </nav>
             </div>
         <% else %>
             <%= link_to root_path, style:"text-decoration:none;" do %>
@@ -43,68 +76,58 @@
                 </h6>
               </div>
             <% end %>
-        <% end %>
-        
-        <nav class="navbar navbar-light my-auto ml-auto">
-          <ul class="d-inline-flex flex-wrap mb-0 ml-auto pl-0" style="align-items: center; list-style:none;">
             
-              
-            <!--管理者ログイン後-->
-            <% if admin_signed_in? %>
-              <li class="nav-item mt-3 mr-3 mb-4" style="height:40px;">
-                  <%= link_to destroy_admin_session_path, method: :delete, class:"text-light mr-3", style:"text-decoration:none;" do %>
-                    <h1><b><i class="bi bi-box-arrow-right"></i></b></h1>
-                  <% end %>
-              </li>
-            <% end %>
-            
-            <% if !admin_signed_in? %>
-              <li class="my-3 ml-auto dropdown">
-                  <a href="#" class="dropdown-toggle" style="color: #00264D;" data-toggle="dropdown" role="button">
-                    <button class="navbar-toggler" style="border-color:white;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                  </a>
-                  
-                  <ul class="dropdown-menu dropdown-menu-right py-4" role="menu" style="width:250px; box-shadow:10px 10px 20px #00264D;">
-                    <% if user_signed_in? %>
-                        <li class="mx-4 mb-3"><a href="/users/my_page" class="text-dark">マイページ</a></li>
-                        <li class="mx-4 mb-4"><a href="/comics/bookmark_index" class="text-dark">MY本棚</a></li>
-                    <% end %>
-                    
-                    <li><hr class="dropdown-divider m-0"></li>
-                    <div class="d-flex flex-wrap" style="justify-content:center;">
-                      <% @all_sites.each do |all_site| %>
-                        <div class="site_name_header text-center py-3" style="width:120px;">
-                            <%= link_to all_site.name, comic_site_index_comics_path(id: all_site.id) %>
+            <nav class="navbar navbar-light my-auto ml-auto">
+              <ul class="d-inline-flex flex-wrap mb-0 ml-auto pl-0" style="align-items: center; list-style:none;">
+                
+                
+                  <li class="my-3 ml-auto dropdown">
+                      <a href="#" class="dropdown-toggle" style="color: #00264D;" data-toggle="dropdown" role="button">
+                        <button class="navbar-toggler" style="border-color:white;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                      </a>
+                      
+                      <ul class="dropdown-menu dropdown-menu-right py-4" role="menu" style="width:250px; box-shadow:10px 10px 20px #00264D;">
+                        <% if user_signed_in? %>
+                          <li class="mx-4 mb-3"><a href="/users/my_page" class="text-dark">マイページ</a></li>
+                          <li class="mx-4 mb-4"><a href="/comics/bookmark_index" class="text-dark">MY本棚</a></li>
+                        <% end %>
+                        
+                        <li><hr class="dropdown-divider m-0"></li>
+                        
+                        <div class="d-flex flex-wrap" style="justify-content:center;">
+                          <% @all_sites.each do |all_site| %>
+                            <div class="site_name_header text-center py-3" style="width:120px;">
+                                <%= link_to all_site.name, comic_site_index_comics_path(id: all_site.id) %>
+                            </div>
+                          <% end %>
+                          <% if @all_site_count.odd? %>
+                            <div class="site_name_header text-center py-3" style="width:120px;"></div>
+                          <% end %>
                         </div>
-                      <% end %>
-                      <% if @all_site_count.odd? %>
-                        <div class="site_name_header text-center py-3" style="width:120px;"></div>
-                      <% end %>
-                    </div>
-                    <li class="mb-4"><hr class="dropdown-divider m-0" style=""></li>
-                    <li class="mx-4 mb-3"><a href="#" class="text-dark">お知らせ</a></li>
-                    <li class="mx-4 mb-3"><a href="#" class="text-dark">Comic Read now!とは</a></li>
-                    <% if user_signed_in? %>
-                      <li class="mx-4 mb-3">
-                          <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, style:"text-decoration:none;" %>
-                      </li>
-                    <% else %>
-                      <li class="mx-4 mb-3">
-                          <%= link_to 'ログイン', new_user_session_path, style:"text-decoration:none;" %>
-                      </li>
-                      <li class="mx-4 mb-3">
-                          <%= link_to '新規登録', new_user_registration_path, class:"btn rounded-pill px-4 form-control", style:"background-color:#66CC00; color:white;" %>
-                      </li>
-                    <% end %>
-                    <li class="mx-4"><a href="/admins/sign_in" class="text-dark"><i class="bi bi-gear btn btn-outline-dark btn-sm w-100"></i></a></li>
-                  </ul>
-              </li>
-            <% end %>
-          </ul>
-        </nav>
+                        
+                        <li class="mb-4"><hr class="dropdown-divider m-0" style=""></li>
+                        <li class="mx-4 mb-3"><a href="#" class="text-dark">お知らせ</a></li>
+                        <li class="mx-4 mb-3"><a href="#" class="text-dark">Comic Read now!とは</a></li>
+                        <% if user_signed_in? %>
+                          <li class="mx-4 mb-3">
+                              <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, style:"text-decoration:none;" %>
+                          </li>
+                        <% else %>
+                          <li class="mx-4 mb-3">
+                              <%= link_to 'ログイン', new_user_session_path, style:"text-decoration:none;" %>
+                          </li>
+                          <li class="mx-4 mb-3">
+                              <%= link_to '新規登録', new_user_registration_path, class:"btn rounded-pill px-4 form-control", style:"background-color:#66CC00; color:white;" %>
+                          </li>
+                        <% end %>
+                      </ul>
+                  </li>
+              </ul>
+            </nav>
+        <% end %>
       </div>
       <div class="mx-2">
         <% if !admin_signed_in? %>

@@ -1,4 +1,4 @@
-  <div class="" style="background-color:#EEE; padding:205px 20px 40px; min-height: 71vh;">
+  <div class="" style="background-color:#EEE; padding:205px 20px 40px; min-height: 74vh;">
     
     <div class="col-lg-7 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
       <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
@@ -11,8 +11,8 @@
         <tr style="text-align: center;">
           <th class="small">順位</th>
           <th></th>
-          <th class="small">アイコン</th>
-          <th class="small">ユーザ名</th>
+          <th class="small" style="vertical-align: middle;">アイコン</th>
+          <th class="small" style="vertical-align: middle;">ユーザ名</th>
           <th class="small">更新</th>
           <th class="small">評価</th>
         </tr>
@@ -31,7 +31,7 @@
                 <% end %>
               </div>
             </td>
-            <td style="vertical-align: middle; font-family: 'Bruno Ace', cursive;"><%= user.nick_name %></td>
+            <td style="vertical-align: middle; font-family: 'Bruno Ace', cursive; overflow-wrap: break-word;"><%= user.nick_name %></td>
             <td style="vertical-align: middle;"><%= user.update_count %>回</td>
             <td style="vertical-align: middle;"><%= user.read_judgements.where(can_read: true).count %>件</td>
           </tr>
