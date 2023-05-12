@@ -31,10 +31,10 @@
                     <div class="py-4 mb-3" style="width:150px; height:auto;">
                         <% if comic %>
                             <%= link_to comic_path(comic.id) do %>
-                              <p class="mb-2" style="height:50px;"><b><%= book["title"].truncate(20) %></b></p>
+                              <p class="mb-2 text-dark" style="height:50px;"><%= book["title"].truncate(20) %></p>
                             <% end %>
                         <% else %>
-                            <p class="mb-2" style="height:50px;"><b><%= book["title"].truncate(20) %></b></p>
+                            <p class="mb-2 text-dark" style="height:50px;"><%= book["title"].truncate(20) %></p>
                         <% end %>
                       
                       

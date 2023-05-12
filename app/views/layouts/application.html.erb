@@ -20,62 +20,56 @@
   </head>
 
   <body class="wrapper">
-    <header class="fixed-top">
+    <header class="fixed-top flex">
         
         <% if admin_signed_in? %>
-                <div style="background-color:#00264D;">
-                    <%= link_to root_path, style:"text-decoration:none;" do %>
-                      <div class="d-flex px-4 py-3" style="justify-content:center;">
-                        <h3 class="text-light my-auto" style="width:45px; height:auto;">
-                          <i class="bi bi-journal-bookmark"></i>
-                        </h3>
-                        <h5 class="text-center text-light my-auto" style="font-family: 'Shrikhand', cursive;">
-                          <b>Comic Read now!</b>
-                        </h5>
-                      </div>
-                    <% end %>
-                </div>
+            <div style="background-color:#00264D; border-bottom:0.5px solid #BBB;">
+                <%= link_to root_path, style:"text-decoration:none;" do %>
+                  <div class="d-flex px-4 py-2" style="justify-content:center;">
+                    <h3 class="text-light my-auto" style="width:45px;">
+                      <i class="bi bi-journal-bookmark"></i>
+                    </h3>
+                    <h5 class="text-center text-light my-auto" style="font-family: 'Shrikhand', cursive;">
+                      <b>Comic Read now!</b>
+                    </h5>
+                  </div>
+                <% end %>
             </div>
             
-            <div class="d-flex py-2" style="justify-content:center; align-items:center; background-color:#00264D; height:auto;">
-                <nav class="navbar navbar-light my-2 ml-3 p-0">
-                    <ul class="d-inline-flex flex-wrap mb-0 ml-auto pl-0" style="align-items: center; list-style:none;">
+            <nav class="navbar navbar-light py-2" style="background-color:#00264D;">
+                <div class="d-flex ml-auto">
+                  
+                    <div class="d-flex" style="align-items: center;">
+                      <%= link_to "User一覧", admin_top_path, class:"mx-4", style:"text-decoration:none; color:white;" %>
+                    </div>
+                    
+                    <div class="dropdown">
+                      <a href="#" class="dropdown-toggle ml-3" style="color: #00264D;" data-toggle="dropdown" role="button">
+                        <button class="navbar-toggler" style="border-color:white;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                      </a>
                       
-                        <li class="list_marker list_deco">
-                          <%= link_to "User一覧", admin_top_path, class:"mr-4", style:"text-decoration:none; color:white;" %>
+                      <ul class="dropdown-menu dropdown-menu-right py-4" role="menu" style="width:250px; box-shadow:10px 10px 20px #00264D;">
+                        <li class="mx-4 mb-4">
+                          <%= link_to "不適切コメント管理一覧", admin_top_path, style:"text-decoration:none;" %>
                         </li>
-                        
-                        <li class="list_marker list_deco">
-                          <%= link_to "不適切コメント管理一覧", admin_top_path, class:"mr-4", style:"text-decoration:none; color:white;" %>
+                        <li class="mx-4 mb-4">
+                          <%= link_to "Premium User 一覧", admin_top_path, style:"text-decoration:none;" %>
                         </li>
-                        
-                        <li class="list_marker list_deco">
-                          <%= link_to "その他", admin_top_path, class:"mr-4", style:"text-decoration:none; color:white;" %>
+                        <li class="mx-4">
+                          <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class:"btn btn-outline-dark w-100", style:"text-decoration:none;" %>
                         </li>
-                      
-                      
-                        <li class="ml-auto dropdown">
-                            <a href="#" class="dropdown-toggle" style="color: #00264D;" data-toggle="dropdown" role="button">
-                              <button class="navbar-toggler" style="border-color:white;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                                  <span class="navbar-toggler-icon"></span>
-                              </button>
-                            </a>
-                            
-                            <ul class="dropdown-menu dropdown-menu-right py-4" role="menu" style="width:250px; box-shadow:10px 10px 20px #00264D;">
-                              <li class="mx-4">
-                                <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, style:"text-decoration:none;" %>
-                              </li>
-                            </ul>
-                        </li>
-                        
-                    </ul>
-                </nav>
-            </div>
+                      </ul>
+                    </div>
+                    
+                </div>
+            </nav>
         <% else %>
             <div class="d-flex" style="background-color:#00264D; height:100px;">
                 <%= link_to root_path, style:"text-decoration:none;" do %>
-                  <div class="mx-4 my-3 d-flex">
+                  <div class="d-flex mx-4 my-3">
                     <h1 class="text-center px-2 text-light my-auto" style="width:45px; height:auto;">
                       <i class="bi bi-journal-bookmark"></i>
                     </h1>
@@ -103,8 +97,8 @@
                               <li class="mx-4 mb-3"><a href="/users/my_page" class="text-dark">マイページ</a></li>
                               <li class="mx-4 mb-3"><a href="/comics/bookmark_index" class="text-dark">MY本棚</a></li>
                             <% else %>
-                              <li class="mx-4 mb-3">
-                                  <%= link_to 'ログイン', new_user_session_path, style:"text-decoration:none;" %>
+                              <li class="mx-4 mb-3 link_text">
+                                  <%= link_to 'ログイン', new_user_session_path, class:"text-dark", style:"text-decoration:none;" %>
                               </li>
                             <% end %>
                             
@@ -128,7 +122,7 @@
                             <div class="d-flex flex-wrap" style="justify-content:center;">
                               <% @all_sites.each do |all_site| %>
                                 <div class="site_name_header text-center py-3" style="width:120px;">
-                                    <%= link_to all_site.name, comic_site_index_comics_path(id: all_site.id) %>
+                                    <%= link_to all_site.name, comic_site_index_comics_path(id: all_site.id), class:"text-dark" %>
                                 </div>
                               <% end %>
                               
@@ -178,7 +172,7 @@
     <% if !user_signed_in? && !admin_signed_in? %>
       <footer class="text-light" style="height:100px; border:1px solid #000; background-color:#00264D;">
         <div class="d-flex justify-content-center" align="center">
-          <p class="mt-4 mb-0">
+          <p class="my-4 mb-0">
             © 2023 Comic Read now! All Rights Reserved. <br>
             <%= link_to "管理者ログインはこちら", new_admin_session_path, class:"small", style:"text-decoration:none; color:white;" %>
           </p>

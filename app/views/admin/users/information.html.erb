@@ -6,9 +6,9 @@
               <i class="bi bi-arrow-left"></i>
             <% end %>
       
-            <div class="d-flex mb-5" style="justify-content: center; align-items: center;">
-                <h4 class="mb-0"><b><%= @user.nick_name %></b></h4>
-                <p class="mb-0">　のユーザ情報</p>
+            <div class="d-flex flex-wrap mb-4" style="justify-content: center; align-items: center;">
+                <h4 class="mx-2 mb-0"><b><%= @user.nick_name %></b></h4>
+                <p class="mx-2 mb-0 text-nowrap">のユーザ情報</p>
             </div>
             
             <div class="row d-flex" style="justify-content: center;">
@@ -21,34 +21,36 @@
                             <%= image_tag 'no_image', size: "150x150" %>
                           <% end %>
                       </div>
-                      <p class="d-flex text-nowrap mt-3 mx-auto py-3 user_email small" style="justify-content:center; align-items:center; width:90%; margin-top:10px; border-top:0.5px solid silver; border-bottom:0.5px solid silver;">
-                        <i class="bi bi-envelope"></i>　　<%= @user.email %>
+                      <div class="d-flex" style="justify-content: center;">
+                      <p class="mx-3 px-2 py-3 user_email small text-center" style="width:70%; margin-top:10px; border-top:0.5px solid silver; border-bottom:0.5px solid silver; overflow-wrap: break-word;">
+                        <i class="bi bi-envelope mx-2"></i><%= @user.email %>
                       </p>
+                      </div>
                   </div>
                   
                   <div class="col-lg-6">
-                      <table class="table table-borderless mt-3">
+                      <table class="table table-responsive-sm table-borderless mt-3">
                         <tr>
                           <td style="width:40%;">順位</td>
-                          <td style="width:40%;"><%= @my_rank %>位</td>
+                          <td class="text-nowrap" style="width:40%;"><%= @my_rank %>位</td>
                         </tr>
                         <tr>
                           <td>更新</td>
-                          <td><%= @user.update_count %>回</td>
+                          <td class="text-nowrap"><%= @user.update_count %>回</td>
                           <td class="text-center"><i class="bi bi-caret-down-square"></i></td>
                         </tr>
                         <tr>
                           <td>評価</td>
-                          <td><%= @user.read_judgements.where(can_read: true).count %>件</td>
+                          <td class="text-nowrap"><%= @user.read_judgements.where(can_read: true).count %>件</td>
                           <td class="text-center"><i class="bi bi-caret-down-square"></i></td>
                         </tr>
                         <tr>
                           <td>更新残数</td>
-                          <td><%= @user.remaining_total_update_limit %>回</td>
+                          <td class="text-nowrap"><%= @user.remaining_total_update_limit %>回</td>
                         </tr>
                         <tr>
                           <td>ブックマーク</td>
-                          <td><%= @user.bookmarks.count %>件</td>
+                          <td class="text-nowrap"><%= @user.bookmarks.count %>件</td>
                           <td class="text-center"><i class="bi bi-caret-down-square"></i></td>
                         </tr>
                       </table>

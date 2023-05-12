@@ -318,3 +318,16 @@ ul li .list_icon::before {
     list-style: square;
   }
 }
+
+// .flex-container {
+//   display: inline-flex;
+//   align-items: center;
+// }
+// .flex-container > :last-child {
+//   margin-left: auto;
+// }
+
+.link_text:hover {
+        text-decoration-line: underline;
+        color: black;
+}
