@@ -2,10 +2,12 @@
 
   <div style="padding:160px 20px 40px;"></div>
   
-  <div class="alert alert-success alert-dismissible mx-auto mb-0" style="width:100%;">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <%= flash[:notice] %>
-  </div>
+  <% if flash[:notice].present? %>
+    <div class="alert alert-success alert-dismissible mx-auto mb-0" style="width:100%;">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
   
   <div class="row mx-auto pb-4 d-flex justify-content-center" style="padding:15px 20px 30px;">
       <div class="col-lg-4 p-0 rank_que_wrapper" style="border:1px solid #00264D; background-color:#00264D; border-top-left-radius: 20px; box-shadow:0px 5px 7px #BBB;">

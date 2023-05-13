@@ -4,10 +4,12 @@
   
   <div class="col-lg-8 col-md-8 col-sm-9 p-5" style="border-top-right-radius: 20px; border-bottom-right-radius: 20px; box-shadow:10px 5px 7px #BBB;">
       
-      <div class="alert alert-success alert-dismissible mx-auto mb-0" style="width:90%;">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <%= flash[:notice] %>
-      </div>
+      <% if flash[:notice].present? %>
+        <div class="alert alert-success alert-dismissible mx-auto mb-0" style="width:90%;">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
       
       <h5 class="mb-5"><b>User 一覧</b></h5>
       <table class="table table-responsive-sm table-responsive-md admin_table">

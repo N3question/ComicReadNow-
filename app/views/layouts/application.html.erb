@@ -36,36 +36,39 @@
                 <% end %>
             </div>
             
-            <nav class="navbar navbar-light py-2" style="background-color:#00264D;">
-                <div class="d-flex ml-auto">
-                  
-                    <div class="d-flex" style="align-items: center;">
-                      <%= link_to "User一覧", admin_top_path, class:"mx-4", style:"text-decoration:none; color:white;" %>
-                    </div>
+                <!--外-->
+                <div class="" style="display:flex; justify-content: space-between; background-color:#00264D;">
                     
-                    <div class="dropdown">
-                      <a href="#" class="dropdown-toggle ml-3" style="color: #00264D;" data-toggle="dropdown" role="button">
-                        <button class="navbar-toggler" style="border-color:white;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                      </a>
+                      <!--1-->
+                      <div class="d-flex" style="align-items: center;">
+                        <%= link_to "User一覧", admin_top_path, class:"mx-4", style:"text-decoration:none; color:white;" %>
+                      </div>
                       
-                      <ul class="dropdown-menu dropdown-menu-right py-4" role="menu" style="width:250px; box-shadow:10px 10px 20px #00264D;">
-                        <li class="mx-4 mb-4">
-                          <%= link_to "不適切コメント管理一覧", admin_top_path, style:"text-decoration:none;" %>
-                        </li>
-                        <li class="mx-4 mb-4">
-                          <%= link_to "Premium User 一覧", admin_top_path, style:"text-decoration:none;" %>
-                        </li>
-                        <li class="mx-4">
-                          <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class:"btn btn-outline-dark w-100", style:"text-decoration:none;" %>
-                        </li>
-                      </ul>
-                    </div>
+                      <nav class="navbar navbar-light py-2">
+                          <!--2-->
+                          <div class="dropdown">
+                            <a href="#" class="dropdown-toggle ml-3" style="color: #00264D;" data-toggle="dropdown" role="button">
+                              <button class="navbar-toggler" style="border-color:white;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                                  <span class="navbar-toggler-icon"></span>
+                              </button>
+                            </a>
+                            
+                            <ul class="dropdown-menu dropdown-menu-right py-4" role="menu" style="width:250px; box-shadow:10px 10px 20px #00264D;">
+                              <li class="mx-4 mb-4">
+                                <%= link_to "不適切コメント管理一覧", admin_top_path, style:"text-decoration:none;" %>
+                              </li>
+                              <li class="mx-4 mb-4">
+                                <%= link_to "Premium User 一覧", admin_top_path, style:"text-decoration:none;" %>
+                              </li>
+                              <li class="mx-4">
+                                <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class:"btn btn-outline-dark w-100", style:"text-decoration:none;" %>
+                              </li>
+                            </ul>
+                          </div>
+                      </nav>
                     
                 </div>
-            </nav>
         <% else %>
             <div class="d-flex" style="background-color:#00264D; height:100px;">
                 <%= link_to root_path, style:"text-decoration:none;" do %>
@@ -147,18 +150,18 @@
       </div>
       
       <div class="mx-2">
-        <% if !admin_signed_in? %>
+        <% if !admin_signed_in? && @not_view.blank? %>
         
             <!--検索フォーム-->
             <%= form_with url: search_index_comics_path, local: true, method: :get do |f| %>
-            <div class="input-group my-4 mx-auto" style="width:95%; height:60px; box-shadow:10px 8px 5px rgba(128,128,128, 0.25);"><br />
-                <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend px-4" placeholder="漫画タイトル" required="required" style="height:60px; border:0.5px solid #00264D;"></input>
-                <span class="input-group-btn input-group-append">
-                  <%= f.button type: 'submit', id: 'btn-search', class: 'btn text-light rounded-0', style: "background-color:#00264D;" do %>
-                    <i class="bi bi-search"></i>
-                  <% end %>
-                </span>
-            </div>
+              <div class="input-group my-4 mx-auto" style="width:95%; height:60px; box-shadow:10px 8px 5px rgba(128,128,128, 0.25);"><br />
+                  <input type="text" id="txt-search" name="keyword" class="form-control input-group-prepend px-4" placeholder="漫画タイトル" required="required" style="height:60px; border:0.5px solid #00264D;"></input>
+                  <span class="input-group-btn input-group-append">
+                    <%= f.button type: 'submit', id: 'btn-search', class: 'btn text-light rounded-0', style: "background-color:#00264D;" do %>
+                      <i class="bi bi-search"></i>
+                    <% end %>
+                  </span>
+              </div>
             <% end %>
             
         <% end %>

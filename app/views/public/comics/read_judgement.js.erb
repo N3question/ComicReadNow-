@@ -1,4 +1,4 @@
-$('#read_judgements_buttons_<%= @comic.id %>').html("<%= j(render partial: '/public/comics/read_judgement',locals: { comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read }) %>");
+$("#read_judgements_buttons_<%= @comic.id %>").html("<%= j(render partial: '/public/comics/read_judgement',locals: { comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read }) %>");
 
 
 <!-- # 部分テンプレート内で使用しているローカル変数を定義-->

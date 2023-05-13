@@ -7,7 +7,6 @@ ja:
       next: <i class="fas fa-angle-right"></i>
       truncate: "..."
 
-ja:
   devise:
     sessions:
       user:

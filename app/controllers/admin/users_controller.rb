@@ -9,12 +9,11 @@ class Admin::UsersController < ApplicationController
     
     users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
   
-    default = 1 
+    default = 1
     users.each do |user| 
-      if @user.id
-        @my_rank = default # 13行目と＝じゃない。
-        default += 1 
-      end
+      @my_rank = default # 13行目と＝じゃない。a
+      break if user == @user # 特定のユーザになったらループをSTOP
+      default += 1
     end
   end
   
