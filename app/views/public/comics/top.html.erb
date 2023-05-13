@@ -1,14 +1,16 @@
-<div style="padding:160px 20px 40px; background-color:#EEE;"></div>
+<div style="padding:165px 20px 40px;"></div>
 
-<div style="background-color:#EEE; padding-bottom:15px;">
-  <div class="alert alert-success alert-dismissible mx-auto mb-0" style="width:90%;">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <%= flash[:notice] %>
-  </div>
-</div>
+<% if flash[:notice].present? %>
+    <div style="padding-bottom:15px;">
+        <div class="alert alert-success alert-dismissible mx-auto mb-0" style="width:94%;">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <%= flash[:notice] %>
+        </div>
+    </div>
+<% end %>
 
 <!--ランキング-->
-<div class="row mx-auto" style="padding:0px 20px 40px; background-color:#EEE;">
+<div class="row mx-auto" style="padding:5px 20px 40px; background-color:#EEE;">
 
     <!--User Ranking欄-->
     <div class="col-lg-6 col-md-10 object-background mx-auto p-5">
@@ -223,9 +225,11 @@
 </div>
   
   
+<div style="background-color:#FFF; padding-top:80px;">
+  
 <!--新着-->
 <div class="object-shadow">
-  <div class="comic_contents comic_contents_top py-4">
+  <div class="comic_contents comic_contents_margin py-4">
     
       <div class="d-flex">
           <h4 class="mt-4 ml-5 mb-2"><b>新着</b></h4>
@@ -257,7 +261,7 @@
 
 <!--User Select-->
 <div class="object-shadow">
-  <div class="comic_contents comic_contents_other py-4">
+  <div class="comic_contents comic_contents_margin py-4">
     
       <div class="d-flex">
         <h4 class="mt-4 ml-5 mb-2"><b>User Select</b></h4>
@@ -291,7 +295,7 @@
 
 <!--総合ランキング-->
 <div class="object-shadow">
-  <div class="comic_contents comic_contents_other py-4">
+  <div class="comic_contents comic_contents_margin py-4">
     
       <div class="d-flex">
         <h4 class="mt-4 ml-5 mb-2"><b>総合ランキング</b></h4>
@@ -324,7 +328,7 @@
 
 <!--Next Coming-->
 <div class="object-shadow">
-  <div class="comic_contents comic_contents_other py-4">
+  <div class="comic_contents comic_contents_margin py-4">
     
       <div class="d-flex">
         <h4 class="mt-4 ml-5 mb-2"><b>Next Coming</b></h4>
@@ -363,3 +367,6 @@
       </div>
   </a>
 </span>
+
+
+</div>

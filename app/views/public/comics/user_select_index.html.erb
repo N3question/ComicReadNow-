@@ -1,65 +1,61 @@
-<div class="container">
-  <div class="row" style="padding:205px 0px 45px;">
-      
-        <div class="mx-auto">
-            <%= link_to root_path, class:"btn btn-sm ml-4 mb-4 px-3 border", style:"color:#00264D;" do %>
-              <i class="bi bi-arrow-left"></i>
-            <% end %>
+<div class="pb-4" style="padding-top:205px; background-color:#FFF;">
+    
+    <div class="col-10 mt-5 mx-auto">
+        <%= link_to root_path, class:"btn btn-sm ml-4 mb-4 px-3 border", style:"color:#00264D;" do %>
+          <i class="bi bi-arrow-left"></i>
+        <% end %>
+        
+        <h5 class="ml-5 mb-5"><b>User Select 一覧</b></h5>
+        <div class="d-inline-flex flex-wrap" style="justify-content:center;">
+          
+            <% @bookmark_comics.each do |book| %>
+            <% comic = Comic.find_by(isbn: book["isbn"]) %>
             
-            <h5 class="ml-5 mb-5"><b>User Select</b></h5>
-            <div class="d-inline-flex flex-wrap" style="justify-content:center;">
-                <% @bookmark_comics.each do |book| %>
-                <% comic = Comic.find_by(isbn: book["isbn"]) %>
-                  <div class="mx-2">
-                    
-                    <div style="width:150px;">
-                        <% if comic %>
-                            <%= link_to comic_path(comic.id), class:"img_link" do %>
-                              <%= image_tag book.large_image_url, class:"img_comic" %>
-                            <% end %>
-                        <% else %>
-                            <%= image_tag book.large_image_url, class:"img_comic" %>
+              <div class="mx-2">
+                <div style="width:150px;">
+                    <% if comic %>
+                        <%= link_to comic_path(comic.id), class:"img_link" do %>
+                          <%= image_tag book.large_image_url, class:"img_comic" %>
                         <% end %>
-                    </div>
-                    
-                    <div class="py-4 mb-3" style="width:150px; height:auto;">
-                        <% if comic %>
-                            <%= link_to comic_path(comic.id) do %>
-                              <p class="mb-2 text-dark" style="height:50px;">
-                                <%= book.title.truncate(20) %>
-                              </p>
-                            <% end %>
-                        <% else %>
-                            <p class="mb-2 text-dark" style="height:50px;">
-                              <%= book.title.truncate(20) %>
-                            </p>
+                    <% else %>
+                        <%= image_tag book.large_image_url, class:"img_comic" %>
+                    <% end %>
+                </div>
+                
+                <div class="py-4 mb-3" style="width:150px; height:auto;">
+                    <% if comic %>
+                        <%= link_to comic_path(comic.id) do %>
+                          <p class="mb-2 text-dark" style="height:50px;">
+                            <%= book.title.truncate(20) %>
+                          </p>
                         <% end %>
-                        <% if user_signed_in? && !comic %>
-                            <%= link_to new_comic_path(isbn: book['isbn']), class:'btn btn-outline-dark w-100' do %>
-                              <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
-                            <% end %>
+                    <% else %>
+                        <p class="mb-2 text-dark" style="height:50px;">
+                          <%= book.title.truncate(20) %>
+                        </p>
+                    <% end %>
+                    <% if user_signed_in? && !comic %>
+                        <%= link_to new_comic_path(isbn: book['isbn']), class:'btn btn-outline-dark w-100' do %>
+                          <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
                         <% end %>
-                      </div>
-                      
+                    <% end %>
                   </div>
-                <% end %>
-            </div>
-            <div class="d-flex flex-wrap" style="justify-content:center;">
-            </div>
+              </div>
+              
+            <% end %>
         </div>
-      
-  </div>
+    </div>
+    
+    <div class="d-flex flex-wrap" style="justify-content:center;">
+      <%= paginate @bookmark_comics %>
+    </div>
+    
+    <span id="back" style="width:100%;">
+      <a href=""  style="text-decoration:none;">
+          <div class="d-flex justify-content-center border mt-5 mx-auto" 
+               style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
+            <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
+          </div>
+      </a>
+    </span>
 </div>
-
-<div class="d-flex flex-wrap" style="justify-content:center;">
-  <%= paginate @bookmark_comics %>
-</div>
-
-<span id="back" style="width:100%;">
-  <a href=""  style="text-decoration:none;">
-      <div class="d-flex justify-content-center border mt-5 mb-4 mx-auto" 
-           style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
-        <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
-      </div>
-  </a>
-</span>

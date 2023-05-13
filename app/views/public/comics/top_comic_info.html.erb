@@ -18,14 +18,18 @@
         <!--漫画情報詳細-->
         <div class="d-flex flex-wrap"  style="padding:0 20px; justify-content:center;">
             
-            <!--書籍情報-->
+            
+            <!--画像-->
             <% if !@top_rb_comic_info.blank? %>
                 <%= image_tag @top_rb_comic_info["largeImageUrl"], class:"img_comic my-3 mx-5" %>
             <% else %>
                 <%= image_tag @top_comic_info.large_image_url, class:"img_comic my-3 mx-5" %>
             <% end %>
             
+            
             <div class="p-3">
+                
+                <!--書籍情報-->
                 <% if @from_rws == "true" %>
                   <h5><b><%= @top_rb_comic_info["title"] %>　</b><small>の詳細</small></h5>
                   <div class="mt-3">
@@ -34,6 +38,7 @@
                     出版社：　<%= @top_rb_comic_info["publisherName"] %><br>
                     発売日：　<%= @top_rb_comic_info["salesDate"] %><br>
                   </div>
+                  
                 <% else %>  
                   <h5><b><%= @top_comic_info.title %>　</b><small>の詳細</small></h5>
                   <div class="mt-3">
@@ -46,16 +51,18 @@
                     発売日：　-- none --
                     <% end %>
                   </div>
+                  
                 <% end %>
                 
                 
-                    
+                <!--漫画サイト情報-->
                 <% if @top_comic_info.present? %>
                 <% comic_update_limit_count = @top_comic_info.remaining_one_comic_update_limit %>
                 <% can_not_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: false) %>
                 <% sites = @top_comic_info.sites.all %>
                 <% can_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: true, version: @top_comic_info.version) %>
                 <% can_not_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: false, version: @top_comic_info.version) %>
+                <% user_read_judgement = ReadJudgement.find_by(comic_id: @top_comic_info.id, user_id: current_user.id, version: @top_comic_info.version) %>
                 
                 <hr>
                 
@@ -94,6 +101,7 @@
                     <% end %>
                     
                     
+                    
                     <!--更新されたサイト情報の表示-->
                     <div class="mb-3">
                     <% sites.each do |site| %>
@@ -105,59 +113,58 @@
                     </div>
                     
                     
-                    <!--更新のステータス-->
+                    
                     <% if user_signed_in? %>
-                      <small>
-                        <%= @top_comic_info.updated_at.strftime('%Y年%m月%d日%H時%M分') %>　
-                        <b><%= @top_comic_info.user.nick_name %></b> さんがサイト情報更新済み 
-                        (ver.<%= @top_comic_info.version %>)<br>
-                        <% if @top_comic_info.remaining_one_comic_update_limit < 1 %>
-                          今日の更新はこれ以上できません。
-                        <% else %>
-                          この漫画の更新残数は <%= @top_comic_info.remaining_one_comic_update_limit %> 回です。
-                        <% end %>
-                      </small>
-                    <% end %>
-                    
+                        <!--更新のステータス-->
+                        <small>
+                          <%= @top_comic_info.updated_at.strftime('%Y年%m月%d日%H時%M分') %>　
+                          <b><%= @top_comic_info.user.nick_name %></b> さんがサイト情報更新済み 
+                          (ver.<%= @top_comic_info.version %>)<br>
+                          <% if @top_comic_info.remaining_one_comic_update_limit < 1 %>
+                            今日の更新はこれ以上できません。
+                          <% else %>
+                            この漫画の更新残数は <%= @top_comic_info.remaining_one_comic_update_limit %> 回です。
+                          <% end %>
+                        </small>
+                      
                   
-                <% elsif user_signed_in? && @top_comic_info.present? %>
-                <% user_read_judgement = ReadJudgement.find_by(comic_id: @top_comic_info.id, user_id: current_user.id, version: @top_comic_info.version) %>
-                <hr>
-                    
-                    
-                    <!--可読判定に対するメッセージ-->
-                    <div class="mb-2">
-                        <% if user_read_judgement.present? && user_read_judgement.can_read == true %>
-                          <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
-                        <% elsif user_read_judgement.present? && user_read_judgement.can_read == false %>
-                          <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
-                        <% else %>
-                          <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
-                        <% end %>
-                    </div>
-                
+                        <hr>
+                      
+                      
+                        <!--可読判定に対するメッセージ-->
+                        <div class="mb-2">
+                            <% if user_read_judgement.present? && user_read_judgement.can_read == true %>
+                              <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
+                            <% elsif user_read_judgement.present? && user_read_judgement.can_read == false %>
+                              <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
+                            <% else %>
+                              <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
+                            <% end %>
+                        </div>
                   
-                  
-                    <!--可読判定-->
-                    <div class="d-flex" style="align-items: center;">
-                      <!--可読情報が未追加-->
-                      <div id="read_judgements_buttons_<%= @top_comic_info.id %>">
-                        <%= render partial: '/public/comics/read_judgement', locals: {comic: @top_comic_info, user_read_judgement: user_read_judgement, can_read: can_read, can_not_read: can_not_read} %>
-                      </div>
-                    </div>
                     
                     
-                    <hr>
-                    
-                    
-                    <!--ブックマーク-->
-                    <div class="d-flex flex-wrap">
-                        <div class="ml-auto">
-                          <div id="bookmarks_buttons_<%= @top_comic_info.id %>">
-                            <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @top_comic_info} %>
+                        <!--可読判定-->
+                        <div class="d-flex" style="align-items: center;">
+                          <!--可読情報が未追加-->
+                          <div id="read_judgements_buttons_<%= @top_comic_info.id %>">
+                            <%= render partial: '/public/comics/read_judgement', locals: {comic: @top_comic_info, user_read_judgement: user_read_judgement, can_read: can_read, can_not_read: can_not_read} %>
                           </div>
                         </div>
-                    </div>
+                      
+                      
+                        <hr>
+                        
+                        
+                        <!--ブックマーク-->
+                        <div class="d-flex flex-wrap">
+                            <div class="ml-auto">
+                              <div id="bookmarks_buttons_<%= @top_comic_info.id %>">
+                                <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @top_comic_info} %>
+                              </div>
+                            </div>
+                        </div>
+                    <% end %>
                     
                 
                 <!--サイト情報の追加-->
@@ -191,24 +198,57 @@
                         </div>
                     </div>
                     <script src="index.js"></script>
+                    
+                <!--前提定義-->
+                <% elsif user_signed_in? && @top_comic_info.present? %>
+                <% current_version = Comic.order(version: :desc).limit(1) %>
+                <% bookmark = Bookmark.where(comic_id: @comic.id, user_id: current_user) %>
+                <% bookmark_all_user = Bookmark.where(comic_id: @comic.id) %>
+                <!--ここまで-->
+                    
+                    
+                    <hr>
+                    
+                    
+                    <!--可読判定に対するメッセージ-->
+                    <div class="mb-2">
+                        <% if @user_read_judgement.present? && @user_read_judgement.can_read == true %>
+                          <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
+                        <% elsif @user_read_judgement.present? && @user_read_judgement.can_read == false %>
+                          <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
+                        <% elsif current_version && %>
+                          <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
+                        <% end %>
+                    </div>
+                    
+                    
+                    <!--可読判定-->
+                    <div class="d-flex" style="align-items: center;">
+                      <!--可読情報が未追加-->
+                      <div id="read_judgements_buttons_<%= @comic.id %>">
+                        <%= render partial: '/public/comics/read_judgement', locals: {comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read} %>
+                      </div>
+                    </div>
+                    
+                    
+                    <hr>
+                    
+                    
+                    <!--ブックマーク-->
+                    <div class="d-flex flex-wrap mr-2" style="align-items: center;">
+                        <div class="ml-auto">
+                            <div id="bookmarks_buttons_<%= @comic.id %>">
+                              <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @comic} %>
+                            </div>
+                        </div>
+                    </div><br>
                   
                 <% elsif user_signed_in? && @can_not_create_record == "true" %>
                     <hr>
                     <p>発売日以降に サイト情報の追加 が可能です。</p>
                     
-                <% end %>
                 
-                <% if !user_signed_in? && @top_comic_info.nil?  %>
-                        <hr>
-                        <p>
-                          漫画サイト情報が追加されていません。<br>
-                          <small>
-                            ※ 追加するには
-                            <%= link_to "ログイン", new_user_session_path %>
-                            をしてください。
-                          </small>
-                        </p>
-                <% elsif !user_signed_in? && @top_comic_info.present? %>
+                <% elsif !user_signed_in? && @comic.present? %>
                       <hr>
                       <p>
                         <b>ゲスト</b> さんは ブックマークできません。<br>

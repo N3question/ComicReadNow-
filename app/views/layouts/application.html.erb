@@ -19,7 +19,7 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class="wrapper">
+  <body class="wrapper" style="background-color:#EEE; ">
     <header class="fixed-top flex">
         
         <% if admin_signed_in? %>
@@ -36,35 +36,32 @@
                 <% end %>
             </div>
             
-                <!--外-->
-                <div class="" style="display:flex; justify-content: space-between; background-color:#00264D;">
+                <div style="display:flex; justify-content: space-between; background-color:#00264D;">
                     
-                      <!--1-->
-                      <div class="d-flex" style="align-items: center;">
-                        <%= link_to "User一覧", admin_top_path, class:"mx-4", style:"text-decoration:none; color:white;" %>
+                      <div class="font_1 d-flex" style="align-items: center;">
+                        <%= link_to "User 一覧", admin_top_path, class:"ml-5", style:"text-decoration:none; color:white;" %>
                       </div>
                       
                       <nav class="navbar navbar-light py-2">
-                          <!--2-->
                           <div class="dropdown">
-                            <a href="#" class="dropdown-toggle ml-3" style="color: #00264D;" data-toggle="dropdown" role="button">
-                              <button class="navbar-toggler" style="border-color:white;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                                  <span class="navbar-toggler-icon"></span>
-                              </button>
-                            </a>
-                            
-                            <ul class="dropdown-menu dropdown-menu-right py-4" role="menu" style="width:250px; box-shadow:10px 10px 20px #00264D;">
-                              <li class="mx-4 mb-4">
-                                <%= link_to "不適切コメント管理一覧", admin_top_path, style:"text-decoration:none;" %>
-                              </li>
-                              <li class="mx-4 mb-4">
-                                <%= link_to "Premium User 一覧", admin_top_path, style:"text-decoration:none;" %>
-                              </li>
-                              <li class="mx-4">
-                                <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class:"btn btn-outline-dark w-100", style:"text-decoration:none;" %>
-                              </li>
-                            </ul>
+                              <a href="#" class="dropdown-toggle ml-3" style="color: #00264D;" data-toggle="dropdown" role="button">
+                                <button class="navbar-toggler" style="border-color:white;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                                  aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                              </a>
+                              
+                              <ul class="dropdown-menu dropdown-menu-right py-4" role="menu" style="width:250px; box-shadow:10px 10px 20px #00264D;">
+                                <li class="mx-4 mb-4">
+                                  <%= link_to "不適切コメント管理一覧", admin_top_path, style:"text-decoration:none;" %>
+                                </li>
+                                <li class="font_1 mx-4 mb-4">
+                                  <%= link_to "Premium User 一覧", admin_top_path, style:"text-decoration:none;" %>
+                                </li>
+                                <li class="mx-4">
+                                  <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class:"btn btn-outline-dark w-100", style:"text-decoration:none;" %>
+                                </li>
+                              </ul>
                           </div>
                       </nav>
                     
@@ -174,8 +171,8 @@
     
     <% if !user_signed_in? && !admin_signed_in? %>
       <footer class="text-light" style="height:100px; border:1px solid #000; background-color:#00264D;">
-        <div class="d-flex justify-content-center" align="center">
-          <p class="my-4 mb-0">
+        <div class="" align="center" style="display:table; height:100px; width: 100%;">
+          <p class="my-4 mb-0" style="display:table-cell; vertical-align: middle; text-align:center;">
             © 2023 Comic Read now! All Rights Reserved. <br>
             <%= link_to "管理者ログインはこちら", new_admin_session_path, class:"small", style:"text-decoration:none; color:white;" %>
           </p>

@@ -1,84 +1,83 @@
-<div class="container">
-  <div class="row" style="padding:205px 0px 45px;">
-      
-        <div class="mx-auto">
-            <%= link_to root_path, class:"btn btn-sm ml-4 mb-4 px-3 border", style:"color:#00264D;" do %>
-              <i class="bi bi-arrow-left"></i>
-            <% end %>
-            
-            <h5 class="ml-5 mb-5"><b>総合ランキング一覧</b></h5>
-            <div class="d-inline-flex flex-wrap" style="justify-content:center;">
-                <% @comics.each do |book| %>
-                <% comic = Comic.find_by(isbn: book["isbn"]) %>
-                    <div class="mx-2">
-                      <div style="width:150px;">
-                        <% if comic %>
-                            <%= link_to comic_path(comic.id), class:"img_link" do %>
-                              <%= image_tag book["largeImageUrl"], class:"img_comic" %>
-                            <% end %>
-                        <% else %>
+<div class="pb-4" style="padding-top:205px; background-color:#FFF;">
+    
+      <div class="col-10 mt-5 mx-auto">
+          <%= link_to root_path, class:"btn btn-sm ml-4 mb-4 px-3 border", style:"color:#00264D;" do %>
+            <i class="bi bi-arrow-left"></i>
+          <% end %>
+          
+          <h5 class="ml-5 mb-5"><b>総合ランキング一覧</b></h5>
+          <div class="d-inline-flex flex-wrap" style="justify-content:center;">
+              <% @comics.each do |book| %>
+              <% comic = Comic.find_by(isbn: book["isbn"]) %>
+                  <div class="mx-2">
+                    <div style="width:150px;">
+                      <% if comic %>
+                          <%= link_to comic_path(comic.id), class:"img_link" do %>
                             <%= image_tag book["largeImageUrl"], class:"img_comic" %>
-                        <% end %>
-                        
-                      </div>
-                      <div class="py-4 mb-3" style="width:150px; height:auto;">
-                        <% if comic %>
-                            <%= link_to comic_path(comic.id) do %>
-                              <p class="mb-2 text-dark" style="height:50px;">
-                                <%= book["title"].truncate(20) %>
-                              </p>
-                            <% end %>
-                        <% else %>
+                          <% end %>
+                      <% else %>
+                          <%= image_tag book["largeImageUrl"], class:"img_comic" %>
+                      <% end %>
+                      
+                    </div>
+                    <div class="py-4 mb-3" style="width:150px; height:auto;">
+                      <% if comic %>
+                          <%= link_to comic_path(comic.id) do %>
                             <p class="mb-2 text-dark" style="height:50px;">
                               <%= book["title"].truncate(20) %>
                             </p>
-                        <% end %>
-                        <% if user_signed_in? && !comic %>
-                            <div class= "sample mb-2 d-flex" style="justify-content: flex-end;">
-                                <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
-                            </div>
-                            <div class= "sampleA p-2 border" style="display:none;">
-                              <div style="height:270px; width:100%; display:flex; justify-content:center;">
-                                  <div class="p-3">
-                                    <%= flash[:alert] %>
-                                    <small style="color:red;">※ 読むことができるサイトを全て選択</small>
-                                    
-                                    <div class="mt-4">
-                                        <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
-                                            <%= f.hidden_field :isbn, value: book["isbn"] %>
-                                            <% Site.all.each do |site| %>
-                                                <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
-                                                <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
-                                            <% end %><br>
-                                            <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>
-                                        <% end %>
-                                    </div>
+                          <% end %>
+                      <% else %>
+                          <p class="mb-2 text-dark" style="height:50px;">
+                            <%= book["title"].truncate(20) %>
+                          </p>
+                      <% end %>
+                      <% if user_signed_in? && !comic %>
+                          <div class= "sample mb-2 d-flex" style="justify-content: flex-end;">
+                              <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
+                          </div>
+                          <div class= "sampleA p-2 border" style="display:none;">
+                            <div style="height:270px; width:100%; display:flex; justify-content:center;">
+                                <div class="p-3">
+                                  <%= flash[:alert] %>
+                                  <small style="color:red;">※ 読むことができるサイトを全て選択</small>
+                                  
+                                  <div class="mt-4">
+                                      <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
+                                          <%= f.hidden_field :isbn, value: book["isbn"] %>
+                                          <% Site.all.each do |site| %>
+                                              <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
+                                              <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
+                                          <% end %><br>
+                                          <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>
+                                      <% end %>
                                   </div>
-                              </div>
+                                </div>
                             </div>
-                            <script src="index.js"></script>
-                        <% end %>
-                      </div>
+                          </div>
+                          <script src="index.js"></script>
+                      <% end %>
                     </div>
-                <% end %>
-            </div>
-            
-            <div class="d-flex flex-wrap" style="justify-content:center;">
-            <%= paginate @comics %>
-            </div>
-        </div>
+                  </div>
+              <% end %>
+          </div>
+          
+          <div class="d-flex flex-wrap" style="justify-content:center;">
+          <%= paginate @comics %>
+          </div>
+      </div>
       
-  </div>
+      <span id="back" style="width:100%; display:none;">
+        <a href=""  style="text-decoration:none;">
+            <div class="d-flex justify-content-center border mt-5 mx-auto" 
+                 style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
+              <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
+            </div>
+        </a>
+      </span>
+    
 </div>
 
-<span id="back" style="width:100%; display:none;">
-  <a href=""  style="text-decoration:none;">
-      <div class="d-flex justify-content-center border mt-5 mb-4 mx-auto" 
-           style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
-        <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
-      </div>
-  </a>
-</span>
 
 <script>
   $(function(){

@@ -160,7 +160,6 @@ class Public::ComicsController < ApplicationController
     
     
     @comic = Comic.find(params[:id])
-    # @user = User.find(@comic.user_id)
     
     @rb_comic = RakutenWebService::Books::Book.search(isbn: @comic.isbn).first
     @sites = @comic.sites.all
@@ -180,7 +179,6 @@ class Public::ComicsController < ApplicationController
                   user_id: current_user.id, 
                   version: @comic.version
                   )
-    # byebug
   end
   
   
@@ -269,27 +267,27 @@ class Public::ComicsController < ApplicationController
     end
     
     readable_info = @comic.read_judgements.new({
-        can_read: params[:read_info],
-        version: version, 
-        user_id: current_user.id
-        })
+                        can_read: params[:read_info],
+                        version: version, 
+                        user_id: current_user.id
+                        })
     
     readable_info.save!
     
     @user_read_judgement = ReadJudgement.find_by(
-                  comic_id: @comic.id, 
-                  user_id: current_user.id, 
-                  version: version)
+              comic_id: @comic.id, 
+              user_id: current_user.id, 
+              version: version)
     @can_read = ReadJudgement.where(
-                  comic_id: @comic.id,
-                  can_read: true, # 読めた
-                  version: version
-                  )
+              comic_id: @comic.id,
+              can_read: true, # 読めた
+              version: version
+              )
     @can_not_read = ReadJudgement.where(
-                      comic_id: @comic.id,
-                      can_read: false, # 読めなかった
-                      version: version
-                      )
+              comic_id: @comic.id,
+              can_read: false, # 読めなかった
+              version: version
+              )
     # byebug
   end
   
@@ -325,7 +323,12 @@ class Public::ComicsController < ApplicationController
       redirect_to sale_index_comics_path(page: page + 1)
     end 
     
-    @now_comics = Kaminari.paginate_array(now_comics, total_count: 1200).page(params[:page]).per(30)
+    @now_comics = Kaminari.paginate_array(
+         now_comics, 
+         total_count: 1200
+         )
+         .page(params[:page])
+         .per(30)
     @comic = Comic.new
   end
   
@@ -366,7 +369,12 @@ class Public::ComicsController < ApplicationController
           page: page
           ).sort_by {|v| v["reviewAverage"] }
           
-    @comics = Kaminari.paginate_array(comics, total_count: 1200).page(params[:page]).per(30)
+    @comics = Kaminari.paginate_array(
+          comics, 
+          total_count: 1200
+          )
+          .page(params[:page])
+          .per(30)
     @comic = Comic.new
   end
   
@@ -397,7 +405,12 @@ class Public::ComicsController < ApplicationController
       end
     end
     
-    @next_comics = Kaminari.paginate_array(next_comics, total_count: 1200).page(params[:page]).per(30)
+    @next_comics = Kaminari.paginate_array(
+          next_comics, 
+          total_count: 1200
+          )
+          .page(params[:page])
+          .per(30)
   end
   
   
@@ -440,7 +453,13 @@ class Public::ComicsController < ApplicationController
     # 推奨...今回は205~208を省く
     # 配列の場合はarrayが使用
     view_count = 30
-    @rakuten_web_services = Kaminari.paginate_array(@rakuten_web_services.first(view_count), total_count: @rakuten_web_services.response["count"]).page(params[:page]).per(view_count)
+    @rakuten_web_services = Kaminari.paginate_array(
+          @rakuten_web_services.first(view_count), 
+          total_count: @rakuten_web_services
+          .response["count"]
+          )
+          .page(params[:page])
+          .per(view_count)
      
     @comic = Comic.new
   end
@@ -450,9 +469,19 @@ class Public::ComicsController < ApplicationController
   
    ## サイト毎の一覧
   def comic_site_index
-    @comic_site = ComicSite.find_by(site_id: params[:id])
-    @comic_sites = ComicSite.where(site_id: params[:id]).page(params[:page]).per(30).order(:title)
-    @comic_site_amount = ComicSite.where(site_id: params[:id]).joins(:comic).all
+    @comic_site = ComicSite.find_by(
+          site_id: params[:id]
+          )
+    @comic_sites = ComicSite.where(
+          site_id: params[:id]
+          )
+          .page(params[:page])
+          .per(30)
+          .order(:title)
+    @comic_site_amount = ComicSite.where(
+          site_id: params[:id]
+          )
+          .joins(:comic).all
   end
   
   

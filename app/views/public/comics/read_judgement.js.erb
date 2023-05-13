@@ -1,16 +1,18 @@
 $("#read_judgements_buttons_<%= @comic.id %>").html("<%= j(render partial: '/public/comics/read_judgement',locals: { comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read }) %>");
 
 
-<!-- # 部分テンプレート内で使用しているローカル変数を定義-->
-<!-- # 右辺の内容は[comics#read_judgement]のアクション内で定義-->
-<!-- # 左辺のローカル変数は部分テンプレート内で定義-->
+/*
+コメントアウトがerbがついているとHTMLの方にならないので注意！！
 
-<!--
+# 部分テンプレート内で使用しているローカル変数を定義
+# 右辺の内容は[comics#read_judgement]のアクション内で定義
+# 左辺のローカル変数は部分テンプレート内で定義
+
+
 ## .js.erb
 Rubyを埋め込むことのできるjsファイル
--->
 
-<!--
+
 
 ## コントローラの動作（ファイルを探す時）
 
@@ -26,5 +28,4 @@ Rubyを埋め込むことのできるjsファイル
 　   システム開発においての設計方針の一つ。
 　   「Model」「View」「Controller」の3つに分けてコードを管理するもの
 3.  アクションに沿ってビューファイルを部分的に変更
-
--->
+*/

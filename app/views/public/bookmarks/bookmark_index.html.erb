@@ -1,7 +1,6 @@
-<div class="container">
-  <div class="row mx-auto" style="padding:205px 0px 45px;">
+<div class="pb-4" style="padding-top:205px; background-color:#FFF;">
       
-      <div class="mt-4">
+    <div class="col-10 mt-5 mx-auto">
         <div class="ml-5 mb-5 d-flex flex-wrap">
             <h5><b>MY本棚　</b></h5>
             <p><b>全<%= @bookmark_amount.count %>件</b></p>
@@ -24,20 +23,38 @@
                 <% end %>
             </div>
         </div>
-      </div>
+    </div>
       
-  </div>
+
+    <div class="d-flex flex-wrap" style="justify-content:center;">
+      <%= paginate @bookmarks %>
+    </div>
+    
+    <span id="back" style="width:100%;">
+      <a href=""  style="text-decoration:none;">
+          <div class="d-flex justify-content-center border mt-5 mx-auto" 
+               style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
+            <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
+          </div>
+      </a>
+    </span>
+
 </div>
 
-<div class="d-flex flex-wrap" style="justify-content:center;">
-  <%= paginate @bookmarks %>
-</div>
 
-<span id="back" style="width:100%;">
-  <a href=""  style="text-decoration:none;">
-      <div class="d-flex justify-content-center border mt-5 mb-4 mx-auto" 
-           style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
-        <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
-      </div>
-  </a>
-</span>
+<script>
+  $(function(){
+    // ウィンドウの高さとmain要素の高さを取得
+    var windowHeight = $(window).height();
+    var mainHeight = $('main').height();
+
+    // main要素の高さがウィンドウの高さより大きい場合
+    if(mainHeight > windowHeight) {
+        // 特定の要素を表示
+        $('#back').show();
+    } else {
+        // そうでない場合、要素を非表示
+        $('#back').hide();
+    }
+  })
+</script>
