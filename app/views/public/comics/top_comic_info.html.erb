@@ -66,7 +66,8 @@
                 <% sites = @top_comic_info.sites.all %>
                 <% can_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: true, version: @top_comic_info.version) %>
                 <% can_not_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: false, version: @top_comic_info.version) %>
-                <% date = Date.current > Date.parse(@top_rb_comic_info["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0]) %>
+                <% before_date = Date.current > Date.parse(@top_rb_comic_info["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0]) %>
+                <% future_date = Date.current < Date.parse(@top_rb_comic_info["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0]) %>
                 <% if user_signed_in? %>
                   <% user_read_judgement = ReadJudgement.find_by(comic_id: @top_comic_info.id, user_id: current_user.id, version: @top_comic_info.version) %>
                 <% end %>
@@ -132,36 +133,10 @@
                         <% end %>
                       </small>
                       
-                      
-                      
-                       <% if !user_signed_in? %>
-                            <hr>
-                            <p>
-                              <b>ゲスト</b> さんは ブックマーク できません。<br>
-                              <small>
-                                ※ ブックマークするには
-                                <%= link_to "ログイン", new_user_session_path %>
-                                をしてください。
-                              </small>
-                            </p>
-                    
-                      <% elsif !user_signed_in? &&  date %>
-                            <hr>
-                            <p>
-                              <b>ゲスト</b> さんは 漫画サイト情報の追加 はできません。<br>
-                              <small>
-                                ※ 追加するには
-                                <%= link_to "ログイン", new_user_session_path %>
-                                をしてください。
-                              </small>
-                            </p>
-                      
-                      <% end %>
-                        
-                    
                         
                       <% if user_signed_in? %>
                           <hr>
+                      
                       
                           <!--可読判定に対するメッセージ-->
                           <div class="mb-2">
@@ -183,7 +158,6 @@
                           </div>
                       
                         
-                        
                           <hr>
                       
                       
@@ -195,10 +169,13 @@
                                 </div>
                               </div>
                           </div>
+                          
                     <% end %>
+                <% end %>
+                
                 
                 <!--サイト情報の新規追加-->
-                <% elsif user_signed_in? && @can_not_create_record == "false" && @top_comic_info.nil? %>
+                <% if user_signed_in? && @can_not_create_record == "false" && @top_comic_info.nil? && !future_date %>
                     <hr>
                     <div class= "contents_action_box mb-2">
                         <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
@@ -229,11 +206,32 @@
                     </div>
                     <script src="index.js"></script>
                     
-                <% elsif !date %>
-                    <hr>
-                    <p>発売日以降に サイト情報の追加 が可能です。</p>            
-
+                <% elsif !user_signed_in? && @top_comic_info.present? %>
+                      <hr>
+                      <p>
+                        <b>ゲスト</b> さんは ブックマーク できません。<br>
+                        <small>
+                          ※ ブックマークするには
+                          <%= link_to "ログイン", new_user_session_path %>
+                          をしてください。
+                        </small>
+                      </p>
+              
+                    
+                <% elsif !user_signed_in? && @top_comic_info.nil? && before_date %>
+                      <hr>
+                      <p>
+                        <b>ゲスト</b> さんは 漫画サイト情報の追加 はできません。<br>
+                        <small>
+                          ※ 追加するには
+                          <%= link_to "ログイン", new_user_session_path %>
+                          をしてください。
+                        </small>
+                      </p>
                 
+                <% elsif @top_comic_info.nil? && future_date %>
+                      <hr>
+                      <p>発売日以降に サイト情報の追加 が可能です。</p> 
                 <% end %>
                 
             </div>
