@@ -25,12 +25,12 @@
                     <% if comic %>
                         <%= link_to comic_path(comic.id) do %>
                           <p class="mb-2 text-dark" style="height:50px;">
-                            <%= book.title.truncate(19) %>
+                            <%= book.title.truncate(17) %>
                           </p>
                         <% end %>
                     <% else %>
                         <p class="mb-2 text-dark" style="height:50px;">
-                          <%= book.title.truncate(19) %>
+                          <%= book.title.truncate(17) %>
                         </p>
                     <% end %>
                     
@@ -68,9 +68,23 @@
             </div>
             <% end %>
         </div>
+    </div>
         
+    <div class="media_pc">
         <div class="d-flex flex-wrap" style="justify-content:center;">
-            <%= paginate @now_comics %>
+              <%= paginate @now_comics, window: 4 %>
+        </div>
+    </div>
+    
+    <div class="media_tb">
+        <div class="d-flex flex-wrap" style="justify-content:center;">
+              <%= paginate @now_comics, window: 2 %>
+        </div>
+    </div>
+    
+    <div class="media_sp">
+        <div class="d-flex flex-wrap" style="justify-content:center;">
+              <%= paginate @now_comics, window: 1 %>
         </div>
     </div>
   

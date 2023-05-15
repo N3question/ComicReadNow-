@@ -31,9 +31,14 @@ footer, .rank_que {
         border: 2px solid #00264D;
     }
 }
+.rank_index_user_icon {
+    img {
+        border-radius: 45px;
+    }
+}
 
 .comic_contents {
-    min-height: 53vh; 
+    min-height: 53vh;
 }
 
 .comic_contents_margin {
@@ -315,16 +320,9 @@ ul li .list_icon::before {
   }
 }
 
-// .flex-container {
-//   display: inline-flex;
-//   align-items: center;
-// }
-// .flex-container > :last-child {
-//   margin-left: auto;
-// }
-
 .link_text:hover {
     text-decoration-line: underline;
+    text-decoration-color: black;
     color: black;
 }
 
@@ -332,6 +330,56 @@ ul li .list_icon::before {
     opacity: 0.5;
 }
 
-// .link:active{
-//     color: orange;
-// }
+
+// PCフォースト（...defalutがPCサイズの画面）の場合上にPCサイズのCSSを記述
+
+.media_pc {
+    display: block;
+}
+
+.media_tb {
+        display: none;
+    }
+
+.media_sp {
+    display: none;
+}
+
+
+@media screen and (max-width: 768px) { 
+    /*　画面サイズが480pxからはここを読み込む　*/
+    .media_pc {
+        display: none;
+    }
+    
+    .media_tb {
+        display: block;
+    }
+    
+    .media_sp {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 576px) { 
+    /*　画面サイズが480pxからはここを読み込む　*/
+    .media_pc {
+        display: none;
+    }
+    
+    .media_tb {
+        display: none;
+    }
+    
+    .media_sp {
+        display: block;
+    }
+}
+
+
+@media screen and (max-width: 576px) { 
+    /*　画面サイズが480pxからはここを読み込む　*/
+    .messege_sp {
+        display: block;
+    }
+}

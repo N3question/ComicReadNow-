@@ -74,11 +74,23 @@
               <% comic_count += 1 %>
               <% end %>
           </div>
-          
-          
-          
+      </div>
+      
+      <div class="media_pc">
           <div class="d-flex flex-wrap" style="justify-content:center;">
-              <%= paginate @rakuten_web_services %>
+                <%= paginate @rakuten_web_services, window: 4 %>
+          </div>
+      </div>
+      
+      <div class="media_tb">
+          <div class="d-flex flex-wrap" style="justify-content:center;">
+                <%= paginate @rakuten_web_services, window: 2 %>
+          </div>
+      </div>
+      
+      <div class="media_sp">
+          <div class="d-flex flex-wrap" style="justify-content:center;">
+                <%= paginate @rakuten_web_services, window: 1 %>
           </div>
       </div>
       

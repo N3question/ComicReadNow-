@@ -1,5 +1,5 @@
 class Public::BookmarksController < ApplicationController
-  
+  before_action :authenticate_user!
   before_action :comic_params, except: [:bookmark_index]
   
   def create

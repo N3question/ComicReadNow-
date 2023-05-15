@@ -1,4 +1,5 @@
 class Public::ComicsController < ApplicationController
+  before_action :authenticate_user!, only: [:create, :update, :read_judgement]
   
   ## TOP
   def top

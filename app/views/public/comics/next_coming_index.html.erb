@@ -15,16 +15,33 @@
                     <% end %>
                   </div>
                   <div class="py-4 mb-3" style="width:150px; height:auto;">
-                    <p class="mb-2 text-dark" style="height:50px;">
-                      <%= book.title.truncate(17) %>
+                    <p class="mb-2" style="height:50px;">
+                      <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: true), class:"text-dark link_text" do %>
+                        <%= book.title.truncate(17) %>
+                      <% end %>
                     </p>
                   </div>
                 </div>
               <% end %>
           </div>
           
+      </div>
+      
+      <div class="media_pc">
           <div class="d-flex flex-wrap" style="justify-content:center;">
-          <%= paginate @next_comics %>
+                <%= paginate @next_comics, window: 4 %>
+          </div>
+      </div>
+      
+      <div class="media_tb">
+          <div class="d-flex flex-wrap" style="justify-content:center;">
+                <%= paginate @next_comics, window: 2 %>
+          </div>
+      </div>
+      
+      <div class="media_sp">
+          <div class="d-flex flex-wrap" style="justify-content:center;">
+                <%= paginate @next_comics, window: 1 %>
           </div>
       </div>
       

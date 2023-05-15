@@ -15,3 +15,10 @@ ja:
       admin:
         signed_in: "管理者のログインが成功しました。"
         signed_out: "管理者のログアウトが成功しました。"
+    registrations:
+      user: 
+        signed_up: "新規登録が完了しました。"
+        
+  errors:
+    messages:
+      not_saved: "新規登録が未完了です。"

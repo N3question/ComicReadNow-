@@ -8,8 +8,7 @@ class User < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :read_judgements, dependent: :destroy
   has_many :comics, dependent: :destroy
-  validates :nick_name, length: { maximum: 12 }, presence: true
-  validates :profile_image, presence: true
+  validates :nick_name, format: { with: /\A[0-9]+\z/ }, length: { maximum: 12 }, presence: true
   validates :email, presence: true
   
   # PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i.freeze
