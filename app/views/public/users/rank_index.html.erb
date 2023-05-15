@@ -12,12 +12,12 @@
       </h4>
       
       
-      <small class="font_1 m-2" style="float:right;">
-        TOP 10 (ユーザ総数： <%= @users.count %> 人)
+      <small class="font_1 m-4 d-flex">
+        TOP 10　(ユーザ総数： <%= @users.count %> 人)
       </small>
       
     
-      <div class="table-responsive-md" style="margin-bottom:80px;">
+      <div class="table-responsive-lg rank_table js-scrollable mt-3" style="margin-bottom:80px;">
           <table class="table user_rank_index_table">
             
             <tr style="text-align: center;">
@@ -123,9 +123,9 @@
       
       
       <% if user_signed_in? && current_user_flag == false %>
-      <div class="col-12 px-0" style="">
-          <div class="table-responsive-md" style="margin-bottom:40px;">
-              <table class="table">
+      <div class="col-12 px-0" style="margin-bottom:40px;">
+          <div class="table-responsive-lg rank_table js-scrollable">
+              <table class="table py-4">
                 
                     <% @users.each_with_index do |user, index| %>
                         <% if user.id == current_user.id %>
@@ -204,7 +204,6 @@
         </a>
       </span>
       
-    <!--</div>-->
     
   </div>
 </div>
@@ -224,4 +223,7 @@
         $('#back').hide();
     }
   })
+  new ScrollHint('.js-scrollable', {
+    scrollHintIconAppendClass: 'scroll-hint-icon-white'
+  });
 </script>

@@ -81,7 +81,17 @@ class Public::ComicsController < ApplicationController
   
   ## TOP / 漫画情報詳細
   def top_comic_info
-    if request.referer&.include?("/next_coming_index") 
+    if !request.referer &.include?("/comics/#{params[:comic_id]}") || 
+      !request.referer &.include?("/comics") ||
+      !request.referer &.include?("/top_comic_info") || 
+      request.referer&.include?("/sale_index/#{params[:current_page]}") || 
+      request.referer&.include?("/review_count_index") || 
+      request.referer&.include?("/comic_site_index/#{params[:site_id]}") ||
+      request.referer&.include?("/next_coming_index") ||
+      request.referer&.include?("/user_select_index") ||
+      request.referer&.include?("/my_page") ||
+      request.referer&.include?("/bookmarks") 
+      
       session["url"] = request.referer
     end
     
@@ -175,11 +185,14 @@ class Public::ComicsController < ApplicationController
                   version: @comic.version
                   )
     @comic_update_limit_count = @comic.remaining_one_comic_update_limit
-    @user_read_judgement = ReadJudgement.find_by(
-                  comic_id: @comic.id, 
-                  user_id: current_user.id, 
-                  version: @comic.version
-                  )
+    
+    if user_signed_in?
+      @user_read_judgement = ReadJudgement.find_by(
+                    comic_id: @comic.id, 
+                    user_id: current_user.id, 
+                    version: @comic.version
+                    )
+    end
   end
   
   

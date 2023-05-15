@@ -5,7 +5,7 @@
           
           
         <!--「←」ボタン-->
-        <% if session["search_keyword"].present? && params[:page] %>
+        <% if session["search_keyword"] && params[:page] %>
             <%= link_to search_index_comics_path(keyword: session["search_keyword"], page: params[:page]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
             <% end %>

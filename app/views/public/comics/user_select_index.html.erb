@@ -13,33 +13,18 @@
             
               <div class="mx-2">
                 <div style="width:150px;">
-                    <% if comic %>
-                        <%= link_to comic_path(comic.id), class:"img_link" do %>
-                          <%= image_tag book.large_image_url, class:"img_comic" %>
-                        <% end %>
-                    <% else %>
-                        <%= image_tag book.large_image_url, class:"img_comic" %>
+                    <%= link_to comic_path(comic.id), class:"img_link" do %>
+                      <%= image_tag book.large_image_url, class:"img_comic" %>
                     <% end %>
                 </div>
                 
                 <div class="py-4 mb-3" style="width:150px; height:auto;">
-                    <% if comic %>
-                        <%= link_to comic_path(comic.id) do %>
-                          <p class="mb-2 text-dark" style="height:50px;">
-                            <%= book.title.truncate(17) %>
-                          </p>
-                        <% end %>
-                    <% else %>
-                        <p class="mb-2 text-dark" style="height:50px;">
-                          <%= book.title.truncate(17) %>
-                        </p>
+                    <%= link_to comic_path(comic.id) do %>
+                      <p class="mb-1 text-dark" style="height:50px;">
+                        <%= book.title.truncate(17) %>
+                      </p>
                     <% end %>
-                    <% if user_signed_in? && !comic %>
-                        <%= link_to new_comic_path(isbn: book['isbn']), class:'btn btn-outline-dark w-100' do %>
-                          <i class="bi bi-pencil-square"></i><small>　サイト情報追加</small>
-                        <% end %>
-                    <% end %>
-                  </div>
+                </div>
               </div>
               
             <% end %>

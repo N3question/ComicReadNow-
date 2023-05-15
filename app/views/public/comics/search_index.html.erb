@@ -11,41 +11,39 @@
               <% comic_count = 0 %>
               <% @rakuten_web_services.each_with_index do |book, i| %>
               <% comic = Comic.find_by(isbn: book["isbn"]) %>
-              <% aa = Date.current > Date.parse(book["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0]) %>
+              <% date = Date.current > Date.parse(book["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0]) %>
               
               
               <div class="mx-2">
                   
                   <div style="width:150px;">
-                    <% if comic %>
-                        <%= link_to comic_path(id: comic.id, keyword: params[:keyword],page: @current_page), class:"img_link" do %>
-                          <%= image_tag book["largeImageUrl"], class:"img_comic" %>
-                        <% end %>
-                    <% else %>
-                        <%= image_tag book["largeImageUrl"], class:"img_comic" %>
-                    <% end %>
-                  </div>
+                      <% if comic %>
+                          <%= link_to comic_path(id: comic.id, keyword: params[:keyword],page: @current_page), class:"img_link" do %>
+                            <%= image_tag book["largeImageUrl"], class:"img_comic" %>
+                          <% end %>
+                      <% else %>
+                          <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"img_link" do %>
+                            <%= image_tag book["largeImageUrl"], class:"img_comic" %>
+                          <% end %>
+                      <% end %>
+                    </div>
                       
                       
                   <div class="py-4 mb-3" style="width:150px; height:auto;">
                       <% if comic %>
-                          <%= link_to comic_path(comic.id) do %>
-                            <p class="mb-2 text-dark" style="height:50px;"><%= book["title"].truncate(20) %></p>
-                          <% end %>
-                      <% else %>
-                          <p class="mb-2 text-dark" style="height:50px;"><%= book["title"].truncate(20) %></p>
-                      <% end %>
-                    
-                    
-                      <% if user_signed_in? && !comic && aa %>
+                        <%= link_to comic_path(comic.id) do %>
+                          <p class="mb-1 text-dark" style="height:50px;">
+                            <%= book.title.truncate(17) %>
+                          </p>
+                        <% end %>
+                        
+                      <% elsif user_signed_in? && !comic && date %>
                       
                           <div class= "sample mb-2 d-flex" style="justify-content: flex-end;">
                               <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
                           </div>
-                          
                           <div class= "sampleA p-2 border" style="display:none;">
                             <div style="height:270px; width:100%; display:flex; justify-content:center;">
-                                
                                 <div class="p-3">
                                   <%= flash[:alert] %>
                                   <small style="color:red;">※ 読むことができるサイトを全て選択</small>
@@ -61,13 +59,29 @@
                                       <% end %>
                                   </div>
                                 </div>
-                                
                             </div>
                           </div>
-                          
                           <script src="index.js"></script>
-                      <% elsif user_signed_in? && !comic %>
-                         
+                          
+                      <% elsif !user_signed_in? && !comic && !date %>
+                        <div>
+                          <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"img_link" do %>
+                            <p class="text-dark" style="height:50px;">
+                              <%= book.title.truncate(17) %>
+                            </p>
+                          <% end %>
+                        </div>
+                         <p align="center" class="border mb-2 p-2 small" style="border-radius:5px; color:gray;">未発売</p>
+                      <% elsif !user_signed_in? && !comic %>
+                          <div>
+                            <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"img_link" do %>
+                              <p class="text-dark" style="height:50px;">
+                                <%= book.title.truncate(17) %>
+                              </p>
+                            <% end %>
+                          </div>
+                          <p align="center" class="border mb-2 p-2 small" style="border-radius:5px; color:gray;">サイト情報 未追加</p>
+                      
                       <% end %>
                   </div>
               </div>

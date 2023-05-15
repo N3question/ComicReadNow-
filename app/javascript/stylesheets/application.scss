@@ -12,7 +12,7 @@
     box-sizing: border-box;/*←全て含めてmin-height:100vhに*/
 }
 
-.rank_que_wrapper {
+.object_wrapper {
     min-height: 20vh;
     position: relative;/*←相対位置*/
     padding-bottom: 80px;/*←footerの高さ*/
@@ -51,6 +51,7 @@ footer, .rank_que {
     display: flex;
 }
 
+
 .contents_box::-webkit-scrollbar{
     display: none;
 }
@@ -88,6 +89,15 @@ footer, .rank_que {
 .admin_table tr:last-child {
     border-bottom: 0.5px solid silver; 
 } 
+
+.rank_table {
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+.rank_table::-webkit-scrollbar{
+    display: none;
+}
 
 .user_rank_index_table tr:last-child {
     border-bottom: 0.5px solid silver; 
@@ -331,6 +341,25 @@ ul li .list_icon::before {
 }
 
 
+footer {
+    height: 100px; 
+    background-color:#00264D;
+    
+    .text_centering_to_div {
+    display: table;
+    height: 100px; 
+    width: 100%;
+    }
+    
+    .text_centering_to_text {
+        display: table-cell; 
+        vertical-align: middle; 
+        text-align: center;
+    }
+    
+}
+
+
 // PCフォースト（...defalutがPCサイズの画面）の場合上にPCサイズのCSSを記述
 
 .media_pc {
@@ -372,14 +401,6 @@ ul li .list_icon::before {
     }
     
     .media_sp {
-        display: block;
-    }
-}
-
-
-@media screen and (max-width: 576px) { 
-    /*　画面サイズが480pxからはここを読み込む　*/
-    .messege_sp {
         display: block;
     }
 }

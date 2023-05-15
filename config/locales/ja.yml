@@ -21,4 +21,4 @@ ja:
         
   errors:
     messages:
-      not_saved: "新規登録が未完了です。"
+      not_saved: "新規登録が未完了："

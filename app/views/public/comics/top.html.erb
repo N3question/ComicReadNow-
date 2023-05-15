@@ -227,146 +227,152 @@
   
 <div style="background-color:#FFF; padding-top:80px;">
   
-<!--新着-->
-<div class="object-shadow">
-  <div class="comic_contents comic_contents_margin py-4">
-    
-      <div class="d-flex">
-          <h4 class="mt-4 ml-5 mb-2"><b>新着</b></h4>
-          <div class="button_shadow mt-4 ml-auto mr-5 mb-3">
-            <%= link_to sale_index_comics_path, class:"btn btn-sm btn-outline-dark px-3" do %>
-              全て見る <i class="bi bi-arrow-right-circle"></i>
-            <% end %>
-          </div>
-      </div>
-      
-      <p class="mx-5 mb-5">~ 最新情報はこちらからチェック！！~</p>
-      <div class="contents_box">
-          <% @new_comics.each do |book| %>
-              <div class="contents mr-3">
-                <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: false), class:"img_link" do %>
-                  <%= image_tag book["largeImageUrl"], class:"top_img_comic" %>
+    <!--新着-->
+    <div class="object-shadow">
+      <div class="comic_contents comic_contents_margin py-4">
+        
+          <div class="d-flex">
+              <h4 class="mt-4 ml-5 mb-2"><b>新着</b></h4>
+              <div class="button_shadow mt-4 ml-auto mr-5 mb-3">
+                <%= link_to sale_index_comics_path, class:"btn btn-sm btn-outline-dark px-3" do %>
+                  全て見る <i class="bi bi-arrow-right-circle"></i>
                 <% end %>
-                <p class="small mt-3">
-                  <%= book["title"].truncate(13) %>
-                </p>
               </div>
-          <% end %>
-      </div>
-      
-  </div>
-</div>
-
-
-
-<!--User Select-->
-<div class="object-shadow">
-  <div class="comic_contents comic_contents_margin py-4">
-    
-      <div class="d-flex">
-        <h4 class="mt-4 ml-5 mb-2"><b>User Select</b></h4>
-        <div class="button_shadow mt-4 ml-auto mr-5 mb-3">
-          <%= link_to user_select_index_comics_path, class:"btn btn-sm btn-outline-dark px-3" do %>
-            全て見る <i class="bi bi-arrow-right-circle"></i>
-          <% end %>
-        </div>
-      </div>
-      
-      <p class="mx-5 mb-5">~ Comic Read now!の利用ユーザに人気の漫画を見てみよう！ ~</p>
-      
-      <div class="contents_box">
-        <% @bookmark_comics.each do |book| %>
-        <% comic = Comic.find_by(isbn: book["isbn"]) %>
-          <div class="contents mr-3">
-              <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: false, can_not_create_record: false), class:"img_link" do %>
-                <%= image_tag book.large_image_url, class:"top_img_comic" %>
+          </div>
+          
+          <p class="mx-5 mb-5">~ 最新情報はこちらからチェック！！~</p>
+          <div class="contents_box js-scrollable">
+              <% @new_comics.each do |book| %>
+                  <div class="contents mr-3">
+                    <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: false), class:"img_link" do %>
+                      <%= image_tag book["largeImageUrl"], class:"top_img_comic" %>
+                    <% end %>
+                    <p class="small mt-3">
+                      <%= book["title"].truncate(13) %>
+                    </p>
+                  </div>
               <% end %>
-              <p class="small mt-3">
-              <%= book.title.truncate(13) %>
-              </p>
-            </div>
-        <% end %>
+          </div>
+          
       </div>
-      
-  </div>
-</div>
-
-
-
-<!--総合ランキング-->
-<div class="object-shadow">
-  <div class="comic_contents comic_contents_margin py-4">
+    </div>
     
-      <div class="d-flex">
-        <h4 class="mt-4 ml-5 mb-2"><b>総合ランキング</b></h4>
-        <div class="button_shadow mt-4 ml-auto mr-5 mb-3">
-          <%= link_to review_count_index_comics_path, class:"btn btn-sm btn-outline-dark px-3" do %>
-            全て見る <i class="bi bi-arrow-right-circle"></i>
-          <% end %>
-        </div>
-      </div>
-      
-      <p class="mx-5 mb-5">~ 不動の人気漫画！！時代を超えて楽しめる漫画を読もう ~</p>
-      
-      <div class="contents_box">
-        <% @review_comics.each do |book| %>
-            <div class="contents mr-3">
-              <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: false), class:"img_link" do %>
-                <%= image_tag book["largeImageUrl"], class:"top_img_comic" %>
+    
+    
+    <!--User Select-->
+    <div class="object-shadow">
+      <div class="comic_contents comic_contents_margin py-4">
+        
+          <div class="d-flex">
+            <h4 class="mt-4 ml-5 mb-2"><b>User Select</b></h4>
+            <div class="button_shadow mt-4 ml-auto mr-5 mb-3">
+              <%= link_to user_select_index_comics_path, class:"btn btn-sm btn-outline-dark px-3" do %>
+                全て見る <i class="bi bi-arrow-right-circle"></i>
               <% end %>
-              <p class="small mt-3">
-                <%= book["title"].truncate(13) %>
-              </p>
             </div>
-        <% end %>
-      </div>
-      
-  </div>
-</div>
-
-
-
-<!--Next Coming-->
-<div class="object-shadow">
-  <div class="comic_contents comic_contents_margin py-4">
-    
-      <div class="d-flex">
-        <h4 class="mt-4 ml-5 mb-2"><b>Next Coming</b></h4>
-        <div class="button_shadow mt-4 ml-auto mr-5 mb-3">
-            <%= link_to next_coming_index_comics_path, class:"btn btn-sm btn-outline-dark px-3" do %>
-              全て見る <i class="bi bi-arrow-right-circle"></i>
+          </div>
+          
+          <p class="mx-5 mb-5">~ Comic Read now!の利用ユーザに人気の漫画を見てみよう！ ~</p>
+          
+          <div class="contents_box js-scrollable">
+            <% @bookmark_comics.each do |book| %>
+            <% comic = Comic.find_by(isbn: book["isbn"]) %>
+              <div class="contents mr-3">
+                  <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: false, can_not_create_record: false), class:"img_link" do %>
+                    <%= image_tag book.large_image_url, class:"top_img_comic" %>
+                  <% end %>
+                  <p class="small mt-3">
+                  <%= book.title.truncate(13) %>
+                  </p>
+                </div>
             <% end %>
           </div>
+          
       </div>
-      
-      <p class="mx-5 mb-5">~ 気になる漫画の新刊情報をチェック！ ~</p>
-      
-      <div class="contents_box">
-        <% @next_comics.each do |book| %>
-            <div class="contents mr-3">
-              <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: true), class:"img_link" do %>
-                <%= image_tag book["largeImageUrl"], class:"top_img_comic" %>
+    </div>
+    
+    
+    
+    <!--総合ランキング-->
+    <div class="object-shadow">
+      <div class="comic_contents comic_contents_margin py-4">
+        
+          <div class="d-flex">
+            <h4 class="mt-4 ml-5 mb-2"><b>総合ランキング</b></h4>
+            <div class="button_shadow mt-4 ml-auto mr-5 mb-3">
+              <%= link_to review_count_index_comics_path, class:"btn btn-sm btn-outline-dark px-3" do %>
+                全て見る <i class="bi bi-arrow-right-circle"></i>
               <% end %>
-              <p class="small mt-3">
-                <%= book["title"].truncate(13) %>
-              </p>
             </div>
-        <% end %>
+          </div>
+          
+          <p class="mx-5 mb-5">~ 不動の人気漫画！！時代を超えて楽しめる漫画を読もう ~</p>
+          
+          <div class="contents_box js-scrollable">
+            <% @review_comics.each do |book| %>
+                <div class="contents mr-3">
+                  <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: false), class:"img_link" do %>
+                    <%= image_tag book["largeImageUrl"], class:"top_img_comic" %>
+                  <% end %>
+                  <p class="small mt-3">
+                    <%= book["title"].truncate(13) %>
+                  </p>
+                </div>
+            <% end %>
+          </div>
+          
       </div>
-      
-  </div>
+    </div>
+    
+    
+    
+    <!--Next Coming-->
+    <div class="object-shadow">
+      <div class="comic_contents comic_contents_margin py-4">
+        
+          <div class="d-flex">
+            <h4 class="mt-4 ml-5 mb-2"><b>Next Coming</b></h4>
+            <div class="button_shadow mt-4 ml-auto mr-5 mb-3">
+                <%= link_to next_coming_index_comics_path, class:"btn btn-sm btn-outline-dark px-3" do %>
+                  全て見る <i class="bi bi-arrow-right-circle"></i>
+                <% end %>
+              </div>
+          </div>
+          
+          <p class="mx-5 mb-5">~ 気になる漫画の新刊情報をチェック！ ~</p>
+          
+          <div class="contents_box js-scrollable">
+            <% @next_comics.each do |book| %>
+                <div class="contents mr-3">
+                  <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: true), class:"img_link" do %>
+                    <%= image_tag book["largeImageUrl"], class:"top_img_comic" %>
+                  <% end %>
+                  <p class="small mt-3">
+                    <%= book["title"].truncate(13) %>
+                  </p>
+                </div>
+            <% end %>
+          </div>
+          
+      </div>
+    </div>
+    
+    
+    
+    <span id="back">
+      <a href=""  style="text-decoration:none;">
+          <div class="d-flex justify-content-center border mt-5 mb-4 mx-auto" 
+               style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
+            <p class="mb-0 text-dark ">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
+          </div>
+      </a>
+    </span>
+
+
 </div>
 
-
-
-<span id="back">
-  <a href=""  style="text-decoration:none;">
-      <div class="d-flex justify-content-center border mt-5 mb-4 mx-auto" 
-           style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
-        <p class="mb-0 text-dark ">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
-      </div>
-  </a>
-</span>
-
-
-</div>
+<script>
+  new ScrollHint('.js-scrollable', {
+    scrollHintIconAppendClass: 'scroll-hint-icon-white'
+  });
+</script>

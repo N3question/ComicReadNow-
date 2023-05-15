@@ -8,12 +8,12 @@ class User < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :read_judgements, dependent: :destroy
   has_many :comics, dependent: :destroy
-  validates :nick_name, format: { with: /\A[0-9]+\z/ }, length: { maximum: 12 }, presence: true
+  validates :nick_name, format: { with: /\A[a-zA-Z0-9_.!?@'%<>]+\z/, message: 'は 半角アルファベット, 記号, 数字 のみ入力可能です' }, length: { maximum: 12, message: 'は12文字以内で入力してください' }, presence: true
   validates :email, presence: true
   
-  # PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i.freeze
-  # # 半角アルファベット（大文字・小文字・数値）
-  # validates :password, format: { with: PASSWORD_REGEX, message: 'はアルファベットと数字を含めてください' }, length: { minimum: 6 }, on: :create
+  PASSWORD_REGEX = /\A[a-zA-Z0-9]{6,}+\z/i.freeze
+  # 半角アルファベット（大文字・小文字・数値）
+  validates :password, format: { with: PASSWORD_REGEX, message: 'は 半角アルファベットと数字のみ入力可能です' }, length: { minimum: 6 }, on: :create
   
   def get_profile_image
     unless profile_image.attached?
