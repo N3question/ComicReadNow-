@@ -22,3 +22,15 @@ ja:
   errors:
     messages:
       not_saved: "新規登録が未完了："
+      
+  activerecord:
+      attributes:
+        user:
+          nick_name: "ニックネーム"
+          email: "メールアドレス"
+          password: "パスワード"
+          password_confirmation: "確認用パスワード"
+        
+        admin:
+          email: "メールアドレス"
+          password: "パスワード"

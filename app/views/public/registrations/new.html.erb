@@ -8,12 +8,12 @@
   
           <div class="field mb-3">
             <%= f.label :nick_name, class:"mr-3 mb-0" %>
-            <div class="mb-2">
-              <small class="mr-2 text-success"><i class="bi bi-check2-circle"></i> 英数字 [半角]</small>
-              <small class="mr-2 text-success"><i class="bi bi-check2-circle"></i> 12文字以内</small>
-              <small class="mr-2 text-success"><i class="bi bi-check2-circle"></i>  _.-!?@'%<> [記号]</small>
+            <div class="d-flex flex-wrap mb-2">
+              <small class="mr-3 text-success"><i class="bi bi-check2-circle"></i> 英数字 [半角]</small>
+              <small class="mr-3 text-success"><i class="bi bi-check2-circle"></i> 12文字以内</small>
+              <small class="mr-3 text-success"><i class="bi bi-check2-circle"></i>  _.-!?@'%<> [記号]</small>
             </div>
-            <%= f.text_field :nick_name, autofocus: true, autocomplete: "nick_name", class:"form-control", placeholder:"ニックネーム" %>
+            <%= f.text_field :nick_name, autofocus: true, autocomplete: "nick_name", class:"form-control", placeholder:"CRn!" %>
           </div>
           <div class="field mb-3">
             <%= f.label :email %>

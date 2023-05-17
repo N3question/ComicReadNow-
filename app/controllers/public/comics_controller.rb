@@ -100,6 +100,8 @@ class Public::ComicsController < ApplicationController
     @can_not_create_record = params[:can_not_create_record]
     
     @top_rb_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
+    
+    # nilで返ってくるなぜ？ 
     @top_comic_info = Comic.find_by(isbn: params[:isbn])
     
     @comic = Comic.new
@@ -302,7 +304,6 @@ class Public::ComicsController < ApplicationController
               can_read: false, # 読めなかった
               version: version
               )
-    # byebug
   end
   
   

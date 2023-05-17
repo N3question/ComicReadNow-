@@ -43,7 +43,9 @@
 
 ## 設計書
 [ER図]<br>
-https://drive.google.com/file/d/1yGtGFVTxFn9KF-GHxCLMgX-HWciIJ3W5/view?usp=share_link<br>
+https://drive.google.com/file/d/1Imrzd_uoZNwCAV65tjTh_3krMterMTaB/view?usp=share_link<br>
+[実装機能リスト]<br>
+https://docs.google.com/spreadsheets/d/1utfUDZ9FNCkzduDopFDZh-sK2lkFYkG9qo0u00mNLBM/edit#gid=375590402
 
 ## 開発環境
 - OS：Linux(CentOS)
@@ -53,4 +55,4 @@ https://drive.google.com/file/d/1yGtGFVTxFn9KF-GHxCLMgX-HWciIJ3W5/view?usp=share
 - IDE：Cloud9
 
 ## 使用素材
-- 現段階では提携の承認を得ていないため、架空のサイト名になっているが漫画サイト会社と提携をしていると想定して、サイト名を掲載（漫画詳細画面）
+現段階では提携の承認を得ていないため、架空のサイト名になっているが漫画サイト会社と提携をしていると想定して、サイト名を掲載（漫画詳細画面）
