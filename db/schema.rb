@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 2023_04_27_145150) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "remaining_total_update_limit", default: 100
     t.integer "update_count", default: 0, null: false
+    t.boolean "is_deleted", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

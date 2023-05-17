@@ -6,77 +6,164 @@
               <i class="bi bi-arrow-left"></i>
             <% end %>
       
-            <div class="d-flex flex-wrap mb-4" style="justify-content: center; align-items: center;">
-                <h4 class="mx-2 mb-0"><b><%= @user.nick_name %></b></h4>
-                <p class="mx-2 mb-0 text-nowrap">のユーザ情報</p>
+            <div class="d-flex flex-wrap justify-content-center align-items-center" style="margin-bottom:40px;">
+                <h2 class="font_1 mx-2 mb-0"><b><%= @user.nick_name %></b></h2>
+                <h5 class="mx-2 mb-0 text-nowrap">のユーザ情報</h5>
             </div>
             
-            <div class="row d-flex" style="justify-content: center;">
-              
-                  <div class="col-lg-5">
-                      <div class="user_icon p-3 d-flex" style="justify-content: center; align-items: center;">
-                          <% if @user.profile_image.attached? %>
-                            <%= image_tag @user.profile_image, size: "150x150" %>
-                          <% else %>
-                            <%= image_tag 'no_image', size: "150x150" %>
-                          <% end %>
-                      </div>
-                      <div class="d-flex" style="justify-content: center;">
-                        <p class="mx-3 px-2 py-3 user_email small text-center" style="width:70%; margin-top:10px; border-top:0.5px solid silver; border-bottom:0.5px solid silver; overflow-wrap: break-word;">
+            <div class="row d-flex justify-content-center p-4" style="border:1px solid #00264D; border-radius:20px; box-shadow:5px 5px 8px 3px #ddd inset;">
+                <div class="col-lg-4 mx-3 d-flex justify-content-center align-items-center" style="height:auto;">
+                    <div class="user_icon p-3 d-flex flex-wrap" style="justify-content: center; align-items: center;">
+                        <% if @user.profile_image.attached? %>
+                          <%= image_tag @user.profile_image, size: "150x150", class:"my-3", style:"object-fit:cover;" %>
+                        <% else %>
+                          <%= image_tag 'no_image', size: "150x150", class:"my-3", style:"object-fit:cover;" %>
+                        <% end %>
+                        <p class="mx-3 px-2 py-3 user_email small text-center" style="width:85%; margin-top:10px; border-top:0.5px solid silver; border-bottom:0.5px solid silver; overflow-wrap: break-word;">
                           <i class="bi bi-envelope mx-2"></i>
                           <%= @user.email %>
                         </p>
-                      </div>
-                  </div>
+                    </div>
+                </div>
                   
-                  <div class="col-lg-6">
-                      <table class="table table-responsive-sm table-borderless mt-3">
-                        <tr>
-                          <td style="width:40%;">順位</td>
-                          <td class="text-nowrap" style="width:40%;">
-                            <%= @my_rank %>位
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>更新</td>
-                          <td class="text-nowrap">
-                            <%= @user.update_count %>回
-                          </td>
-                          <td class="text-center">
-                            <i class="bi bi-caret-down-square"></i>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>評価</td>
-                          <td class="text-nowrap">
-                            <%= @user.read_judgements.where(can_read: true).count %>件
-                          </td>
-                          <td class="text-center">
-                            <i class="bi bi-caret-down-square"></i>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>更新残数</td>
-                          <td class="text-nowrap">
-                            <%= @user.remaining_total_update_limit %>回
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>ブックマーク</td>
-                          <td class="text-nowrap">
-                            <%= @user.bookmarks.count %>件
-                          </td>
-                          <td class="text-center">
-                            <i class="bi bi-caret-down-square"></i>
-                          </td>
-                        </tr>
-                      </table>
-                  </div>
-                  <div class="mt-5">
-                    <%= link_to "ユーザの削除", admin_top_path, class:"btn btn-danger px-5" %>
-                  </div>
+                <div class="col-lg-7">
+                    <table class="table table-responsive-sm table-borderless">
+                      
+                      <tr>
+                        <td style="width:30%;">順位</td>
+                        
+                        <td class="text-nowrap">
+                          <%= @my_rank %>位
+                        </td>
+                      </tr>
+                      
+                      
+                      <tr>
+                        <td>更新</td>
+                        
+                        <td class="text-nowrap">
+                          <%= @user.update_count %>回
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td class="text-center" colspan="3">
+                          <div class= "sample">
+                              <input type="button" class="btn btn-sm btn-outline-dark mb-3 px-3 text-nowrap w-100" value="更新詳細">
+                          </div>
+                          
+                          <div class= "sampleA p-2 border" style="display:none;">
+                            <div style="height:400px; width:100%; display:flex; justify-content:center;">
+                                <div class="p-3" style="overflow-y: scroll;">
+                                    <table class="table">
+                                        <% @comics.each_with_index do |comic, index| %>
+                                          <tr>
+                                            <td class="text-nowrap"><%= index + 1 %></td>
+                                            <td><%= comic.title %></td>
+                                            <td><%= comic.updated_at.strftime('%Y/%m/%d %H:%M:%S') %></td>
+                                          </tr>
+                                        <% end %>
+                                    </table>
+                                </div>
+                            </div>
+                          </div>
+                          <script src="index.js"></script>
+                        </td>
+                      </tr>
+                      
+                      
+                      
+                      <tr>
+                        <td>評価</td>
+                        
+                        <td class="text-nowrap">
+                          <%= @user.read_judgements.where(can_read: true).count %>件
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td class="text-center" colspan="3">
+                          <div class= "sample">
+                              <input type="button" class="btn btn-sm btn-outline-dark mb-3 px-3 text-nowrap w-100" value="評価詳細">
+                          </div>
+                          
+                          <div class= "sampleA p-2 border" style="display:none;">
+                            <div style="height:300px; width:100%; display:flex; justify-content:center;">
+                                <div class="p-3">
+                                    pppp
+                                </div>
+                            </div>
+                          </div>
+                          <script src="index.js"></script>
+                        </td>
+                      </tr>
+                      
+                      
+                      
+                      <tr>
+                        <td>更新残数</td>
+                        
+                        <td class="text-nowrap">
+                          <%= @user.remaining_total_update_limit %>回
+                        </td>
+                      </tr>
+                      
+                      
+                      
+                      <tr>
+                        <td>ブックマーク</td>
+                        
+                        <td class="text-nowrap">
+                          <%= @user.bookmarks.count %>件
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-center" colspan="3">
+                          <div class= "sample">
+                              <input type="button" class="btn btn-sm btn-outline-dark mb-3 px-3 text-nowrap w-100" value="ブックマーク詳細">
+                          </div>
+                          
+                          <div class= "sampleA p-2 border" style="display:none;">
+                            <div style="height:300px; width:100%; display:flex; justify-content:center;">
+                                <div class="p-3">
+                                    pppp
+                                </div>
+                            </div>
+                          </div>
+                          <script src="index.js"></script>
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td>ステータス</td>
+                        <td>
+                          <% if @user.is_deleted == true %>
+                            <p class="mb-0" style="color:#00264D;">退会</p>
+                          <% else %>
+                            <p class="text-success mb-0">有効</p>
+                          <% end %>
+                        </td>
+                      </tr>
+                      
+                    </table>
+                </div>
+                
+            </div>
+            
+            <div class="d-flex justify-content-center mt-5">
+              <%= link_to "ユーザの削除", admin_top_path, class:"btn btn-danger px-5" %>
             </div>
         </div>
         
   </div>
 </div>
+
+<script>
+  $(function(){
+    //ボタンのイベント
+    $(".btn").click(function(e){
+      // sampleAクラスをスライドアップ/ダウンさせる
+      $(e.target).parent().next('.sampleA').slideToggle();
+    });
+  });
+</script>

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     get '/users/information/edit', to: 'users#edit', as: 'edit_information'
     patch '/users/information', to: 'users#update', as: 'update_information'
     get 'users/rank_index', to: 'users#rank_index', as: 'user_rank_index'
+    patch '/users/unsubscribe', to: 'users#unsubscribe', as: 'unsubscribe'
     resources :comics, only: [:top, :show, :new, :create, :update] do
       get '/top_comic_info', to: 'comics#top_comic_info', on: :collection, as: 'top_comic_info'
       get '/sale_index', to: 'comics#sale_index', on: :collection, as: 'sale_index'
@@ -35,7 +36,6 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/', to: 'users#top', as: 'top'
     get 'user/:id/information', to: 'users#information', as: 'information'
-    get 'user/comment_index', to: 'users#comment_index', as: 'comment_index'
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

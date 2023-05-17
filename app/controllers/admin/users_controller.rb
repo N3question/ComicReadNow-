@@ -7,6 +7,7 @@ class Admin::UsersController < ApplicationController
   
   def information
     @user = User.find(params[:id])
+    @comics = Comic.where(user_id: @user.id).order(updated_at: :desc)
     
     users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
   
@@ -16,9 +17,6 @@ class Admin::UsersController < ApplicationController
       break if user == @user # 特定のユーザになったらループをSTOP
       default += 1
     end
-  end
-  
-  def comment_index
   end
   
 end

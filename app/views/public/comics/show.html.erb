@@ -9,15 +9,11 @@
             <%= link_to search_index_comics_path(keyword: session["search_keyword"], page: params[:page]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
             <% end %>
-        <% elsif session["url"] %>
-            <%= link_to session["url"], class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
-              <i class="bi bi-arrow-left"></i>
-            <% end %>
         <% else %>
-            <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+            <%= link_to session["url"] || root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
             <% end %>
-        <% end %><br>
+        <% end %>
         
         
         
@@ -42,119 +38,110 @@
                 
                 <hr class="my-4">
                 
-                
                   
                 <!--漫画サイト情報-->
                 <small class="border mb-2 mr-4 p-1 text-nowrap text-success">以下の漫画サイトで読むことができます！</small><br> 
                 
                 <% if user_signed_in? && @can_not_read.count > 0 && @comic_update_limit_count > 0 %>
-                  <div class= "sample d-flex" style="justify-content: flex-end;">
-                      <input type="button" class="btn btn-sm rounded-pill mb-2 px-3 text-nowrap" style="background-color:#66CC00; color:white;" value="編集">
-                  </div>
-                  
-                  <div class= "sampleA mb-3 border" style="display:none;">
-                    <div style="height:250px; width:100%; padding:30px 20px; display:flex; justify-content:center;">
-                      <div class="p-3">
-                          
-                          <p><b>' <%= @comic.title %> '</b><small>の編集...</small></p>
-                          <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
-                          
-                          <div class="mt-2">
-                              <%= form_with model: @comic, url: comic_path(@comic.id), method: :patch do |f| %>
-                                  <%= f.hidden_field :isbn, value: params[:isbn] %>
-                                  <% Site.all.each do |site| %>
-                                      <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
-                                      <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
-                                  <% end %><br>
-                                  <%= f.submit "漫画情報を変更", class:"btn btn-sm btn-outline-dark rounded-pill mt-3 px-3 w-100", style:"" %>
-                              <% end %>
-                          </div>
-                          
+                    <div class= "sample d-flex" style="justify-content: flex-end;">
+                        <input type="button" class="btn btn-sm rounded-pill mb-2 px-3 text-nowrap" style="background-color:#66CC00; color:white;" value="編集">
+                    </div>
+                    
+                    <div class= "sampleA mb-3 border" style="display:none;">
+                      <div style="height:250px; width:100%; padding:30px 20px; display:flex; justify-content:center;">
+                        <div class="p-3">
+                            
+                            <p><b>' <%= @comic.title %> '</b><small>の編集...</small></p>
+                            <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
+                            
+                            <div class="mt-2">
+                                <%= form_with model: @comic, url: comic_path(@comic.id), method: :patch do |f| %>
+                                    <%= f.hidden_field :isbn, value: params[:isbn] %>
+                                    <% Site.all.each do |site| %>
+                                        <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
+                                        <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
+                                    <% end %><br>
+                                    <%= f.submit "漫画情報を変更", class:"btn btn-sm btn-outline-dark rounded-pill mt-3 px-3 w-100", style:"" %>
+                                <% end %>
+                            </div>
+                            
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <script src="index.js"></script>
+                    <script src="index.js"></script>
                 <% end %>
                     
                 
                 <% @sites.each do |site| %>
-                  <p class="mt-2 mb-0 pb-0 d-inline-flex">
-                    <i class="bi bi-check-lg text-success"></i>
-                    <%= site.name %>
-                  </p>
+                    <p class="mt-2 mb-0 pb-0 d-inline-flex">
+                      <i class="bi bi-check-lg text-success"></i>
+                      <%= site.name %>
+                    </p>
                 <% end %><br>
-            
+                
+                
+                
+                <p class="small mt-3">
+                  <%= @comic.updated_at.strftime('%Y年%m月%d日%H時%M分') %>　
+                  <b><%= @comic.user.nick_name %></b> さんが更新済み
+                  (ver.<%= @comic.version %>)<br>
+                  <% if user_signed_in? && @comic.remaining_one_comic_update_limit < 1 %>
+                    今日の更新はこれ以上することができません。
+                  <% elsif user_signed_in? %>
+                    この漫画の更新残数は <%= @comic.remaining_one_comic_update_limit %> 回です。
+                  <% end %>
+                </p>
+                
+                
+                
                 <% if user_signed_in? %>
-                  <p class="small mt-3">
-                    <%= @comic.updated_at.strftime('%Y年%m月%d日%H時%M分') %>　
-                    <b><%= @comic.user.nick_name %></b> さんが更新済み
-                    (ver.<%= @comic.version %>)<br>
-                    <% if @comic.remaining_one_comic_update_limit < 1 %>
-                      今日の更新はこれ以上することができません。
-                    <% else %>
-                      この漫画の更新残数は <%= @comic.remaining_one_comic_update_limit %> 回です。
-                    <% end %>
-                  </p>
-                <% end %>
+                    <hr class="my-4">
+                  
+                  
+                    <!--可読判定に対するメッセージ-->
+                    <div class="mb-2">
+                        <% if @user_read_judgement.present? && @user_read_judgement.can_read == true %>
+                          <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
+                        <% elsif @user_read_judgement.present? && @user_read_judgement.can_read == false %>
+                          <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
+                        <% elsif current_version(@comic) && %>
+                          <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
+                        <% end %>
+                    </div>
+                  
+                  
+                    <!--可読判定-->
+                    <div class="d-flex" style="align-items: center;">
+                      <!--可読情報が未追加-->
+                      <div id="read_judgements_buttons_<%= @comic.id %>">
+                        <%= render partial: '/public/comics/read_judgement', locals: {comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read} %>
+                      </div>
+                    </div>
                     
                     
-                    <!--前提定義-->
-                    <% if user_signed_in? %>
-                    <% current_version = Comic.order(version: :desc).limit(1) %>
-                    <% bookmark = Bookmark.where(comic_id: @comic.id, user_id: current_user) %>
-                    <% bookmark_all_user = Bookmark.where(comic_id: @comic.id) %>
-                    <!--ここまで-->
-                        
-                        
-                        <hr class="my-4">
-                        
-                        
-                        <!--可読判定に対するメッセージ-->
-                        <div class="mb-2">
-                            <% if @user_read_judgement.present? && @user_read_judgement.can_read == true %>
-                              <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
-                            <% elsif @user_read_judgement.present? && @user_read_judgement.can_read == false %>
-                              <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
-                            <% elsif current_version && %>
-                              <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
-                            <% end %>
-                        </div>
-                        
-                        
-                        <!--可読判定-->
-                        <div class="d-flex" style="align-items: center;">
-                          <!--可読情報が未追加-->
-                          <div id="read_judgements_buttons_<%= @comic.id %>">
-                            <%= render partial: '/public/comics/read_judgement', locals: {comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read} %>
-                          </div>
-                        </div>
-                        
-                        
-                        <hr class="my-4">
-                        
-                        
-                        <!--ブックマーク-->
-                        <div class="d-flex flex-wrap mr-2" style="align-items: center;">
-                            <div class="ml-auto">
-                                <div id="bookmarks_buttons_<%= @comic.id %>">
-                                  <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @comic} %>
-                                </div>
+                    <hr class="my-4">
+                    
+                    
+                    <!--ブックマーク-->
+                    <div class="d-flex flex-wrap mr-2" style="align-items: center;">
+                        <div class="ml-auto">
+                            <div id="bookmarks_buttons_<%= @comic.id %>">
+                              <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @comic} %>
                             </div>
-                        </div><br>
-                    <% end %>
+                        </div>
+                    </div><br>
                     
-                    
-                    <% if !user_signed_in? && @comic.present? %>
-                          <hr class="my-4">
-                          <p>
-                            <b>ゲスト</b> さんは ブックマークできません。<br>
-                            <small>
-                              ※ ブックマークするには
-                              <%= link_to "ログイン", new_user_session_path %>
-                              をしてください。
-                            </small>
-                          </p>
-                    <% end %>
+                <% elsif !user_signed_in? && @comic.present? %>
+                      <hr class="my-4">
+                      <p>
+                        <b>ゲスト</b> さんは ブックマークできません。<br>
+                        <small>
+                          ※ ブックマークするには
+                          <%= link_to "ログイン", new_user_session_path %>
+                          をしてください。
+                        </small>
+                      </p>
+                <% end %>
             </div>
         </div>
       

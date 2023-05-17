@@ -1,7 +1,7 @@
-<div style="padding:165px 20px 40px;"></div>
+<div style="padding-top:180px"></div>
 
 <% if flash[:notice].present? %>
-    <div style="padding-bottom:15px;">
+    <div>
         <div class="alert alert-success alert-dismissible mx-auto mb-0" style="width:94%;">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <%= flash[:notice] %>
@@ -10,7 +10,7 @@
 <% end %>
 
 <!--ランキング-->
-<div class="row mx-auto" style="padding:5px 20px 40px; background-color:#EEE;">
+<div class="row mx-auto" style="padding:15px 20px 40px; background-color:#EEE;">
 
     <!--User Ranking欄-->
     <div class="col-lg-6 col-md-10 object-background mx-auto p-5">
@@ -183,6 +183,7 @@
           </small>
           
     </div>
+    
     <% else %>
     <div class="col-lg-5 col-md-10 object-background mx-auto p-5" style="height:100%;">
     

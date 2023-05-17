@@ -34,6 +34,11 @@ class Public::UsersController < ApplicationController
   
   # ユーザ退会機能  
   def unsubscribe
+    user = current_user
+    user.update(is_deleted: true)
+    reset_session
+    flash[:notice] = "退会が完了しました。"
+    redirect_to root_path
   end
   
   def rank_index

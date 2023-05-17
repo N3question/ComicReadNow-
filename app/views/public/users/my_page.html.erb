@@ -1,4 +1,4 @@
-<div class="pb-4" style="padding-top:205px; background-color:#FFF;">
+<div class="pb-4" style="padding-top:180px; background-color:#FFF;">
   
   <% if flash[:notice].present? %>
     <div class="alert alert-success alert-dismissible mx-auto mb-0" style="width:94%;">
@@ -9,7 +9,7 @@
   
   <div class="col-lg-10 mx-auto">
   
-          <div class="row mx-auto pb-4 d-flex justify-content-center" style="padding:15px 20px 30px;">
+          <div class="row mx-auto pb-4 d-flex justify-content-center" style="padding: 15px 20px 30px;">
               <div class="col-lg-4 p-0 rank_que_wrapper" style="border:1px solid #00264D; background-color:#00264D; border-top-left-radius: 20px; box-shadow:0px 5px 7px #BBB;">
                 
                 <div class="p-5" style="">
@@ -126,6 +126,8 @@
           </div>
   
   </div>
+  
+  <%= link_to "退会", unsubscribe_path, method: :patch, class:"btn btn-danger px-4 ml-3", "data-confirm" => "一度退会するとアカウントが完全に削除されます。本当に退会しますか？" %>
 
   <div class="row mx-auto mt-5 d-flex justify-content-center">
     <%= link_to "Premiumプランに移行", my_page_path, class:"btn rounded-pill py-3 px-5 text-nowrap", style:"width:50%; border:2px solid #00264D; background-color:#FF8000; color:white; box-shadow:4px 5px 7px #CCC;" %>
