@@ -193,6 +193,17 @@
           </p>
         </div>
       </footer>
+    <% elsif user_signed_in? %>
+      <footer class="text-light">
+        <div class="text_centering_to_div">
+          <p class="text_centering_to_text mb-0">
+            © 2023 Comic Read now! All Rights Reserved. <br>
+            <% if current_page?(my_page_path) %>
+            <%= link_to "退会はこちら", unsubscribe_path, method: :patch, class:"text-light small", "data-confirm" => "一度退会するとアカウントが完全に削除されます。本当に退会しますか？" %>
+            <% end %>
+          </p>
+        </div>
+      </footer>
     <% else %>
       <footer class="text-light">
         <div class="text_centering_to_div">

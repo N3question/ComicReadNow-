@@ -19,4 +19,19 @@ class Admin::UsersController < ApplicationController
     end
   end
   
+  def update
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to admin_information_path
+    else
+      render 'information'
+    end
+  end
+  
+  private
+  
+  def user_params
+    params.require(:user).permit(:is_deleted) 
+  end
+  
 end

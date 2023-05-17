@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/', to: 'users#top', as: 'top'
     get 'user/:id/information', to: 'users#information', as: 'information'
+    resources :user, only: [:update]
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
