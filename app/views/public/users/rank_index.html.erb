@@ -127,68 +127,63 @@
           <div class="table-responsive-lg rank_table js-scrollable">
               <table class="table py-4">
                 
-                    <% @users.each_with_index do |user, index| %>
-                        <% if user.id == current_user.id %>
-                          <tr style="text-align: center; <%= current_user.id == user.id ? 'background-color: #00264D; color:#FFFFCC;' : 'background-color: white;' %>">
-                            
-                            
-                              <!--current_userランク-->
-                              <td class="font_2 text-nowrap" style="vertical-align: middle;">
-                                <%= index + 1 %>
-                              </td>
-                              
-                              
-                              <!--current_userアイコン-->
-                              <td style="width:20%;">
-                                <div class="rank_index_user_icon">
-                                  <% if user.profile_image.attached? %>
-                                    <%= image_tag user.profile_image, size: "60x60", style:"border: 2px solid #FFFFCC; object-fit:cover;" %>
-                                  <% else %>
-                                    <%= image_tag 'no_image', size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
-                                  <% end %>
-                                </div>
-                              </td>
-                              
-                              
-                              <!--current_userニックネーム-->
-                              <td style="vertical-align: middle; font-family: 'Bruno Ace', cursive; overflow-wrap: break-word;">
-                                <%= user.nick_name %>
-                              </td>
-                              
-                              
-                              <!--current_user漫画情報更新回数-->
-                              <td style="width:15%; vertical-align: middle;">
-                                <div class="d-flex justify-content-center">
-                                <p class="font_2 mx-1 mb-0">
-                                  <%= user.update_count %>
-                                </p>
-                                回
-                                </div>
-                              </td>
-                              
-                              
-                              <!--current_user可読判定件数-->
-                              <td style="width:15%; vertical-align: middle;">
-                                <div class="d-flex justify-content-center">
-                                <p class="font_2 mx-1 mb-0">
-                                  <%= user.read_judgements.where(can_read: true).count %>
-                                </p>
-                                件
-                                </div>
-                              </td>
-                              
-                              
-                              <!--current_userSCORE-->
-                              <td style="width:20%; vertical-align: middle;">
-                                <p class="font_2 mx-1 mb-0">
-                                  <%= user.update_count + user.read_judgements.where(can_read: true).count %>
-                                </p>
-                              </td>
-                          
-                          
-                          </tr>
-                        <% end %>
-                    <% end %>
+                  <tr style="text-align: center; background-color: #00264D; color:#FFFFCC; %>">
+                    
+                      <!--current_userランク-->
+                      <td class="font_2 text-nowrap" style="vertical-align: middle;">
+                        <% index = @users.map(&:id).index(current_user.id) %>
+                        <%= index %>
+                      </td>
+                      
+                      
+                      <!--current_userアイコン-->
+                      <td style="width:20%;">
+                        <div class="rank_index_user_icon">
+                          <% if current_user.profile_image.attached? %>
+                            <%= image_tag current_user.profile_image, size: "60x60", style:"border: 2px solid #FFFFCC; object-fit:cover;" %>
+                          <% else %>
+                            <%= image_tag 'no_image', size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
+                          <% end %>
+                        </div>
+                      </td>
+                      
+                      
+                      <!--current_userニックネーム-->
+                      <td style="vertical-align: middle; font-family: 'Bruno Ace', cursive; overflow-wrap: break-word;">
+                        <%= current_user.nick_name %>
+                      </td>
+                      
+                      
+                      <!--current_user漫画情報更新回数-->
+                      <td style="width:15%; vertical-align: middle;">
+                        <div class="d-flex justify-content-center">
+                        <p class="font_2 mx-1 mb-0">
+                          <%= current_user.update_count %>
+                        </p>
+                        回
+                        </div>
+                      </td>
+                      
+                      
+                      <!--current_user可読判定件数-->
+                      <td style="width:15%; vertical-align: middle;">
+                        <div class="d-flex justify-content-center">
+                        <p class="font_2 mx-1 mb-0">
+                          <%= current_user.read_judgements.where(can_read: true).count %>
+                        </p>
+                        件
+                        </div>
+                      </td>
+                      
+                      
+                      <!--current_userSCORE-->
+                      <td style="width:20%; vertical-align: middle;">
+                        <p class="font_2 mx-1 mb-0">
+                          <%= current_user.update_count + current_user.read_judgements.where(can_read: true).count %>
+                        </p>
+                      </td>
+                  
+                  </tr>
                     
               </table>
           </div>

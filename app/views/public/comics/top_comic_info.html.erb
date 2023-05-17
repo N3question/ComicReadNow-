@@ -3,6 +3,7 @@
          
          
         <!--前の画面に遷移するボタン-->
+        <%#= link_to session["url"] || root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
         <% if session["url"] %>
             <%= link_to session["url"], class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
               <i class="bi bi-arrow-left"></i>
@@ -38,7 +39,8 @@
                     出版社：　<%= @top_rb_comic_info["publisherName"] %><br>
                     発売日：　<%= @top_rb_comic_info["salesDate"] %><br>
                   </div>
-                  
+                
+                <!--.dig()で省略可-->
                 <% else %>  
                   <h5><b><%= @top_comic_info.title %>　</b><small>の詳細</small></h5>
                   <div class="mt-3">
@@ -56,7 +58,8 @@
                 
                 
                 
-                
+                <%# before_date = Date.current > Date.parse(@top_rb_comic_info["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0]) %>
+                <% future_date = Date.current < Date.parse(@top_rb_comic_info["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0]) %>
                 
                 
                 <!--漫画サイト情報-->
@@ -68,8 +71,6 @@
                       <% sites = @top_comic_info.sites.all %>
                       <% can_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: true, version: @top_comic_info.version) %>
                       <% can_not_read = ReadJudgement.where(comic_id: @top_comic_info.id, can_read: false, version: @top_comic_info.version) %>
-                      <% before_date = Date.current > Date.parse(@top_rb_comic_info["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0]) %>
-                      <% future_date = Date.current < Date.parse(@top_rb_comic_info["salesDate"].gsub("年", "/").gsub("月", "/").split("日")[0]) %>
                       <% if user_signed_in? %>
                         <% user_read_judgement = ReadJudgement.find_by(comic_id: @top_comic_info.id, user_id: current_user.id, version: @top_comic_info.version) %>
                       <% end %>
@@ -212,7 +213,7 @@
                     <script src="index.js"></script>
                 <% end %>
                 
-                    
+                <!--<#% byebug %>-->
                 <% if !user_signed_in? && @top_comic_info.present? %>
                       <hr class="my-4">
                       <p>
@@ -225,7 +226,7 @@
                       </p>
               
                     
-                <% elsif !user_signed_in? && @top_comic_info.nil? && before_date %>
+                <% elsif !user_signed_in? && @top_comic_info.nil? && before_date(@top_rb_comic_info) %>
                       <hr class="my-4">
                       <p>
                         <b>ゲスト</b> さんは 漫画サイト情報の追加 はできません。<br>

@@ -102,6 +102,8 @@ class Public::ComicsController < ApplicationController
     @top_rb_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
     
     # nilで返ってくるなぜ？ 
+    # byebug
+    # @top_comic_info = Comic.find_by(isbn: @top_rb_comic_info["isbn"])
     @top_comic_info = Comic.find_by(isbn: params[:isbn])
     
     @comic = Comic.new
