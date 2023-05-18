@@ -60,9 +60,8 @@
               
                     <small class="border mr-4 p-1 text-nowrap text-success">以下の漫画サイトで読むことができます！</small><br>
                     
-                    
                     <!--漫画サイト情報の編集-->
-                    <% if user_signed_in? && user_upadte_limit_count(@top_rb_comic_info) > 0 && comic_update_limit_count(@top_rb_comic_info) > 0 %>
+                    <% if user_signed_in? && user_upadte_limit_count(@top_comic_info) > 0 && comic_update_limit_count(@top_comic_info) > 0 %>
                         <div class= "contents_action_box">
                           <input type="button" class="btn btn-sm rounded-pill mb-2 px-3 text-nowrap" style="background-color:#66CC00; color:white;" value="編集">
                         </div>
