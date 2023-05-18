@@ -7,11 +7,11 @@ class Public::ComicsController < ApplicationController
     session["search_keyword"] = nil
     
     ### User Ranking
-    user_rank = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count }
+    user_rank = User.where(is_deleted: false).sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count }
     @user_rank = user_rank.first(5)
     
     ### MY Ranking
-    @users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
+    @users = User.where(is_deleted: false).sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
     
     default = 1 
     @users.each do |user| 

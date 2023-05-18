@@ -130,7 +130,7 @@
                       <!--current_userランク-->
                       <td class="font_2 text-nowrap" style="vertical-align: middle;">
                         <% index = @users.map(&:id).index(current_user.id) %>
-                        <%= index %>
+                        <%= index + 1 %>
                       </td>
                       
                       

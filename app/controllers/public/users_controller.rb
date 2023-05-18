@@ -5,7 +5,7 @@ class Public::UsersController < ApplicationController
     session["url"] = nil
     session["search_keyword"] = nil
     
-    users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
+    users = User.where(is_deleted: false).sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
     
     # 順位の表示
     default = 1 
@@ -42,7 +42,7 @@ class Public::UsersController < ApplicationController
   end
   
   def rank_index
-    @users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
+    @users = User.where(is_deleted: false).sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
   end
     
   
