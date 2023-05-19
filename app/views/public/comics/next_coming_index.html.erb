@@ -16,7 +16,7 @@
                   </div>
                   <div class="py-4 mb-3" style="width:150px; height:auto;">
                     <p class="mb-2" style="height:50px;">
-                      <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: true), class:"text-dark link_text" do %>
+                      <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: true), class:"link_text text-dark" do %>
                         <%= book.title.truncate(17) %>
                       <% end %>
                     </p>

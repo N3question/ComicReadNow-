@@ -17,6 +17,15 @@
         
         
         
+        <!--フラッシュメッセージ-->
+        <% if flash[:alert].present? %>
+          <div class="alert alert-danger alert-dismissible mx-auto mb-0" style="width:94%;">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <%= flash[:alert] %>
+          </div>
+        <% end %>
+        
+        
         
         <!--漫画情報詳細-->
         <div class="d-flex flex-wrap"  style="padding:20px; justify-content:center;">

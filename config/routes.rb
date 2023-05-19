@@ -17,7 +17,9 @@ Rails.application.routes.draw do
     get '/users/information/edit', to: 'users#edit', as: 'edit_information'
     patch '/users/information', to: 'users#update', as: 'update_information'
     get 'users/rank_index', to: 'users#rank_index', as: 'user_rank_index'
+    get 'users/confirmation', to: 'users#confirmation', as: 'confirmation'
     patch '/users/unsubscribe', to: 'users#unsubscribe', as: 'unsubscribe'
+    get 'users/q_and_a', to: 'users#q_and_a', as: 'q_and_a'
     resources :comics, only: [:top, :show, :new, :create, :update] do
       get '/top_comic_info', to: 'comics#top_comic_info', on: :collection, as: 'top_comic_info'
       get '/sale_index', to: 'comics#sale_index', on: :collection, as: 'sale_index'

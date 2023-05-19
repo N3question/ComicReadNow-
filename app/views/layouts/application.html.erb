@@ -31,7 +31,7 @@
                     <h3 class="text-light my-auto" style="width:45px;">
                       <i class="bi bi-journal-bookmark"></i>
                     </h3>
-                    <h5 class="text-center text-light my-auto" style="font-family: 'Shrikhand', cursive;">
+                    <h5 class="font_3 text-center text-light my-auto">
                       <b>Comic Read now!</b>
                     </h5>
                   </div>
@@ -75,7 +75,7 @@
                     <h1 class="text-center px-2 text-light my-auto" style="width:45px; height:auto;">
                       <i class="bi bi-journal-bookmark"></i>
                     </h1>
-                    <h6 class="text-center px-2 text-light my-1 ml-1" style="font-family: 'Shrikhand', cursive;">
+                    <h6 class="font_3 text-center px-2 text-light my-1 ml-1">
                       <b>Comic<br>Read<br>now!</b>
                     </h6>
                   </div>
@@ -107,15 +107,14 @@
                               <li class="mx-4 mb-3 link_text">
                                   <%= link_to 'MY本棚', bookmarks_comics_path, class:"text-dark", style:"text-decoration:none;" %>
                               </li>
+                              <li class="mx-4 mb-4 link_text">
+                                  <%= link_to 'Q & A', q_and_a_path, class:"text-dark", style:"text-decoration:none;" %>
+                              </li>
                             <% else %>
                               <li class="mx-4 mb-3 link_text">
                                   <%= link_to 'ログイン', new_user_session_path, class:"text-dark", style:"text-decoration:none;" %>
                               </li>
                             <% end %>
-                            
-                            <li class="mx-4 mb-4">
-                              <a href="#" class="text-dark">Comic Read now!とは</a>
-                            </li>
                             
                             <% if user_signed_in? %>
                               <div class="mx-4 mb-4">
@@ -189,17 +188,6 @@
           <p class="text_centering_to_text mb-0">
             © 2023 Comic Read now! All Rights Reserved. <br>
             <%= link_to "管理者ログインはこちら", new_admin_session_path, class:"small", style:"text-decoration:none; color:white;" %>
-          </p>
-        </div>
-      </footer>
-    <% elsif user_signed_in? %>
-      <footer class="text-light">
-        <div class="text_centering_to_div">
-          <p class="text_centering_to_text mb-0">
-            © 2023 Comic Read now! All Rights Reserved. <br>
-            <% if current_page?(my_page_path) %>
-            <%= link_to "退会はこちら", unsubscribe_path, method: :patch, class:"text-light small", "data-confirm" => "一度退会するとアカウントが完全に削除されます。本当に退会しますか？" %>
-            <% end %>
           </p>
         </div>
       </footer>

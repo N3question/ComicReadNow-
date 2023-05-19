@@ -19,6 +19,10 @@
           <table class="table table-responsive-lg admin_table" style="margin-bottom:80px;">
             <% @users.each do |user| %>
               <tr>
+                  <td class="font_2 text-center" style="width:10%; vertical-align:middle;">
+                      <%= user.id %>
+                  </td>
+                  
                   <td class="user_icon" style="width:10%;">
                     <%= link_to admin_information_path(user.id) do %>
                       <% if user.profile_image.attached? %>
@@ -29,10 +33,10 @@
                     <% end %>
                   </td>
                   
-                  <td class="font_1 text-center" style="width:40%; vertical-align:middle;">
+                  <td class="font_1 text-center" style="width:30%; vertical-align:middle;">
                       <%= user.nick_name %>
                   </td>
-                  <td class="text-center" style="width:50%; vertical-align:middle">
+                  <td class="text-center" style="width:30%; vertical-align:middle">
                       <%= user.email %>
                   </td>
                   
@@ -40,7 +44,7 @@
                     <% if user.is_deleted == true %>
                       <p class="mb-0" style="color:#00264D;">退会</p>
                     <% else %>
-                      <p class="text-success mb-0">有効</p>
+                      <p class="mb-0" style="color:#66CC00;">有効</p>
                     <% end %>
                   </td>
               </tr>

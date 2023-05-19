@@ -4,6 +4,7 @@ class Public::ComicsController < ApplicationController
   ## TOP
   def top
     session["url"] = nil
+    session["update_url"] = nil
     session["search_keyword"] = nil
     
     ### User Ranking
@@ -101,9 +102,6 @@ class Public::ComicsController < ApplicationController
     
     @top_rb_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
     
-    # nilで返ってくるなぜ？ 
-    # byebug
-    # @top_comic_info = Comic.find_by(isbn: @top_rb_comic_info["isbn"])
     @top_comic_info = Comic.find_by(isbn: params[:isbn])
     
     @comic = Comic.new
@@ -206,11 +204,36 @@ class Public::ComicsController < ApplicationController
   
   ## サイト情報の更新
   def update
+    # if !request.referer &.include?("/comics/#{params[:comic_id]}") || 
+    #   !request.referer &.include?("/comics") ||
+    #   !request.referer &.include?("/top_comic_info") || 
+    #   request.referer&.include?("/sale_index/#{params[:current_page]}") || 
+    #   request.referer&.include?("/review_count_index") || 
+    #   request.referer&.include?("/comic_site_index/#{params[:site_id]}") ||
+    #   request.referer&.include?("/next_coming_index") ||
+    #   request.referer&.include?("/user_select_index") ||
+    #   request.referer&.include?("/my_page") ||
+    #   request.referer&.include?("/bookmarks") 
+      
+    #   session["url"] = request.referer
+    # end
+    
+    if !request.referer &.include?("/comics/#{params[:comic_id]}") || 
+      !request.referer &.include?("/comics") ||
+      request.referer &.include?("/top_comic_info")
+      
+      session["update_url"] = request.referer
+    end
+    
+    
+    
     comic = Comic.find(params[:id])
     user_can_read_info = ReadJudgement.find_by(
                           user_id: current_user.id, 
                           comic_id: comic.id
                           )
+    
+    
     
     # 前提条件
     if current_user.remaining_total_update_limit < 1 || comic.remaining_one_comic_update_limit < 1
@@ -219,21 +242,27 @@ class Public::ComicsController < ApplicationController
         redirect_to request.referer
     end
     
-    
     before_comic_info = ComicSite.where(comic_id: comic.id).pluck(:site_id)  # 今現在保存されているデータ
     after_comic_info = site_params[:site_ids]                                # これから更新するデータ
     
     # 配列の比較
-    # 文字列、整数の場合は 値 == 値
     # uniq...[配列] 重複した要素を取り除いた新しい配列を返すメゾット
     # map...各要素へ順に処理を実行してくれるメソッド
-    # (&:to_i.to_proc)...
     # [戻り値] 各要素の変更後の値が入った配列
+    
     if before_comic_info.uniq == after_comic_info.map(&:to_i)  # == (&:to_i.to_proc)
       flash[:alert] = '更新前と同じ内容の為、更新ができませんでした。'
-      redirect_to comic_path(comic.id)
+      # if session["url"]
+      #   redirect_to session["url"]
+      if session["update_url"]
+        redirect_to session["update_url"]
+      else
+        redirect_to comic_path(comic.id)
+      end
       return
     end
+    # ここまで
+    
     
     limit = comic.remaining_one_comic_update_limit
     
@@ -260,7 +289,7 @@ class Public::ComicsController < ApplicationController
     total_limit = current_user.remaining_total_update_limit
     update_amount = current_user.update_count
     
-    # 同時にユーザの更新回数を１減らす
+    # 同時にユーザの更新残数を１減らす
     current_user.update(
         remaining_total_update_limit: total_limit - 1,
         update_count: update_amount + 1
@@ -436,6 +465,9 @@ class Public::ComicsController < ApplicationController
   
   ## 検索結果一覧
   def search_index
+    session["url"] = nil
+    session["update_url"] = nil
+    
     # ## 前提
     if params[:keyword] #&& params[:page].present?
       session["search_keyword"] = params[:keyword] 
@@ -486,6 +518,10 @@ class Public::ComicsController < ApplicationController
   
    ## サイト毎の一覧
   def comic_site_index
+    session["url"] = nil
+    session["update_url"] = nil
+    session["search_keyword"] = nil
+    
     @comic_site = ComicSite.find_by(
           site_id: params[:id]
           )

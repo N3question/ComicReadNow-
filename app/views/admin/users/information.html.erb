@@ -140,7 +140,7 @@
                           <% if @user.is_deleted == true %>
                             <p class="mb-0" style="color:#00264D;">退会</p>
                           <% else %>
-                            <p class="text-success mb-0">有効</p>
+                            <p class="mb-0" style="color:#66CC00;">有効</p>
                           <% end %>
                         </td>
                       </tr>
@@ -151,20 +151,22 @@
             </div>
             
             <div class="sample d-flex justify-content-center">
-                <input type="button" class="btn btn-dark rounded-pill mt-5 text-nowrap" style="width:250px;" value="ユーザ情報の編集">
+                <input type="button" class="btn btn-dark rounded-pill mt-5 text-nowrap" style="width:250px;" value="ステータスの編集">
             </div>
             
-            <div class="sampleA mt-3 p-2 border" style="display:none;">
-              <div style="height:150px; width:100%; display:flex; justify-content:center; ">
-                  <div class="p-3">
-                    <%= form_with model: @user, admin_user_path(@user.id), method: :patch do |f| %>
-                      <%= f.radio_button :is_deleted, :false, class:"ml-5 my-3" %>
-                      <%= f.label :is_deleted, "有効", class:"mb-0", for:"is_deleted_false" %>
-                      <%= f.radio_button :is_deleted, :true, class:"ml-4" %>
-                      <%= f.label :is_deleted, "退会", class:"mb-0", for:"is_deleted_true" %>
-                      <%= f.submit "更新", class:"btn btn-sm rounded-pill text-nowrap",style:"width:100px; background-color:#66CC00; color:white;" %>
+            <div class="sampleA mt-3 mx-auto p-2 border" style="display:none; width:250px;">
+              <div class="mx-auto p-3" style="height:auto; width:100%;">
+                    <%= form_with model: [:admin, @user], method: :patch do |f| %>
+                        <div class="d-flex justify-content-center mb-3">
+                          <%= f.radio_button :is_deleted, :false, class:"ml-2", checked: true %>
+                          <%= f.label :is_deleted, "有効", class:"mr-2 mb-0", for:"user_is_deleted_false" %>
+                          <%= f.radio_button :is_deleted, :true, class:"ml-2" %>
+                          <%= f.label :is_deleted, "退会", class:"mr-2 mb-0", for:"user_is_deleted_true" %>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                          <%= f.submit "更新", class:"btn btn-sm rounded-pill text-nowrap",style:"width:100px; background-color:#66CC00; color:white;" %>
+                        </div>
                     <% end %>
-                  </div>
               </div>
             </div>
             <script src="index.js"></script>

@@ -6,10 +6,19 @@
         <%= link_to session["url"] || root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
           <i class="bi bi-arrow-left"></i>
         <% end %>
-            
         
         
-            
+        
+        <!--フラッシュメッセージ-->
+        <% if flash[:alert].present? %>
+          <div class="alert alert-danger alert-dismissible mx-auto mb-0" style="width:94%;">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <%= flash[:alert] %>
+          </div>
+        <% end %>
+        
+        
+        
         <!--漫画情報詳細-->
         <div class="d-flex flex-wrap"  style="padding:0 20px; justify-content:center;">
             
@@ -61,7 +70,7 @@
                     <small class="border mr-4 p-1 text-nowrap text-success">以下の漫画サイトで読むことができます！</small><br>
                     
                     <!--漫画サイト情報の編集-->
-                    <% if user_signed_in? && user_upadte_limit_count(@top_comic_info) > 0 && comic_update_limit_count(@top_comic_info) > 0 %>
+                    <% if user_signed_in? && can_not_read(@top_comic_info).count > 0 && user_upadte_limit_count(@top_comic_info) > 0 && comic_update_limit_count(@top_comic_info) > 0 %>
                         <div class= "contents_action_box">
                           <input type="button" class="btn btn-sm rounded-pill mb-2 px-3 text-nowrap" style="background-color:#66CC00; color:white;" value="編集">
                         </div>
@@ -70,7 +79,6 @@
                             <div class="contents_action_slide">
                               
                                 <div class="p-3">
-                                    <%= flash[:alert] %>
                                     <p><b>' <%= @top_comic_info.title %> '</b><small>の編集...</small></p>
                                     <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
                                     
@@ -126,7 +134,7 @@
                         <div class="mb-2">
                             <% if user_read_judgement(@top_comic_info).present? && user_read_judgement(@top_comic_info).can_read == true %>
                               <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
-                            <% elsif user_read_judgement(@top_comic_info).present? && user_read_judgement.can_read == false %>
+                            <% elsif user_read_judgement(@top_comic_info).present? && user_read_judgement(@top_comic_info).can_read == false %>
                               <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
                             <% else %>
                               <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
@@ -162,7 +170,7 @@
                 
                 
                 <!--サイト情報の新規追加-->
-                <% if user_signed_in? && @can_not_create_record == "false" && @top_comic_info.nil? && before_date(@top_rb_comic_info) %>
+                <% if user_signed_in? && @top_comic_info.nil? && before_date(@top_rb_comic_info) %>
                     <hr class="my-4">
                     
                     <!--サイト情報追加ボタン-->
@@ -195,37 +203,37 @@
                         </div>
                     </div>
                     <script src="index.js"></script>
+                
+                <% elsif !user_signed_in? %>
+                    <% if @top_comic_info.present? %>
+                          <hr class="my-4">
+                          <p>
+                            <b>ゲスト</b> さんは ブックマーク できません。<br>
+                            <small>
+                              ※ ブックマークするには
+                              <%= link_to "ログイン", new_user_session_path %>
+                              をしてください。
+                            </small>
+                          </p>
+                  
+                        
+                    <% elsif @top_comic_info.nil? && before_date(@top_rb_comic_info) %>
+                          <hr class="my-4">
+                          <p>
+                            <b>ゲスト</b> さんは 漫画サイト情報の追加 はできません。<br>
+                            <small>
+                              ※ 追加するには
+                              <%= link_to "ログイン", new_user_session_path %>
+                              をしてください。
+                            </small>
+                          </p>
+                    
+                    <% end %>
                 <% end %>
                 
-                
-                
-                
-                <% if !user_signed_in? && @top_comic_info.present? %>
-                      <hr class="my-4">
-                      <p>
-                        <b>ゲスト</b> さんは ブックマーク できません。<br>
-                        <small>
-                          ※ ブックマークするには
-                          <%= link_to "ログイン", new_user_session_path %>
-                          をしてください。
-                        </small>
-                      </p>
-              
-                    
-                <% elsif !user_signed_in? && @top_comic_info.nil? && before_date(@top_rb_comic_info) %>
-                      <hr class="my-4">
-                      <p>
-                        <b>ゲスト</b> さんは 漫画サイト情報の追加 はできません。<br>
-                        <small>
-                          ※ 追加するには
-                          <%= link_to "ログイン", new_user_session_path %>
-                          をしてください。
-                        </small>
-                      </p>
-                
-                <% elsif future_date(@top_rb_comic_info) %>
-                      <hr class="my-4">
-                      <p>発売日以降に サイト情報の追加 が可能です。</p> 
+                <% if future_date(@top_rb_comic_info) %>
+                    <hr class="my-4">
+                    <p>発売日以降に サイト情報の追加 が可能です。</p> 
                 <% end %>
                 
             </div>

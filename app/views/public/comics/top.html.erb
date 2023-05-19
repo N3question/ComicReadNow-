@@ -245,7 +245,7 @@
           <div class="contents_box js-scrollable">
               <% @new_comics.each do |book| %>
                   <div class="contents mr-3">
-                    <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: false), class:"img_link" do %>
+                    <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"img_link" do %>
                       <%= image_tag book["largeImageUrl"], class:"top_img_comic" %>
                     <% end %>
                     <p class="small mt-3">
@@ -279,7 +279,7 @@
             <% @bookmark_comics.each do |book| %>
             <% comic = Comic.find_by(isbn: book["isbn"]) %>
               <div class="contents mr-3">
-                  <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: false, can_not_create_record: false), class:"img_link" do %>
+                  <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: false), class:"img_link" do %>
                     <%= image_tag book.large_image_url, class:"top_img_comic" %>
                   <% end %>
                   <p class="small mt-3">
@@ -312,7 +312,7 @@
           <div class="contents_box js-scrollable">
             <% @review_comics.each do |book| %>
                 <div class="contents mr-3">
-                  <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: false), class:"img_link" do %>
+                  <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"img_link" do %>
                     <%= image_tag book["largeImageUrl"], class:"top_img_comic" %>
                   <% end %>
                   <p class="small mt-3">
@@ -345,7 +345,7 @@
           <div class="contents_box js-scrollable">
             <% @next_comics.each do |book| %>
                 <div class="contents mr-3">
-                  <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: true), class:"img_link" do %>
+                  <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"img_link" do %>
                     <%= image_tag book["largeImageUrl"], class:"top_img_comic" %>
                   <% end %>
                   <p class="small mt-3">

@@ -3,6 +3,7 @@ class Public::UsersController < ApplicationController
   
   def my_page
     session["url"] = nil
+    session["update_url"] = nil
     session["search_keyword"] = nil
     
     users = User.where(is_deleted: false).sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
@@ -20,8 +21,12 @@ class Public::UsersController < ApplicationController
     end
   end
   
+  
+  
   def edit
   end
+  
+  
   
   def update
     if current_user.update(user_params)
@@ -32,6 +37,20 @@ class Public::UsersController < ApplicationController
     end
   end
   
+  
+  
+  def q_and_a
+    @not_view = true
+  end
+  
+  
+  
+  def confirmation
+    @not_view = true
+  end
+  
+  
+  
   # ユーザ退会機能  
   def unsubscribe
     user = current_user
@@ -41,10 +60,13 @@ class Public::UsersController < ApplicationController
     redirect_to root_path
   end
   
+  
+  
   def rank_index
     @users = User.where(is_deleted: false).sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
   end
     
+  
   
   private
   

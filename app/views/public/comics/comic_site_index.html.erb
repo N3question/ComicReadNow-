@@ -1,4 +1,4 @@
-<div class="pb-4" style="padding-top:205px; background-color:#FFF;">
+<div class="pb-4" style="padding-top:205px; background-color:#FFF; min-height: 85vh;">
   
     <div class="col-10 mt-5 mx-auto">
         <div class="ml-5 mb-5 d-flex flex-wrap">
@@ -16,7 +16,7 @@
                 </div>
                 <div class="py-4 mb-3" style="width:150px; height:auto;">
                   <%= link_to comic_path(comic_site.comic.id) do %>
-                    <p class="mb-2 text-dark">
+                    <p class="mb-2 link_text text-dark">
                       <%= comic_site.comic.title.truncate(20) %>
                     </p>
                   <% end %>
