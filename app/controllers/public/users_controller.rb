@@ -1,5 +1,5 @@
 class Public::UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:rank_index]
+  before_action :authenticate_user!, except: [:rank_index, :q_and_a]
   
   def my_page
     session["url"] = nil

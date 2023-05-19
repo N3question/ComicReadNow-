@@ -8,6 +8,8 @@ class Admin::UsersController < ApplicationController
   def information
     @user = User.find(params[:id])
     @comics = Comic.where(user_id: @user.id).order(updated_at: :desc)
+    @read_judgements = ReadJudgement.where(user_id: @user.id).order(updated_at: :desc)
+    @bookmarks = Bookmark.where(user_id: @user.id).order(updated_at: :desc)
     
     users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
   
@@ -23,8 +25,6 @@ class Admin::UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.update(user_params)
       redirect_to admin_information_path(@user.id)
-    else
-      render 'information'
     end
   end
   
@@ -32,6 +32,10 @@ class Admin::UsersController < ApplicationController
   
   def user_params
     params.require(:user).permit(:is_deleted) 
+  end
+  
+  def comic_params
+    params.require(:comic).permit(:isbn)
   end
   
 end

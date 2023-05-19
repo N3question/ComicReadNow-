@@ -107,14 +107,15 @@
                               <li class="mx-4 mb-3 link_text">
                                   <%= link_to 'MY本棚', bookmarks_comics_path, class:"text-dark", style:"text-decoration:none;" %>
                               </li>
-                              <li class="mx-4 mb-4 link_text">
-                                  <%= link_to 'Q & A', q_and_a_path, class:"text-dark", style:"text-decoration:none;" %>
-                              </li>
                             <% else %>
                               <li class="mx-4 mb-3 link_text">
                                   <%= link_to 'ログイン', new_user_session_path, class:"text-dark", style:"text-decoration:none;" %>
                               </li>
                             <% end %>
+                            
+                            <li class="mx-4 mb-4 link_text">
+                                <%= link_to 'Q & A', q_and_a_path, class:"text-dark", style:"text-decoration:none;" %>
+                            </li>
                             
                             <% if user_signed_in? %>
                               <div class="mx-4 mb-4">
