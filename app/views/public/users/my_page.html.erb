@@ -50,10 +50,10 @@
               </div>
               
               
-              <div class="col-lg-6 p-5" style="border:1px solid #00264D; border-bottom-right-radius:20px; box-shadow:4px 5px 7px #CCC;">
-                  <div>
+              <div class="col-lg-6 d-flex align-items-center p-5" style="border:1px solid #00264D; border-bottom-right-radius:20px; box-shadow:4px 5px 7px #CCC;">
+                  <div class="w-100">
                       
-                      <div class="d-flex flex-wrap" style="justify-content: center;">
+                      <div class="d-flex flex-wrap justify-content-center align-items-center">
                           <div class="user_icon" style="float:left;">
                             <% if current_user.profile_image.attached? %>
                               <%= image_tag current_user.profile_image, size: "80x80", style:"object-fit:cover;" %>
@@ -61,20 +61,21 @@
                               <%= image_tag 'no_image', size: "80x80", style:"object-fit:cover;" %>
                             <% end %>
                           </div>
-                          <div class="user_nickname d-flex p-3" style="justify-content: center;">
+                          <div class="user_nickname d-flex justify-content-center p-3">
                             <h4 class="font_1 mb-0" style="overflow-wrap: break-word;">
                               <%= current_user.nick_name %>
                             </h4>
                           </div>
                       </div>
                       
-                      <div class="d-flex my-4" style="justify-content: center;">
+                      <div class="d-flex justify-content-center my-4">
                         <p class="mb-0 px-2 py-3 user_email small text-center" style="width:90%; border-top:0.5px solid silver; border-bottom:0.5px solid silver; overflow-wrap: break-word;">
                           <i class="bi bi-envelope mx-2"></i><%= current_user.email %>
                         </p>
                       </div>
-                      
+                      <div class="d-flex align-items-end">
                       <%= link_to "ユーザ情報の編集", edit_information_path(current_user), class:"btn btn-dark rounded-pill px-3 border w-100" %>
+                      </div>
                       
                   </div>
               </div>
@@ -97,7 +98,7 @@
                   <% end %>
               </div>
               
-              <div class="col-lg-10 mt-5 mx-auto">
+              <div class="col-lg-10 mt-2 mx-auto">
                   <% if bookmarks.present? %>
                       <div class="d-inline-flex flex-wrap" style="justify-content:center;">
                           
@@ -133,7 +134,7 @@
   </div>
   
   <div class="row mx-auto mt-5 d-flex justify-content-center">
-    <%= link_to "Premiumプランに移行", my_page_path, class:"btn rounded-pill py-3 px-5 text-nowrap", style:"width:50%; border:2px solid #00264D; background-color:#FF8000; color:white; box-shadow:4px 5px 7px #CCC;" %>
+    <%= link_to "Premiumプランに移行", my_page_path, class:"btn rounded-pill py-3 text-nowrap", style:"width:50%; border:2px solid #00264D; background-color:#FF8000; color:white; box-shadow:4px 5px 7px #CCC;" %>
   </div>
   
   
