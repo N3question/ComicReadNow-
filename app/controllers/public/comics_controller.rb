@@ -207,41 +207,38 @@ class Public::ComicsController < ApplicationController
   ## サイト情報の更新
   def update
     
-    comic = Comic.find(params[:id])
-    user_can_read_info = ReadJudgement.find_by(
-                          user_id: current_user.id, 
-                          comic_id: comic.id
-                          )
-    
+    # if request.referer &.include?("/comics/#{params[:comic_id]}") || 
+    #   request.referer &.include?("/comics") ||
+    #   request.referer &.include?("/top_comic_info") || 
+      
+    #   session["update_referer_url"] = request.referer
+    # end
     
     
     # 前提条件
-    if current_user.remaining_total_update_limit < 1 || comic.remaining_one_comic_update_limit < 1
-        redirect_to request.referer
-    elsif user_can_read_info && comic.remaining_one_comic_update_limit < 1
-        redirect_to request.referer
-    end
     
-    before_comic_info = ComicSite.where(comic_id: comic.id).pluck(:site_id)  # 今現在保存されているデータ
-    after_comic_info = site_params[:site_ids]                                # これから更新するデータ
+    # before_comic_info = ComicSite.where(comic_id: comic.id).pluck(:site_id)  # 今現在保存されているデータ
+    # after_comic_info = site_params[:site_ids]                                # これから更新するデータ
     
     # 配列の比較
     # uniq...[配列] 重複した要素を取り除いた新しい配列を返すメゾット
     # map...各要素へ順に処理を実行してくれるメソッド
     # [戻り値] 各要素の変更後の値が入った配列
     
-    if before_comic_info.uniq == after_comic_info.map(&:to_i)  # == (&:to_i.to_proc)
-      flash[:alert] = '更新前と同じ内容の為、更新ができませんでした。'
-      # if session["url"]
-      #   redirect_to session["url"]
-      if session["to_update_referer_url"]
-        redirect_to session["to_update_referer_url"]
-      else
-        redirect_to comic_path(comic.id)
-      end
-      return
-    end
+    # if before_comic_info.uniq == after_comic_info.map(&:to_i)  # == (&:to_i.to_proc)
+    #   flash[:alert] = '更新前と同じ内容の為、更新ができませんでした。'
+    #   if session["to_update_referer_url"]
+    #     redirect_to session["update_referer_url"]
+    #   end
+    #   return
+    # end
     # ここまで
+    
+    comic = Comic.find(params[:id])
+    user_can_read_info = ReadJudgement.find_by(
+                          user_id: current_user.id, 
+                          comic_id: comic.id
+                          )
     
     
     limit = comic.remaining_one_comic_update_limit
@@ -257,7 +254,7 @@ class Public::ComicsController < ApplicationController
         }))
     
         
-    # 同時に漫画に紐づくサイト情報を一度削除し、作
+    # 同時に漫画に紐づくサイト情報を一度削除し、作成
     # 今後の実装ではDBに問い合わせ４回=>１回にしていくことを視野にしていく。
     comic.comic_sites.destroy_all
     site_params[:site_ids].each do |site_ids|
@@ -276,9 +273,31 @@ class Public::ComicsController < ApplicationController
         update_count: update_amount + 1
         )
         
-    redirect_to comic_path(comic.id)  
+    # redirect_to comic_path(comic.id)  
   end
   
+  
+  # def update
+  #   if request.referer &.include?("/comics/#{params[:comic_id]}") || 
+  #     request.referer &.include?("/comics") ||
+  #     request.referer &.include?("/top_comic_info") || 
+      
+  #     session["update_referer_url"] = request.referer
+  #   end
+    
+  #   comic = Comic.find(params[:id])
+  #   respond_to do |format|
+  #       comic.assign_attributes(site_params)
+  #       comic.validate
+
+  #       if comic.errors.blank?
+  #           session["update_referer_url"] = site_params
+  #           format.json { render json: @company, status: :ok }
+  #       else
+  #           format.json { fail AsyncRetryValidationError, @company.errors }
+  #       end
+  #   end
+  # end
   
   
   
@@ -468,20 +487,11 @@ class Public::ComicsController < ApplicationController
             sort: "standard",
             page: page 
             )
-            # RakutenWebService::SearchResult (返り値)
-            
-      # @rakuten_web_services = rakuten_web_services.select do |comic|
-      #   true
-      # end
-      # [#<RakutenWebService::Books::Book...] = 配列 (返り値)
     
     else
       @rakuten_web_services = []
     end
-    # fisrtを入れることで配列に変換 = 205〜208を省く場合
-    # 205〜208を省かない場合...@rakuten_web_servicesだけ。.first(view_count)はなし。
-    # 推奨...今回は205~208を省く
-    # 配列の場合はarrayが使用
+    
     view_count = 30
     @rakuten_web_services = Kaminari.paginate_array(
           @rakuten_web_services.first(view_count), 
