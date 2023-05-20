@@ -169,11 +169,12 @@ class Public::ComicsController < ApplicationController
       request.referer&.include?("/my_page") ||
       request.referer&.include?("/bookmarks") 
       
-      session["to_show_referer_url"] = request.referer
+      session["referer_url"] = request.referer
     end
     
     
     @comic = Comic.find(params[:id])
+    
     
     @rb_comic = RakutenWebService::Books::Book.search(isbn: @comic.isbn).first
     @sites = @comic.sites.all

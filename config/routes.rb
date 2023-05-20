@@ -20,7 +20,8 @@ Rails.application.routes.draw do
     get 'users/confirmation', to: 'users#confirmation', as: 'confirmation'
     patch '/users/unsubscribe', to: 'users#unsubscribe', as: 'unsubscribe'
     get 'users/q_and_a', to: 'users#q_and_a', as: 'q_and_a'
-    resources :comics, only: [:top, :show, :new, :create, :update] do
+    resources :comics, only: [:top, :new, :create, :show, :update] do
+      # get '/show', to: 'comics#show', as: 'show'
       get '/top_comic_info', to: 'comics#top_comic_info', on: :collection, as: 'top_comic_info'
       get '/sale_index', to: 'comics#sale_index', on: :collection, as: 'sale_index'
       get '/user_select_index', to: 'comics#user_select_index', on: :collection, as: 'user_select_index'
