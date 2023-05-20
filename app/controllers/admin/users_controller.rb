@@ -11,6 +11,13 @@ class Admin::UsersController < ApplicationController
     @read_judgements = ReadJudgement.where(user_id: @user.id).order(updated_at: :desc)
     @bookmarks = Bookmark.where(user_id: @user.id).order(updated_at: :desc)
     
+    # 配列の初期化
+    @display_bookmarks = []
+    @bookmarks.each do |bookmark|
+      count = Bookmark.where(comic_id: bookmark.comic_id).count
+      @display_bookmarks.push({"id" => bookmark.comic.id, "title" => bookmark.comic.title, "author" => bookmark.comic.author, "count" => count})
+    end
+    
     users = User.all.sort { |a, b| b.read_judgements.where(can_read: true).count + b.update_count <=> a.read_judgements.where(can_read: true).count + a.update_count}
   
     default = 1

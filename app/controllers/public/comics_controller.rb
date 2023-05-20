@@ -161,6 +161,7 @@ class Public::ComicsController < ApplicationController
       !request.referer &.include?("/comics") ||
       !request.referer &.include?("/top_comic_info") || 
       request.referer&.include?("/sale_index/#{params[:current_page]}") || 
+      request.referer&.include?("/search_index") ||
       request.referer&.include?("/review_count_index") || 
       request.referer&.include?("/comic_site_index/#{params[:site_id]}") ||
       request.referer&.include?("/next_coming_index") ||
@@ -168,7 +169,7 @@ class Public::ComicsController < ApplicationController
       request.referer&.include?("/my_page") ||
       request.referer&.include?("/bookmarks") 
       
-      session["url"] = request.referer
+      session["to_show_referer_url"] = request.referer
     end
     
     
@@ -204,28 +205,6 @@ class Public::ComicsController < ApplicationController
   
   ## サイト情報の更新
   def update
-    # if !request.referer &.include?("/comics/#{params[:comic_id]}") || 
-    #   !request.referer &.include?("/comics") ||
-    #   !request.referer &.include?("/top_comic_info") || 
-    #   request.referer&.include?("/sale_index/#{params[:current_page]}") || 
-    #   request.referer&.include?("/review_count_index") || 
-    #   request.referer&.include?("/comic_site_index/#{params[:site_id]}") ||
-    #   request.referer&.include?("/next_coming_index") ||
-    #   request.referer&.include?("/user_select_index") ||
-    #   request.referer&.include?("/my_page") ||
-    #   request.referer&.include?("/bookmarks") 
-      
-    #   session["url"] = request.referer
-    # end
-    
-    if !request.referer &.include?("/comics/#{params[:comic_id]}") || 
-      !request.referer &.include?("/comics") ||
-      request.referer &.include?("/top_comic_info")
-      
-      session["update_url"] = request.referer
-    end
-    
-    
     
     comic = Comic.find(params[:id])
     user_can_read_info = ReadJudgement.find_by(
@@ -254,8 +233,8 @@ class Public::ComicsController < ApplicationController
       flash[:alert] = '更新前と同じ内容の為、更新ができませんでした。'
       # if session["url"]
       #   redirect_to session["url"]
-      if session["update_url"]
-        redirect_to session["update_url"]
+      if session["to_update_referer_url"]
+        redirect_to session["to_update_referer_url"]
       else
         redirect_to comic_path(comic.id)
       end
@@ -277,7 +256,8 @@ class Public::ComicsController < ApplicationController
         }))
     
         
-    # 同時に漫画に紐づくサイト情報を一度削除し、作成
+    # 同時に漫画に紐づくサイト情報を一度削除し、作
+    # 今後の実装ではDBに問い合わせ４回=>１回にしていくことを視野にしていく。
     comic.comic_sites.destroy_all
     site_params[:site_ids].each do |site_ids|
       ComicSite.create(

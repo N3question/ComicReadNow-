@@ -62,7 +62,7 @@
                                           <th style="text-align: center; vertical-align: middle;">作成日</th>
                                         </tr>
                                         <% @comics.each_with_index do |comic, index| %>
-                                          <tr>
+                                          <tr>d
                                             <td class="text-nowrap" style="vertical-align: middle;">
                                               <p class="font_2 small mb-0">
                                                 <%= index + 1 %>
@@ -171,7 +171,7 @@
                                           <th style="text-align: center; vertical-align: middle;">Title</th>
                                           <th class="text-nowrap" style="text-align: center; vertical-align: middle;">著者</th>
                                         </tr>
-                                        <% @bookmarks.each_with_index do |bookmark, index| %>
+                                        <% @display_bookmarks.each_with_index do |bookmark, index| %>
                                           <tr>
                                             <td class="text-nowrap" style="vertical-align: middle;">
                                               <p class="font_2 small mb-0">
@@ -179,13 +179,16 @@
                                               </p>
                                             </td>
                                             <td style="vertical-align: middle;">
-                                              <%= bookmark.comic.id %>
+                                              <%= bookmark["id"] %>
                                             </td>
                                             <td style="vertical-align: middle;">
-                                              <%= bookmark.comic.title %>
+                                              <%= bookmark["title"] %>
                                             </td>
                                             <td style="vertical-align: middle;">
-                                              <%= bookmark.comic.author %>
+                                              <%= bookmark["author"] %>
+                                            </td>
+                                            <td style="vertical-align: middle;">
+                                              <%= bookmark["count"] %>
                                             </td>
                                           </tr>
                                         <% end %>

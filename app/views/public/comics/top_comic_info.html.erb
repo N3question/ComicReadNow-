@@ -87,7 +87,8 @@
                                             <%= f.hidden_field :isbn, value: params[:isbn] %>
                                             <% Site.all.each do |site| %>
                                                 <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
-                                                <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
+                                                <label for="<%= "comic_site_ids_#{site[:id]}" %>" ><%= site.name %></label>
+                                                <!--<#%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　-->
                                             <% end %><br>
                                             <%= f.submit "漫画情報を変更", class:"btn btn-sm btn-outline-dark rounded-pill mt-3 px-3 w-100" %>
                                         <% end %>
@@ -252,6 +253,16 @@
       return
     }
   }
+  
+  // function radio_func() {
+  //   if(window.confirm('情報は間違いありませんか？意図的に誤った内容を送信することは禁止されています。')) {
+  //      ここを書き換える
+          // Axiosを使ったPOSTの記述をする
+          // どのカラムにどんな値
+  //   }else {
+  //     return
+  //   }
+  // }
   
   $(function(){
     //ボタンのイベント
