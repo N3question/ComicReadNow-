@@ -3,8 +3,7 @@ class Public::ComicsController < ApplicationController
   
   ## TOP
   def top
-    session["url"] = nil
-    session["update_url"] = nil
+    session["referer_url"] = nil
     session["search_keyword"] = nil
     
     ### User Ranking
@@ -93,7 +92,7 @@ class Public::ComicsController < ApplicationController
       request.referer&.include?("/my_page") ||
       request.referer&.include?("/bookmarks") 
       
-      session["url"] = request.referer
+      session["referer_url"] = request.referer
     end
     
     @from_rws = params[:from_rws]
@@ -214,41 +213,40 @@ class Public::ComicsController < ApplicationController
     #   session["update_referer_url"] = request.referer
     # end
     
+    @comic = Comic.find(params[:id])
     
     # 前提条件
     
-    # before_comic_info = ComicSite.where(comic_id: comic.id).pluck(:site_id)  # 今現在保存されているデータ
-    # after_comic_info = site_params[:site_ids]                                # これから更新するデータ
+    before_comic_info = ComicSite.where(comic_id: @comic.id).pluck(:site_id)  # 今現在保存されているデータ
+    after_comic_info = site_params[:site_ids]                                # これから更新するデータ
     
     # 配列の比較
     # uniq...[配列] 重複した要素を取り除いた新しい配列を返すメゾット
     # map...各要素へ順に処理を実行してくれるメソッド
     # [戻り値] 各要素の変更後の値が入った配列
-    
-    # if before_comic_info.uniq == after_comic_info.map(&:to_i)  # == (&:to_i.to_proc)
-    #   flash[:alert] = '更新前と同じ内容の為、更新ができませんでした。'
-    #   if session["to_update_referer_url"]
-    #     redirect_to session["update_referer_url"]
-    #   end
-    #   return
-    # end
+    @success_flag = true
+    if before_comic_info.uniq == after_comic_info.map(&:to_i)  # == (&:to_i.to_proc)
+      @success_flag = false
+      return # 早期リターン
+    end
     # ここまで
     
-    comic = Comic.find(params[:id])
     user_can_read_info = ReadJudgement.find_by(
                           user_id: current_user.id, 
-                          comic_id: comic.id
+                          comic_id: @comic.id
                           )
+                          
+
     
     
-    limit = comic.remaining_one_comic_update_limit
+    limit = @comic.remaining_one_comic_update_limit
     
     # 漫画情報と編集者の更新
-    comic.update(update_params.merge({
+    @comic.update(update_params.merge({
         # 更新時に行う動作
         can_read_count: 0,
         can_not_read_count: 0,
-        version: comic.version + 1,
+        version: @comic.version + 1,
         remaining_one_comic_update_limit: limit - 1,
         user_id: current_user.id
         }))
@@ -256,11 +254,11 @@ class Public::ComicsController < ApplicationController
         
     # 同時に漫画に紐づくサイト情報を一度削除し、作成
     # 今後の実装ではDBに問い合わせ４回=>１回にしていくことを視野にしていく。
-    comic.comic_sites.destroy_all
+    @comic.comic_sites.destroy_all
     site_params[:site_ids].each do |site_ids|
       ComicSite.create(
         site_id: site_ids.to_i,
-        comic_id: comic.id
+        comic_id: @comic.id
         )
     end
     
@@ -272,32 +270,15 @@ class Public::ComicsController < ApplicationController
         remaining_total_update_limit: total_limit - 1,
         update_count: update_amount + 1
         )
-        
     # redirect_to comic_path(comic.id)  
+    @can_not_read = ReadJudgement.where(
+                  comic_id: @comic.id,
+                  can_read: false, # 読めなかった
+                  version: @comic.version
+                  )
+    @comic_update_limit_count = @comic.remaining_one_comic_update_limit
+    @sites = @comic.sites.all
   end
-  
-  
-  # def update
-  #   if request.referer &.include?("/comics/#{params[:comic_id]}") || 
-  #     request.referer &.include?("/comics") ||
-  #     request.referer &.include?("/top_comic_info") || 
-      
-  #     session["update_referer_url"] = request.referer
-  #   end
-    
-  #   comic = Comic.find(params[:id])
-  #   respond_to do |format|
-  #       comic.assign_attributes(site_params)
-  #       comic.validate
-
-  #       if comic.errors.blank?
-  #           session["update_referer_url"] = site_params
-  #           format.json { render json: @company, status: :ok }
-  #       else
-  #           format.json { fail AsyncRetryValidationError, @company.errors }
-  #       end
-  #   end
-  # end
   
   
   

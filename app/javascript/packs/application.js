@@ -25,24 +25,6 @@ import '../stylesheets/humberger'
 });
 
 
-(function(){
-  ("#send").on("click", function(event){
-    let id = ("#main").val();
-    ajax({
-      // type: "POST",
-      // url: "techacademy.php",
-      // data: { "id" : id },
-      // dataType : "json"
-    }).done(function(data){
-      $("#return").append('<p>'+data.id+' : '+data.school+' : '+data.skill+'</p>');
-    }).fail(function(XMLHttpRequest, status, e){
-      alert(e);
-    });
-  });
-});
-
-
-
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
@@ -50,5 +32,5 @@ ActiveStorage.start()
 $(document).on('turbolinks:load',function(){
   $(".openbtn").click(function () {
       $(this).toggleClass('active');
-  })
+  });
 });

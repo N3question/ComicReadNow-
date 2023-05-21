@@ -298,9 +298,11 @@ ul li .list_icon::before {
 }
 
 .object-centering {
+    display: flex;
     justify-content: center; 
     align-items: center;
 }
+
 
 .object-background {
     background-color:#FFF; 
