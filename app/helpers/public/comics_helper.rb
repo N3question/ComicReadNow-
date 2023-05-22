@@ -13,23 +13,23 @@ module Public::ComicsHelper
   end
   
   def comic_update_limit_count(comic)
-      @comic.remaining_one_comic_update_limit
+      @top_comic_info.remaining_one_comic_update_limit
   end
   
   def sites(comic)
-      @comic.sites.all
+      @top_comic_info.sites.all
   end
   
   def can_read(comic)
-      ReadJudgement.where(comic_id: @comic.id, can_read: true, version: @comic.version)
+      ReadJudgement.where(comic_id: @top_comic_info.id, can_read: true, version: @top_comic_info.version)
   end
   
   def can_not_read(comic)
-      ReadJudgement.where(comic_id: @comic.id, can_read: false, version: @comic.version)
+      ReadJudgement.where(comic_id: @top_comic_info.id, can_read: false, version: @top_comic_info.version)
   end
   
   def user_read_judgement(comic)
-      ReadJudgement.find_by(comic_id: @comic.id, user_id: current_user.id, version: @comic.version)
+      ReadJudgement.find_by(comic_id: @top_comic_info.id, user_id: current_user.id, version: @top_comic_info.version)
   end
   
   def current_version(comic)

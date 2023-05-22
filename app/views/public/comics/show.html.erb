@@ -60,23 +60,11 @@
                     <hr class="my-4">
                   
                   
-                    <!--可読判定に対するメッセージ-->
-                    <div class="mb-2">
-                        <% if @user_read_judgement.present? && @user_read_judgement.can_read == true %>
-                          <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
-                        <% elsif @user_read_judgement.present? && @user_read_judgement.can_read == false %>
-                          <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
-                        <% elsif current_version(@comic) && %>
-                          <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
-                        <% end %>
-                    </div>
-                  
-                  
                     <!--可読判定-->
                     <div class="d-flex" style="align-items: center;">
                       <!--可読情報が未追加-->
                       <div id="read_judgements_buttons_<%= @comic.id %>">
-                        <%= render partial: '/public/comics/read_judgement', locals: {comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read} %>
+                        <%= render partial: '/public/comics/read_judgement', locals: {comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read, version: current_version(@comic)} %>
                       </div>
                     </div>
                     
@@ -120,76 +108,11 @@
     }
   }
   
-  // formを呼び出す動作
-  // function () {
-  //   if(window.confirm('Is it okay?')) {
-
-  //     var form = document.getElementById('comic_to_edit_site');
-  //       form.addEventListener('edit_submit', (event) => {
-  //       event.stopPropagation();
-  //       event.preventDefault();
-  //       const formData = new formData(form);
-  //       const options = {
-  //         method: 'PATCH',
-  //         body: formData,
-  //         dataType: 'script'
-  //       }
-  //       const url = form.action;
-  //       fetch(url, options);
-  //     });
-  //     form.submit(); 
-
-  //   }else {
-  //     return 
-  //   }
-  // }
-    
-    // function () {
-    //   if(window.confirm('ok?')) {
-    //       var vm = new Vue({
-            
-    //         el: '#edit_form',
-    //         deta: {
-              
-    //         }
-    //       })
-    //       // ここを書き換える
-    //       //   Axiosを使ったPOSTの記述をする
-    //       //   どのカラムにどんな値
-    //   }else {
-    //     return
-    //   }
-    // }
-  
   $(function(){
     // ボタンのイベント
-    $(".btn").click(function(){
+    $("#edit_btn").click(function(){
       // sampleAクラスをスライドアップ/ダウンさせる
       $(".sampleA").slideToggle();
     });
   });
 </script>
-
-<!--formを呼び出す動作-->
-<!--function radio_func() {-->
-<!--    if(window.confirm('情報は間違いありませんか？意図的に誤った内容を送信することは禁止されています。')) {-->
-
-<!--      // var form = document.getElementById('comic_read_judgement');-->
-<!--      //   form.addEventListener('submit', (event) => {-->
-<!--      //   event.stopPropagation();-->
-<!--      //   event.preventDefault();-->
-<!--      //   const formData = new formData(form);-->
-<!--      //   const options = {-->
-<!--      //     method: 'POST',-->
-<!--      //     body: formData,-->
-<!--      //     dataType: 'script'-->
-<!--      //   }-->
-<!--      //   const url = form.action;-->
-<!--      //   fetch(url, options);-->
-<!--      // });-->
-<!--      // form.submit(); -->
-
-<!--    }else {-->
-<!--      return-->  <!-- 呼び出した動作を元に戻す = 実質キャンセルする -->
-<!--    }-->
-<!--  }-->

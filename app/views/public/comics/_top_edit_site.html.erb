@@ -1,0 +1,49 @@
+<% if user_signed_in? && can_not_read.count > 0 && comic_update_limit_count > 0 %>
+    <div class= "sample d-flex" style="justify-content: flex-end;">
+        <input id="edit_btn" type="button" class="btn btn-sm rounded-pill mb-2 px-3 text-nowrap" style="background-color:#66CC00; color:white;" value="編集">
+    </div>
+    
+    <div class= "sampleA mb-3 border" style="display:none;">
+      <div style="height:auto; width:100%; padding:30px 20px; display:flex; justify-content:center;">
+        <div class="p-3">
+            
+            <p><b>' <%= top_comic_info.title %> '</b><small>の編集...</small></p>
+            <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
+            
+            <div class="mt-2">
+                <%= form_with model: top_comic_info, url: comic_path(top_comic_info.id), local: false, id: "comic_to_edit_site" do |f| %>
+                    <%= f.hidden_field :isbn, value: params[:isbn] %>
+                    <% Site.all.each do |site| %>
+                      <div class="mx-2">
+                        <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
+                        <label for="comic_site_ids_#{site[:id]}"><%= site.name %></label>
+                      </div>
+                    <% end %>
+                    <%= f.submit "漫画情報を変更", id: "edit_submit", class:"btn btn-sm btn-outline-dark rounded-pill mt-3 px-3 w-100", style:"" %>
+                <% end %>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+<% end %>
+    
+    
+<% sites.each do |site| %>
+    <p class="mt-2 mb-0 pb-0 d-inline-flex">
+      <i class="bi bi-check-lg text-success"></i>
+      <%= site.name %>
+    </p>
+<% end %><br>
+
+
+<p class="small mt-3">
+      <%= top_comic_info.updated_at.strftime('%Y年%m月%d日%H時%M分') %>　
+      <b><%= top_comic_info.user.nick_name %></b> さんが更新済み
+      (ver.<%= top_comic_info.version %>)<br>
+      <% if user_signed_in? && top_comic_info.remaining_one_comic_update_limit < 1 %>
+        今日の更新はこれ以上することができません。
+      <% elsif user_signed_in? %>
+        この漫画の更新残数は <%= top_comic_info.remaining_one_comic_update_limit %> 回です。
+      <% end %>
+</p>

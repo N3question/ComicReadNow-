@@ -16,7 +16,7 @@ class Public::ComicsController < ApplicationController
     default = 1 
     @users.each do |user| 
       if user_signed_in? && user.id == current_user.id
-        @my_rank = default # 13行目と＝じゃない。
+        @my_rank = default
       end
       default += 1 
     end
@@ -80,6 +80,7 @@ class Public::ComicsController < ApplicationController
   
   
   ## TOP / 漫画情報詳細
+  # [TODO] top_comic_infoとshowを統合して詳細画面を１つにする
   def top_comic_info
     if !request.referer &.include?("/comics/#{params[:comic_id]}") || 
       !request.referer &.include?("/comics") ||
@@ -101,6 +102,8 @@ class Public::ComicsController < ApplicationController
     
     @top_rb_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
     
+    # [TODO] showと共通化を検討
+    # [TODO] 命名もイメージがつきやすい名前にする
     @top_comic_info = Comic.find_by(isbn: params[:isbn])
     
     @comic = Comic.new
@@ -171,7 +174,7 @@ class Public::ComicsController < ApplicationController
       session["referer_url"] = request.referer
     end
     
-    
+    # [TODO] top_comic_infoと共通化を検討
     @comic = Comic.find(params[:id])
     
     
@@ -206,17 +209,9 @@ class Public::ComicsController < ApplicationController
   ## サイト情報の更新
   def update
     
-    # if request.referer &.include?("/comics/#{params[:comic_id]}") || 
-    #   request.referer &.include?("/comics") ||
-    #   request.referer &.include?("/top_comic_info") || 
-      
-    #   session["update_referer_url"] = request.referer
-    # end
-    
     @comic = Comic.find(params[:id])
     
     # 前提条件
-    
     before_comic_info = ComicSite.where(comic_id: @comic.id).pluck(:site_id)  # 今現在保存されているデータ
     after_comic_info = site_params[:site_ids]                                # これから更新するデータ
     
@@ -237,9 +232,8 @@ class Public::ComicsController < ApplicationController
                           )
                           
 
-    
-    
     limit = @comic.remaining_one_comic_update_limit
+    
     
     # 漫画情報と編集者の更新
     @comic.update(update_params.merge({
@@ -287,6 +281,9 @@ class Public::ComicsController < ApplicationController
   def read_judgement
     @comic = Comic.find(params[:comic_id])
     version = @comic.version
+     # [TODO] showと共通化を検討
+    # [TODO] 命名もイメージがつきやすい名前にする
+    @top_comic_info = Comic.find(params[:comic_id])
     
     if params[:read_info] == "true"
       @comic.update(can_read_count: @comic.can_read_count + 1)
@@ -299,13 +296,15 @@ class Public::ComicsController < ApplicationController
                         version: version, 
                         user_id: current_user.id
                         })
-    
+                        
+    # binding.pry
     readable_info.save!
     
     @user_read_judgement = ReadJudgement.find_by(
               comic_id: @comic.id, 
               user_id: current_user.id, 
-              version: version)
+              version: version
+              )
     @can_read = ReadJudgement.where(
               comic_id: @comic.id,
               can_read: true, # 読めた
@@ -316,6 +315,7 @@ class Public::ComicsController < ApplicationController
               can_read: false, # 読めなかった
               version: version
               )
+  
   end
   
   

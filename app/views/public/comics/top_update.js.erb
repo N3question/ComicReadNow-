@@ -1,0 +1,5 @@
+<% if @success_flag == true %>
+    $("#top_edit_sites_buttons_<%= @comic.id %>").html("<%= j(render partial: '/public/comics/top_edit_site', locals: {comic: @comic, can_not_read: @can_not_read, comic_update_limit_count: @comic_update_limit_count, sites: @sites }) %>");
+<% else %>
+    alert("更新前と同じ内容のため、更新していません。やり直してください。")
+<% end %>

@@ -7,14 +7,15 @@
       <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
     <% end %>
 </div>
-                    
+
 <% if user_read_judgement.nil? %>
-    <%= form_with url: comic_read_judgement_path(comic.id), local: false, id:"comic_read_judgement" do |f| %>
+    <%= form_with url: comic_read_judgement_path(top_comic_info.id), local: false, id:"comic_read_judgement" do |f| %>
       <div class="d-flex">
+        <%= f.hidden_field :format, value: "from_top" %>
         <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>
         <%= f.label :read_info, "読めた", for:"read_info_true", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio" %>　
         <%= f.radio_button :read_info, false, style:"display:none;", onchange:"radio_func()" %>
-        <%= f.label :read_info, "読めなかった", for:"read_info_false", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio" %>　
+        <%= f.label :read_info, "読めなかった", for:"read_info_false", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio" %>
       </div>
       <%= f.submit '', id: "read_judgements_submit", style:"display:none" %>
     <% end %>
@@ -31,28 +32,3 @@
         </p>
     </div>
 <% end %>
-
-<!--local: true...Rails6.1から仕様が変わってデフォルトで `local: true` となり、オプション不要-->
-<!--local: falseはAjax（エージャックス）-->
-
-<!--
-## Ajax（エージャックス）
-
-単語	            概要
-
-A（Asynchronous）	非同期、タイミングを合わせず複数の処理または通信を行う方法
-JA（JavaScript）	Webページに動きをつけるのに使用するプログラミング言語
-X（XML）	        文章の見た目や構造を記述するためのマークアップ言語
--->
-
-
-<!--locals == ローカル変数（@のついてない変数）-->
-<!--今回で言うと、user_read_judgement、comic、can_read、can_not_readがそれにあたる-->
-
-<!--id: "read_judgements_submit"...任意で好きなid名にする。-->
-<!--idは一つしか存在しない点を利用し、特定のsubmitに対して動作が行われるようにする-->
-
-<!--
-## onChange
-動作によって、発動するイベントを処理する
--->
