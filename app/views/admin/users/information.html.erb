@@ -62,7 +62,7 @@
                                           <th style="text-align: center; vertical-align: middle;">作成日</th>
                                         </tr>
                                         <% @comics.each_with_index do |comic, index| %>
-                                          <tr>d
+                                          <tr>
                                             <td class="text-nowrap" style="vertical-align: middle;">
                                               <p class="font_2 small mb-0">
                                                 <%= index + 1 %>
@@ -170,6 +170,7 @@
                                           <th class="text-nowrap" style="text-align: center; vertical-align: middle;">Comic ID</th>
                                           <th style="text-align: center; vertical-align: middle;">Title</th>
                                           <th class="text-nowrap" style="text-align: center; vertical-align: middle;">著者</th>
+                                          <th class="text-nowrap" style="text-align: center; vertical-align: middle;">総人数</th>
                                         </tr>
                                         <% @display_bookmarks.each_with_index do |bookmark, index| %>
                                           <tr>
@@ -188,7 +189,7 @@
                                               <%= bookmark["author"] %>
                                             </td>
                                             <td style="vertical-align: middle;">
-                                              <%= bookmark["count"] %>
+                                              <%= bookmark["count"] %>人
                                             </td>
                                           </tr>
                                         <% end %>
