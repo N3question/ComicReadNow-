@@ -8,19 +8,20 @@
         <h5 class="ml-5 mb-5"><b>User Select 一覧</b></h5>
         <div class="d-inline-flex flex-wrap" style="justify-content:center;">
           
-            <% @user_selects.each do |comic| %>
+            <% @user_selects.each do |user_select| %>
+            <% comic = Comic.find_by(isbn: user_select["isbn"]) %>
             
               <div class="mx-2">
                 <div style="width:150px;">
-                    <%= link_to show_comics_path(isbn: comic.isbn, page: @current_page), class:"img_link" do %>
-                      <%= image_tag book.large_image_url, class:"img_comic" %>
+                    <%= link_to comic_path(comic.id), class:"img_link" do %>
+                      <%= image_tag user_select.large_image_url, class:"img_comic" %>
                     <% end %>
                 </div>
                 
                 <div class="py-4 mb-3" style="width:150px; height:auto;">
-                    <%= link_to show_comics_path(isbn: comic.isbn, page: @current_page) do %>
+                    <%= link_to comic_path(comic.id) do %>
                       <p class="mb-1 link_text text-dark" style="height:50px;">
-                        <%= book.title.truncate(17) %>
+                        <%= user_select.title.truncate(17) %>
                       </p>
                     <% end %>
                 </div>
@@ -33,19 +34,19 @@
     
     <div class="media_pc">
         <div class="d-flex flex-wrap" style="justify-content:center;">
-              <%= paginate @bookmark_comics, window: 4 %>
+              <%= paginate @user_selects, window: 4 %>
         </div>
     </div>
     
     <div class="media_tb">
         <div class="d-flex flex-wrap" style="justify-content:center;">
-              <%= paginate @bookmark_comics, window: 2 %>
+              <%= paginate @user_selects, window: 2 %>
         </div>
     </div>
     
     <div class="media_sp">
         <div class="d-flex flex-wrap" style="justify-content:center;">
-              <%= paginate @bookmark_comics, window: 1 %>
+              <%= paginate @user_selects, window: 1 %>
         </div>
     </div>
     

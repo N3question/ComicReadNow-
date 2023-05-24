@@ -365,14 +365,14 @@ class Public::ComicsController < ApplicationController
   
   ## User Select一覧
   def user_select_index
-    bookmark_comics = Comic.find(
+    user_selects = Comic.find(
           Bookmark.joins(:comic)
           .group(:comic_id)
           .order('count(bookmarks.comic_id) DESC')
           .order('comics.title ASC')
           .pluck(:comic_id)
           )
-    @bookmark_comics = Kaminari.paginate_array(bookmark_comics).page(params[:page]).per(30)
+    @user_selects = Kaminari.paginate_array(user_selects).page(params[:page]).per(30)
   end
   
   

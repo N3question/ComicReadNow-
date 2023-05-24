@@ -40,7 +40,11 @@
                     著者：　　<%= @comic.author %>
                     <small>(<%= @comic.author_kana %>)</small><br>
                     出版社：　<%= @comic.publisher_name %><br>
+                    <% if !@rb_comic.blank? %>
                     発売日：　<%= @rb_comic["salesDate"] %>
+                    <% else %>
+                    発売日：　-- none --
+                    <% end %>
                   </div>
                 </div>
                 
