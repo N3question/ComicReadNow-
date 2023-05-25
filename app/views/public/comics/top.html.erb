@@ -27,103 +27,112 @@
         </div>
         
         <% if @user_rank.present? %>
-        <div class="row object-centering mt-5">
-            
-            <!--１〜３位-->
-            <div class="col-lg-6 col-md-10 d-flex px-0">
-              <table class="table table-borderless mb-3">
+            <div class="row object-centering mt-5">
                 
-                    <tr>
-                        <td class="font_2" align="right">
-                          <h5>1</h5>
-                        </td>
-                        <td class="border" align="center" style="width:90%;">
-                          <div class="user_icon">
-                            <% if @user_rank[0].profile_image.attached? %>
-                              <%= image_tag @user_rank[0].profile_image, size: "65x65", style:"object-fit:cover;" %>
-                            <% else %>
-                              <%= image_tag 'no_image', size: "65x65", style:"object-fit:cover;" %>
-                            <% end %>
-                          </div>
-                          <div class="font_1 mt-2" style="overflow-wrap: break-word;">
-                            <%= @user_rank[0].nick_name %>
-                          </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="font_2" align="right">2</td>
-                        <td class="border" align="center">
-                          <div class="user_icon">
-                            <% if @user_rank[1].profile_image.attached? %>
-                              <%= image_tag @user_rank[1].profile_image, size: "65x65", style:"object-fit:cover;" %>
-                            <% else %>
-                              <%= image_tag 'no_image', size: "65x65", style:"object-fit:cover;" %>
-                            <% end %>
-                          </div>
-                          <div class="font_1 mt-2" style="overflow-wrap: break-word;">
-                            <%= @user_rank[1].nick_name %>
-                          </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="font_2" align="right">3</td>
-                        <td class="border" align="center">
-                          <div class="user_icon">
-                            <% if @user_rank[2].profile_image.attached? %>
-                              <%= image_tag @user_rank[2].profile_image, size: "65x65", style:"object-fit:cover;" %>
-                            <% else %>
-                              <%= image_tag 'no_image', size: "65x65", style:"object-fit:cover;" %>
-                            <% end %>
-                          </div>
-                          <div class="font_1 mt-2" style="overflow-wrap: break-word;">
-                            <%= @user_rank[2].nick_name %>
-                          </div>
-                        </td>
-                    </tr>
+                <!--１〜３位-->
+                <div class="col-lg-6 col-md-10 d-flex px-0">
+                  <table class="table table-borderless mb-3">
                     
-              </table>
+                        <tr>
+                            <td class="font_2" align="right">
+                              <h5>1</h5>
+                            </td>
+                            <td class="border" align="center" style="width:90%;">
+                              <div class="user_icon">
+                                <% if @user_rank[0].profile_image.attached? %>
+                                  <%= image_tag @user_rank[0].profile_image, size: "65x65", style:"object-fit:cover;" %>
+                                <% else %>
+                                  <%= image_tag 'no_image', size: "65x65", style:"object-fit:cover;" %>
+                                <% end %>
+                              </div>
+                              <div class="font_1 mt-2" style="overflow-wrap: break-word;">
+                                <%= @user_rank[0].nick_name %>
+                              </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font_2" align="right">2</td>
+                            <td class="border" align="center">
+                              <div class="user_icon">
+                                <% if @user_rank[1].profile_image.attached? %>
+                                  <%= image_tag @user_rank[1].profile_image, size: "65x65", style:"object-fit:cover;" %>
+                                <% else %>
+                                  <%= image_tag 'no_image', size: "65x65", style:"object-fit:cover;" %>
+                                <% end %>
+                              </div>
+                              <div class="font_1 mt-2" style="overflow-wrap: break-word;">
+                                <%= @user_rank[1].nick_name %>
+                              </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font_2" align="right">3</td>
+                            <td class="border" align="center">
+                              <div class="user_icon">
+                                <% if @user_rank[2].profile_image.attached? %>
+                                  <%= image_tag @user_rank[2].profile_image, size: "65x65", style:"object-fit:cover;" %>
+                                <% else %>
+                                  <%= image_tag 'no_image', size: "65x65", style:"object-fit:cover;" %>
+                                <% end %>
+                              </div>
+                              <div class="font_1 mt-2" style="overflow-wrap: break-word;">
+                                <%= @user_rank[2].nick_name %>
+                              </div>
+                            </td>
+                        </tr>
+                        
+                  </table>
+                </div>
+                
+                
+                <!--４〜５位-->
+                <div class="col-lg-5 col-md-10 align-self-end px-0">
+                  <table class="table table-borderless mb-3">
+                        
+                        <tr>
+                            <td class="font_2" align="right">4</td>
+                            <td class="border" align="center" style="width:70%;">
+                                <div class="user_icon">
+                                  <% if @user_rank[3].profile_image.attached? %>
+                                    <%= image_tag @user_rank[3].profile_image, size: "55x55", style:"object-fit:cover;" %>
+                                  <% else %>
+                                    <%= image_tag 'no_image', size: "55x55", style:"object-fit:cover;" %>
+                                  <% end %>
+                                </div>
+                                <div class="font_1 mt-2" style="overflow-wrap: break-word;">
+                                  <%= @user_rank[3].nick_name %>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font_2" align="right">5</td>
+                            <td class="border" align="center">
+                                <div class="user_icon">
+                                  <% if @user_rank[4].profile_image.attached? %>
+                                    <%= image_tag @user_rank[4].profile_image, size: "55x55", style:"object-fit:cover;" %>
+                                  <% else %>
+                                    <%= image_tag 'no_image', size: "55x55", style:"object-fit:cover;" %>
+                                  <% end %>
+                                </div>
+                                <div class="font_1 mt-2" style="overflow-wrap: break-word;">
+                                  <%= @user_rank[4].nick_name %>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                  </table>
+                </div>
+              
             </div>
-            
-            
-            <!--４〜５位-->
-            <div class="col-lg-5 col-md-10 align-self-end px-0">
-              <table class="table table-borderless mb-3">
-                    
-                    <tr>
-                        <td class="font_2" align="right">4</td>
-                        <td class="border" align="center" style="width:70%;">
-                            <div class="user_icon">
-                              <% if @user_rank[3].profile_image.attached? %>
-                                <%= image_tag @user_rank[3].profile_image, size: "55x55", style:"object-fit:cover;" %>
-                              <% else %>
-                                <%= image_tag 'no_image', size: "55x55", style:"object-fit:cover;" %>
-                              <% end %>
-                            </div>
-                            <div class="font_1 mt-2" style="overflow-wrap: break-word;">
-                              <%= @user_rank[3].nick_name %>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="font_2" align="right">5</td>
-                        <td class="border" align="center">
-                            <div class="user_icon">
-                              <% if @user_rank[4].profile_image.attached? %>
-                                <%= image_tag @user_rank[4].profile_image, size: "55x55", style:"object-fit:cover;" %>
-                              <% else %>
-                                <%= image_tag 'no_image', size: "55x55", style:"object-fit:cover;" %>
-                              <% end %>
-                            </div>
-                            <div class="font_1 mt-2" style="overflow-wrap: break-word;">
-                              <%= @user_rank[4].nick_name %>
-                            </div>
-                        </td>
-                    </tr>
-                    
-              </table>
+        <% else %>
+            <div class="row object-centering mt-5">
+              <div style="width:100%; height:100%;">
+                <p>登録されているユーザはいません。</p>
+                <small>
+                  <%= link_to "ログイン", new_user_session_path %>する
+                </small>
+              </div>
             </div>
-          
-        </div>
         <% end %>
         
     </div>
