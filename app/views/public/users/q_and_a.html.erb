@@ -55,6 +55,7 @@
                 
                 <tr style="list-style:none">
                     <td class="px-4 py-2">
+                        
                         <div class="sample">
                             <input class="btn d-flex text-light p-3 w-100" type="button" style="background-color:#00264D; border-radius:10px;" value="Q. ランクの上げ方について詳しく知りたい">
                         </div>
@@ -90,30 +91,33 @@
                                 </div>
                             </div>
                         </div>
+                        
                     </td>
                 </tr>
                 
-                <tr style="list-style:none">
-                    <td class="px-4 pt-2 pb-5">
-                        <div class="sample">
-                            <input class="btn d-flex text-light p-3" type="button" style="width:100%; background-color:#00264D; border-radius:10px;" value="Q. 退会方法について知りたい">
-                        </div>
-                        
-                        <div class= "sampleA mt-2 p-2 border" style="display:none;">
-                            <div style="height:auto; width:100%; display:flex;">
-                                <div class="p-3">
-                                    <ul class="mb-0 px-4">
-                                        <li style="list-style-type: upper-latin">
-                                            退会は
-                                            <%= link_to "こちら", confirmation_path %>
-                                            から可能です。
-                                        </li>
-                                    </ul>
+                <% if user_signed_in? %>
+                    <tr style="list-style:none">
+                        <td class="px-4 pt-2 pb-5">
+                            <div class="sample">
+                                <input class="btn d-flex text-light p-3" type="button" style="width:100%; background-color:#00264D; border-radius:10px;" value="Q. 退会方法について知りたい">
+                            </div>
+                            
+                            <div class= "sampleA mt-2 p-2 border" style="display:none;">
+                                <div style="height:auto; width:100%; display:flex;">
+                                    <div class="p-3">
+                                        <ul class="mb-0 px-4">
+                                            <li style="list-style-type: upper-latin">
+                                                退会は
+                                                <%= link_to "こちら", confirmation_path %>
+                                                から可能です。
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                <% end %>
                 
                 
             </table>
