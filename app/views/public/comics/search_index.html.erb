@@ -40,13 +40,13 @@
                       <% elsif user_signed_in? && !comic && before_date %>
                       
                           <%= link_to top_comic_info_comics_path(isbn: book["isbn"], from_rws: true) do %>
-                            <p class="mb-1 link_text text-dark" style="height:50px;">
+                            <p class="link_text text-dark mb-0" style="height:50px;">
                               <%= book.title.truncate(17) %>
                             </p>
                           <% end %>
                       
-                          <div class= "sample mb-2 d-flex" style="justify-content: flex-end;">
-                              <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
+                          <div class= "sample d-flex" style="justify-content: flex-end;">
+                              <input type="button" class="btn btn-sm btn-outline-dark my-3 px-3 text-nowrap w-100" style="" value="サイト情報追加">
                           </div>
                           
                           <div class= "sampleA p-2 border" style="display:none;">
@@ -76,7 +76,7 @@
                             </p>
                           <% end %>
                         </div> 
-                        <p align="center" class="border mb-2 p-2 small" style="border-radius:5px; color:gray;">サイト情報 未追加</p>
+                        <p align="center" class="my-3 py-1 small" style="border:0.5px solid gray; border-radius:5px; color:gray; height:31px;">サイト情報 未追加</p>
                       <% elsif !comic && future_date %>
                         <div>
                           <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"link_text" do %>
@@ -85,7 +85,7 @@
                             </p>
                           <% end %>
                         </div>
-                        <p align="center" class="mb-2 py-1 px-3 small" style="border:0.5px solid red; border-radius:5px; color:red;">未発売</p>
+                        <p align="center" class="my-3 py-1 px-3 py-auto small" style="border:0.5px solid red; border-radius:5px; color:red; height:31px;">未発売</p>
                       <% end %>
                   </div>
               </div>
