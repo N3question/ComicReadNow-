@@ -26,24 +26,24 @@
         </div>
       </div>
     </div>
-    <% end %>
-    
-    
-    <% sites.each do |site| %>
-        <p class="mt-2 mb-0 pb-0 d-inline-flex">
-          <i class="bi bi-check-lg text-success"></i>
-          <%= site.name %>
-        </p>
-    <% end %><br>
-    
+<% end %>
 
-    <p class="small mt-3">
-          <%= comic.updated_at.strftime('%Y年%m月%d日%H時%M分') %>　
-          <b><%= comic.user.nick_name %></b> さんが更新済み
-          (ver.<%= comic.version %>)<br>
-          <% if user_signed_in? && comic.remaining_one_comic_update_limit < 1 %>
-            今日の更新はこれ以上することができません。
-          <% elsif user_signed_in? %>
-            この漫画の更新残数は <%= comic.remaining_one_comic_update_limit %> 回です。
-          <% end %>
+
+<% sites.each do |site| %>
+    <p class="mt-2 mb-0 pb-0 d-inline-flex">
+      <i class="bi bi-check-lg text-success"></i>
+      <%= site.name %>
     </p>
+<% end %><br>
+
+
+<p class="small mt-3">
+      <%= comic.updated_at.strftime('%Y年%m月%d日%H時%M分') %>　
+      <b><%= comic.user.nick_name %></b> さんが更新済み
+      (ver.<%= comic.version %>)<br>
+      <% if user_signed_in? && comic.remaining_one_comic_update_limit < 1 %>
+        今日の更新はこれ以上することができません。
+      <% elsif user_signed_in? %>
+        この漫画の更新残数は <%= comic.remaining_one_comic_update_limit %> 回です。
+      <% end %>
+</p>

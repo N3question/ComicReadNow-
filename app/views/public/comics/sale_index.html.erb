@@ -33,7 +33,7 @@
                         
                       <% elsif !user_signed_in? && !comic %>
                           <div>
-                            <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"img_link" do %>
+                            <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"link_text" do %>
                               <p class="link_text text-dark" style="height:50px;">
                                 <%= book.title.truncate(17) %>
                               </p>
@@ -44,7 +44,7 @@
                       
                       <% elsif user_signed_in? && !comic %>
                           <div>
-                            <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"img_link" do %>
+                            <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"link_text" do %>
                               <p class="link_text text-dark" style="height:50px;">
                                 <%= book.title.truncate(17) %>
                               </p>
@@ -52,7 +52,7 @@
                           </div>
                           
                           <div class= "sample mb-2 d-flex" style="justify-content: flex-end;">
-                              <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
+                              <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" value="サイト情報追加">
                           </div>
                           <div class= "sampleA p-2 border" style="display:none;">
                             <div style="height:270px; width:100%; display:flex; justify-content:center;">
@@ -73,13 +73,6 @@
                                 </div>
                             </div>
                           </div>
-                          <script src="index.js"></script>
-                          
-                      <% else %>
-                          <p class="text-dark" style="height:50px;">
-                            <%= book.title.truncate(17) %>
-                          </p>
-                          
                       <% end %>
                   </div>
                 
