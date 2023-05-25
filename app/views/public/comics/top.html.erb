@@ -275,11 +275,14 @@
         
           <div class="d-flex">
             <h4 class="mt-4 ml-5 mb-2"><b>User Select</b></h4>
-            <div class="button_shadow mt-4 ml-auto mr-5 mb-3">
-              <%= link_to user_select_index_comics_path, class:"btn btn-sm btn-outline-dark px-3" do %>
-                全て見る <i class="bi bi-arrow-right-circle"></i>
-              <% end %>
-            </div>
+            
+            <% if @bookmark_comics.present? && @bookmark_comics.count > 14 %>
+              <div class="button_shadow mt-4 ml-auto mr-5 mb-3">
+                <%= link_to user_select_index_comics_path, class:"btn btn-sm btn-outline-dark px-3" do %>
+                  全て見る <i class="bi bi-arrow-right-circle"></i>
+                <% end %>
+              </div>
+            <% end %>
           </div>
           
           <p class="mx-5 mb-5">~ Comic Read now!の利用ユーザに人気の漫画を見てみよう！ ~</p>
