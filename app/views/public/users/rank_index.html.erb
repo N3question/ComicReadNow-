@@ -14,20 +14,19 @@
         TOP 10　(ユーザ総数： <%= @users.count %> 人)
       </small>
       
-    
-      <div class="table-responsive-lg rank_table js-scrollable mt-3" style="margin-bottom:80px;">
-          <table class="table user_rank_index_table">
+      <% if @users.present? %>
+          <div class="table-responsive-lg rank_table js-scrollable mt-3" style="margin-bottom:80px;">
+              <table class="table user_rank_index_table">
+                
+                <tr style="text-align: center;">
+                  <th class="small text-nowrap">順位</th>
+                  <th class="small" style="vertical-align: middle;">アイコン</th>
+                  <th class="small" style="vertical-align: middle;">ユーザ名</th>
+                  <th class="small">更新</th>
+                  <th class="small">評価</th>
+                  <th class="small">SCORE</th>
+                </tr>
             
-            <tr style="text-align: center;">
-              <th class="small text-nowrap">順位</th>
-              <th class="small" style="vertical-align: middle;">アイコン</th>
-              <th class="small" style="vertical-align: middle;">ユーザ名</th>
-              <th class="small">更新</th>
-              <th class="small">評価</th>
-              <th class="small">SCORE</th>
-            </tr>
-            
-            <% if @users.present? %>
                 <% current_user_flag = false %>
                 <% @users.each_with_index do |user, index| %>
                 
