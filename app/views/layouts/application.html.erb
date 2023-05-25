@@ -131,7 +131,9 @@
                               </li>
                             <% end %>
                             
-                            <hr class="dropdown-divider m-0">
+                            <% if @all_sites.present? %>
+                              <hr class="dropdown-divider m-0">
+                            <% end %>
                             
                             <div class="d-flex flex-wrap" style="justify-content:center;">
                               <% @all_sites.each do |all_site| %>
