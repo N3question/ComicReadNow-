@@ -303,6 +303,11 @@ ul li .list_icon::before {
     align-items: center;
 }
 
+.object-put-end {
+    display: flex;
+    justify-content: center; 
+    align-items: end;
+}
 
 .object-background {
     background-color:#FFF; 
