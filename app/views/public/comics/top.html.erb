@@ -285,25 +285,25 @@
           <p class="mx-5 mb-5">~ Comic Read now!の利用ユーザに人気の漫画を見てみよう！ ~</p>
           
           <% if @bookmark_comics.present? %>
-          <div class="contents_box js-scrollable">
-            <% @bookmark_comics.each do |book| %>
-            <% comic = Comic.find_by(isbn: book["isbn"]) %>
-              <div class="contents mr-3">
-                  <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: false), class:"img_link" do %>
-                    <%= image_tag book.large_image_url, class:"top_img_comic" %>
-                  <% end %>
-                  <p class="small mt-3">
-                  <%= book.title.truncate(13) %>
-                  </p>
-                </div>
-            <% end %>
-          </div>
+              <div class="contents_box js-scrollable">
+                <% @bookmark_comics.each do |book| %>
+                <% comic = Comic.find_by(isbn: book["isbn"]) %>
+                  <div class="contents mr-3">
+                      <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: false), class:"img_link" do %>
+                        <%= image_tag book.large_image_url, class:"top_img_comic" %>
+                      <% end %>
+                      <p class="small mt-3">
+                      <%= book.title.truncate(13) %>
+                      </p>
+                    </div>
+                <% end %>
+              </div>
           <% else %>
-            <div class="d-flex align-items-center mx-auto mb-3 p-3 border" style="display:table; width:80%; height:200px; border-radius:5px;">
-              <p class="text-center mb-0 mx-auto" style="display:table-cell; vertical-align: middle; text-align:center; color:silver;">
-                Comic Read Now! の利用ユーザがお気に入りにした漫画が存在しません。<br>
-              </p>
-            </div>
+              <div class="d-flex align-items-center mx-auto mb-3 p-3 border" style="display:table; width:80%; height:200px; border-radius:5px;">
+                <p class="text-center mb-0 mx-auto" style="display:table-cell; vertical-align: middle; text-align:center; color:silver;">
+                  Comic Read Now! の利用ユーザがお気に入りにした漫画が存在しません。<br>
+                </p>
+              </div>
           <% end %>
           
       </div>
