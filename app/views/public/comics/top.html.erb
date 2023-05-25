@@ -125,8 +125,8 @@
               
             </div>
         <% else %>
-            <div class="col-lg-12 col-md-12 d-flex p-3 border" style="display:table; width:100%; height:200px; border-radius:5px;">
-              <p class="text-center mb-0" style="display:table-cell; vertical-align: middle; text-align:center; color:silver;">
+            <div class="col-lg-12 col-md-12 d-flex align-items-center p-3 border" style="display:table; width:100%; height:200px; border-radius:5px;">
+              <p class="text-center mb-0 mx-auto" style="display:table-cell; vertical-align: middle; text-align:center; color:silver;">
                 登録されているユーザはいません。<br>
                 <%= link_to "新規登録", new_user_registration_path %>はこちら
               </p>
@@ -284,6 +284,7 @@
           
           <p class="mx-5 mb-5">~ Comic Read now!の利用ユーザに人気の漫画を見てみよう！ ~</p>
           
+          <% if @bookmark_comics.present? %>
           <div class="contents_box js-scrollable">
             <% @bookmark_comics.each do |book| %>
             <% comic = Comic.find_by(isbn: book["isbn"]) %>
@@ -297,6 +298,13 @@
                 </div>
             <% end %>
           </div>
+          <% else %>
+            <div class="col-lg-12 col-md-12 d-flex align-items-center p-3 border" style="display:table; width:100%; height:200px; border-radius:5px;">
+              <p class="text-center mb-0 mx-auto" style="display:table-cell; vertical-align: middle; text-align:center; color:silver;">
+                Comic Read Now! の利用ユーザがお気に入りにした漫画が存在しません。<br>
+              </p>
+            </div>
+          <% end %>
           
       </div>
     </div>
