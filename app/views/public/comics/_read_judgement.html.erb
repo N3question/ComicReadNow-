@@ -3,12 +3,14 @@
       <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
     <% elsif user_read_judgement.present? && user_read_judgement.can_read == false %>
       <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
+    <% elsif comic.user_id == !current_user.id %>
+      ppp
     <% elsif version %>
-      <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
+      <small>上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</small>
     <% end %>
 </div>
                     
-<% if user_read_judgement.nil? %>
+<% if user_read_judgement.nil? && comic.user_id == !current_user.id %>
     <%= form_with url: comic_read_judgement_path(comic.id), local: false, id:"comic_read_judgement" do |f| %>
       <div class="d-flex">
         <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>
@@ -18,7 +20,6 @@
       </div>
       <%= f.submit '', id: "read_judgements_submit", style:"display:none" %>
     <% end %>
-
 <% else %>
     <div class="d-flex" style="align-items: center;">
         <p class="mb-0 px-2 py-1 text-nowrap can_read_radio_view">読めた</p>
