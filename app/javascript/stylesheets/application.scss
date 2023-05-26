@@ -71,6 +71,12 @@
     list-style: none;
 }
 
+.header_padding {
+    padding-top: 205px; 
+    background-color:#FFF; 
+    min-height: 85vh;
+}
+
 .dropdown_ul_style {
     width: 300px; 
     box-shadow: 10px 10px 20px #00264D;
@@ -108,6 +114,7 @@
     color: white;
 }
 
+// 検索フォーム
 .input-group {
     margin: 0 auto;
     width: 95%; 
@@ -121,13 +128,52 @@
 }
 
 
-.body {
+
+
+
+
+body {
     min-height: 96vh;
-    position: relative;/*←相対位置*/
-    padding-bottom: 100px;/*←footerの高さ*/
-    box-sizing: border-box;/*←全て含めてmin-height:100vhに*/
+    position: relative; /*←相対位置*/
+    padding-bottom: 100px; /*←footerの高さ*/
+    box-sizing: border-box; /*←全て含めてmin-height:100vhに*/
     background-color:#EEE;
 }
+
+// 各画面共通
+.view_title {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.view_each_div {
+    display: inline-flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.comic_title_div {
+    width: 150px;
+    height: auto;
+}
+
+.paginate_style {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.back_action{
+    width: 95%; 
+    height: 60px; 
+    line-height: 60px; 
+    background-color:#FFF; 
+    box-shadow: 5px 5px 5px #DDD;
+    display: flex;
+    justify-content: center;
+}
+// ここまで
+
 
 footer {
     height: 100px; 
@@ -178,7 +224,6 @@ footer {
     white-space: nowrap;
     display: flex;
 }
-
 
 .contents_box::-webkit-scrollbar{
     display: none;
@@ -270,112 +315,6 @@ a.img_link:hover {
     border: 2px solid #7B3CFF; 
     background-color:#D0B0FF; 
     border-radius: 5px;
-}
-
-// 以下サイドバーのCSS
-.channel-menu {
-    position: fixed;
-    top: 0;
-    @media screen and (max-width: 1100px) {
-      position: inherit;
-      margin-left: 0;
-    }
-}
-
-.channel-menu_name {
-    display: inline-block;
-    padding: 0 0.5rem 0 1.5rem;
-    color: #555459;
-    font-size: 1.4rem;
-    font-weight: 900;
-    line-height: 53px;
-    cursor: pointer;
-    @media screen and (max-width: 1100px) {
-      padding-left: 0;
-    }
-}
-
-.channel_name .prefix {
-    margin-right: 8px;
-}
-
-.channel-menu_prefix {
-    padding-right: 0.5rem;
-    font-weight: 500;
-}
-
-.channel-menu_date {
-    font-weight: bold;
-}
-
-.channel-menu h3 {
-    float: right;
-    padding-right: 0.1rem;
-    font-weight: 500;
-}
-
-.listings {
-    border: 0.5px solid #00264D; 
-    min-height: 74vh;
-    height: 100%;
-    width: 100%;
-    float: left;
-    color: #ab9ba9;
-    background-color: #00264D;
-    overflow-y: auto;
-    overflow-x: hidden;
-    z-index: 10;
-    @media screen and (max-width: 600px) {
-      display: none;
-      position: absolute;
-      &.show {
-        display: block;
-      }
-    }
-}
-
-.listings_channels {
-    // margin: 1rem 0 2rem;
-}
-
-.listings_header {
-    text-align: left;
-    font-size: 0.8rem;
-    line-height: 1.25rem;
-    margin: 0 1rem 0.1rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: #778899;
-    width: 165px;
-    position: relative;
-}
-
-.channel_list {
-    padding: 0;
-    list-style-type: none;
-    text-align: left;
-    color: #ab9ba9;
-}
-
-.channel {
-    height: 24px;
-    line-height: 24px;
-    padding-right: 17px;
-    color: #ffffff;
-    padding-left: 1rem;
-    a {
-      color: #ddd;
-      text-decoration: none;
-      width: 100%;
-      display: inline-block;
-    }
-    a:hover {
-      color: #eee;
-    }
-}
-
-.channel.active {
-    background: #003973;
 }
 
 .list_marker {
@@ -486,15 +425,6 @@ ul li .list_icon::before {
     text-decoration: none;
 }
 
-.back_action{
-    width: 95%; 
-    height: 60px; 
-    line-height: 60px; 
-    background-color:#FFF; 
-    box-shadow: 5px 5px 5px #DDD;
-    display: flex;
-    justify-content: center;
-}
 
 
 

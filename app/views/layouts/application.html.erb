@@ -21,7 +21,7 @@
   </head>
   
 
-  <body class="body px-0">
+  <body class="px-0">
     <header class="fixed-top">
         
         <% if admin_signed_in? %>
@@ -58,7 +58,7 @@
                               <%= link_to "不適切コメント管理一覧", admin_top_path, class:"header_link_deco" %>
                             </li>
                             <li class="font_1 mx-4 mb-4">
-                              <%= link_to "Premium User 一覧", admin_top_path class:"header_link_deco" %>
+                              <%= link_to "Premium User 一覧", admin_top_path, class:"header_link_deco" %>
                             </li>
                             <li class="mx-4">
                               <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class:"header_link_deco btn btn-outline-dark w-100" %>
