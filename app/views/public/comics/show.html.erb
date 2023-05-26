@@ -55,9 +55,8 @@
                 <!--漫画サイト情報-->
                 <small class="border mb-2 mr-4 p-1 text-nowrap text-success">以下の漫画サイトで読むことができます！</small><br> 
                 <div id="edit_sites_buttons_<%= @comic.id %>" class="edit_buttun">
-                  <%= render partial: '/public/comics/edit_site', locals: {comic: @comic, can_not_read: @can_not_read, comic_update_limit_count: @comic_update_limit_count, sites: @sites } %>
+                  <%= render partial: '/public/comics/edit_site', locals: {comic: @comic, can_not_read: @can_not_read, comic_update_limit_count: @comic_update_limit_count, sites: @sites, user_upadte_limit_count: user_upadte_limit_count(@comic) } %>
                 </div>
-                
                 
                 
                 <% if user_signed_in? %>

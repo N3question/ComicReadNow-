@@ -1,5 +1,8 @@
-<% if @success_flag == true %>
-    $("#edit_sites_buttons_<%= @comic.id %>").html("<%= j(render partial: '/public/comics/edit_site', locals: {comic: @comic, can_not_read: @can_not_read, comic_update_limit_count: @comic_update_limit_count, sites: @sites }) %>");
+<% if @success_flag == true && params[:format] == "from_top" %> <!-- falseが返り値。params[:format] -->
+    $("#top_edit_sites_buttons_<%= @top_comic_info.id %>").html("<%= j(render partial: '/public/comics/top_edit_site', locals: {top_comic_info: @top_comic_info, can_not_read: can_not_read(@top_comic_info), comic_update_limit_count: comic_update_limit_count(@top_comic_info), sites: sites(@top_comic_info), user_upadte_limit_count: user_upadte_limit_count(@top_comic_info) }) %>");
+<% elsif @success_flag == true %>
+<!--<#% byebug %> trueが返り値--> 
+    $("#edit_sites_buttons_<%= @comic.id %>").html("<%= j(render partial: '/public/comics/edit_site', locals: {comic: @comic, can_not_read: @can_not_read, comic_update_limit_count: @comic_update_limit_count, sites: @sites, user_upadte_limit_count: user_upadte_limit_count(@comic), user_upadte_limit_count: user_upadte_limit_count(@comic) }) %>");
 <% else %>
     alert("更新前と同じ内容のため、更新していません。やり直してください。")
 <% end %>
