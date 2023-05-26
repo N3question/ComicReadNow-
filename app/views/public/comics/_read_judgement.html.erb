@@ -10,7 +10,7 @@
     <% end %>
 </div>
                     
-<% if user_read_judgement.nil? && comic.user_id == !current_user.id %>
+<% if user_read_judgement.nil? && comic.user_id == !current_user.id %> <!-- 後の条件がfalseになる -->
     <%= form_with url: comic_read_judgement_path(comic.id), local: false, id:"comic_read_judgement" do |f| %>
       <div class="d-flex">
         <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>

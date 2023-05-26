@@ -5,25 +5,153 @@
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgb(255, 255, 255)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-.wrapper {
+.admin_header {
+    background-color:#00264D; 
+    border-bottom: 0.5px solid #BBB; 
+}
+
+.admin_header_flex {
+    display: flex;
+    justify-content: center;
+}
+
+.admin_header_2 {
+    display: flex; 
+    justify-content: space-between; 
+    background-color: #00264D;
+}
+
+.admin_header_2_flex {
+    display: flex;
+    align-items: center;
+}
+
+.admin_header_2_link_deco {
+    text-decoration: none; 
+    color: white;
+}
+
+.admin_dropdown_style {
+    width: 250px; 
+    box-shadow: 10px 10px 20px #00264D;
+}
+
+.admin_header_app_icon {
+    margin: 0 auto;
+    color: white;
+    width: 45px;
+}
+
+.admin_header_app_name {
+    margin: 0 auto;
+    color: white;
+}
+
+.header_link_deco {
+    text-decoration: none;
+}
+
+.header_app_icon {
+    margin: 0 auto;
+    color: white;
+}
+
+.header_app_name {
+    margin: 0 auto;
+    color: white;
+}
+
+.header_ul_style {
+    display: inline-flex;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-left: 0;
+    align-items: center; 
+    list-style: none;
+}
+
+.dropdown_ul_style {
+    width: 300px; 
+    box-shadow: 10px 10px 20px #00264D;
+}
+
+.dropdown_all_site_div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.all_site_style {
+    width: 145px;
+}
+
+.all_site_style:nth-child(odd) {
+    border-bottom: 0.5px solid silver;
+    border-right: 0.5px solid silver;
+}
+
+.all_site_style:nth-child(even) {
+    border-bottom: 0.5px solid silver;
+}
+
+.premium_btn_style {
+    width: 100%; 
+    border: 2px solid #00264D; 
+    background-color:#FF8000; 
+    color: white; 
+    box-shadow: 4px 5px 7px #CCC;
+}
+
+.registration_btn_style {
+    background-color:#66CC00; 
+    color: white;
+}
+
+.input-group {
+    margin: 0 auto;
+    width: 95%; 
+    height: 60px;
+    box-shadow: 10px 8px 5px rgba(128,128,128, 0.25);
+}
+
+.input-group-prepend {
+    height: 60px; 
+    border: 0.5px solid #00264D;
+}
+
+
+.body {
     min-height: 96vh;
     position: relative;/*←相対位置*/
     padding-bottom: 100px;/*←footerの高さ*/
     box-sizing: border-box;/*←全て含めてmin-height:100vhに*/
+    background-color:#EEE;
 }
 
-.object_wrapper {
-    min-height: 20vh;
-    position: relative;/*←相対位置*/
-    padding-bottom: 80px;/*←footerの高さ*/
-    box-sizing: border-box;
-}
-
-footer, .rank_que {
+footer {
+    height: 100px; 
+    background-color:#00264D;
+    
+    .text_centering_to_div {
+    display: table;
+    height: 100px; 
     width: 100%;
-    position: absolute;/*←絶対位置*/
-    bottom: 0; /*下に固定*/
+    }
+    
+    .text_centering_to_text {
+        display: table-cell; 
+        vertical-align: middle; 
+        text-align: center;
+    }
+    
 }
+
+
+
+
+
+
 
 .user_icon {
     img {
@@ -75,15 +203,6 @@ footer, .rank_que {
     padding: 30px 20px; 
     display: flex; 
     justify-content: center;
-}
-
-.site_name_header:nth-child(odd) {
-    border-bottom: 0.5px solid silver;
-    border-right: 0.5px solid silver;
-}
-
-.site_name_header:nth-child(even) {
-    border-bottom: 0.5px solid silver;
 }
 
 .admin_table tr:last-child {
@@ -363,24 +482,20 @@ ul li .list_icon::before {
     opacity: 0.5;
 }
 
-
-footer {
-    height: 100px; 
-    background-color:#00264D;
-    
-    .text_centering_to_div {
-    display: table;
-    height: 100px; 
-    width: 100%;
-    }
-    
-    .text_centering_to_text {
-        display: table-cell; 
-        vertical-align: middle; 
-        text-align: center;
-    }
-    
+.link_deco {
+    text-decoration: none;
 }
+
+.back_action{
+    width: 95%; 
+    height: 60px; 
+    line-height: 60px; 
+    background-color:#FFF; 
+    box-shadow: 5px 5px 5px #DDD;
+    display: flex;
+    justify-content: center;
+}
+
 
 
 // PCフォースト（...defalutがPCサイズの画面）の場合上にPCサイズのCSSを記述

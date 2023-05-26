@@ -1,11 +1,11 @@
-<div class="pb-4" style="padding-top:205px; background-color:#FFF; min-height: 85vh;">
+<div class="header_padding pb-4" style="padding-top:205px; background-color:#FFF; min-height: 85vh;">
   
     <div class="col-10 mt-5 mx-auto">
         <div class="ml-5 mb-5 d-flex flex-wrap">
             <h5><b>' <%= @comic_site.site.name %> ' 一覧　</b></h5>
             <p class="ml-2"><b>全<%= @comic_site_amount.count %>件</b></p>
         </div>
-        <div class="d-inline-flex flex-wrap" style="justify-content:center;">
+        <div class="d-inline-flex justify-content-center flex-wrap">
             <% @comic_sites.each do |comic_site| %>
             <% comic = Comic.find_by(isbn: comic_site.comic["isbn"]) %>
               <div class="mx-2">
@@ -25,20 +25,20 @@
             <% end %>
         </div>
         
-        <div class="media_pc">
-          <div class="d-flex flex-wrap" style="justify-content:center;">
+      <div class="media_pc">
+          <div class="d-flex justify-content-center flex-wrap">
                 <%= paginate @comic_sites, window: 4 %>
           </div>
       </div>
       
       <div class="media_tb">
-          <div class="d-flex flex-wrap" style="justify-content:center;">
+          <div class="d-flex justify-content-center flex-wrap">
                 <%= paginate @comic_sites, window: 2 %>
           </div>
       </div>
       
       <div class="media_sp">
-          <div class="d-flex flex-wrap" style="justify-content:center;">
+          <div class="d-flex justify-content-center flex-wrap">
                 <%= paginate @comic_sites, window: 1 %>
           </div>
       </div>
@@ -46,9 +46,8 @@
     
     <span id="back" style="width:100%; display:none;">
       <a href=""  style="text-decoration:none;">
-          <div class="d-flex justify-content-center border mt-5 mx-auto" 
-               style="width:95%; height:60px; line-height:60px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
-            <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
+          <div class="back_action border mt-5 mx-auto" >
+            <p class="text-dark mb-0">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
           </div>
       </a>
     </span>
