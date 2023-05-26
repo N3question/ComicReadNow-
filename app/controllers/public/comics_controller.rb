@@ -500,9 +500,9 @@ class Public::ComicsController < ApplicationController
     @comic_sites = ComicSite.where(
           site_id: params[:id]
           )
+          .order(:title)
           .page(params[:page])
           .per(30)
-          .order(:title)
     @comic_site_amount = ComicSite.where(
           site_id: params[:id]
           )

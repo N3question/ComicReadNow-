@@ -141,6 +141,18 @@ a.img_link:hover {
     border-radius: 5px;
 }
 
+.can_read_radio_view{
+    border: 2px solid #2C7CFF; 
+    background-color: #A4C6FF; 
+    border-radius: 5px;
+}
+
+.can_not_read_radio_view{
+    border: 2px solid #7B3CFF; 
+    background-color:#D0B0FF; 
+    border-radius: 5px;
+}
+
 // 以下サイドバーのCSS
 .channel-menu {
     position: fixed;
