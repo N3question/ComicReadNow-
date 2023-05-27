@@ -7,8 +7,6 @@ class ApplicationController < ActionController::Base
   def set_sites
     @all_sites = Site.all
     @all_site_count = Site.all.count
-    site = Site.find(params[:id]) #追加
-    @comic_site = ComicSite.find_by(site_id: site.id) #追加
   end
   
   private
