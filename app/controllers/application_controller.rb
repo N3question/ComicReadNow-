@@ -2,11 +2,11 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_sites
   
-  include Pagy::Backend  #追記
-  
   def set_sites
     @all_sites = Site.all
     @all_site_count = Site.all.count
+    site = Site.find(params[:id]) #追加
+    @comic_site = ComicSite.find_by(site_id: site.id) #追加
   end
   
   private

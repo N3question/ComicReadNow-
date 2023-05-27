@@ -419,9 +419,9 @@ class Public::ComicsController < ApplicationController
   
   # サイト毎の一覧
   def comic_site_index
-    session["url"] = nil
-    session["update_url"] = nil
+    session["referer_url"] = nil
     session["search_keyword"] = nil
+    @comic = Comic.find_by(isbn: params[:isbn])
     @comic_site = ComicSite.find_by(site_id: params[:id])
     @comic_sites = ComicSite.where(site_id: params[:id])
                 .order(:title)
