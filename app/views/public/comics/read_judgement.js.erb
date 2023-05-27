@@ -1,8 +1,7 @@
-<% if params[:format] == "from_top" %> <!--falseで返ってくる-->
-    $("#top_read_judgements_buttons_<%= @top_comic_info.id %>").html("<%= j(render partial: '/public/comics/top_read_judgement',locals: { top_comic_info: @top_comic_info, user_read_judgement: user_read_judgement(@top_comic_info), can_read: can_read(@top_comic_info), can_not_read: can_not_read(@top_comic_info), version: current_version(@top_comic_info)}) %>");
+<% if params[:format] == "from_top" %>
+      $("#top_read_judgements_buttons_<%= @comic.id %>").html("<%= j(render partial: '/public/comics/top_read_judgement', locals: { top_comic_info: @top_comic_info, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read, version: @current_version }) %>");
 <% else %>
-<!--<#% byebug %>-->
-   $("#read_judgements_buttons_<%= @comic.id %>").html("<%= j(render partial: '/public/comics/read_judgement',locals: { comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read,version: current_version(@comic) }) %>");
+      $("#read_judgements_buttons_<%= @comic.id %>").html("<%= j(render partial: '/public/comics/read_judgement', locals: { comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read,version: @current_version }) %>");
 <% end %>
 
 /*

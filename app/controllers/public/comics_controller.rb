@@ -84,8 +84,8 @@ class Public::ComicsController < ApplicationController
   def top_comic_info
     
     # session前提
-    if !request.referer &.include?("/comics/#{params[:comic_id]}") || 
-      !request.referer &.include?("/comics") ||
+    if !request.referer &.include?("/") || 
+      !request.referer &.include?("/comics/#{params[:comic_id]}") || 
       !request.referer &.include?("/top_comic_info") || 
       request.referer&.include?("/sale_index/#{params[:current_page]}") || 
       request.referer&.include?("/review_count_index") || 
@@ -123,8 +123,16 @@ class Public::ComicsController < ApplicationController
                     version: @top_comic_info.version
                     )
       @comic_update_limit_count = @top_comic_info.remaining_one_comic_update_limit
+      @current_version = Comic.order(version: :desc).limit(1)
     end
-    
+    if user_signed_in?
+      @user_read_judgement = ReadJudgement.find_by(
+                      comic_id: @top_comic_info.id, 
+                      user_id: current_user.id, 
+                      version: @top_comic_info.version
+                      )
+      @user_upadte_limit_count = current_user.remaining_total_update_limit
+    end
     
     @comic = Comic.new
   end
@@ -216,13 +224,13 @@ class Public::ComicsController < ApplicationController
                   version: @comic.version
                   )
     @comic_update_limit_count = @comic.remaining_one_comic_update_limit
-    
     if user_signed_in?
-        @user_read_judgement = ReadJudgement.find_by(
+      @user_read_judgement = ReadJudgement.find_by(
                       comic_id: @comic.id, 
                       user_id: current_user.id, 
                       version: @comic.version
                       )
+      @user_upadte_limit_count = current_user.remaining_total_update_limit
     end
   end
   
@@ -281,7 +289,7 @@ class Public::ComicsController < ApplicationController
         update_count: update_amount + 1
         )
     
-    # Viewで使用しているインスタンス
+    # jsで使用しているインスタンス
     @can_not_read = ReadJudgement.where(
                   comic_id: @comic.id,
                   can_read: false, # 読めなかった
@@ -289,6 +297,10 @@ class Public::ComicsController < ApplicationController
                   )
     @comic_update_limit_count = @comic.remaining_one_comic_update_limit
     @sites = @comic.sites.all
+    
+    if user_signed_in?
+      @user_upadte_limit_count = current_user.remaining_total_update_limit
+    end
   end
   
   

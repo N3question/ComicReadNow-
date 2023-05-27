@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 2023_04_27_145150) do
 
   create_table "comics", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "isbn", null: false
+    t.bigint "isbn", null: false
     t.string "title", null: false
     t.string "author", null: false
     t.string "author_kana", null: false
@@ -84,25 +84,6 @@ ActiveRecord::Schema.define(version: 2023_04_27_145150) do
     t.integer "can_read_count", default: 0, null: false
     t.integer "can_not_read_count", default: 0, null: false
     t.integer "version", default: 0, null: false
-  end
-
-  create_table "rakuten_book_apis", force: :cascade do |t|
-    t.bigint "isbn", null: false
-    t.string "title", null: false
-    t.string "large_image_url", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "read_judgements", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "comic_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.boolean "can_read", default: false, null: false
-    t.integer "version", default: 0, null: false
-    t.index ["comic_id"], name: "index_read_judgements_on_comic_id"
-    t.index ["user_id"], name: "index_read_judgements_on_user_id"
   end
 
   create_table "sites", force: :cascade do |t|
@@ -131,6 +112,4 @@ ActiveRecord::Schema.define(version: 2023_04_27_145150) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bookmarks", "comics"
   add_foreign_key "bookmarks", "users"
-  add_foreign_key "read_judgements", "comics"
-  add_foreign_key "read_judgements", "users"
 end

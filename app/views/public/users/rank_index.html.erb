@@ -71,7 +71,7 @@
                               <% elsif user.profile_image.attached? %>
                                 <%= image_tag user.profile_image, size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
                               <% else %>
-                                <%= image_tag 'no_image', size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
+                                <%= image_tag asset_path("no_image.jpg"), size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
                               <% end %>
                             </div>
                           </td>
@@ -148,7 +148,7 @@
                           <% if current_user.profile_image.attached? %>
                             <%= image_tag current_user.profile_image, size: "60x60", style:"border: 2px solid #FFFFCC; object-fit:cover;" %>
                           <% else %>
-                            <%= image_tag 'no_image', size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
+                            <%= image_tag asset_path("no_image.jpg"), size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
                           <% end %>
                         </div>
                       </td>

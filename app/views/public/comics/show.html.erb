@@ -55,7 +55,7 @@
                 <!--漫画サイト情報-->
                 <small class="border mb-2 mr-4 p-1 text-nowrap text-success">以下の漫画サイトで読むことができます！</small><br> 
                 <div id="edit_sites_buttons_<%= @comic.id %>" class="edit_buttun">
-                  <%= render partial: '/public/comics/edit_site', locals: {comic: @comic, can_not_read: @can_not_read, comic_update_limit_count: @comic_update_limit_count, sites: @sites, user_upadte_limit_count: user_upadte_limit_count(@comic) } %>
+                  <%= render partial: '/public/comics/edit_site', locals: { comic: @comic, can_not_read: @can_not_read, user_read_judgement: @user_read_judgement, comic_update_limit_count: @comic_update_limit_count, user_upadte_limit_count: @user_upadte_limit_count, sites: @sites } %>
                 </div>
                 
                 
@@ -67,7 +67,7 @@
                     <div class="d-flex" style="align-items: center;">
                       <!--可読情報が未追加-->
                       <div id="read_judgements_buttons_<%= @comic.id %>">
-                        <%= render partial: '/public/comics/read_judgement', locals: {comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read, version: current_version(@comic)} %>
+                        <%= render partial: '/public/comics/read_judgement', locals: {comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read, version: @current_version } %>
                       </div>
                     </div>
                     

@@ -78,7 +78,7 @@
                     <!--漫画サイト情報-->
                     <small class="border mb-2 mr-4 p-1 text-nowrap text-success">以下の漫画サイトで読むことができます！</small><br> 
                     <div id="top_edit_sites_buttons_<%= @top_comic_info.id %>" class="edit_buttun">
-                      <%= render partial: '/public/comics/top_edit_site', locals: {top_comic_info: @top_comic_info, can_not_read: can_not_read(@top_comic_info), comic_update_limit_count: comic_update_limit_count(@top_comic_info), sites: sites(@top_comic_info), user_upadte_limit_count: user_upadte_limit_count(@top_comic_info) } %>
+                      <%= render partial: '/public/comics/top_edit_site', locals: { top_comic_info: @top_comic_info, can_not_read: @can_not_read, comic_update_limit_count: @comic_update_limit_count, sites: @sites, user_upadte_limit_count: @user_upadte_limit_count } %>
                     </div>
                     
                     
@@ -91,9 +91,10 @@
                         <div class="d-flex" style="align-items: center;">
                           <!--可読情報が未追加-->
                           <div id="top_read_judgements_buttons_<%= @top_comic_info.id %>">
-                            <%= render partial: '/public/comics/top_read_judgement', locals: {top_comic_info: @top_comic_info, user_read_judgement: user_read_judgement(@top_comic_info), can_read: can_read(@top_comic_info), can_not_read: can_not_read(@top_comic_info), version: current_version(@top_comic_info) } %>
+                            <%= render partial: '/public/comics/top_read_judgement', locals: { top_comic_info: @top_comic_info, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read, version: @current_version } %>
                           </div>
                         </div>
+                        
                     <% end %>
                 <% end %>
                 

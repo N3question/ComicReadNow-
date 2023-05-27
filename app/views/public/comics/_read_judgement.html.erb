@@ -3,14 +3,14 @@
       <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
     <% elsif user_read_judgement.present? && user_read_judgement.can_read == false %>
       <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
-    <% elsif comic.user_id == !current_user.id %>
-      ppp
+    <% elsif comic.user_id == current_user.id %>
+      <small>更新者は可読判定を押すことはできません。</small>
     <% elsif version %>
       <small>上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</small>
     <% end %>
 </div>
                     
-<% if user_read_judgement.nil? && comic.user_id == !current_user.id %> <!-- 後の条件がfalseになる -->
+<% if user_read_judgement.nil? && ( comic.user_id != current_user.id ) %>
     <%= form_with url: comic_read_judgement_path(comic.id), local: false, id:"comic_read_judgement" do |f| %>
       <div class="d-flex">
         <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>
