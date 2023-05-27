@@ -1,13 +1,13 @@
 <div style="padding:145px 20px 40px; background-color:#EEE;"></div>
-<div style="padding:30px 0 30px; background-color:#EEE; min-height:74vh;">
+<div style="padding:30px 0 30px; background-color:#EEE; min-height:87vh;">
   <div class="col-lg-9 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
     <!--「←」ボタン-->
       <% if session["search_keyword"] && params[:page] %>
-          <%= link_to search_index_comics_path(keyword: session["search_keyword"], page: params[:page]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+          <%= link_to search_index_comics_path(keyword: session["search_keyword"], page: params[:page]), class:"btn btn-sm mb-3 px-3 border", style:"color:#00264D;" do %>
             <i class="bi bi-arrow-left"></i>
           <% end %>
       <% else %>
-          <%= link_to session["referer_url"] || root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+          <%= link_to session["referer_url"] || root_path, class:"btn btn-sm mb-3 px-3 border", style:"color:#00264D;" do %>
             <i class="bi bi-arrow-left"></i>
           <% end %>
       <% end %>
