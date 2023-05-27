@@ -1,4 +1,5 @@
 <div style="height:115px;"></div>
+
 <% if flash[:notice].present? %>
     <div>
         <div class="alert alert-danger alert-dismissible mx-auto mb-0" style="width:94%;">
@@ -9,49 +10,42 @@
 <% end %>
 
 <div style="padding:15px 0 40px; min-height: 74vh;">
-  
-    <div class="col-lg-4 col-md-5 col-sm-11 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD; padding-bottom:30px;">
-      <h4 class="mb-3"><b>新規登録</b></h4>
-    
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-      <%= render "public/shared/error_messages", resource: resource %>
-    
-        <div class="field mb-3">
-          <%= f.label :nick_name, class:"mr-3 mb-0" %>
-          <div class="d-flex flex-wrap mb-2">
-            <small class="mr-3 text-success"><i class="bi bi-check2-circle"></i> 英数字 [半角]</small>
-            <small class="mr-3 text-success"><i class="bi bi-check2-circle"></i> 12文字以内</small>
-            <small class="mr-3 text-success"><i class="bi bi-check2-circle"></i>  _.-!?@'%<> [記号]</small>
-          </div>
-          <%= f.text_field :nick_name, autofocus: true, autocomplete: "nick_name", class:"form-control", placeholder:"CRn!" %>
+  <div class="col-lg-4 col-md-5 col-sm-11 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD; padding-bottom:30px;">
+    <h4 class="mb-3"><b>新規登録</b></h4>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "public/shared/error_messages", resource: resource %>
+      <div class="field mb-3">
+        <%= f.label :nick_name, class:"mr-3 mb-0" %>
+        <div class="d-flex flex-wrap mb-2">
+          <small class="mr-3 text-success"><i class="bi bi-check2-circle"></i> 英数字 [半角]</small>
+          <small class="mr-3 text-success"><i class="bi bi-check2-circle"></i> 12文字以内</small>
+          <small class="mr-3 text-success"><i class="bi bi-check2-circle"></i>  _.-!?@'%<> [記号]</small>
         </div>
-        <div class="field mb-3">
-          <%= f.label :email %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control", placeholder:"sample@gmail.com" %>
+        <%= f.text_field :nick_name, autofocus: true, autocomplete: "nick_name", class:"form-control", placeholder:"CRn!" %>
+      </div>
+      <div class="field mb-3">
+        <%= f.label :email %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control", placeholder:"sample@gmail.com" %>
+      </div>
+      <div class="field mb-3">
+        <%= f.label :password, class:"mr-3 mb-0" %>
+        <div class="mb-2">
+          <small class="mr-2 text-success"><i class="bi bi-check2-circle"></i> 英数字 [半角]</small>
+          <small class="mr-2 text-success"><i class="bi bi-check2-circle"></i> 6文字以上</small>
         </div>
-    
-        <div class="field mb-3">
-          <%= f.label :password, class:"mr-3 mb-0" %>
-          <div class="mb-2">
-            <small class="mr-2 text-success"><i class="bi bi-check2-circle"></i> 英数字 [半角]</small>
-            <small class="mr-2 text-success"><i class="bi bi-check2-circle"></i> 6文字以上</small>
-          </div>
-          <!--<#% if @minimum_password_length %>-->
-          <!--<em>(<#%= @minimum_password_length %> characters minimum)</em>-->
-          <!--<#% end %><br />-->
-          <%= f.password_field :password, autocomplete: "new-password", class:"form-control", placeholder:"CRn!000" %>
-        </div>
-    
-        <div class="field mb-4">
-          <%= f.label :password_confirmation %><br />
-          <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control", placeholder:"CRn!000" %>
-        </div>
-    
-        <div class="actions mt-5 mb-4">
-          <%= f.submit "新規登録", class:"btn rounded-pill form-control", style:"background-color:#66CC00; color:white;" %>
-        </div>
-      <% end %>
-    
-      <%= render "public/shared/links" %>
-    </div>
+        <!--<#% if @minimum_password_length %>-->
+        <!--<em>(<#%= @minimum_password_length %> characters minimum)</em>-->
+        <!--<#% end %><br />-->
+        <%= f.password_field :password, autocomplete: "new-password", class:"form-control", placeholder:"CRn!000" %>
+      </div>
+      <div class="field mb-4">
+        <%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control", placeholder:"CRn!000" %>
+      </div>
+      <div class="actions mt-5 mb-4">
+        <%= f.submit "新規登録", class:"btn rounded-pill form-control", style:"background-color:#66CC00; color:white;" %>
+      </div>
+    <% end %>
+    <%= render "public/shared/links" %>
+  </div>
 </div>

@@ -4,7 +4,7 @@
     <% elsif user_read_judgement.present? && user_read_judgement.can_read == false %>
       <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
     <% elsif top_comic_info.user_id == current_user.id %>
-      <small>更新者は可読判定を押すことはできません。</small>
+      <small>更新者は可読判定を押すことができません。</small>
     <% elsif version %>
       <p class="small mb-2">上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</p>
     <% end %>
