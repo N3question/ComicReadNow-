@@ -4,24 +4,29 @@
       <h5><b>' <%= @comic_site.site.name %> ' 一覧　</b></h5>
       <p class="ml-2"><b>全<%= @comic_site_amount.count %>件</b></p>
     </div>
-    <div class="view_each_div">
-      <% @comic_sites.each do |comic_site| %>
-        <div class="mx-2">
-          <div>
-            <%= link_to comic_path(comic_site.comic.id), class:"img_link" do %>
-              <%= image_tag comic_site.comic.large_image_url, class:"img_comic" %>
-            <% end %>
+    <% if @comic_sites.present? %>
+      <div class="view_each_div">
+        <% @comic_sites.each do |comic_site| %>
+          <div class="mx-2">
+            <div>
+              <%= link_to comic_path(comic_site.comic.id), class:"img_link" do %>
+                <%= image_tag comic_site.comic.large_image_url, class:"img_comic" %>
+              <% end %>
+            </div>
+            <div class="comic_title_div py-4 mb-3">
+              <%= link_to comic_path(comic_site.comic.id) do %>
+                <p class="link_text text-dark mb-2">
+                  <%= comic_site.comic.title.truncate(17) %>
+                </p>
+              <% end %>
+            </div>
           </div>
-          <div class="comic_title_div py-4 mb-3">
-            <%= link_to comic_path(comic_site.comic.id) do %>
-              <p class="link_text text-dark mb-2">
-                <%= comic_site.comic.title.truncate(17) %>
-              </p>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p style="color: silver;">この漫画サイトで読める漫画はありません。</p>
+    <% end %>
+      
     <div class="media_pc">
       <div class="paginate_style">
          <%= paginate @comic_sites, window: 4 %>
