@@ -36,6 +36,7 @@
     box-shadow: 10px 10px 20px #00264D;
 }
 
+// 途中
 .admin_header_app_icon {
     margin-bottom: 0;
     color: white;
@@ -44,13 +45,23 @@
 
 .admin_header_app_name {
     margin-bottom: 0;
-    // vertical-align: middle;
     color: white;
+    text-decoration: none;
 }
 
 .header_link_deco {
     text-decoration: none;
+    text-decoration-line: none;
+    color: black;
 }
+
+.header_link_deco:hover {
+    color: black;
+    text-decoration-line: underline;
+    text-decoration-color: black;
+    opacity: 0.5;
+}
+// ここまで
 
 .header_app_icon {
     margin: 0 auto;
@@ -175,7 +186,100 @@ body {
 }
 // ここまで
 
+// admin
+.admin_body_top_margin {
+    background-color: #EEE; 
+    height: 100px;
+}
 
+.admin_body_infomation {
+    margin: 0 auto;
+    border: 0.5px solid silver;
+    background-color: #FFF; 
+    box-shadow: 10px 10px 10px 7px #DDD; 
+    padding-bottom: 80px;
+}
+
+.admin_user_info_flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.admin_body_backstyle {
+    background-color: #EEE; 
+    padding: 30px 0; 
+    min-height: 71vh;
+}
+
+.admin_body_row {
+    display: flex;
+    justify-content: center;
+    border: 1px solid #00264D; 
+    border-radius: 20px; 
+    box-shadow: 5px 5px 8px 3px #ddd inset;
+}
+
+.admin_body_col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+.user_email {
+    width: 85%; 
+    margin-top: 10px; 
+    border-top: 0.5px solid silver; 
+    border-bottom: 0.5px solid silver; 
+    overflow-wrap: break-word;
+}
+
+.sampleA {
+    display: none;
+}
+
+.sampleA_subordinate {
+    height: 400px; 
+    width: 100%; 
+    display: flex; 
+    justify-content: center;
+}
+
+.infomation_table_tr {
+    border-bottom: 1px solid silver;
+}
+
+.infomation_table_th {
+    text-align: center; 
+    vertical-align: middle; 
+    white-space: nowrap;
+}
+
+.infomation_table_td {
+    vertical-align: middle;
+}
+
+
+.infomation_no_data {
+    display: table; 
+    width: 100%; 
+    height: auto; 
+    border-radius: 5px;
+}
+
+.infomation_no_data_text {
+    display: table-cell; 
+    vertical-align: middle; 
+    text-align: center;
+    color: silver;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+// public
 .top3_unknown_user {
     height: 122px;
 }
@@ -183,6 +287,11 @@ body {
 .top5_unknown_user {
     height: 112px;
 }
+
+
+
+
+
 
 footer {
     height: 100px; 
@@ -212,7 +321,12 @@ footer {
     img {
         border-radius: 45px;
         border: 2px solid #00264D;
+        object-fit: cover;
     }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 .rank_index_user_icon {
     img {

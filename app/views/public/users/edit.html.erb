@@ -29,6 +29,11 @@
         <tr>
           <td>
             <small>ニックネーム：</small><br>
+            <div class="d-flex flex-wrap mb-2">
+              <small class="mr-3 text-success"><i class="bi bi-check2-circle"></i> 英数字 [半角]</small>
+              <small class="mr-3 text-success"><i class="bi bi-check2-circle"></i> 12文字以内</small>
+              <small class="mr-3 text-success"><i class="bi bi-check2-circle"></i>  _.-!?@'%<> [記号]</small>
+            </div>
             <%= f.text_field :nick_name, autofocus: true, id:"inputName", placeholder:"ニックネーム", class:"form-control mt-2" %>
           </td>
         </tr>

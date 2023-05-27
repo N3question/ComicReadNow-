@@ -11,71 +11,59 @@
   
 <div class="d-flex justify-content-left" style="background-color:#EEE;">
   <div class="col-lg-10 col-md-10 col-sm-10 p-5 border" style="border-top-right-radius: 20px; border-bottom-right-radius: 20px; box-shadow:10px 5px 7px #BBB; background-color:#FFF;">
+    <div class="col-lg-9 col-md-9 table-responsive-lg rank_table js-scrollabl mx-auto">
+      <h4 class="font_1 mb-5"><b>User 一覧</b></h4>
+      <table class="table table-responsive-lg admin_table" style="margin-bottom:80px;">
+        <% @users.each do |user| %>
+          <tr>
+            <td class="font_2 text-center" style="width:10%; vertical-align:middle;">
+                <%= user.id %>
+            </td>
+            <td class="user_icon" style="width:10%;">
+              <%= link_to admin_information_path(user.id) do %>
+                <% if user.profile_image.attached? %>
+                  <%= image_tag user.profile_image, size: "80x80", style:"object-fit:cover;" %>
+                <% else %>
+                  <%= image_tag 'no_image', size: "80x80", style:"object-fit:cover;" %>
+                <% end %>
+              <% end %>
+            </td>
+            <td class="font_1 text-center" style="width:30%; vertical-align:middle;">
+                <%= user.nick_name %>
+            </td>
+            <td class="text-center" style="width:30%; vertical-align:middle">
+                <%= user.email %>
+            </td>
+            <td style="vertical-align:middle;">
+              <% if user.is_deleted == true %>
+                <p class="mb-0" style="color:#00264D;">退会</p>
+              <% else %>
+                <p class="mb-0" style="color:#66CC00;">有効</p>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
       
-      
-      
-      <div class="col-lg-9 col-md-9 table-responsive-lg rank_table js-scrollabl mx-auto">
-          <h4 class="font_1 mb-5"><b>User 一覧</b></h4>
-          <table class="table table-responsive-lg admin_table" style="margin-bottom:80px;">
-            <% @users.each do |user| %>
-              <tr>
-                  <td class="font_2 text-center" style="width:10%; vertical-align:middle;">
-                      <%= user.id %>
-                  </td>
-                  
-                  <td class="user_icon" style="width:10%;">
-                    <%= link_to admin_information_path(user.id) do %>
-                      <% if user.profile_image.attached? %>
-                        <%= image_tag user.profile_image, size: "80x80", style:"object-fit:cover;" %>
-                      <% else %>
-                        <%= image_tag 'no_image', size: "80x80", style:"object-fit:cover;" %>
-                      <% end %>
-                    <% end %>
-                  </td>
-                  
-                  <td class="font_1 text-center" style="width:30%; vertical-align:middle;">
-                      <%= user.nick_name %>
-                  </td>
-                  <td class="text-center" style="width:30%; vertical-align:middle">
-                      <%= user.email %>
-                  </td>
-                  
-                  <td style="vertical-align:middle;">
-                    <% if user.is_deleted == true %>
-                      <p class="mb-0" style="color:#00264D;">退会</p>
-                    <% else %>
-                      <p class="mb-0" style="color:#66CC00;">有効</p>
-                    <% end %>
-                  </td>
-              </tr>
-            <% end %>
-          </table>
-      </div>
-      
-      <span id="back" style="width:100%; display:none;">
-        <a href=""  style="text-decoration:none;">
-            <div class="d-flex justify-content-center border w-100" 
-                 style="width:95%; height:55px; line-height:55px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
-              <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
-            </div>
-        </a>
-      </span>
-      
+    <span id="back" style="width:100%; display:none;">
+      <a href=""  style="text-decoration:none;">
+        <div class="d-flex justify-content-center border w-100" 
+             style="width:95%; height:55px; line-height:55px; background-color:#FFF; box-shadow:5px 5px 5px #DDD;">
+          <p class="mb-0 text-dark">TOPへ戻る<i class="bi bi-arrow-up"></i></p>
+        </div>
+      </a>
+    </span>
   </div>
 </div>
 
 <script>
   $(function(){
-    // ウィンドウの高さとmain要素の高さを取得
     var windowHeight = $(window).height();
     var mainHeight = $('main').height();
-
-    // main要素の高さがウィンドウの高さより大きい場合
     if(mainHeight > windowHeight) {
-        // 特定の要素を表示
         $('#back').show();
     } else {
-        // そうでない場合、要素を非表示
         $('#back').hide();
     }
   })
