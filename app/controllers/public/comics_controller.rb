@@ -124,13 +124,18 @@ class Public::ComicsController < ApplicationController
                     )
       @comic_update_limit_count = @top_comic_info.remaining_one_comic_update_limit
       @current_version = Comic.order(version: :desc).limit(1)
+      if user_signed_in?
+        @user_read_judgement = ReadJudgement.find_by(
+                        comic_id: @top_comic_info.id, 
+                        user_id: current_user.id, 
+                        version: @top_comic_info.version
+                        )
+      else
+        @user_read_judgement = nil
+      end
     end
+    
     if user_signed_in?
-      @user_read_judgement = ReadJudgement.find_by(
-                      comic_id: @top_comic_info.id, 
-                      user_id: current_user.id, 
-                      version: @top_comic_info.version
-                      )
       @user_upadte_limit_count = current_user.remaining_total_update_limit
     end
     

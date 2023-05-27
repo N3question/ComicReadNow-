@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_27_145150) do
+ActiveRecord::Schema.define(version: 2023_05_27_111232) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -84,6 +84,15 @@ ActiveRecord::Schema.define(version: 2023_04_27_145150) do
     t.integer "can_read_count", default: 0, null: false
     t.integer "can_not_read_count", default: 0, null: false
     t.integer "version", default: 0, null: false
+  end
+
+  create_table "read_judgements", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "comic_id", null: false
+    t.boolean "can_read"
+    t.integer "version", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "sites", force: :cascade do |t|
