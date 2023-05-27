@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_sites
   
+  include Pagy::Backend  
+  
   def set_sites
     @all_sites = Site.all
     @all_site_count = Site.all.count
