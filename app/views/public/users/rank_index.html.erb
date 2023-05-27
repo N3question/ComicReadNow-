@@ -1,201 +1,163 @@
   <div class="" style="background-color:#EEE; padding:205px 20px 40px; min-height: 74vh;">
     <div class="col-lg-7 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
-      
-      
       <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
         <i class="bi bi-arrow-left"></i>
       <% end %>
-      
-      
       <h4 class="font_1 m-4" style="text-shadow: 4px 4px 4px #aaa;">
         <b>User<br>Ranking</b>
       </h4>
       <small class="font_1 m-4 d-flex">
         TOP 10　(ユーザ総数： <%= @users.count %> 人)
       </small>
-      
       <% if @users.present? %>
-          <div class="table-responsive-lg rank_table js-scrollable mt-3" style="margin-bottom:80px;">
-              <table class="table user_rank_index_table">
-                
-                <tr style="text-align: center;">
-                  <th class="small text-nowrap">順位</th>
-                  <th class="small" style="vertical-align: middle;">アイコン</th>
-                  <th class="small" style="vertical-align: middle;">ユーザ名</th>
-                  <th class="small">更新</th>
-                  <th class="small">評価</th>
-                  <th class="small">SCORE</th>
-                </tr>
-            
-                <% current_user_flag = false %>
-                <% @users.each_with_index do |user, index| %>
-                
-                    <!--flag管理を使用する-->
-                    <% if index + 1 == 11 %>
-                    <% break %>
-                    <% end %>
-                    <!--ここまで-->
-                
-                    <% if user_signed_in? %>
-                      <% if user.id == current_user.id %>
-                        <% current_user_flag = true %>
-                      <% end %>
-                      <tr style="text-align: center; <%= 
-                      current_user.id == user.id ? 'background-color: #00264D; color:#FFFFCC;' : 'background-color: white;' &&
-                      index < 1? 'background-color: #111; color:#00FF3B;' : 'background-color: white;' &&
-                      index < 2? 'background-color: #333; color:#00FF3B;' : 'background-color: white;' &&
-                      index < 3? 'background-color: #555; color:#00FF3B;' : 'background-color: white;' &&
-                      index < 4? 'background-color: #BBB;' : 'background-color: white;' &&
-                      index < 5? 'background-color: #DDD;' : 'background-color: white;'
-                      %>">
-                    <% else %>
-                      <tr style="text-align: center; <%= 
-                      index < 1? 'background-color: #111; color:#00FF3B;' : 'background-color: white;' &&
-                      index < 2? 'background-color: #333; color:#00FF3B;' : 'background-color: white;' &&
-                      index < 3? 'background-color: #555; color:#00FF3B;' : 'background-color: white;' &&
-                      index < 4? 'background-color: #BBB;' : 'background-color: white;' &&
-                      index < 5? 'background-color: #DDD;' : 'background-color: white;'
-                      %>">
-                    <% end %>
-                      
-                          <!--ランク-->
-                          <td class="font_2 text-nowrap" style="vertical-align: middle;">
-                            <%= index + 1 %>
-                          </td>
-                          
-                          <!--アイコン-->
-                          <td style="width:20%;">
-                            <div class="rank_index_user_icon">
-                              <% if user_signed_in? && user.profile_image.attached? && current_user.id == user.id %>
-                                <%= image_tag user.profile_image, size: "60x60", style:"border: 2px solid #FFFFCC; object-fit:cover;" %>
-                              <% elsif user.profile_image.attached? %>
-                                <%= image_tag user.profile_image, size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
-                              <% else %>
-                                <%= image_tag asset_path("no_image.jpg"), size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
-                              <% end %>
-                            </div>
-                          </td>
-                          
-                          
-                          <!--ニックネーム-->
-                          <td class="font_1" style="vertical-align: middle; overflow-wrap: break-word;">
-                            <%= user.nick_name %>
-                          </td>
-                          
-                          
-                          <!--漫画情報更新回数-->
-                          <td style="width:15%; vertical-align: middle;">
-                            <div class="d-flex justify-content-center">
-                            <p class="font_2 mx-1 mb-0">
-                              <%= user.update_count %>
-                            </p>
-                            回
-                            </div>
-                          </td>
-                          
-                          
-                          <!--可読判定件数-->
-                          <td style="width:15%; vertical-align: middle;">
-                            <div class="d-flex justify-content-center">
-                            <p class="font_2 mx-1 mb-0">
-                              <%= user.read_judgements.where(can_read: true).count %>
-                            </p>
-                            件
-                            </div>
-                          </td>
-                          
-                          
-                          <!--SCORE-->
-                          <td style="width:20%; vertical-align: middle;">
-                            <p class="font_2 mx-1 mb-0">
-                              <%= user.update_count + user.read_judgements.where(can_read: true).count %>
-                            </p>
-                          </td>
-                          
-                      </tr>
-                      
+        <div class="table-responsive-lg rank_table js-scrollable mt-3" style="margin-bottom:80px;">
+          <table class="table user_rank_index_table">
+            <tr style="text-align: center;">
+              <th class="small text-nowrap">順位</th>
+              <th class="small" style="vertical-align: middle;">アイコン</th>
+              <th class="small" style="vertical-align: middle;">ユーザ名</th>
+              <th class="small">更新</th>
+              <th class="small">評価</th>
+              <th class="small">SCORE</th>
+            </tr>
+            <% current_user_flag = false %>
+            <% @users.each_with_index do |user, index| %>
+              <!--flag管理を使用する-->
+              <% if index + 1 == 11 %>
+              <% break %>
+              <% end %>
+              <!--ここまで-->
+              <% if user_signed_in? %>
+                <% if user.id == current_user.id %>
+                  <% current_user_flag = true %>
                 <% end %>
-              </table>
-          </div>
+                <tr style="text-align: center; <%= 
+                current_user.id == user.id ? 'background-color: #00264D; color:#FFFFCC;' : 'background-color: white;' &&
+                index < 1? 'background-color: #111; color:#00FF3B;' : 'background-color: white;' &&
+                index < 2? 'background-color: #333; color:#00FF3B;' : 'background-color: white;' &&
+                index < 3? 'background-color: #555; color:#00FF3B;' : 'background-color: white;' &&
+                index < 4? 'background-color: #BBB;' : 'background-color: white;' &&
+                index < 5? 'background-color: #DDD;' : 'background-color: white;'
+                %>">
+              <% else %>
+                <tr style="text-align: center; <%= 
+                index < 1? 'background-color: #111; color:#00FF3B;' : 'background-color: white;' &&
+                index < 2? 'background-color: #333; color:#00FF3B;' : 'background-color: white;' &&
+                index < 3? 'background-color: #555; color:#00FF3B;' : 'background-color: white;' &&
+                index < 4? 'background-color: #BBB;' : 'background-color: white;' &&
+                index < 5? 'background-color: #DDD;' : 'background-color: white;'
+                %>">
+              <% end %>
+                  <!--ランク-->
+                  <td class="font_2 text-nowrap" style="vertical-align: middle;">
+                    <%= index + 1 %>
+                  </td>
+                  <!--アイコン-->
+                  <td style="width:20%;">
+                    <div class="rank_index_user_icon">
+                      <% if user_signed_in? && user.profile_image.attached? && current_user.id == user.id %>
+                        <%= image_tag user.profile_image, size: "60x60", style:"border: 2px solid #FFFFCC; object-fit:cover;" %>
+                      <% elsif user.profile_image.attached? %>
+                        <%= image_tag user.profile_image, size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
+                      <% else %>
+                        <%= image_tag asset_path("no_image.jpg"), size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
+                      <% end %>
+                    </div>
+                  </td>
+                  <!--ニックネーム-->
+                  <td class="font_1" style="vertical-align: middle; overflow-wrap: break-word;">
+                    <%= user.nick_name %>
+                  </td>
+                  <!--漫画情報更新回数-->
+                  <td style="width:15%; vertical-align: middle;">
+                    <div class="d-flex justify-content-center">
+                    <p class="font_2 mx-1 mb-0">
+                      <%= user.update_count %>
+                    </p>
+                    回
+                    </div>
+                  </td>
+                  <!--可読判定件数-->
+                  <td style="width:15%; vertical-align: middle;">
+                    <div class="d-flex justify-content-center">
+                    <p class="font_2 mx-1 mb-0">
+                      <%= user.read_judgements.where(can_read: true).count %>
+                    </p>
+                    件
+                    </div>
+                  </td>
+                  <!--SCORE-->
+                  <td style="width:20%; vertical-align: middle;">
+                    <p class="font_2 mx-1 mb-0">
+                      <%= user.update_count + user.read_judgements.where(can_read: true).count %>
+                    </p>
+                  </td>
+                </tr>
+            <% end %>
+          </table>
+        </div>
       <% else %>
-          <div class="col-lg-12 col-md-12 d-flex align-items-center p-3 border" style="display:table; width:100%; height:200px; border-radius:5px;">
-            <p class="text-center mb-0 mx-auto" style="display:table-cell; vertical-align: middle; text-align:center; color:silver;">
-              登録されているユーザはいません。<br>
-              <%= link_to "新規登録", new_user_registration_path %>はこちら
-            </p>
-          </div>
+        <div class="col-lg-12 col-md-12 d-flex align-items-center p-3 border" style="display:table; width:100%; height:200px; border-radius:5px;">
+          <p class="text-center mb-0 mx-auto" style="display:table-cell; vertical-align: middle; text-align:center; color:silver;">
+            登録されているユーザはいません。<br>
+            <%= link_to "新規登録", new_user_registration_path %>はこちら
+          </p>
+        </div>
       <% end %>
-      
-      
-      
+      <!--My rank-->
       <% if user_signed_in? && current_user_flag == false %>
-      <div class="col-12 px-0" style="margin-bottom:40px;">
+        <div class="col-12 px-0" style="margin-bottom:40px;">
           <div class="table-responsive-lg rank_table js-scrollable">
-              <table class="table py-4">
-                
-                  <tr style="text-align: center; background-color: #00264D; color:#FFFFCC; %>">
-                    
-                      <!--current_userランク-->
-                      <td class="font_2 text-nowrap" style="vertical-align: middle;">
-                        <% index = @users.map(&:id).index(current_user.id) %>
-                        <%= index + 1 %>
-                      </td>
-                      
-                      
-                      <!--current_userアイコン-->
-                      <td style="width:20%;">
-                        <div class="rank_index_user_icon">
-                          <% if current_user.profile_image.attached? %>
-                            <%= image_tag current_user.profile_image, size: "60x60", style:"border: 2px solid #FFFFCC; object-fit:cover;" %>
-                          <% else %>
-                            <%= image_tag asset_path("no_image.jpg"), size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
-                          <% end %>
-                        </div>
-                      </td>
-                      
-                      
-                      <!--current_userニックネーム-->
-                      <td style="vertical-align: middle; font-family: 'Bruno Ace', cursive; overflow-wrap: break-word;">
-                        <%= current_user.nick_name %>
-                      </td>
-                      
-                      
-                      <!--current_user漫画情報更新回数-->
-                      <td style="width:15%; vertical-align: middle;">
-                        <div class="d-flex justify-content-center">
-                        <p class="font_2 mx-1 mb-0">
-                          <%= current_user.update_count %>
-                        </p>
-                        回
-                        </div>
-                      </td>
-                      
-                      
-                      <!--current_user可読判定件数-->
-                      <td style="width:15%; vertical-align: middle;">
-                        <div class="d-flex justify-content-center">
-                        <p class="font_2 mx-1 mb-0">
-                          <%= current_user.read_judgements.where(can_read: true).count %>
-                        </p>
-                        件
-                        </div>
-                      </td>
-                      
-                      
-                      <!--current_userSCORE-->
-                      <td style="width:20%; vertical-align: middle;">
-                        <p class="font_2 mx-1 mb-0">
-                          <%= current_user.update_count + current_user.read_judgements.where(can_read: true).count %>
-                        </p>
-                      </td>
-                  
-                  </tr>
-                    
-              </table>
+            <table class="table py-4">
+              <tr style="text-align: center; background-color: #00264D; color:#FFFFCC; %>">
+                <!--current_userランク-->
+                  <td class="font_2 text-nowrap" style="vertical-align: middle;">
+                    <% index = @users.map(&:id).index(current_user.id) %>
+                    <%= index + 1 %>
+                  </td>
+                <!--current_userアイコン-->
+                  <td style="width:20%;">
+                    <div class="rank_index_user_icon">
+                      <% if current_user.profile_image.attached? %>
+                        <%= image_tag current_user.profile_image, size: "60x60", style:"border: 2px solid #FFFFCC; object-fit:cover;" %>
+                      <% else %>
+                        <%= image_tag asset_path("no_image.jpg"), size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
+                      <% end %>
+                    </div>
+                  </td>
+                <!--current_userニックネーム-->
+                  <td style="vertical-align: middle; font-family: 'Bruno Ace', cursive; overflow-wrap: break-word;">
+                    <%= current_user.nick_name %>
+                  </td>
+                <!--current_user漫画情報更新回数-->
+                  <td style="width:15%; vertical-align: middle;">
+                    <div class="d-flex justify-content-center">
+                    <p class="font_2 mx-1 mb-0">
+                      <%= current_user.update_count %>
+                    </p>
+                    回
+                    </div>
+                  </td>
+                <!--current_user可読判定件数-->
+                  <td style="width:15%; vertical-align: middle;">
+                    <div class="d-flex justify-content-center">
+                    <p class="font_2 mx-1 mb-0">
+                      <%= current_user.read_judgements.where(can_read: true).count %>
+                    </p>
+                    件
+                    </div>
+                  </td>
+                <!--current_userSCORE-->
+                  <td style="width:20%; vertical-align: middle;">
+                    <p class="font_2 mx-1 mb-0">
+                      <%= current_user.update_count + current_user.read_judgements.where(can_read: true).count %>
+                    </p>
+                  </td>
+              </tr>
+            </table>
           </div>
-      </div>
+        </div>
       <% end %>
-      
       <% if @users.present? %>
         <span id="back" style="width:100%; display:none;">
           <a href=""  style="text-decoration:none;">
@@ -206,23 +168,17 @@
           </a>
         </span>
       <% end %>
-      
-    
   </div>
 </div>
 
 <script>
   $(function(){
-    // ウィンドウの高さとmain要素の高さを取得
     var windowHeight = $(window).height();
     var mainHeight = $('main').height();
 
-    // main要素の高さがウィンドウの高さより大きい場合
     if(mainHeight > windowHeight) {
-        // 特定の要素を表示
         $('#back').show();
     } else {
-        // そうでない場合、要素を非表示
         $('#back').hide();
     }
   })

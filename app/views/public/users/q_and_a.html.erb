@@ -1,9 +1,6 @@
 <div style="background-color:#EEE; height:100px;"></div>
-
 <div style="background-color:#EEE; padding:30px 0; min-height: 71vh;">
-    
     <div class="col-lg-7 col-md-7 mx-auto mb-4 p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD; padding-bottom:80px;">
-        
         <div class="font_1 d-flex flex-wrap" style="border-bottom:2px solid #00264D;">
             <div class="d-flex align-items-end">
                 <h3 class="mb-0" style="color:#66CC00;">Q</h3>uestion
@@ -15,20 +12,14 @@
                 <h3 class="mb-0" style="color:#66CC00;">A</h3>nswer
             </div>
         </div>
-        
         <div class="table-responsive-lg js-scrollable border mt-4 py-5" style="border-radius:20px;">
             <p class="mx-4 small">項目をクリックしてください。</p>
-            
             <table class="table table-borderless">
-                
-                
                  <tr style="list-style:none">
                     <td class="px-4 py-2">
-                        
                         <div class="sample">
                             <input class="btn d-flex text-light p-3 w-100" type="button" style="background-color:#00264D; border-radius:10px;" value="Q. Comic Read now! とは？">
                         </div>
-                        
                         <div class= "sampleA mt-2 p-2 border" style="display:none;">
                             <div style="height:auto; width:100%; display:flex;">
                                 <div class="p-3">
@@ -49,17 +40,13 @@
                                 </div>
                             </div>
                         </div>
-                        
                     </td>
                 </tr>
-                
                 <tr style="list-style:none">
                     <td class="px-4 py-2">
-                        
                         <div class="sample">
                             <input class="btn d-flex text-light p-3 w-100" type="button" style="background-color:#00264D; border-radius:10px;" value="Q. ランクの上げ方について詳しく知りたい">
                         </div>
-                        
                         <div class= "sampleA mt-2 p-2 border" style="display:none;">
                             <div style="height:auto; width:100%; display:flex;">
                                 <div class="p-3">
@@ -84,24 +71,19 @@
                                                 該当のユーザのアカウント停止を行います。<br>
                                                 さらに、ユーザ登録が今後認められない場合がございますのでご注意ください。
                                             </div>
-                                            
-                                            
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        
                     </td>
                 </tr>
-                
                 <% if user_signed_in? %>
                     <tr style="list-style:none">
                         <td class="px-4 pt-2">
                             <div class="sample">
                                 <input class="btn d-flex text-light p-3" type="button" style="width:100%; background-color:#00264D; border-radius:10px;" value="Q. 退会方法について知りたい">
                             </div>
-                            
                             <div class= "sampleA mt-2 p-2 border" style="display:none;">
                                 <div style="height:auto; width:100%; display:flex;">
                                     <div class="p-3">
@@ -118,8 +100,6 @@
                         </td>
                     </tr>
                 <% end %>
-                
-                
             </table>
         </div>
     </div>
@@ -127,9 +107,7 @@
 
 <script>
   $(function(){
-    //ボタンのイベント
     $(".btn").click(function(e){
-      // sampleAクラスをスライドアップ/ダウンさせる
       $(e.target).parent().next('.sampleA').slideToggle();
     });
   });

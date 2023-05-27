@@ -11,30 +11,30 @@
 #     password: 'n10aru203320',
 # )
 
-# admins = [
-#     {email: 'narumi1years.years020@gmail.com', password: 'n10aru203320'},
-# ]
+admins = [
+    {email: 'narumi1years.years020@gmail.com', password: 'n10aru203320'},
+]
 
-# admins.each do |admin|
-#     admin_data = Admin.find_by(email: admin[:email])
-#     if admin_data.nil?
-#         Admin.create(email: admin[:email], password: admin[:password])
-#     end
-# end
+admins.each do |admin|
+    admin_data = Admin.find_by(email: admin[:email])
+    if admin_data.nil?
+        Admin.create(email: admin[:email], password: admin[:password])
+    end
+end
 
-# sites = ['コミック！', 'COMIC漫画', 'Comic Comic']
-# sites.each do |site|
-#     Site.find_or_create_by(name: site)
-#     # モデル.find_or_create_by(条件, ブロック引数)...条件を指定して初めの1件を取得し1件もなければ作成
-# end
+sites = ['コミック！', 'COMIC漫画', 'Comic Comic']
+sites.each do |site|
+    Site.find_or_create_by(name: site)
+    # モデル.find_or_create_by(条件, ブロック引数)...条件を指定して初めの1件を取得し1件もなければ作成
+end
 
-# user = User.create!(
-#   nick_name: "HYUNG's",
-#   email: "sample320@gmail.com",
-#   password: "sample", 
-#   password_confirmation: "sample",
-# )
-# user.profile_image.attach(io: File.open(Rails.root.join('app/assets/images/user1.png')), filename: 'user1.png')
+user = User.create!(
+  nick_name: "HYUNG's",
+  email: "sample320@gmail.com",
+  password: "sample", 
+  password_confirmation: "sample",
+)
+user.profile_image.attach(io: File.open(Rails.root.join('app/assets/images/user1.png')), filename: 'user1.png')
 
 user = User.create!(
   nick_name: "LEE'know",

@@ -1,194 +1,142 @@
 <div style="background-color:#EEE; padding:205px 0 30px; min-height: 74vh;">
-    <div class="col-lg-9 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
-         
-         
-        <!--「←」ボタン-->
-        <% if session["search_keyword"] && params[:page] %>
-            <%= link_to search_index_comics_path(keyword: session["search_keyword"], page: params[:page]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
-              <i class="bi bi-arrow-left"></i>
-            <% end %>
-        <% else %>
-            <%= link_to session["referer_url"] || root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
-              <i class="bi bi-arrow-left"></i>
-            <% end %>
-        <% end %>
-        
-        
-        
-        <!--フラッシュメッセージ-->
-        <% if flash[:alert].present? %>
-          <div class="alert alert-danger alert-dismissible mx-auto mb-0" style="width:94%;">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <%= flash[:alert] %>
-          </div>
-        <% end %>
-        
-        
-        
-        <!--漫画情報詳細-->
-        <div class="d-flex flex-wrap"  style="padding:0 20px; justify-content:center;">
-            
-            
-            <!--画像-->
-            <% if !@top_rb_comic_info.blank? %>
-                <%= image_tag @top_rb_comic_info["largeImageUrl"], class:"img_comic my-3 mx-5" %>
-            <% else %>
-                <%= image_tag @top_comic_info.large_image_url, class:"img_comic my-3 mx-5" %>
-            <% end %>
-            
-            
-            
-            
-            <div class="p-3">
-                
-                <!--書籍情報-->
-                <% if @from_rws == "true" %>
-                  <h5><b><%= @top_rb_comic_info["title"] %>　</b><small>の詳細</small></h5>
-                  <div class="mt-3">
-                    著者：　　<%= @top_rb_comic_info["author"] %>
-                    <small>(<%= @top_rb_comic_info["authorKana"] %>)</small><br>
-                    出版社：　<%= @top_rb_comic_info["publisherName"] %><br>
-                    発売日：　<%= @top_rb_comic_info["salesDate"] %><br>
-                  </div>
-                
-                <% else %>  <!--.digで省略可-->
-                  <h5><b><%= @top_comic_info.title %>　</b><small>の詳細</small></h5>
-                  <div class="mt-3">
-                    著者：　　<%= @top_comic_info.author %>
-                    <small>(<%= @top_comic_info.author_kana %>)</small><br>
-                    出版社：　<%= @top_comic_info.publisher_name %><br>
-                    <% if !@top_rb_comic_info.blank? %>
-                    発売日：　<%= @top_rb_comic_info["salesDate"] %>
-                    <% else %>
-                    発売日：　-- none --
-                    <% end %>
-                  </div>
-                  
-                <% end %>
-                
-                
-                
-                <!--漫画サイト情報の表示-->
-                <!--[TODO] 部分テンプレートを可読情報と一緒にする-->
-                <% if @top_comic_info.present? %>
-                
-                    <hr class="my-4">
-                    
-                    
-                    <!--漫画サイト情報-->
-                    <small class="border mb-2 mr-4 p-1 text-nowrap text-success">以下の漫画サイトで読むことができます！</small><br> 
-                    <div id="top_edit_sites_buttons_<%= @top_comic_info.id %>" class="edit_buttun">
-                      <%= render partial: '/public/comics/top_edit_site', locals: { top_comic_info: @top_comic_info, can_not_read: @can_not_read, comic_update_limit_count: @comic_update_limit_count, sites: @sites, user_upadte_limit_count: @user_upadte_limit_count } %>
-                    </div>
-                    
-                    
-                    
-                    <% if user_signed_in? %>
-                        <hr class="my-4">
-                        
-                        
-                        <!--可読判定-->
-                        <div class="d-flex" style="align-items: center;">
-                          <!--可読情報が未追加-->
-                          <div id="top_read_judgements_buttons_<%= @top_comic_info.id %>">
-                            <%= render partial: '/public/comics/top_read_judgement', locals: { top_comic_info: @top_comic_info, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read, version: @current_version } %>
-                          </div>
-                        </div>
-                        
-                    <% end %>
-                <% end %>
-                
-                
-                
-                <!--ブックマーク-->
-                <% if user_signed_in? && @top_comic_info.present? %>
-                      <hr class="my-4">
-                  
-                      <div class="d-flex flex-wrap">
-                          <div class="ml-auto">
-                            <div id="bookmarks_buttons_<%= @top_comic_info.id %>">
-                              <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @top_comic_info} %>
-                            </div>
-                          </div>
-                      </div>
-                <% end %>
-                
-                
-                
-                
-                <!--サイト情報の新規追加-->
-                <% if user_signed_in? && @top_comic_info.nil? && before_date(@top_rb_comic_info) %>
-                    <hr class="my-4">
-                    
-                    <!--サイト情報追加ボタン-->
-                    <div class= "contents_action_box mb-2">
-                        <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
-                    </div>
-                    
-                    <!--スライドダウン部分・フォーム-->
-                    <div class= "contents_action mb-3 border">
-                        <div class="contents_action_slide">
-                            <div class="p-3">
-                              
-                              
-                                <p><b>' <%= @top_rb_comic_info["title"] %> '</b><small>の情報を追加中...</small></p>
-                                <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
-                                
-                                <div class="mt-4">
-                                    <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
-                                        <%= f.hidden_field :isbn, value: params[:isbn] %>
-                                        <% Site.all.each do |site| %>
-                                            <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled] , include_hidden: false }, site[:id] %>
-                                            <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
-                                        <% end %><br>
-                                        <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>
-                                    <% end %>
-                                </div>
-                                
-                                
-                            </div>
-                        </div>
-                    </div>
-                
-                <!--ゲストの場合-->
-                <% elsif !user_signed_in? %>
-                    <% if @top_comic_info.present? %>
-                          <hr class="my-4">
-                          <p>
-                            <b>ゲスト</b> さんは ブックマーク できません。<br>
-                            <small>
-                              ※ ブックマークするには
-                              <%= link_to "ログイン", new_user_session_path %>
-                              をしてください。
-                            </small>
-                          </p>
-                  
-                        
-                    <% elsif @top_comic_info.nil? && before_date(@top_rb_comic_info) %>
-                          <hr class="my-4">
-                          <p>
-                            <b>ゲスト</b> さんは 漫画サイト情報の追加 はできません。<br>
-                            <small>
-                              ※ 追加するには
-                              <%= link_to "ログイン", new_user_session_path %>
-                              をしてください。
-                            </small>
-                          </p>
-                    
-                    <% end %>
-                <% end %>
-                
-                <!--未発売の漫画-->
-                <% if future_date(@top_rb_comic_info) %>
-                    <hr class="my-4">
-                    <p>発売日以降に サイト情報の追加 が可能です。</p> 
-                <% end %>
-                
-            </div>
-        
+  <div class="col-lg-9 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
+    <!--「←」ボタン-->
+      <% if session["search_keyword"] && params[:page] %>
+          <%= link_to search_index_comics_path(keyword: session["search_keyword"], page: params[:page]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+            <i class="bi bi-arrow-left"></i>
+          <% end %>
+      <% else %>
+          <%= link_to session["referer_url"] || root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+            <i class="bi bi-arrow-left"></i>
+          <% end %>
+      <% end %>
+    <!--フラッシュメッセージ-->
+      <% if flash[:alert].present? %>
+        <div class="alert alert-danger alert-dismissible mx-auto mb-0" style="width:94%;">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <%= flash[:alert] %>
         </div>
-          
-    </div>
+      <% end %>
+    <!--漫画情報詳細-->
+      <div class="d-flex flex-wrap"  style="padding:0 20px; justify-content:center;">
+        <!--画像-->
+          <% if !@top_rb_comic_info.blank? %>
+              <%= image_tag @top_rb_comic_info["largeImageUrl"], class:"img_comic my-3 mx-5" %>
+          <% else %>
+              <%= image_tag @top_comic_info.large_image_url, class:"img_comic my-3 mx-5" %>
+          <% end %>
+        <div class="p-3">
+          <!--書籍情報-->
+            <% if @from_rws == "true" %>
+              <h5><b><%= @top_rb_comic_info["title"] %>　</b><small>の詳細</small></h5>
+              <div class="mt-3">
+                著者：　　<%= @top_rb_comic_info["author"] %>
+                <small>(<%= @top_rb_comic_info["authorKana"] %>)</small><br>
+                出版社：　<%= @top_rb_comic_info["publisherName"] %><br>
+                発売日：　<%= @top_rb_comic_info["salesDate"] %><br>
+              </div>
+            <% else %>
+              <h5><b><%= @top_comic_info.title %>　</b><small>の詳細</small></h5>
+              <div class="mt-3">
+                著者：　　<%= @top_comic_info.author %>
+                <small>(<%= @top_comic_info.author_kana %>)</small><br>
+                出版社：　<%= @top_comic_info.publisher_name %><br>
+                <% if !@top_rb_comic_info.blank? %>
+                発売日：　<%= @top_rb_comic_info["salesDate"] %>
+                <% else %>
+                発売日：　-- none --
+                <% end %>
+              </div>
+            <% end %>
+          <!--漫画サイト情報の表示-->
+          <!--[TODO] 部分テンプレートを可読情報と一緒にする-->
+            <% if @top_comic_info.present? %>
+              <hr class="my-4">
+              <!--漫画サイト情報-->
+                <small class="border mb-2 mr-4 p-1 text-nowrap text-success">以下の漫画サイトで読むことができます！</small><br> 
+                <div id="top_edit_sites_buttons_<%= @top_comic_info.id %>" class="edit_buttun">
+                  <%= render partial: '/public/comics/top_edit_site', locals: { top_comic_info: @top_comic_info, can_not_read: @can_not_read, comic_update_limit_count: @comic_update_limit_count, sites: @sites, user_upadte_limit_count: @user_upadte_limit_count } %>
+                </div>
+              <% if user_signed_in? %>
+                <hr class="my-4">
+                <!--可読判定-->
+                  <div class="d-flex" style="align-items: center;">
+                    <!--可読情報が未追加-->
+                      <div id="top_read_judgements_buttons_<%= @top_comic_info.id %>">
+                        <%= render partial: '/public/comics/top_read_judgement', locals: { top_comic_info: @top_comic_info, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read, version: @current_version } %>
+                      </div>
+                  </div>
+              <% end %>
+            <% end %>
+            <!--ブックマーク-->
+              <% if user_signed_in? && @top_comic_info.present? %>
+                <hr class="my-4">
+                <div class="d-flex flex-wrap">
+                  <div class="ml-auto">
+                    <div id="bookmarks_buttons_<%= @top_comic_info.id %>">
+                      <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @top_comic_info} %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <!--サイト情報の新規追加-->
+              <% if user_signed_in? && @top_comic_info.nil? && before_date(@top_rb_comic_info) %>
+                <hr class="my-4">
+                <!--サイト情報追加ボタン-->
+                  <div class= "contents_action_box mb-2">
+                      <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
+                  </div>
+                <!--スライドダウン部分・フォーム-->
+                  <div class= "contents_action mb-3 border">
+                    <div class="contents_action_slide">
+                      <div class="p-3">
+                        <p><b>' <%= @top_rb_comic_info["title"] %> '</b><small>の情報を追加中...</small></p>
+                        <small style="color:red;">※ 読むことができるサイトを以下の中から全て選択してください</small>
+                        <div class="mt-4">
+                          <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
+                            <%= f.hidden_field :isbn, value: params[:isbn] %>
+                            <% Site.all.each do |site| %>
+                              <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled] , include_hidden: false }, site[:id] %>
+                              <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
+                            <% end %><br>
+                            <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            <!--ゲストの場合-->
+              <% elsif !user_signed_in? %>
+                <% if @top_comic_info.present? %>
+                  <hr class="my-4">
+                  <p>
+                    <b>ゲスト</b> さんは ブックマーク できません。<br>
+                    <small>
+                      ※ ブックマークするには
+                      <%= link_to "ログイン", new_user_session_path %>
+                      をしてください。
+                    </small>
+                  </p>
+                <% elsif @top_comic_info.nil? && before_date(@top_rb_comic_info) %>
+                  <hr class="my-4">
+                  <p>
+                    <b>ゲスト</b> さんは 漫画サイト情報の追加 はできません。<br>
+                    <small>
+                      ※ 追加するには
+                      <%= link_to "ログイン", new_user_session_path %>
+                      をしてください。
+                    </small>
+                  </p>
+                <% end %>
+              <% end %>
+            <!--未発売の漫画-->
+              <% if future_date(@top_rb_comic_info) %>
+                <hr class="my-4">
+                <p>発売日以降に サイト情報の追加 が可能です。</p> 
+              <% end %>
+        </div>
+      </div>
+  </div>
 </div>
 
 <script>
@@ -201,19 +149,14 @@
     }
   }
   
-  
   $(function(){
-    //ボタンのイベント
     $("#edit_btn").click(function(){
-      // contents-newクラスをスライドアップ/ダウンさせる
       $(".sampleA").slideToggle();
     });
   });
   
   $(function(){
-    //ボタンのイベント
     $(".btn").click(function(){
-      // contents-newクラスをスライドアップ/ダウンさせる
       $(".contents_action").slideToggle();
     });
   });

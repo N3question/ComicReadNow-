@@ -1,52 +1,47 @@
-  <div style="background-color:#EEE; padding:215px 0 30px; min-height: 71vh;">
-
-      <div class="col-lg-6 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
-          <%= link_to my_page_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
-            <i class="bi bi-arrow-left"></i>
+<div style="background-color:#EEE; padding:215px 0 30px; min-height: 71vh;">
+  <div class="col-lg-6 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
+    <%= link_to my_page_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+      <i class="bi bi-arrow-left"></i>
+    <% end %>
+    <p class="m-3"><b>ユーザ情報を編集中...</small></p>
+    <% if current_user.errors.any? %>
+      <div id="error_explanation" class="mx-auto">
+        <p class="small mb-2">
+          <b>
+            <%= current_user.errors.count %>件のエラーが発生しました：
+          </b>
+        </p>
+        <ul class="small">
+          <% current_user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
           <% end %>
-          
-          <p class="m-3"><b>ユーザ情報を編集中...</small></p>
-          
-          <% if current_user.errors.any? %>
-            <div id="error_explanation" class="mx-auto">
-              <p class="small mb-2">
-                <b>
-                  <%= current_user.errors.count %>件のエラーが発生しました：
-                </b>
-              </p>
-              <ul class="small">
-                <% current_user.errors.full_messages.each do |message| %>
-                  <li><%= message %></li>
-                <% end %>
-              </ul>
-            </div>
-          <% end %>
-          
-          <%= form_with url: update_information_path, model: current_user do |f| %>
-            <table class="table table-responsive-sm table-borderless">
-              <tr>
-                  <td style="overflow-wrap: break-word;">
-                    <small>アイコン画像：</small><br>
-                    <%= f.file_field :profile_image, accept: "image/*", class:"mt-2" %>
-                  </td>
-              </tr>
-              <tr>
-                  <td>
-                    <small>ニックネーム：</small><br>
-                    <%= f.text_field :nick_name, autofocus: true, id:"inputName", placeholder:"ニックネーム", class:"form-control mt-2" %>
-                  </td>
-              </tr>
-              <tr>
-                  <td>
-                    <small>メールアドレス：</small><br>
-                    <%= f.text_field :email, autofocus: true, id:"inputName", placeholder:"sample@gmail.com", class:"form-control mt-2" %>
-                  </td>
-              </tr>
-            </table>
-            <div class="d-flex justify-content-center">
-            <%= f.submit "変更を保存", class:"btn rounded-pill mt-3 px-4 border", style:"background-color:#66CC00; color:white;" %>
-            </div>
-          <% end %>
+        </ul>
       </div>
-
+    <% end %>
+    <%= form_with url: update_information_path, model: current_user do |f| %>
+      <table class="table table-responsive-sm table-borderless">
+        <tr>
+          <td style="overflow-wrap: break-word;">
+            <small>アイコン画像：</small><br>
+            <%= f.file_field :profile_image, accept: "image/*", class:"mt-2" %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <small>ニックネーム：</small><br>
+            <%= f.text_field :nick_name, autofocus: true, id:"inputName", placeholder:"ニックネーム", class:"form-control mt-2" %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <small>メールアドレス：</small><br>
+            <%= f.text_field :email, autofocus: true, id:"inputName", placeholder:"sample@gmail.com", class:"form-control mt-2" %>
+          </td>
+        </tr>
+      </table>
+      <div class="d-flex justify-content-center">
+      <%= f.submit "変更を保存", class:"btn rounded-pill mt-3 px-4 border", style:"background-color:#66CC00; color:white;" %>
+      </div>
+    <% end %>
+  </div>
 </div>

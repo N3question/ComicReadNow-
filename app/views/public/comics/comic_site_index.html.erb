@@ -1,74 +1,63 @@
 <div class="header_padding pb-4">
-  
-    <div class="col-10 mt-5 mx-auto">
-        <div class="view_title ml-5 mb-5">
-            <h5><b>' <%= @comic_site.site.name %> ' 一覧　</b></h5>
-            <p class="ml-2"><b>全<%= @comic_site_amount.count %>件</b></p>
-        </div>
-        <div class="view_each_div">
-            <% @comic_sites.each do |comic_site| %>
-            <% comic = Comic.find_by(isbn: comic_site.comic["isbn"]) %>
-              <div class="mx-2">
-                <div>
-                  <%= link_to comic_path(comic_site.comic.id), class:"img_link" do %>
-                    <%= image_tag comic_site.comic.large_image_url, class:"img_comic" %>
-                  <% end %>
-                </div>
-                <div class="comic_title_div py-4 mb-3">
-                  <%= link_to comic_path(comic_site.comic.id) do %>
-                    <p class="link_text text-dark mb-2">
-                      <%= comic_site.comic.title.truncate(17) %>
-                    </p>
-                  <% end %>
-                </div>
-              </div>
+  <div class="col-10 mt-5 mx-auto">
+    <div class="view_title ml-5 mb-5">
+      <h5><b>' <%= @comic_site.site.name %> ' 一覧　</b></h5>
+      <p class="ml-2"><b>全<%= @comic_site_amount.count %>件</b></p>
+    </div>
+    <div class="view_each_div">
+      <% @comic_sites.each do |comic_site| %>
+        <div class="mx-2">
+          <div>
+            <%= link_to comic_path(comic_site.comic.id), class:"img_link" do %>
+              <%= image_tag comic_site.comic.large_image_url, class:"img_comic" %>
             <% end %>
+          </div>
+          <div class="comic_title_div py-4 mb-3">
+            <%= link_to comic_path(comic_site.comic.id) do %>
+              <p class="link_text text-dark mb-2">
+                <%= comic_site.comic.title.truncate(17) %>
+              </p>
+            <% end %>
+          </div>
         </div>
-        
-      <div class="media_pc">
-          <div class="paginate_style">
-                <%= paginate @comic_sites, window: 4 %>
-          </div>
-      </div>
-      
-      <div class="media_tb">
-          <div class="paginate_style">
-                <%= paginate @comic_sites, window: 2 %>
-          </div>
-      </div>
-      
-      <div class="media_sp">
-          <div class="paginate_style">
-                <%= paginate @comic_sites, window: 1 %>
-          </div>
+      <% end %>
+    </div>
+    <div class="media_pc">
+      <div class="paginate_style">
+         <%= paginate @comic_sites, window: 4 %>
       </div>
     </div>
-    
-    <span id="back" style="width:100%;">
-      <a href=""  style="text-decoration:none;">
-          <div class="back_action border mt-5 mx-auto">
-              <p class="mb-0 text-dark">
-                TOPへ戻る<i class="bi bi-arrow-up"></i>
-              </p>
-          </div>
-      </a>
-    </span>
+    <div class="media_tb">
+      <div class="paginate_style">
+        <%= paginate @comic_sites, window: 2 %>
+      </div>
+    </div>
+    <div class="media_sp">
+      <div class="paginate_style">
+        <%= paginate @comic_sites, window: 1 %>
+      </div>
+    </div>
+  </div>
   
+  <span id="back" style="width:100%;">
+    <a href=""  style="text-decoration:none;">
+        <div class="back_action border mt-5 mx-auto">
+            <p class="mb-0 text-dark">
+              TOPへ戻る<i class="bi bi-arrow-up"></i>
+            </p>
+        </div>
+    </a>
+  </span>
 </div>
-
 
 <script>
   $(function(){
-    // ウィンドウの高さとmain要素の高さを取得
     var windowHeight = $(window).height();
     var mainHeight = $('main').height();
 
-    // main要素の高さがウィンドウの高さより大きい場合
     if(mainHeight > windowHeight) {
-        // 特定の要素を表示
         $('#back').show();
     } else {
-        // そうでない場合、要素を非表示
         $('#back').hide();
     }
   })

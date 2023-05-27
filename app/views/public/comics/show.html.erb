@@ -1,104 +1,79 @@
 <div style="padding:145px 20px 40px; background-color:#EEE;"></div>
-
 <div style="padding:30px 0 30px; background-color:#EEE; min-height:74vh;">
-    <div class="col-lg-9 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
-          
-          
-        <!--「←」ボタン-->
-        <% if session["search_keyword"] && params[:page] %>
-            <%= link_to search_index_comics_path(keyword: session["search_keyword"], page: params[:page]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
-              <i class="bi bi-arrow-left"></i>
-            <% end %>
-        <% else %>
-            <%= link_to session["referer_url"] || root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
-              <i class="bi bi-arrow-left"></i>
-            <% end %>
-        <% end %>
-        
-        
-        
-        <!--フラッシュメッセージ-->
-        <% if flash[:alert].present? %>
-          <div class="alert alert-danger alert-dismissible mx-auto mb-0" style="width:94%;">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <%= flash[:alert] %>
-          </div>
-        <% end %>
-        
-        
-        
-        <!--漫画情報詳細-->
-        <div class="d-flex flex-wrap"  style="padding:20px; justify-content:center;">
-            
-            <!--書籍情報-->
-            <%= image_tag @comic.large_image_url, class:"img_comic my-3 mx-5" %>
-            
-            <div class="p-3">
-                <div>
-                  <h5><b><%= @comic.title %>　</b><small>の詳細</small></h5>
-                  <div class="mt-3">
-                    著者：　　<%= @comic.author %>
-                    <small>(<%= @comic.author_kana %>)</small><br>
-                    出版社：　<%= @comic.publisher_name %><br>
-                    <% if !@rb_comic.blank? %>
-                    発売日：　<%= @rb_comic["salesDate"] %>
-                    <% else %>
-                    発売日：　-- none --
-                    <% end %>
-                  </div>
-                </div>
-                
-                
+  <div class="col-lg-9 mx-auto p-5 border" style="background-color:#FFF; box-shadow:10px 10px 10px 7px #DDD;">
+    <!--「←」ボタン-->
+      <% if session["search_keyword"] && params[:page] %>
+          <%= link_to search_index_comics_path(keyword: session["search_keyword"], page: params[:page]), class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+            <i class="bi bi-arrow-left"></i>
+          <% end %>
+      <% else %>
+          <%= link_to session["referer_url"] || root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
+            <i class="bi bi-arrow-left"></i>
+          <% end %>
+      <% end %>
+    <!--フラッシュメッセージ-->
+      <% if flash[:alert].present? %>
+        <div class="alert alert-danger alert-dismissible mx-auto mb-0" style="width:94%;">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <%= flash[:alert] %>
+        </div>
+      <% end %>
+    <!--漫画情報詳細-->
+      <div class="d-flex flex-wrap"  style="padding:20px; justify-content:center;">
+        <!--書籍情報-->
+          <%= image_tag @comic.large_image_url, class:"img_comic my-3 mx-5" %>
+          <div class="p-3">
+            <div>
+              <h5><b><%= @comic.title %>　</b><small>の詳細</small></h5>
+              <div class="mt-3">
+                著者：　　<%= @comic.author %>
+                <small>(<%= @comic.author_kana %>)</small><br>
+                出版社：　<%= @comic.publisher_name %><br>
+                <% if !@rb_comic.blank? %>
+                発売日：　<%= @rb_comic["salesDate"] %>
+                <% else %>
+                発売日：　-- none --
+                <% end %>
+              </div>
+            </div>
+            <hr class="my-4">
+            <!--漫画サイト情報-->
+              <small class="border mb-2 mr-4 p-1 text-nowrap text-success">以下の漫画サイトで読むことができます！</small><br> 
+              <div id="edit_sites_buttons_<%= @comic.id %>" class="edit_buttun">
+                <%= render partial: '/public/comics/edit_site', locals: { comic: @comic, can_not_read: @can_not_read, user_read_judgement: @user_read_judgement, comic_update_limit_count: @comic_update_limit_count, user_upadte_limit_count: @user_upadte_limit_count, sites: @sites } %>
+              </div>
+              <% if user_signed_in? %>
                 <hr class="my-4">
-                
-                  
-                <!--漫画サイト情報-->
-                <small class="border mb-2 mr-4 p-1 text-nowrap text-success">以下の漫画サイトで読むことができます！</small><br> 
-                <div id="edit_sites_buttons_<%= @comic.id %>" class="edit_buttun">
-                  <%= render partial: '/public/comics/edit_site', locals: { comic: @comic, can_not_read: @can_not_read, user_read_judgement: @user_read_judgement, comic_update_limit_count: @comic_update_limit_count, user_upadte_limit_count: @user_upadte_limit_count, sites: @sites } %>
-                </div>
-                
-                
-                <% if user_signed_in? %>
-                    <hr class="my-4">
-                  
-                  
-                    <!--可読判定-->
-                    <div class="d-flex" style="align-items: center;">
-                      <!--可読情報が未追加-->
+                <!--可読判定-->
+                  <div class="d-flex" style="align-items: center;">
+                    <!--可読情報が未追加-->
                       <div id="read_judgements_buttons_<%= @comic.id %>">
                         <%= render partial: '/public/comics/read_judgement', locals: {comic: @comic, user_read_judgement: @user_read_judgement, can_read: @can_read, can_not_read: @can_not_read, version: @current_version } %>
                       </div>
+                  </div>
+                  <hr class="my-4">
+                <!--ブックマーク-->
+                  <div class="d-flex flex-wrap mr-2" style="align-items: center;">
+                    <div class="ml-auto">
+                      <div id="bookmarks_buttons_<%= @comic.id %>">
+                        <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @comic} %>
+                      </div>
                     </div>
-                    
-                    
-                    <hr class="my-4">
-                    
-                    
-                    <!--ブックマーク-->
-                    <div class="d-flex flex-wrap mr-2" style="align-items: center;">
-                        <div class="ml-auto">
-                            <div id="bookmarks_buttons_<%= @comic.id %>">
-                              <%= render partial: '/public/bookmarks/bookmarks', locals: {comic: @comic} %>
-                            </div>
-                        </div>
-                    </div><br>
-                    
-                <% elsif !user_signed_in? && @comic.present? %>
-                      <hr class="my-4">
-                      <p>
-                        <b>ゲスト</b> さんは ブックマークできません。<br>
-                        <small>
-                          ※ ブックマークするには
-                          <%= link_to "ログイン", new_user_session_path %>
-                          をしてください。
-                        </small>
-                      </p>
-                <% end %>
-            </div>
-        </div>
-      
-    </div>
+                  </div><br>
+              <% elsif !user_signed_in? && @comic.present? %>
+                <hr class="my-4">
+                <p>
+                  <b>ゲスト</b> さんは ブックマークできません。<br>
+                  <small>
+                    ※ ブックマークするには
+                    <%= link_to "ログイン", new_user_session_path %>
+                    をしてください。
+                  </small>
+                </p>
+              <% end %>
+          </div>
+      </div>
+  </div>
 </div>
 
 <script>
