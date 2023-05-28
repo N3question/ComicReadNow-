@@ -195,6 +195,7 @@ class Public::ComicsController < ApplicationController
                     version: @comic.version
                     )
       @comic_update_limit_count = @comic.remaining_one_comic_update_limit
+      @current_version = Comic.order(version: :desc).limit(1)
       if user_signed_in?
         @user_read_judgement = ReadJudgement.find_by(
                       comic_id: @comic.id, 
@@ -296,6 +297,7 @@ class Public::ComicsController < ApplicationController
                   can_read: false, # 読めなかった
                   version: version
                   )
+      @current_version = Comic.order(version: :desc).limit(1)
   end
   
   

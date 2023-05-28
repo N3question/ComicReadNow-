@@ -5,7 +5,7 @@
       <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
     <% elsif comic.user_id == current_user.id %>
       <small>更新者は可読判定を押すことができません。</small>
-    <% elsif version %>
+    <% elsif user_signed_in? && version %>
       <small>上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</small>
     <% end %>
 </div>
