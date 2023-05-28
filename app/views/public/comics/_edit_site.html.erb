@@ -18,7 +18,7 @@
                       <% Site.all.each do |site| %>
                         <div class="mx-2">
                             <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
-                            <label for="comic_site_ids_#{site[:id]}"><%= site.name %></label>
+                            <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>
                         </div>
                       <% end %>
                     </div>
