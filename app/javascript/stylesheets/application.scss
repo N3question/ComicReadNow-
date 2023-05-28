@@ -136,6 +136,12 @@
     color: white;
 }
 
+.registration_btn_style:hover {
+    background-color:#66CC00; 
+    color: white;
+    opacity: 0.8;
+}
+
 // 検索フォーム
 .input-group {
     margin: 0 auto;
@@ -549,7 +555,7 @@ ul li .list_icon::before {
 
 
 
-// PCフォースト（...defalutがPCサイズの画面）の場合上にPCサイズのCSSを記述
+// PCファースト（...defalutがPCサイズの画面）の場合上にPCサイズのCSSを記述
 
 .media_pc {
     display: block;
