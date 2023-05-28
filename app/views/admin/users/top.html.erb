@@ -24,7 +24,7 @@
                 <% if user.profile_image.attached? %>
                   <%= image_tag user.profile_image, size: "80x80", style:"object-fit:cover;" %>
                 <% else %>
-                  <%= image_tag 'no_image', size: "80x80", style:"object-fit:cover;" %>
+                  <%= image_tag asset_path("no_image.png"), size: "80x80", style:"object-fit:cover;" %>
                 <% end %>
               <% end %>
             </td>

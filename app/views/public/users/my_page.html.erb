@@ -47,7 +47,7 @@
               <% if current_user.profile_image.attached? %>
                 <%= image_tag current_user.profile_image, size: "80x80", style:"object-fit:cover;" %>
               <% else %>
-                <%= image_tag asset_path("no_image.jpg"), size: "80x80", style:"object-fit:cover;" %>
+                <%= image_tag asset_path("no_image.png"), size: "80x80", style:"object-fit:cover;" %>
               <% end %>
             </div>
             <div class="user_nickname d-flex justify-content-center p-3">
