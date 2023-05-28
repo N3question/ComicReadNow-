@@ -1,4 +1,4 @@
-<div style="height:105px; background-color:#EEE;"></div>
+<div style="height:97px; background-color:#EEE;"></div>
 
 <% if flash[:notice].present? %>
     <div style="background-color:#EEE;">
@@ -10,7 +10,7 @@
 <% end %>
   
 <div class="d-flex justify-content-left" style="background-color:#EEE;">
-  <div class="col-lg-10 col-md-10 col-sm-10 p-5 border" style="border-top-right-radius: 20px; border-bottom-right-radius: 20px; box-shadow:10px 5px 7px #BBB; background-color:#FFF;">
+  <div class="col-lg-10 col-md-10 col-sm-10 p-5 border" style="border-top-right-radius: 20px; border-bottom-right-radius: 20px; box-shadow:10px 0px 7px #BBB; background-color:#FFF;">
     <div class="col-lg-9 col-md-9 table-responsive-lg rank_table js-scrollabl mx-auto">
       <h4 class="font_1 mb-5"><b>User 一覧</b></h4>
       <table class="table table-responsive-lg admin_table" style="margin-bottom:80px;">
@@ -19,7 +19,7 @@
             <td class="font_2 text-center" style="width:10%; vertical-align:middle;">
                 <%= user.id %>
             </td>
-            <td class="user_icon" style="width:10%;">
+            <td class="user_icon">
               <%= link_to admin_information_path(user.id) do %>
                 <% if user.profile_image.attached? %>
                   <%= image_tag user.profile_image, size: "80x80", style:"object-fit:cover;" %>

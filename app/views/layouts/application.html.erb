@@ -23,11 +23,8 @@
     <header class="fixed-top">
       <% if admin_signed_in? %>
         <div class="admin_header">
-          <%= link_to admin_top_path, class:"link_deco" do %>
+          <%= link_to admin_top_path, class:"admin_header_link_deco" do %>
             <div class="admin_header_flex px-4 py-2">
-              <h3 class="admin_header_app_icon">
-                <b><i class="bi bi-journal-bookmark"></i></b>
-              </h3>
               <h5 class="admin_header_app_name font_3 text-center my-auto">
                 <b>Comic Read now!</b>
               </h5>
@@ -36,7 +33,7 @@
         </div>
         <div class="admin_header_2">
           <div class="admin_header_2_flex font_1">
-            <%= link_to "User 一覧", admin_top_path, class:"admin_header_2_link_deco ml-5"%>
+            <%= link_to "User 一覧", admin_top_path, class:"admin_header_link_deco text-light ml-5"%>
           </div>
           <nav class="navbar navbar-light py-2">
             <div class="dropdown">
@@ -48,10 +45,10 @@
               </a>
               <ul class="admin_dropdown_style dropdown-menu dropdown-menu-right py-4" role="menu">
                 <li class="mx-4 mb-4">
-                  <%= link_to "不適切コメント管理一覧", admin_top_path, class:"header_link_deco" %>
+                  <%= link_to "不適切コメント管理一覧", admin_top_path, class:"link_text link_deco" %>
                 </li>
                 <li class="font_1 mx-4 mb-4">
-                  <%= link_to "Premium User 一覧", admin_top_path, class:"header_link_deco" %>
+                  <%= link_to "Premium User 一覧", admin_top_path, class:"link_text link_deco" %>
                 </li>
                 <li class="mx-4">
                   <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class:"btn btn-outline-dark w-100" %>
@@ -164,7 +161,7 @@
         <div class="text_centering_to_div">
           <p class="text_centering_to_text mb-0">
             © 2023 Comic Read now! All Rights Reserved. <br>
-            <%= link_to "管理者ログインはこちら", new_admin_session_path, class:"small", style:"text-decoration:none; color:white;" %>
+            <%= link_to "管理者ログインはこちら", new_admin_session_path, class:"link_to_admin small", style:"text-decoration:none; color:white;" %>
           </p>
         </div>
       </footer>

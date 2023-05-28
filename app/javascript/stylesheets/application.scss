@@ -37,30 +37,40 @@
 }
 
 // 途中
-.admin_header_app_icon {
-    margin-bottom: 0;
-    color: white;
-    width: 45px;
-}
-
 .admin_header_app_name {
     margin-bottom: 0;
     color: white;
     text-decoration: none;
+    text-decoration-line: none;
 }
 
-.header_link_deco {
-    text-decoration: none;
+.admin_header_app_name:hover {
+    opacity: 0.8;
+}
+
+.admin_header_link_deco:hover {
     text-decoration-line: none;
+}
+
+.link_text{
     color: black;
+}
+
+.link_text:hover {
+    text-decoration-line: underline;
+    text-decoration-color: black;
+    color: black;
+}
+
+.link_deco {
+    text-decoration: none;
 }
 
 .header_link_deco:hover {
-    color: black;
-    text-decoration-line: underline;
-    text-decoration-color: black;
-    opacity: 0.5;
+    text-decoration: none;
+    opacity: 0.8;
 }
+
 // ここまで
 
 .header_app_icon {
@@ -309,6 +319,9 @@ footer {
         text-align: center;
     }
     
+    .link_to_admin:hover {
+        opacity: 0.8;
+    }
 }
 
 
@@ -533,21 +546,6 @@ ul li .list_icon::before {
     list-style: square;
   }
 }
-
-.link_text:hover {
-    text-decoration-line: underline;
-    text-decoration-color: black;
-    color: black;
-}
-
-.link:hover {
-    opacity: 0.5;
-}
-
-.link_deco {
-    text-decoration: none;
-}
-
 
 
 
