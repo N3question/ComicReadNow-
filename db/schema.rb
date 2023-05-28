@@ -80,7 +80,6 @@ ActiveRecord::Schema.define(version: 2023_05_27_111232) do
     t.string "large_image_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "remaining_one_comic_update_limit", default: 1
     t.integer "can_read_count", default: 0, null: false
     t.integer "can_not_read_count", default: 0, null: false
     t.integer "version", default: 0, null: false

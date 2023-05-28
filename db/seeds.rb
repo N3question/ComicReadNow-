@@ -53,7 +53,7 @@ user = User.create!(
 user.profile_image.attach(io: File.open(Rails.root.join('app/assets/images/user3.png')), filename: 'user3.png')
 
 user = User.create!(
-  nick_name: "Han_j",
+  nick_name: "Han_J",
   email: "sample000@gmail.com",
   password: "sample", 
   password_confirmation: "sample",
