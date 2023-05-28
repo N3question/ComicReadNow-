@@ -93,7 +93,7 @@ class Public::ComicsController < ApplicationController
     ## [TODO] 命名も今よりイメージがつきやすい名前にする
       @top_comic_info = Comic.find_by(isbn: params[:isbn])
       @top_rb_comic_info = RakutenWebService::Books::Book.search(isbn: params[:isbn]).first
-    ## Viewで使用しているインスタンス
+    ## Viewで使用しているインスタンス => 
       if @top_comic_info.present?
         @sites = @top_comic_info.sites.all
         @can_read = ReadJudgement.where(
@@ -208,6 +208,8 @@ class Public::ComicsController < ApplicationController
   
   # サイト情報の更新
   def update
+    # 部分テンプレートのインスタンス変数はここに定義する
+    
     @comic = Comic.find(params[:id])
     ## 前提条件
       before_comic_info = ComicSite.where(comic_id: @comic.id).pluck(:site_id)  # 今現在保存されているデータ
@@ -255,6 +257,7 @@ class Public::ComicsController < ApplicationController
       if user_signed_in?
         @user_upadte_limit_count = current_user.remaining_total_update_limit
       end
+      @params_format = params[:comic][:format]
   end
   
   

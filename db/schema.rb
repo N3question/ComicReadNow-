@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 2023_05_27_111232) do
 
   create_table "comics", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.bigint "isbn", null: false
+    t.integer "isbn", null: false
     t.string "title", null: false
     t.string "author", null: false
     t.string "author_kana", null: false
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 2023_05_27_111232) do
     t.integer "can_read_count", default: 0, null: false
     t.integer "can_not_read_count", default: 0, null: false
     t.integer "version", default: 0, null: false
+    t.integer "remaining_one_comic_update_limit", default: 1
   end
 
   create_table "read_judgements", force: :cascade do |t|
