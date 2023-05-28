@@ -51,6 +51,8 @@ def jst(time)
   Time.zone.parse(time).localtime($system_utc_offset)
 end
 
-every 1.day, at: jst('4:00 am') do
+every 5.minutes do
   rake 'update_limit:reset'
 end
+
+# , at: jst('4:00 am')
