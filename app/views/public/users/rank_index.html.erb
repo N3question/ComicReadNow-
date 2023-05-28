@@ -65,7 +65,7 @@
                     </div>
                   </td>
                   <!--ニックネーム-->
-                  <td class="font_1" style="vertical-align: middle; overflow-wrap: break-word;">
+                  <td class="font_1" style="width:20%; vertical-align: middle; overflow-wrap: break-word;">
                     <%= user.nick_name %>
                   </td>
                   <!--漫画情報更新回数-->
@@ -121,12 +121,12 @@
                       <% if current_user.profile_image.attached? %>
                         <%= image_tag current_user.profile_image, size: "60x60", style:"border: 2px solid #FFFFCC; object-fit:cover;" %>
                       <% else %>
-                        <%= image_tag asset_path("no_image.png"), size: "60x60", style:"border: 2px solid #00264D; object-fit:cover;" %>
+                        <%= image_tag asset_path("no_image.png"), size: "60x60", style:"border: 2px solid #00264D; object-fit:cover; background-color:white;" %>
                       <% end %>
                     </div>
                   </td>
                 <!--current_userニックネーム-->
-                  <td style="vertical-align: middle; font-family: 'Bruno Ace', cursive; overflow-wrap: break-word;">
+                  <td style="width:20%; vertical-align: middle; font-family: 'Bruno Ace', cursive; overflow-wrap: break-word;">
                     <%= current_user.nick_name %>
                   </td>
                 <!--current_user漫画情報更新回数-->

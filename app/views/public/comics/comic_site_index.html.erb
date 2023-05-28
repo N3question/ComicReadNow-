@@ -1,7 +1,7 @@
-<div class="header_padding pb-4">
+<div class="header_padding pb-4" style="min-height:87vh;">
   <div class="col-10 mt-5 mx-auto">
     <div class="view_title ml-5 mb-5">
-      <h5><b>' <%= @comic_site.site.name %> ' 一覧　</b></h5>
+      <h5><b>' <%= @site.name %> ' 一覧　</b></h5>
       <p class="ml-2"><b>全<%= @comic_site_amount.count %>件</b></p>
     </div>
     <% if @comic_sites.present? %>
@@ -24,7 +24,12 @@
         <% end %>
       </div>
     <% else %>
-      <p style="color: silver;">この漫画サイトで読める漫画はありません。</p>
+      <div class="border" style="display:table; width:100%; height:250px; border-radius:5px;">
+        <p class="text-center small mb-0" style="display:table-cell; vertical-align: middle; text-align:center; color:silver;">
+          このサイトで読める漫画情報は登録されていません。<br>
+          追加するには <%= link_to "ログイン", new_user_session_path %> または <%= link_to "新規登録", new_user_registration_path %> する必要があります。
+        </p>
+      </div>
     <% end %>
       
     <div class="media_pc">

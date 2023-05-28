@@ -424,7 +424,7 @@ class Public::ComicsController < ApplicationController
   def comic_site_index
     session["referer_url"] = nil
     session["search_keyword"] = nil
-    @comic_site = ComicSite.find_by(site_id: params[:id])
+    @site = Site.find(params[:id])
     @comic_sites = ComicSite.where(site_id: params[:id])
                 .joins(:comic)
                 .order(:title)

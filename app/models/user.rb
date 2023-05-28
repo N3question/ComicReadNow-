@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :read_judgements, dependent: :destroy
   has_many :comics, dependent: :destroy
-  validates :nick_name, format: { with: /\A[a-zA-Z0-9_.!?@'%<>]+\z/, message: 'は 半角アルファベット, 記号, 数字 のみ入力可能です' }, length: { maximum: 12, message: 'は12文字以内で入力してください' }, presence: true
+  validates :nick_name, format: { with: /\A[a-zA-Z0-9_.!?@'%<>]+\z/, message: 'は 半角アルファベット, 指定された記号, 数字 のみ入力可能です' }, length: { maximum: 12, message: 'は12文字以内で入力してください' }, presence: true
   validates :email, presence: true
   
   PASSWORD_REGEX = /\A[a-zA-Z0-9]{6,}+\z/i.freeze
