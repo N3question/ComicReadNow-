@@ -426,6 +426,7 @@ class Public::ComicsController < ApplicationController
     session["search_keyword"] = nil
     @comic_site = ComicSite.find_by(site_id: params[:id])
     @comic_sites = ComicSite.where(site_id: params[:id])
+                .joins(:comic)
                 .order(:title)
                 .page(params[:page])
                 .per(30)
