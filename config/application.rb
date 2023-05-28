@@ -20,5 +20,14 @@ module ComicReadNow
     # config.eager_load_paths << Rails.root.join("extras")
     
     config.i18n.default_locale = :ja
+    
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins "*",
+        resource "*",
+          headers: :any,
+          methods: [:get, :options, :head]
+      end
+    end
   end
 end
