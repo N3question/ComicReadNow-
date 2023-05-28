@@ -281,9 +281,17 @@
         </div>
       <% else %>
         <div class="mx-auto mb-4 p-4 border" style="display:table; width:85%; height:200px; border-radius:5px;;">
-          <p class="text-center small mb-0" style="display:table-cell; vertical-align: middle; text-align:center; color:silver;">
-            Comic Read Now! の利用ユーザがブックマークした漫画が存在しません。<br>
-            追加するには <%= link_to "ログイン", new_user_session_path %> または <%= link_to "新規登録", new_user_registration_path %> する必要があります。
+          <p class="text-center mb-0" style="display:table-cell; vertical-align: middle; text-align:center; color:silver;">
+            <% if user_signed_in? %>
+              <small>
+                Comic Read Now! の利用ユーザがブックマークした漫画が存在しません。<br>
+              </small>
+              <small>漫画サイト情報が追加されている <b>詳細画面</b> から</small> 
+              <i class="bi bi-bookmark-plus"></i> <small>を押してください。</small>
+            <% else %>
+              Comic Read Now! の利用ユーザがブックマークした漫画が存在しません。<br>
+              追加するには <%= link_to "ログイン", new_user_session_path %> または <%= link_to "新規登録", new_user_registration_path %> する必要があります。
+            <% end %>
           </p>
         </div>
       <% end %>
