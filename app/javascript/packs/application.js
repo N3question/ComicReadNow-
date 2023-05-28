@@ -11,9 +11,14 @@ import "channels"
 import "jquery";
 import "popper.js";
 import "bootstrap";
+// Rails 5?6?はSCSSのフォルダをassets配下からjsの配下でも可能になった関係で一緒にimportを書いている。
+// spロケッツ...assets旧式
+// webpacker...新型
+// Rails 7からはまた使わなくなる（railsガイドなど参考にする）
 import "../stylesheets/application" 
 import '@fortawesome/fontawesome-free/js/all'
 import '../stylesheets/humberger'
+// import './uploader'
 
 (function() {
   ('#back a').on('click',function(event){
@@ -29,6 +34,7 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
+// jquery objuect = $（）
 $(document).on('turbolinks:load',function(){
   $(".openbtn").click(function () {
       $(this).toggleClass('active');

@@ -23,7 +23,22 @@
         <tr>
           <td style="overflow-wrap: break-word;">
             <small>アイコン画像：</small><br>
-            <%= f.file_field :profile_image, accept: "image/*", class:"mt-2" %>
+            <% if current_user.profile_image.attached? %>
+              <div class="border mt-2 p-3" style="width:140px;">
+                <p class="d-flex justify-content-center small mb-2">現在の画像</p>
+                <div class="d-flex justify-content-center">
+                  <%= image_tag current_user.profile_image, size: "80x80", class:"", style:"object-fit:cover; border-radius: 45px; border: 2px solid #00264D; object-fit: cover;", id:"imgPreview" %>
+                </div>
+              </div>
+            <% else %>
+              <div class="border mt-2 p-3" style="width:140px">
+                <p class="d-flex justify-content-center small mb-2">現在の画像</p>
+                <div class="d-flex justify-content-center">
+                  <%= image_tag asset_path("no_image.jpg"), size: "80x80", class:"", style:"object-fit:cover; border-radius: 45px; border: 2px solid #00264D; object-fit: cover;", id:"imgPreview" %>
+                </div>
+              </div>
+            <% end %>
+            <%= f.file_field :profile_image, accept: "image/*", class:"uploader mt-2" %>
           </td>
         </tr>
         <tr>
@@ -50,3 +65,29 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  window.addEventListener('load', () => {
+  const imgPreview = document.querySelector('#imgPreview');
+  if (imgPreview) {
+    // f.file_fieldを指定する(uploader)に代入
+    const uploader = document.querySelector('.uploader');
+    // f.file_fieldが変わったら
+    uploader.addEventListener('change', (e) => {
+      // 新しく以下の2行を宣言する
+      const file = uploader.files[0];
+      // jsが元々持っているクラス.. FileReaderを新規作成
+      const reader = new FileReader();
+      // jsのメゾット...readAsDataURLが画像を読み込む作業を行う
+      reader.readAsDataURL(file);
+      // onload... 読み込みが完了した時
+      reader.onload = () => {
+        // jsメゾット... resultが読み込んだ画像の結果を示す
+        const image = reader.result;
+        // src（ソース）オプション（要素）を変更する
+        imgPreview.setAttribute('src', image);
+      }
+    });
+  }
+});
+</script>
