@@ -156,7 +156,7 @@
         <%= yield %>
     </main>
     
-    <% if !user_signed_in? && !admin_signed_in? %>
+    <% if !user_signed_in? && !admin_signed_in? && current_page?(root_path) %>
       <footer class="text-light">
         <div class="text_centering_to_div">
           <p class="text_centering_to_text mb-0">
