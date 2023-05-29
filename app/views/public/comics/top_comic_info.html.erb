@@ -84,7 +84,7 @@
                 <hr class="my-4">
                 <!--サイト情報追加ボタン-->
                   <div class= "contents_action_box mb-2">
-                      <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
+                      <input type="button" class="btn btn-sm btn-outline-dark mt-3 mb-2 px-3 text-nowrap w-100" style="" value="サイト情報追加">
                   </div>
                 <!--スライドダウン部分・フォーム-->
                   <div class= "contents_action mb-3 border">
@@ -95,10 +95,14 @@
                         <div class="mt-4">
                           <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
                             <%= f.hidden_field :isbn, value: params[:isbn] %>
-                            <% Site.all.each do |site| %>
-                              <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled] , include_hidden: false }, site[:id] %>
-                              <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
-                            <% end %><br>
+                            <div class="d-flex flex-wrap mx-2 my-1">
+                              <% Site.all.each do |site| %>
+                                <div class="d-flex text-nowrap mx-2">
+                                  <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled] , include_hidden: false }, site[:id] %>
+                                  <%= f.label site.name, for:"comic_site_ids_#{site[:id]}", class:"mx-2 my-1" %>　
+                                </div>
+                              <% end %>
+                            </div>
                             <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>
                           <% end %>
                         </div>
