@@ -17,7 +17,7 @@
         <%= f.label :read_info, "読めた", for:"read_info_true", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio" %>　
         <%= f.radio_button :read_info, false, style:"display:none;", onchange:"radio_func()" %>
         <%= f.label :read_info, "読めなかった", for:"read_info_false", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio" %>　
-      </div>s
+      </div>
       <%= f.submit '', id: "read_judgements_submit", style:"display:none" %>
     <% end %>
 <% else %>

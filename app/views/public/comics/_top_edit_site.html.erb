@@ -1,6 +1,6 @@
 <% if user_signed_in? && can_not_read.count > 0 && comic_update_limit_count > 0 && user_upadte_limit_count > 0 %>
     <div class= "sample d-flex" style="justify-content: flex-end;">
-        <input id="edit_btn" type="button" class="btn btn-sm rounded-pill mb-2 px-3 text-nowrap" style="background-color:#66CC00; color:white;" value="編集">
+        <input id="edit_btn" type="button" class="btn btn-sm rounded-pill mt-3 mb-2 px-3 text-nowrap" style="background-color:#66CC00; color:white;" value="編集">
     </div>
     
     <div class= "sampleA mb-3 border" style="display:none;">
@@ -12,10 +12,14 @@
                 <%= form_with model: top_comic_info, url: comic_path(top_comic_info.id), local: false, id: "comic_to_edit_site" do |f| %>
                     <%= f.hidden_field :isbn, value: params[:isbn] %>
                     <%= f.hidden_field :format, value: "from_top" %>
+                    <div class="d-flex flex-wrap mx-2 my-1">
                         <% Site.all.each do |site| %>
+                            <div class="d-flex text-nowrap mx-2">
                               <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
-                              <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>
+                              <%= f.label site.name, for:"comic_site_ids_#{site[:id]}", class:"mx-3 mb-0" %>
+                            </div>
                         <% end %>
+                    </div>
                     <%= f.submit "漫画情報を変更", id: "edit_submit", class:"btn btn-sm btn-outline-dark rounded-pill mt-3 px-3 w-100", style:"" %>
                 <% end %>
             </div>
