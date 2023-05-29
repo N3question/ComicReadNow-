@@ -59,4 +59,4 @@ https://docs.google.com/spreadsheets/d/1utfUDZ9FNCkzduDopFDZh-sK2lkFYkG9qo0u00mN
 - 楽天ブックスAPI
 
 ## その他
-- レスポンシブ
+- レスポンシブ対応済み
