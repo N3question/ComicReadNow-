@@ -17,17 +17,17 @@
         <%= f.label :read_info, "読めた", for:"read_info_true", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio" %>　
         <%= f.radio_button :read_info, false, style:"display:none;", onchange:"radio_func()" %>
         <%= f.label :read_info, "読めなかった", for:"read_info_false", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio" %>　
-      </div>
+      </div>s
       <%= f.submit '', id: "read_judgements_submit", style:"display:none" %>
     <% end %>
 <% else %>
     <div class="d-flex" style="align-items: center;">
         <p class="mb-0 px-2 py-1 text-nowrap can_read_radio_view">読めた</p>
-        <p class="ml-2 mr-3 mb-0">
+        <p class="text-nowrap ml-2 mr-3 mb-0">
           <%= can_read.count %>人
         </p>
         <p class="mb-0 px-2 py-1 text-nowrap can_not_read_radio_view">読めなかった</p>
-        <p class="ml-2 mr-3 mb-0">
+        <p class="text-nowrap ml-2 mr-3 mb-0">
           <%= can_not_read.count %>人
         </p>
     </div>
