@@ -1,36 +1,36 @@
 <div class="mb-2">
-    <% if user_read_judgement.present? && user_read_judgement.can_read == true %>
-      <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
-    <% elsif user_read_judgement.present? && user_read_judgement.can_read == false %>
-      <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
-    <% elsif comic.user_id == current_user.id %>
-      <small>更新者は可読判定を押すことができません。</small>
-    <% elsif user_signed_in? && version %>
-      <small>上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</small>
-    <% end %>
+  <% if user_read_judgement.present? && user_read_judgement.can_read == true %>
+    <small><b><%= current_user.nick_name %></b> さんは「読めた」を選択中...</small>
+  <% elsif user_read_judgement.present? && user_read_judgement.can_read == false %>
+    <small><b><%= current_user.nick_name %></b> さんは「読めなかった」を選択中...</small>
+  <% elsif comic.user_id == current_user.id %>
+    <small>更新者は可読判定を押すことができません。</small>
+  <% elsif user_signed_in? && version %>
+    <small>上記にある漫画サイトで読めましたか？<br>以下のボタンを押してください</small>
+  <% end %>
 </div>
                     
 <% if user_read_judgement.nil? && ( comic.user_id != current_user.id ) %>
-    <%= form_with url: comic_read_judgement_path(comic.id), local: false, id:"comic_read_judgement" do |f| %>
-      <div class="d-flex">
-        <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>
-        <%= f.label :read_info, "読めた", for:"read_info_true", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio" %>　
-        <%= f.radio_button :read_info, false, style:"display:none;", onchange:"radio_func()" %>
-        <%= f.label :read_info, "読めなかった", for:"read_info_false", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio" %>　
-      </div>
-      <%= f.submit '', id: "read_judgements_submit", style:"display:none" %>
-    <% end %>
-<% else %>
-    <div class="d-flex" style="align-items: center;">
-        <p class="mb-0 px-2 py-1 text-nowrap can_read_radio_view">読めた</p>
-        <p class="text-nowrap ml-2 mr-3 mb-0">
-          <%= can_read.count %>人
-        </p>
-        <p class="mb-0 px-2 py-1 text-nowrap can_not_read_radio_view">読めなかった</p>
-        <p class="text-nowrap ml-2 mr-3 mb-0">
-          <%= can_not_read.count %>人
-        </p>
+  <%= form_with url: comic_read_judgement_path(comic.id), local: false, id:"comic_read_judgement" do |f| %>
+    <div class="d-flex">
+      <%= f.radio_button :read_info, true, style:"display:none;", onchange:"radio_func()" %>
+      <%= f.label :read_info, "読めた", for:"read_info_true", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_read_radio" %>　
+      <%= f.radio_button :read_info, false, style:"display:none;", onchange:"radio_func()" %>
+      <%= f.label :read_info, "読めなかった", for:"read_info_false", class:"mb-0 px-2 py-1 text-nowrap read_judgement can_not_read_radio" %>　
     </div>
+    <%= f.submit '', id: "read_judgements_submit", style:"display:none" %>
+  <% end %>
+<% else %>
+  <div class="d-flex" style="align-items: center;">
+      <p class="mb-0 px-2 py-1 text-nowrap can_read_radio_view">読めた</p>
+      <p class="text-nowrap ml-2 mr-3 mb-0">
+        <%= can_read.count %>人
+      </p>
+      <p class="mb-0 px-2 py-1 text-nowrap can_not_read_radio_view">読めなかった</p>
+      <p class="text-nowrap ml-2 mr-3 mb-0">
+        <%= can_not_read.count %>人
+      </p>
+  </div>
 <% end %>
 
 <!--local: true...Rails6.1から仕様が変わってデフォルトで `local: true` となり、オプション不要-->
