@@ -11,16 +11,7 @@
 #     password: 'n10aru203320',
 # )
 
-admins = [
-    {email: 'narumi1years.years020@gmail.com', password: 'n10aru203320'},
-]
-
-admins.each do |admin|
-    admin_data = Admin.find_by(email: admin[:email])
-    if admin_data.nil?
-        Admin.create(email: admin[:email], password: admin[:password])
-    end
-end
+# セキュリティの問題でAdminの情報を削除中
 
 sites = ['コミック！', 'COMIC漫画', 'Comic Comic']
 sites.each do |site|
