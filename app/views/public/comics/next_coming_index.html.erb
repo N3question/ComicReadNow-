@@ -3,24 +3,26 @@
     <%= link_to root_path, class:"btn btn-sm mb-4 px-3 border", style:"color:#00264D;" do %>
       <i class="bi bi-arrow-left"></i>
     <% end %>
-    <h5 class="ml-5 mb-5"><b>Next Coming 一覧</b></h5>
-    <div class="d-inline-flex flex-wrap" style="justify-content:center;">
-      <% @next_comics.each do |book| %>
-        <div class="mx-2">
-          <div style="width:150px;">
-            <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: true), class:"img_link" do %>
-              <%= image_tag book.large_image_url, class:"img_comic" %>
-            <% end %>
-          </div>
-          <div class="py-4 mb-3" style="width:150px; height:auto;">
-            <p class="mb-2" style="height:50px;">
-              <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: true), class:"link_text text-dark" do %>
-                <%= book.title.truncate(17) %>
+    <h5 class="ml-5 mb-5 px-5"><b>Next Coming 一覧</b></h5>
+    <div class="view_div">
+      <div class="col-lg-11 view_each_div">
+        <% @next_comics.each do |book| %>
+          <div class="mx-2">
+            <div style="width:150px;">
+              <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: true), class:"img_link" do %>
+                <%= image_tag book.large_image_url, class:"img_comic" %>
               <% end %>
-            </p>
+            </div>
+            <div class="py-4 mb-3" style="width:150px; height:auto;">
+              <p class="mb-2" style="height:50px;">
+                <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true, can_not_create_record: true), class:"link_text text-dark" do %>
+                  <%= book.title.truncate(17) %>
+                <% end %>
+              </p>
+            </div>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
       

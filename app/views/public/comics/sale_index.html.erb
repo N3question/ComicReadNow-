@@ -3,71 +3,73 @@
     <%= link_to root_path, class:"btn btn-sm ml-4 mb-4 px-3 border", style:"color:#00264D;" do %>
       <i class="bi bi-arrow-left"></i>
     <% end %>
-    <h5 class="ml-5 mb-5"><b>新着一覧</b></h5>
-    <div class="d-inline-flex flex-wrap" style="justify-content:center;">
-      <% @now_comics.each do |book| %>
-      <% comic = Comic.find_by(isbn: book["isbn"]) %>
-        <div class="mx-2">
-          <div style="width:150px;">
-            <% if comic %>
-              <%= link_to comic_path(comic.id), class:"img_link" do %>
-                <%= image_tag book.large_image_url, class:"img_comic" %>
+    <h5 class="ml-5 mb-5 px-5"><b>新着一覧</b></h5>
+    <div class="view_div">
+      <div class="col-lg-11 view_each_div">
+        <% @now_comics.each do |book| %>
+        <% comic = Comic.find_by(isbn: book["isbn"]) %>
+          <div class="mx-2">
+            <div style="width:150px;">
+              <% if comic %>
+                <%= link_to comic_path(comic.id), class:"img_link" do %>
+                  <%= image_tag book.large_image_url, class:"img_comic" %>
+                <% end %>
+              <% else %>
+                <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"img_link" do %>
+                  <%= image_tag book["largeImageUrl"], class:"img_comic" %>
+                <% end %>
               <% end %>
-            <% else %>
-              <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"img_link" do %>
-                <%= image_tag book["largeImageUrl"], class:"img_comic" %>
-              <% end %>
-            <% end %>
-          </div>
-          <div class="py-4 mb-3" style="width:150px; height:auto;">
-            <% if comic %>
-              <%= link_to comic_path(comic.id) do %>
-                <p class="mb-1 link_text text-dark" style="height:50px;">
-                  <%= book.title.truncate(17) %>
-                </p>
-              <% end %>
-            <% elsif !user_signed_in? && !comic %>
-              <div>
-                <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"link_text" do %>
-                  <p class="link_text text-dark" style="height:50px;">
+            </div>
+            <div class="py-4 mb-3" style="width:150px; height:auto;">
+              <% if comic %>
+                <%= link_to comic_path(comic.id) do %>
+                  <p class="mb-1 link_text text-dark" style="height:50px;">
                     <%= book.title.truncate(17) %>
                   </p>
                 <% end %>
-              </div>
-              <p align="center" class="my-3 py-1 small" style="border:0.5px solid gray; border-radius:5px; color:gray; height:31px;">サイト情報 未追加</p>
-            <% elsif user_signed_in? && !comic %>
-              <div>
-                <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"link_text" do %>
-                  <p class="link_text text-dark" style="height:50px;">
-                    <%= book.title.truncate(17) %>
-                  </p>
-                <% end %>
-              </div>
-              <div class= "sample mb-2 d-flex" style="justify-content: flex-end;">
-                <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" value="サイト情報追加">
-              </div>
-              <div class= "sampleA p-2 border" style="display:none;">
-                <div style="height:270px; width:100%; display:flex; justify-content:center;">
-                  <div class="p-3">
-                    <%= flash[:alert] %>
-                    <small style="color:red;">※ 読むことができるサイトを全て選択</small>
-                    <div class="mt-4">
-                      <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
-                        <%= f.hidden_field :isbn, value: book["isbn"] %>
-                        <% Site.all.each do |site| %>
-                          <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
-                          <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
-                        <% end %><br>
-                        <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>
-                      <% end %>
+              <% elsif !user_signed_in? && !comic %>
+                <div>
+                  <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"link_text" do %>
+                    <p class="link_text text-dark" style="height:50px;">
+                      <%= book.title.truncate(17) %>
+                    </p>
+                  <% end %>
+                </div>
+                <p align="center" class="my-3 py-1 small" style="border:0.5px solid gray; border-radius:5px; color:gray; height:31px;">サイト情報 未追加</p>
+              <% elsif user_signed_in? && !comic %>
+                <div>
+                  <%= link_to top_comic_info_comics_path(isbn: book['isbn'], from_rws: true), class:"link_text" do %>
+                    <p class="link_text text-dark" style="height:50px;">
+                      <%= book.title.truncate(17) %>
+                    </p>
+                  <% end %>
+                </div>
+                <div class= "sample mb-2 d-flex" style="justify-content: flex-end;">
+                  <input type="button" class="btn btn-sm btn-outline-dark mb-2 px-3 text-nowrap w-100" value="サイト情報追加">
+                </div>
+                <div class= "sampleA p-2 border" style="display:none;">
+                  <div style="height:270px; width:100%; display:flex; justify-content:center;">
+                    <div class="p-3">
+                      <%= flash[:alert] %>
+                      <small style="color:red;">※ 読むことができるサイトを全て選択</small>
+                      <div class="mt-4">
+                        <%= form_with model: @comic, url: comics_path, method: :post do |f| %>
+                          <%= f.hidden_field :isbn, value: book["isbn"] %>
+                          <% Site.all.each do |site| %>
+                            <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
+                            <%= f.label site.name, for:"comic_site_ids_#{site[:id]}" %>　
+                          <% end %><br>
+                          <%= f.submit "漫画情報追加", class:"btn rounded-pill mt-3 w-100", style:"background-color:#66CC00; color:white;" %>
+                        <% end %>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            <% end %>
+              <% end %>
+            </div>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
       

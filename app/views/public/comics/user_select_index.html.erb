@@ -3,25 +3,27 @@
     <%= link_to root_path, class:"btn btn-sm ml-4 mb-4 px-3 border", style:"color:#00264D;" do %>
       <i class="bi bi-arrow-left"></i>
     <% end %>
-    <h5 class="ml-5 mb-5"><b>User Select 一覧</b></h5>
-    <div class="d-inline-flex flex-wrap" style="justify-content:center;">
-      <% @user_selects.each do |user_select| %>
-      <% comic = Comic.find_by(isbn: user_select["isbn"]) %>
-        <div class="mx-2">
-          <div style="width:150px;">
-            <%= link_to comic_path(comic.id), class:"img_link" do %>
-              <%= image_tag user_select.large_image_url, class:"img_comic" %>
-            <% end %>
+    <h5 class="ml-5 mb-5 px-5"><b>User Select 一覧</b></h5>
+    <div class="view_div">
+      <div class="col-lg-11 view_each_div">
+        <% @user_selects.each do |user_select| %>
+        <% comic = Comic.find_by(isbn: user_select["isbn"]) %>
+          <div class="mx-2">
+            <div style="width:150px;">
+              <%= link_to comic_path(comic.id), class:"img_link" do %>
+                <%= image_tag user_select.large_image_url, class:"img_comic" %>
+              <% end %>
+            </div>
+            <div class="py-4 mb-3" style="width:150px; height:auto;">
+              <%= link_to comic_path(comic.id) do %>
+                <p class="mb-1 link_text text-dark" style="height:50px;">
+                  <%= user_select.title.truncate(17) %>
+                </p>
+              <% end %>
+            </div>
           </div>
-          <div class="py-4 mb-3" style="width:150px; height:auto;">
-            <%= link_to comic_path(comic.id) do %>
-              <p class="mb-1 link_text text-dark" style="height:50px;">
-                <%= user_select.title.truncate(17) %>
-              </p>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
     

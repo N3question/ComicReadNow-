@@ -11,11 +11,11 @@
         <div class="mt-2">
           <%= form_with model: comic, url: comic_path(comic.id), local: false, id: "comic_to_edit_site" do |f| %>
             <%= f.hidden_field :isbn, value: params[:isbn] %>
-            <div class="d-flex flex-wrap">
+            <div class="d-flex flex-wrap mx-2 my-1">
               <% Site.all.each do |site| %>
-                <div class="d-flex text-nowrap mx-2 my-1">
+                <div class="d-flex text-nowrap my-1">
                   <%= f.check_box :site_ids,{ multiple: true, checked: site[:checked],disabled: site[:disabled], include_hidden: false }, site[:id] %>
-                  <%= f.label site.name, for:"comic_site_ids_#{site[:id]}", class:"mx-2 my-1" %>
+                  <%= f.label site.name, for:"comic_site_ids_#{site[:id]}", class:"ml-1 my-1" %>
                 </div>
               <% end %>
             </div>

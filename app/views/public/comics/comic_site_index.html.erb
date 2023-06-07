@@ -1,27 +1,29 @@
 <div class="header_padding pb-4" style="min-height:87vh;">
   <div class="col-10 mt-5 mx-auto">
-    <div class="view_title ml-5 mb-5">
+    <div class="view_title ml-5 mb-5 px-5">
       <h5><b>' <%= @site.name %> ' 一覧　</b></h5>
       <p class="ml-2"><b>全<%= @comic_site_amount.count %>件</b></p>
     </div>
     <% if @comic_sites.present? %>
-      <div class="view_each_div">
-        <% @comic_sites.each do |comic_site| %>
-          <div class="mx-2">
-            <div>
-              <%= link_to comic_path(comic_site.comic.id), class:"img_link" do %>
-                <%= image_tag comic_site.comic.large_image_url, class:"img_comic" %>
-              <% end %>
+      <div class="view_div">
+        <div class="col-lg-11 view_each_div">
+          <% @comic_sites.each do |comic_site| %>
+            <div class="mx-2">
+              <div>
+                <%= link_to comic_path(comic_site.comic.id), class:"img_link" do %>
+                  <%= image_tag comic_site.comic.large_image_url, class:"img_comic" %>
+                <% end %>
+              </div>
+              <div class="comic_title_div py-4 mb-3">
+                <%= link_to comic_path(comic_site.comic.id) do %>
+                  <p class="link_text text-dark mb-2">
+                    <%= comic_site.comic.title.truncate(17) %>
+                  </p>
+                <% end %>
+              </div>
             </div>
-            <div class="comic_title_div py-4 mb-3">
-              <%= link_to comic_path(comic_site.comic.id) do %>
-                <p class="link_text text-dark mb-2">
-                  <%= comic_site.comic.title.truncate(17) %>
-                </p>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       </div>
     <% else %>
       <div class="border" style="display:table; width:100%; height:250px; border-radius:5px;">
