@@ -152,8 +152,10 @@ class Public::ComicsController < ApplicationController
         end
         ### ログインユーザのupdate回数を＋2
         update_amount = current_user.update_count
+        update_limit = current_user.remaining_total_update_limit
         current_user.update(
-          update_count: update_amount + 2
+          update_count: update_amount + 2,
+          remaining_total_update_limit: update_limit - 1
           )
         redirect_to comic_path(@comic)
     ## Comicのレコードが存在する場合
@@ -222,13 +224,13 @@ class Public::ComicsController < ApplicationController
       end
     ## ここまで
     ## 漫画情報と編集者の更新
-      limit = @comic.remaining_one_comic_update_limit
+      comic_update_limit = @comic.remaining_one_comic_update_limit
       @comic.update(update_params.merge({
                   # 更新時に行う動作
                   can_read_count: 0,
                   can_not_read_count: 0,
                   version: @comic.version + 1,
-                  remaining_one_comic_update_limit: limit - 1,
+                  remaining_one_comic_update_limit: comic_update_limit - 1,
                   user_id: current_user.id
                   }))
     ## [TODO] 今後の実装ではDBに問い合わせ４回=>１回にしていくことを視野にしていく。 
